@@ -1,46 +1,42 @@
-library(shiny)
-library(shinyTree)
 shinyServer(function(input, output, session) {
   curTree <- reactiveVal()
-  #ll <- list(
-  #  root1 = "",
-  #  root2 = list(
-  #    SubListA = list(leaf1 = "", leaf2 = list(xx=list(a="",b="")))
-  #  )
-  #)
+  curTree(dd)
 
-  ll <- list("total")
-  ll$tot <- list(letters[1:4])
-  ll$a$asf <- list("x", "y")
-  curTree(ll)
-
-
-
-  #ll <- list(name="Total", xx=list())
-  #ll$xx <- list()
-#
-  #ll$xx <- append(ll$xx, list(name1="v1"))
-  #ll$xx <- append(ll$xx, list(name2="v2"))
-
-  #ll$root1$children <- list(name="a", name="b")
-  #as.Node(ll)
-
-
-  observeEvent(input$addNode, {
-    tt <- curTree()
-    nn <- paste0("node_",length(tt)+1)
-    tt[[nn]] <- nn
-    curTree(tt)
+  observeEvent(input$what, {
+    shinyjs::reset("name_addNode")
+    if (input$what=="add") {
+      shinyjs::hide("action_delete")
+      shinyjs::hide("action_modify")
+      shinyjs::show("action_add")
+    }
+    if (input$what=="delete") {
+      shinyjs::hide("action_add")
+      shinyjs::hide("action_modify")
+      shinyjs::show("action_delete")
+    }
+    if (input$what=="modify") {
+      shinyjs::hide("action_add")
+      shinyjs::hide("action_delete")
+      shinyjs::show("action_modify")
+    }
   })
 
-  output$tree <- renderTree({
-    curTree()
+  #observeEvent(input$addNode, {
+  #  tt <- curTree()
+  #  nn <- input$name_addNode
+  #  tt[[1]][[nn]] <- nn
+  #  curTree(tt)
+  #})
+
+  output$tree <- renderEmptyTree()
+
+  observe({
+    updateTree(session, "tree", data=json)
   })
 
   output$str <- renderPrint({
-    str(input$tree, give.attr = FALSE)
+    req(input$tree)
+    #str(input$tree, give.attr = FALSE)
+    convert.from.tree(input$tree)
   })
-  #output$datatree <- renderPrint({
-  #  print(data.tree::as.Node(curTree(), mode="explicit"))
-  #})
 })
