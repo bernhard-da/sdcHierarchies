@@ -20,7 +20,6 @@ server <- function(input, output, session){
     names(FindNode(curTree(), input$refnode_del)$children)
   })
 
-
   ## creation of the hierarchy
   observe({
     if (is.null(input$root_name)  || input$root_name=="") {
@@ -42,8 +41,29 @@ server <- function(input, output, session){
     shinyjs::hide("create_root")
     shinyjs::show("select_action")
 
-    updateSelectInput(session, inputId="refnode_add", choices=allNodeNames(), selected = "")
-    updateSelectInput(session, inputId="refnode_del", choices=poss_ref_nodes(), selected = "")
+    nn <- allNodeNames()
+    if (length(nn)==1) {
+      sel <- nn
+    } else {
+      sel <- ""
+    }
+    updateSelectInput(session, inputId="refnode_add", choices=allNodeNames(), selected = sel)
+
+
+    nn <- poss_ref_nodes()
+    if (length(nn)==0) {
+      shinyjs::hide("row_refnode_del")
+      shinyjs::hide("row_node_to_del")
+      shinyjs::show("row_delete_impossible")
+    } else {
+      shinyjs::show("row_refnode_del")
+      if (length(nn)==1) {
+        sel <- nn
+      } else {
+        sel <- ""
+      }
+      updateSelectInput(session, inputId="refnode_del", choices=nn, selected=sel)
+    }
 
     updateRadioButtons(session, inputId="action", selected=character(0))
     output$print_dim <- renderPrint({
@@ -76,6 +96,7 @@ server <- function(input, output, session){
   })
 
   ## adding nodes
+  # select what to show
   observe({
     if (is.null(input$refnode_add) || input$refnode_add=="") {
       shinyjs::hide("row_childs")
@@ -86,7 +107,6 @@ server <- function(input, output, session){
       shinyjs::show("row_childs")
     }
   })
-
   # can button be shown?
   observe({
     req(input$nrchilds)
@@ -118,7 +138,7 @@ server <- function(input, output, session){
   output$childs <- renderUI({
     req(input$nrchilds)
     lapply(1:input$nrchilds, function(x) {
-      textInput(paste0("child_",x), paste("child",x), value="")
+      textInput(paste0("child_",x), label=paste("Subnode",x), value="")
     })
   })
   observeEvent(input$btn_add_nodes, {
@@ -129,8 +149,28 @@ server <- function(input, output, session){
       cc <- paste0("dim <- add_nodes(dim, reference_node=",shQuote(input$refnode_add),", node_labs=",shQuote(input[[paste0("child_",i)]]),")")
       code(c(code(), cc))
     }
-    updateSelectInput(session, inputId="refnode_add", choices=allNodeNames(), selected="")
-    updateSelectInput(session, inputId="refnode_del", choices=poss_ref_nodes(), selected = "")
+    nn <- allNodeNames()
+    if (length(nn)==1) {
+      sel <- nn
+    } else {
+      sel <- ""
+    }
+    updateSelectInput(session, inputId="refnode_add", choices=nn, selected=sel)
+
+    nn <- poss_ref_nodes()
+    if (length(nn)==0) {
+      shinyjs::hide("row_refnode_del")
+      shinyjs::hide("row_node_to_del")
+      shinyjs::show("row_delete_impossible")
+    } else {
+      shinyjs::show("row_refnode_del")
+      if (length(nn)==1) {
+        sel <- nn
+      } else {
+        sel <- ""
+      }
+      updateSelectInput(session, inputId="refnode_del", choices=nn, selected=sel)
+    }
 
     output$print_dim <- renderPrint({
       nn <- curTree()
