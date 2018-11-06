@@ -1,7 +1,8 @@
 #' @importFrom shiny runApp shinyApp shinyOptions stopApp
 #' @import shinyjs
 #' @import shinyTree
-#' @import data.tree
-#' @importFrom  jsonlite fromJSON toJSON
+#' @importFrom data.tree ToDataFrameTypeCol FromDataFrameTable Traverse
+#' @importFrom jsonlite fromJSON toJSON
 #' @importFrom sdcTable add_nodes
+#' @importFrom rlang is_scalar_logical is_scalar_character is_integerish
 NULL
