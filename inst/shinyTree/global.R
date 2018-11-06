@@ -31,6 +31,7 @@ dd <- add_nodes(dd, "C", reference_node="rootnode")
 #{"id":"b1b","parent":"b1","text":"b1b","state":{"opened":true,"disabled":false,"selected":false}},
 #{"id":"C","parent":"root","text":"C","state":{"opened":true,"disabled":false,"selected":false}}]'
 
+# node to json
 convert.to.json <- function(dd) {
   write.json.row <- function(id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
     stopifnot(is_scalar_character(id))
@@ -74,7 +75,7 @@ convert.from.json <- function(json, totLab=NULL) {
   tt
 }
 
-
+# input$tree to node
 convert.from.tree <- function(tree, totLab=NULL) {
   json <- toJSON(tree)
   json <- gsub("\\[0\\]", '[]', json)
@@ -91,4 +92,11 @@ convert.from.tree <- function(tree, totLab=NULL) {
   aa <- FromDataFrameTable(aa, pathName="path")
   class(aa) <- c(class(aa), "nodedim")
   return(aa)
+}
+
+
+# name of parent
+node.find_parent <- function(dd, name) {
+  xx <- FindNode(dd, name)
+  xx$parent$name
 }

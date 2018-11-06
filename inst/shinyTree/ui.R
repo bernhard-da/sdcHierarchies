@@ -1,5 +1,5 @@
 shinyUI(pageWithSidebar(
-  headerPanel("Drag-and-Drop shinyTree"),
+  headerPanel("sdcHier"),
 
   sidebarPanel(
     shinyjs::useShinyjs(),

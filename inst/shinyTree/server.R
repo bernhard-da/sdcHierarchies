@@ -16,7 +16,6 @@ shinyServer(function(input, output, session) {
     curJson(convert.to.json(convert.from.tree(input$tree)))
   })
 
-
   allNodes <- reactive({
     c("rootnode",fromJSON(curJson())$id)
   })
@@ -59,8 +58,9 @@ shinyServer(function(input, output, session) {
   ## add values
   observe({
     updateSelectInput(session, inputId="selAddNode_ref", choices=allNodes())
+    updateSelectInput(session, inputId="seldelNode", choices=setdiff(allNodes(),"rootnode"))
   })
-
+  # show/hide addNode-Button
   observe({
     if (input$name_addNode=="") {
       shinyjs::hide("addNode")
@@ -81,6 +81,20 @@ shinyServer(function(input, output, session) {
     curJson(convert.to.json(dd))
     updateTree(session, "tree", data=curJson())
     updateTextInput(session, inputId="name_addNode", value = "")
+  })
+
+
+  ## delete node
+  observeEvent(input$delNode, {
+    json <- curJson()
+    if (is.null(json)) {
+      return(NULL)
+    }
+    dd <- convert.from.json(json)
+    ref <- node.find_parent(dd, name=input$seldelNode)
+    dd <- delete_nodes(dd, reference_node=ref, node_labs=input$seldelNode)
+    curJson(convert.to.json(dd))
+    updateTree(session, "tree", data=curJson())
   })
 
   ## export/save
