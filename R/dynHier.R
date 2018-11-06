@@ -1,4 +1,4 @@
-#' dynamicHierarchy
+#' dynHier
 #'
 #' starts the \emph{shiny}-app to update/modify create a dynamic hierarchy that can be used for package \code{sdcTable}
 #' and \code{cellKey}.
@@ -10,14 +10,14 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' x <- dynamicHierarchy(); print(x)
+#' x <- dynHier(); print(x)
 #'
 #' ## start with a hierarchy-input
 #' dim <- sdcTable::create_node("Total")
 #' dim <- sdcTable::add_nodes(dim, reference_node="Total", node_labs=LETTERS[1:3])
 #' dim_mod <- dynamicHierarchy(dim); print(dim_mod)
 #' }
-dynamicHierarchy <- function(x=NULL, ...) {
+dynHier <- function(x=NULL, ...) {
   appDir <- system.file("shiny_sdcHier", package="sdcHierarchies")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `sdcHierarchies`.", call.=FALSE)
