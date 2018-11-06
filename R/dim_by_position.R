@@ -104,7 +104,7 @@ dim_by_position <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
 
   N <- length(dim)
   if (is.null(tot_lev)) {
-    df <- data.frame(path=rep(substr(dim, 1, dim_len[1]), N), stringsAsFactors=FALSE)
+    df <- data.frame(path=substr(dim, 1, dim_len[1]), stringsAsFactors=FALSE)
     dim <- substr(dim, dim_len[1]+1, nchar(dim))
     dim_len <- dim_len[-c(1)]
   } else {
@@ -112,7 +112,6 @@ dim_by_position <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
   }
 
   cs <- c(0,cumsum(dim_len))
-
 
   # only total specified
   if (length(dim_len)==1) {
