@@ -100,3 +100,12 @@ node.find_parent <- function(dd, name) {
   xx <- FindNode(dd, name)
   xx$parent$name
 }
+
+node.rename <- function(dd, from, to) {
+  xx <- FindNode(dd, name=from)
+  if (is.null(xx)) {
+    return(NULL)
+  }
+  xx$name <- to
+  dd
+}

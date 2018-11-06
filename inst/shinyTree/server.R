@@ -59,6 +59,7 @@ shinyServer(function(input, output, session) {
   observe({
     updateSelectInput(session, inputId="selAddNode_ref", choices=allNodes())
     updateSelectInput(session, inputId="seldelNode", choices=setdiff(allNodes(),"rootnode"))
+    updateSelectInput(session, inputId="selRenameNode", choices=setdiff(allNodes(),"rootnode"))
   })
   # show/hide addNode-Button
   observe({
@@ -83,7 +84,6 @@ shinyServer(function(input, output, session) {
     updateTextInput(session, inputId="name_addNode", value = "")
   })
 
-
   ## delete node
   observeEvent(input$delNode, {
     json <- curJson()
@@ -95,6 +95,30 @@ shinyServer(function(input, output, session) {
     dd <- delete_nodes(dd, reference_node=ref, node_labs=input$seldelNode)
     curJson(convert.to.json(dd))
     updateTree(session, "tree", data=curJson())
+  })
+
+  ## rename a node
+  # show/hide renameNode-Button
+  observe({
+    if (input$name_renameNode=="") {
+      shinyjs::hide("modRename")
+    } else {
+      if (!input$name_renameNode %in% allNodes()) {
+        shinyjs::show("modRename")
+      }
+    }
+  })
+
+  observeEvent(input$modRename, {
+    json <- curJson()
+    if (is.null(json)) {
+      return(NULL)
+    }
+    dd <- convert.from.json(json)
+    dd <- node.rename(dd, from=input$selRenameNode, to=input$name_renameNode)
+    curJson(convert.to.json(dd))
+    updateTree(session, "tree", data=curJson())
+    updateTextInput(session, inputId="name_renameNode", value = "")
   })
 
   ## export/save
