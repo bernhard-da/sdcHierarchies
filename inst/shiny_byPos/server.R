@@ -6,6 +6,10 @@ shinyServer(function(input, output, session) {
     max(nchar(curDim()))
   })
 
+  ok_res <- reactiveVal()
+  ok_res(FALSE)
+
+
   # possible number of levels
   observe({
     updateSliderInput(session, inputId="nr_levels", max = max_nchar(), val=max_nchar())
@@ -99,40 +103,44 @@ shinyServer(function(input, output, session) {
       tot_lev <- input$tot_level
     }
 
+    as_df <- FALSE
+    if (input$as_df=="yes") {
+      as_df <- TRUE
+    }
+    cat("as_df:",as_df,"\n")
+
     res <- try(dim_by_position(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev,
-      full_names=TRUE, method=input$method, as_df=TRUE))
+      full_names=TRUE, method=input$method, as_df=as_df))
+    print(res)
     if (!"try-error" %in% class(res)) {
       genDim(res)
+      ok_res(TRUE)
       shinyjs::hide("error_gen")
       shinyjs::show("col_orig")
     } else {
+      ok_res(FALSE)
       shinyjs::show("error_gen")
       shinyjs::hide("col_orig")
     }
   })
 
   output$origDim <- renderTable(
-    head(data.frame(code=curDim()))
+    data.frame(code=curDim())
   )
 
   output$generatedDim <- renderTable(
-    head(genDim())
+    genDim()
   )
 
-  # observeEvent(input$modExport, {
-  #   req(input$exportFormat)
-  #   json <- curJson()
-  #   if (is.null(json)) {
-  #     return(NULL)
-  #   }
-  #   dd <- convert.from.json(json, totLab=input$name_exportTot)
-  #   print(dd)
-  #
-  #   if (input$exportFormat=="data.frame") {
-  #     js$closeWindow()
-  #     dd < sdcTable:::node_to_sdcinput(dd)
-  #   }
-  #   js$closeWindow()
-  #   stopApp(dd)
-  # })
+  observe({
+    if (ok_res()==TRUE) {
+      shinyjs::show("id_export_btn")
+    } else {
+      shinyjs::hide("id_export_btn")
+    }
+  })
+
+  observeEvent(input$btn_export, {
+    stopApp(genDim())
+  })
 })
