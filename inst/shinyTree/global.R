@@ -63,13 +63,17 @@ convert.to.json <- function(dd) {
 }
 json <- convert.to.json(dd)
 
-
 # json to node
 convert.from.json <- function(json, totLab=NULL) {
   tab <- fromJSON(json)
   tab <- tab[,c(2,1)]
   colnames(tab) <- c("from","to")
-  tab$from[tab$from=="#"] <- "rootnode"
+  if (!is.null(totLab)) {
+    tab$from[tab$from=="#"] <- totLab
+  } else {
+    tab$from[tab$from=="#"] <- "rootnode"
+  }
+
   tt <- FromDataFrameNetwork(tab)
   class(tt) <- c(class(tt), "nodedim")
   tt
@@ -89,6 +93,7 @@ convert.from.tree <- function(tree, totLab=NULL) {
     aa[[1]] <- "bla"
   }
   aa$path <- apply(aa, 1, paste, collapse="/")
+  print(aa)
   aa <- FromDataFrameTable(aa, pathName="path")
   class(aa) <- c(class(aa), "nodedim")
   return(aa)

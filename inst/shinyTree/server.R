@@ -122,8 +122,33 @@ shinyServer(function(input, output, session) {
   })
 
   ## export/save
-  observeEvent(input$saveToObj, {
-    tt <- convert.from.tree(input$tree, totLab="asdf")
-    stopApp(returnValue=tt)
+  observeEvent(input$exportFormat, {
+    updateActionButton(session, inputId="modExport", label = paste("Export to", input$exportFormat))
+  })
+  # show/hide modExport-Button
+  observe({
+    if (input$name_exportTot=="") {
+      shinyjs::hide("modExport")
+    } else {
+      if (!input$name_exportTot %in% allNodes()) {
+        shinyjs::show("modExport")
+      }
+    }
+  })
+  observeEvent(input$modExport, {
+    req(input$exportFormat)
+    json <- curJson()
+    if (is.null(json)) {
+      return(NULL)
+    }
+    dd <- convert.from.json(json, totLab=input$name_exportTot)
+    print(dd)
+
+    if (input$exportFormat=="node") {
+      stopApp(dd)
+    }
+    if (input$exportFormat=="data.frame") {
+      stopApp(sdcTable:::node_to_sdcinput(dd))
+    }
   })
 })

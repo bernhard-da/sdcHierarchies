@@ -20,13 +20,16 @@ shinyUI(pageWithSidebar(
     )),
 
 
-    shinyjs::hidden(div(id="action_export", actionButton("modExport", "Export")))
+    shinyjs::hidden(div(id="action_export",
+      selectInput("exportFormat", "Format for export", choices=c("node", "data.frame")),
+      textInput("name_exportTot", "Node-Name for overall total", value="rootnode"),
+      actionButton("modExport", "Export")
+    ))
 
   ),
   mainPanel(
     h3("Current Hierarchy"),
     shinyTree("tree", dragAndDrop=TRUE, theme="proton"),
-    verbatimTextOutput("str"),
-    actionButton("saveToObj", "Save Hierarchy to Object")
+    verbatimTextOutput("str")
   )
 ))
