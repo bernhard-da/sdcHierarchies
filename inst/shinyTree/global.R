@@ -46,24 +46,49 @@ convert.to.json <- function(dd) {
 
   df <- ToDataFrameTypeCol(dd)
 
+  df[[1]] <- "#"
   js <- "["
-  js <- paste0(js, write.json.row(id=df$level_1[1], parent="#", text=df$level_1[1]))
+  #js <- paste0(js, write.json.row(id=df$level_1[1], parent="#", text=df$level_1[1]))
   for (i in 2:ncol(df)) {
     sub <- unique(df[,c(i-1, i)])
     sub <- sub[!is.na(sub[[2]]),]
     for (j in 1:nrow(sub)) {
-      js <- paste0(js, ",",write.json.row(id=sub[[2]][j], parent=sub[[1]][j], text=sub[[2]][j]))
+      js <- paste0(js, write.json.row(id=sub[[2]][j], parent=sub[[1]][j], text=sub[[2]][j]),",")
     }
   }
   js <- paste0(js,"]")
-  js
+
+  sub(",\\]","\\]", js)
 }
 json <- convert.to.json(dd)
 
-convert.from.tree <- function(tree) {
+
+# json to node
+convert.from.json <- function(json, totLab=NULL) {
+  tab <- fromJSON(json)
+  tab <- tab[,c(2,1)]
+  colnames(tab) <- c("from","to")
+  tab$from[tab$from=="#"] <- "rootnode"
+  tt <- FromDataFrameNetwork(tab)
+  class(tt) <- c(class(tt), "nodedim")
+  tt
+}
+
+
+convert.from.tree <- function(tree, totLab=NULL) {
   json <- toJSON(tree)
   json <- gsub("\\[0\\]", '[]', json)
   ll <- fromJSON(json)
   tt <- data.tree:::as.Node.list(ll)
-  tt[[names(ll)]]
+
+  aa <- ToDataFrameTypeCol(tt)
+  aa[is.na(aa)] <- ""
+
+  if (!is.null(totLab)) {
+    aa[[1]] <- "bla"
+  }
+  aa$path <- apply(aa, 1, paste, collapse="/")
+  aa <- FromDataFrameTable(aa, pathName="path")
+  class(aa) <- c(class(aa), "nodedim")
+  return(aa)
 }
