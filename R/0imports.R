@@ -1,4 +1,4 @@
-#' @importFrom shiny runApp shinyApp
+#' @importFrom shiny runApp shinyApp shinyOptions stopApp
 #' @import shinyjs
 #' @import shinyTree
 #' @import data.tree

@@ -4,10 +4,58 @@ shinyServer(function(input, output, session) {
 
   curJson <- reactiveVal(json)
 
+  # do we have a tree with root-node only?
+  isEmptyTree <- reactive({
+    if (curJson()=="[]") {
+      return(TRUE)
+    }
+    return(FALSE)
+  })
+
   # update tree if json has changed
   observe({
     json <- curJson()
     updateTree(session, "tree", data=json)
+
+    if (isEmptyTree()) {
+      shinyjs::hide("output_tree_dynamic")
+      shinyjs::hide("output_table_static")
+      shinyjs::show("output_tree_dynamic_empty")
+      shinyjs::show("output_table_static_empty")
+
+      shinyjs::hide("seldelNode")
+      shinyjs::hide("delNode")
+      shinyjs::show("row_msg_delete")
+
+      shinyjs::hide("selRenameNode")
+      shinyjs::hide("name_renameNode")
+      shinyjs::hide("modRename")
+      shinyjs::show("row_msg_rename")
+
+      shinyjs::hide("exportFormat")
+      shinyjs::hide("name_exportTot")
+      shinyjs::hide("modExport")
+      shinyjs::show("row_msg_export")
+    } else {
+      shinyjs::show("output_tree_dynamic")
+      shinyjs::show("output_table_static")
+      shinyjs::hide("output_tree_dynamic_empty")
+      shinyjs::hide("output_table_static_empty")
+
+      shinyjs::show("seldelNode")
+      shinyjs::show("delNode")
+      shinyjs::hide("row_msg_delete")
+
+      shinyjs::show("selRenameNode")
+      shinyjs::show("name_renameNode")
+      shinyjs::show("modRename")
+      shinyjs::hide("row_msg_rename")
+
+      shinyjs::show("exportFormat")
+      shinyjs::show("name_exportTot")
+      shinyjs::show("modExport")
+      shinyjs::hide("row_msg_export")
+    }
   })
 
   # update JSON in case hierarchies have been moved/dragged around
@@ -144,11 +192,11 @@ shinyServer(function(input, output, session) {
     dd <- convert.from.json(json, totLab=input$name_exportTot)
     print(dd)
 
-    if (input$exportFormat=="node") {
-      stopApp(dd)
-    }
     if (input$exportFormat=="data.frame") {
-      stopApp(sdcTable:::node_to_sdcinput(dd))
+      js$closeWindow()
+      dd < sdcTable:::node_to_sdcinput(dd)
     }
+    js$closeWindow()
+    stopApp(dd)
   })
 })

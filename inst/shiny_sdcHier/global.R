@@ -9,19 +9,31 @@ library(data.tree)
 library(sdcTable)
 library(jsonlite)
 library(rlang)
+
+jscode <- "shinyjs.closeWindow = function() { window.close(); }"
+
+data <- getShinyOption(".data")
+if (!is.null(data) && "nodedim" %in% class(data)) {
+  dd <- data
+} else {
+  dd <- create_node("rootnode")
+}
+rm(data)
+
+
 # dd <- create_node("Total")
 # dd <- add_nodes(dd, letters[1:3], reference_node="Total")
 # dd <- add_nodes(dd, paste0("a",1:3), reference_node="a")
 # dd <- add_nodes(dd, paste0("a1_",1:5), reference_node="a1")
 # dd <- add_nodes(dd, paste0("a2_",1:3), reference_node="a2")
 
-dd <- create_node("rootnode")
-dd <- add_nodes(dd, "A", reference_node="rootnode")
-dd <- add_nodes(dd, "B", reference_node="rootnode")
-dd <- add_nodes(dd, "b1", reference_node="B")
-dd <- add_nodes(dd, "b1a", reference_node="b1")
-dd <- add_nodes(dd, "b1b", reference_node="b1")
-dd <- add_nodes(dd, "C", reference_node="rootnode")
+#dd <- create_node("rootnode")
+#dd <- add_nodes(dd, "A", reference_node="rootnode")
+#dd <- add_nodes(dd, "B", reference_node="rootnode")
+#dd <- add_nodes(dd, "b1", reference_node="B")
+#dd <- add_nodes(dd, "b1a", reference_node="b1")
+#dd <- add_nodes(dd, "b1b", reference_node="b1")
+#dd <- add_nodes(dd, "C", reference_node="rootnode")
 
 #json <- '[{"id":"root","parent":"#","text":"myrootnode","state":{"opened":true,"disabled":false,"selected":false}},
 #{"id":"A","parent":"root","text":"A","state":{"opened":true,"disabled":false,"selected":false}},
@@ -47,7 +59,15 @@ convert.to.json <- function(dd) {
 
   df <- ToDataFrameTypeCol(dd)
 
+  if (!is.data.frame(df)) {
+    js <- paste0('[]')
+      return(js)
+  }
+
   df[[1]] <- "#"
+
+
+
   js <- "["
   #js <- paste0(js, write.json.row(id=df$level_1[1], parent="#", text=df$level_1[1]))
   for (i in 2:ncol(df)) {
@@ -61,11 +81,13 @@ convert.to.json <- function(dd) {
 
   sub(",\\]","\\]", js)
 }
-json <- convert.to.json(dd)
 
 # json to node
 convert.from.json <- function(json, totLab=NULL) {
   tab <- fromJSON(json)
+  if (length(tab)==0) {
+    return(create_node("rootnode"))
+  }
   tab <- tab[,c(2,1)]
   colnames(tab) <- c("from","to")
   if (!is.null(totLab)) {
@@ -73,7 +95,6 @@ convert.from.json <- function(json, totLab=NULL) {
   } else {
     tab$from[tab$from=="#"] <- "rootnode"
   }
-
   tt <- FromDataFrameNetwork(tab)
   class(tt) <- c(class(tt), "nodedim")
   tt
@@ -99,7 +120,6 @@ convert.from.tree <- function(tree, totLab=NULL) {
   return(aa)
 }
 
-
 # name of parent
 node.find_parent <- function(dd, name) {
   xx <- FindNode(dd, name)
@@ -114,3 +134,5 @@ node.rename <- function(dd, from, to) {
   xx$name <- to
   dd
 }
+
+json <- convert.to.json(dd)

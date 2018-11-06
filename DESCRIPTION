@@ -4,7 +4,7 @@ Title: What the Package Does (Title Case)
 Version: 0.1.0
 Authors@R: c(
   person("Bernhard", "Meindl", email = "Bernhard.Meindl@statistik.gv.at", role = c("aut","cre")))
-Description: Interactively generate and modify nested hierarchies
+Description: This package allows to interactively generate and modify nested hierarchies.
 License: GPL-3
 Imports: shiny, sdcTable, shinyjs, shinyTree, data.tree, jsonlite
 Encoding: UTF-8
