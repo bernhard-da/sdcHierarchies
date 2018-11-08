@@ -1,0 +1,35 @@
+#' sdcHier_add
+#'
+#' add nodes/levels to a nested hierarchy
+#'
+#' @inherit sdcHier_create
+#' @param h a (nested) hierarchy created using [sdcHier_create()] or modified using [sdcHier_add()], [sdcHier_delete()] or
+#' [sdcHier_rename()].
+#' @param refnode ...
+#' @param node_labs ...
+#' @export
+#' @md
+#' @examples
+#' ## for examples, see ?sdcHier_create
+sdcHier_add <- function(h, refnode, node_labs) {
+  h_is_valid(h)
+
+  stopifnot(is_scalar_character(refnode))
+  stopifnot(is.character(node_labs))
+
+  if (refnode %in% node_labs) {
+    stop(paste("at least one leaf-name equals",shQuote(refnode)), call.=FALSE)
+  }
+  res <- sapply(node_labs, function(x) {
+    sdcHier_info(h, node_labs=x)$exists
+  })
+  nn <- node_labs
+  for (i in 1:length(nn)) {
+    if (res[i]==TRUE) {
+      warning(paste("Node",shQuote(nn[i]),"already exists and won't be added --> skipping"), call.=FALSE)
+    } else {
+      FindNode(h, refnode)$AddChild(node_labs[i])
+    }
+  }
+  return(h)
+}

@@ -1,0 +1,27 @@
+#' sdcHier_info
+#'
+#' get information about all or specific nodes in a nested hierarchy
+#' @inherit sdcHier_add
+#' @export
+#' @return `list`
+#' @md
+#' @examples
+#' ## for examples, see ?sdcHier_create
+sdcHier_info <- function(h, node_labs=NULL) {
+  h_is_valid(h)
+  all_nodes <- sdcHier_nodenames(h)
+  if (is.null(node_labs)) {
+    node_labs <- all_nodes
+  } else {
+    stopifnot(is.character(node_labs))
+  }
+
+  if (length(node_labs)==1) {
+    return(h_nodeinfo(h, node_lab=node_labs))
+  }
+  out <- lapply(node_labs, function(x) {
+    h_nodeinfo(h, node_lab=x)
+  })
+  names(out) <- node_labs
+  out
+}
