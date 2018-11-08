@@ -20,3 +20,7 @@ devtools::install_github("bernhard-da/sdcHierarchies")
 # function that computes hierarchies given positions
 ?dim_by_position
 ```
+
+### Updates
+#### `0.4.0`
+- Functions (`sdcHier_create()`, `sdcHier_add()`, `sdcHier_delete()`, `sdcHier_rename()`, `sdcHier_info()`, `sdcHier_nodenames()` and `sdcHier_convert()`) dealing with creation and updating of nested hierarchies and extracting information have been added
