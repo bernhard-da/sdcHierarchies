@@ -103,20 +103,31 @@ dim_by_position <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
   stopifnot(sum(dim_len)>= max(nchar(dim)))
 
   N <- length(dim)
+  onlyTotal <- FALSE
   if (is.null(tot_lev)) {
+    if (length(dim_len)==1) {
+      onlyTotal <- TRUE
+    }
     df <- data.frame(path=substr(dim, 1, dim_len[1]), stringsAsFactors=FALSE)
     dim <- substr(dim, dim_len[1]+1, nchar(dim))
     dim_len <- dim_len[-c(1)]
   } else {
     df <- data.frame(path=rep(tot_lev, N), stringsAsFactors=FALSE)
+    if (length(dim_len)==2) {
+      onlyTotal <- TRUE
+    }
+  }
+
+  # only total specified
+  if (onlyTotal==TRUE) {
+    nn <- FromDataFrameTable(df, pathName="path")
+    if (as_df==TRUE) {
+      return(dim_to_df(nn))
+    }
+    return(nn)
   }
 
   cs <- c(0,cumsum(dim_len))
-
-  # only total specified
-  if (length(dim_len)==1) {
-    return(FromDataFrameTable(df, pathName="path"))
-  }
   for (i in 2:length(cs)) {
     from <- cs[i-1]+1
     to <- cs[i]
