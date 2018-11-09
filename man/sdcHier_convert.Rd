@@ -15,7 +15,7 @@ sdcHier_convert(h, format = "data.frame")
 \item \strong{"data.frame"}: a \code{data.frame} with two columns. The first columns contains a string containing as many \code{@} as the level
 of the node in the string (e.g \code{@} corresponds to the overall total while \code{@} would be all codes contributing to the total.
 The second column contains the names of the levels.
-\item \strong{"json"}: json format
+\item \strong{"json"}: json format suitable as input for shiny Tree
 }}
 }
 \value{
