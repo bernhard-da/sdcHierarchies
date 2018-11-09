@@ -1,7 +1,11 @@
 ## helpers
 h_is_valid <- function(h) {
+  err <- paste("not a valid sdcHierarchy-obj generated with", shQuote("sdcHier_create()"))
+  if (is.null(h)) {
+    stop(err, call.=FALSE)
+  }
   if (!"sdcHier" %in% class(h)) {
-    stop(paste("not a valid sdcHierarchy-obj generated with", shQuote("h_create()")), call.=FALSE)
+    stop(err, call.=FALSE)
   }
   invisible(TRUE)
 }
