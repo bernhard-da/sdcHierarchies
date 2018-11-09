@@ -10,25 +10,24 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
     shinyjs::hidden(div(id="action_add",
         selectInput("selAddNode_ref", "Reference-Node", choices=NULL),
         textInput("name_addNode", "Level-Name"),
-        actionButton("addNode", "Add new Node")
+        actionButton("addNode", "Add new Node", class="btn-success")
     )),
     shinyjs::hidden(div(id="action_delete",
       selectInput("seldelNode", "Select Node for Deletion", choices=NULL),
-      actionButton("delNode", "Delete selected Node"),
+      actionButton("delNode", "Delete selected Node", class="btn-success"),
       div(id="row_msg_delete", p("No Nodes available to delete"))
     )),
     shinyjs::hidden(div(id="action_rename",
       selectInput("selRenameNode", "Select Node to Rename", choices=NULL),
       textInput("name_renameNode", "new Label", value=""),
-      actionButton("modRename", "Rename selected Node"),
+      actionButton("modRename", "Rename selected Node", class="btn-success"),
       div(id="row_msg_rename", p("No Nodes available to rename"))
     )),
 
     shinyjs::hidden(div(id="action_export",
       selectInput("exportFormat", "Format for export", choices=c("node", "data.frame")),
       textInput("name_exportTot", "Node-Name for overall total", value="rootnode"),
-      tags$button(id='modExport', type="button",
-        class="btn action-button", onclick="setTimeout(function(){window.close();},500);", "Export"),
+      actionButton("modExport", "Export", class="btn-success"),
       div(id="row_msg_export", p("No hierarchy available to export"))
     ))
   ),
