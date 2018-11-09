@@ -48,13 +48,11 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     if (nrow(df)==1) {
       return(dd)
     }
-
     df$hier <- nchar(df$levels)
     df$index <- 1:nrow(df)
     for (i in 2:nrow(df)) {
       cur_hier <- df[i, "hier"]
       prev_hier <- df[(i-1), "hier"]
-
       if (cur_hier==prev_hier) {
         # sibling
         nn <- FindNode(dd, df$labs[i-1])
