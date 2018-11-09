@@ -107,11 +107,8 @@ shinyServer(function(input, output, session) {
     if (input$as_df=="yes") {
       as_df <- TRUE
     }
-    cat("as_df:",as_df,"\n")
-
-    res <- try(dim_by_position(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev,
+    res <- try(sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev,
       full_names=TRUE, method=input$method, as_df=as_df))
-    print(res)
     if (!"try-error" %in% class(res)) {
       genDim(res)
       ok_res(TRUE)
