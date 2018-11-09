@@ -1,107 +1,27 @@
 rm(list=ls())
 
-options(useFancyQuotes = FALSE)
+options(useFancyQuotes=FALSE)
 library(shiny)
 library(shinyTree)
 library(shinyjs)
-
 library(data.tree)
-library(sdcTable)
 library(jsonlite)
 library(rlang)
 
-jscode <- "shinyjs.closeWindow = function() { window.close(); }"
-
 data <- getShinyOption(".data")
-if (!is.null(data) && "nodedim" %in% class(data)) {
-  dd <- data
+if (is.null(data)) {
+  dd <- sdcHier_create("rootnode")
 } else {
-  dd <- create_node("rootnode")
+  if (h_is_valid(data)) {
+    dd <- data
+  } else {
+    dd <- sdcHier_create("rootnode")
+  }
 }
 rm(data)
 
-
-# dd <- create_node("Total")
-# dd <- add_nodes(dd, letters[1:3], reference_node="Total")
-# dd <- add_nodes(dd, paste0("a",1:3), reference_node="a")
-# dd <- add_nodes(dd, paste0("a1_",1:5), reference_node="a1")
-# dd <- add_nodes(dd, paste0("a2_",1:3), reference_node="a2")
-
-#dd <- create_node("rootnode")
-#dd <- add_nodes(dd, "A", reference_node="rootnode")
-#dd <- add_nodes(dd, "B", reference_node="rootnode")
-#dd <- add_nodes(dd, "b1", reference_node="B")
-#dd <- add_nodes(dd, "b1a", reference_node="b1")
-#dd <- add_nodes(dd, "b1b", reference_node="b1")
-#dd <- add_nodes(dd, "C", reference_node="rootnode")
-
-#json <- '[{"id":"root","parent":"#","text":"myrootnode","state":{"opened":true,"disabled":false,"selected":false}},
-#{"id":"A","parent":"root","text":"A","state":{"opened":true,"disabled":false,"selected":false}},
-#{"id":"B","parent":"root","text":"B","state":{"opened":true,"disabled":false,"selected":false}},
-#{"id":"b1","parent":"B","text":"b1","state":{"opened":true,"disabled":false,"selected":false}},
-#{"id":"b1a","parent":"b1","text":"b1a","state":{"opened":true,"disabled":false,"selected":false}},
-#{"id":"b1b","parent":"b1","text":"b1b","state":{"opened":true,"disabled":false,"selected":false}},
-#{"id":"C","parent":"root","text":"C","state":{"opened":true,"disabled":false,"selected":false}}]'
-
-# node to json
-convert.to.json <- function(dd) {
-  write.json.row <- function(id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
-    stopifnot(is_scalar_character(id))
-    stopifnot(is_scalar_character(parent))
-    stopifnot(is_scalar_character(text))
-    op <- ifelse(opened==TRUE, "true","false")
-    dis <- ifelse(disabled==TRUE, "true","false")
-    sel <- ifelse(selected==TRUE, "true","false")
-    js <- paste0("{",dQuote("id"),":",dQuote(id),",",dQuote("parent"),":",dQuote(parent),",",dQuote("text"),":",dQuote(text))
-    js <- paste0(js, ",",dQuote("state"),":{",dQuote("opened"),":",op,",",dQuote("disabled"),":",dis,",",dQuote("selected"),":",sel,"}}")
-    js
-  }
-
-  df <- ToDataFrameTypeCol(dd)
-
-  if (!is.data.frame(df)) {
-    js <- paste0('[]')
-      return(js)
-  }
-
-  df[[1]] <- "#"
-
-
-
-  js <- "["
-  #js <- paste0(js, write.json.row(id=df$level_1[1], parent="#", text=df$level_1[1]))
-  for (i in 2:ncol(df)) {
-    sub <- unique(df[,c(i-1, i)])
-    sub <- sub[!is.na(sub[[2]]),]
-    for (j in 1:nrow(sub)) {
-      js <- paste0(js, write.json.row(id=sub[[2]][j], parent=sub[[1]][j], text=sub[[2]][j]),",")
-    }
-  }
-  js <- paste0(js,"]")
-
-  sub(",\\]","\\]", js)
-}
-
-# json to node
-convert.from.json <- function(json, totLab=NULL) {
-  tab <- fromJSON(json)
-  if (length(tab)==0) {
-    return(create_node("rootnode"))
-  }
-  tab <- tab[,c(2,1)]
-  colnames(tab) <- c("from","to")
-  if (!is.null(totLab)) {
-    tab$from[tab$from=="#"] <- totLab
-  } else {
-    tab$from[tab$from=="#"] <- "rootnode"
-  }
-  tt <- FromDataFrameNetwork(tab)
-  class(tt) <- c(class(tt), "nodedim")
-  tt
-}
-
-# input$tree to node
-convert.from.tree <- function(tree, totLab=NULL) {
+# converts input$tree to node (internally used only)
+shinytree_to_node <- function(tree, totLab=NULL) {
   json <- toJSON(tree)
   json <- gsub("\\[0\\]", '[]', json)
   ll <- fromJSON(json)
@@ -114,25 +34,9 @@ convert.from.tree <- function(tree, totLab=NULL) {
     aa[[1]] <- "bla"
   }
   aa$path <- apply(aa, 1, paste, collapse="/")
-  print(aa)
   aa <- FromDataFrameTable(aa, pathName="path")
-  class(aa) <- c(class(aa), "nodedim")
+  class(aa) <- c(class(aa), "sdcHier")
   return(aa)
 }
 
-# name of parent
-node.find_parent <- function(dd, name) {
-  xx <- FindNode(dd, name)
-  xx$parent$name
-}
-
-node.rename <- function(dd, from, to) {
-  xx <- FindNode(dd, name=from)
-  if (is.null(xx)) {
-    return(NULL)
-  }
-  xx$name <- to
-  dd
-}
-
-json <- convert.to.json(dd)
+json <- sdcHier_convert(dd, format="json")

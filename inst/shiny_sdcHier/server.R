@@ -61,7 +61,7 @@ shinyServer(function(input, output, session) {
   # update JSON in case hierarchies have been moved/dragged around
   observeEvent(input$tree, {
     req(input$tree)
-    curJson(convert.to.json(convert.from.tree(input$tree)))
+    curJson(sdcHier_convert(shinytree_to_node(input$tree)), format="json")
   })
 
   allNodes <- reactive({
@@ -100,7 +100,7 @@ shinyServer(function(input, output, session) {
 
   # print the data.tree
   output$str <- renderPrint({
-    convert.from.json(curJson())
+    sdcHier_import(inp=curJson(), tot_lab=NULL)
   })
 
   ## add values
@@ -125,9 +125,9 @@ shinyServer(function(input, output, session) {
     if (is.null(json)) {
       return(NULL)
     }
-    dd <- convert.from.json(json)
+    dd <- sdcHier_import(inp=json, tot_lab=NULL)
     dd <- add_nodes(dd, reference_node=input$selAddNode_ref, node_labs=input$name_addNode)
-    curJson(convert.to.json(dd))
+    curJson(sdcHier_convert(dd, format="json"))
     updateTree(session, "tree", data=curJson())
     updateTextInput(session, inputId="name_addNode", value = "")
   })
@@ -138,10 +138,10 @@ shinyServer(function(input, output, session) {
     if (is.null(json)) {
       return(NULL)
     }
-    dd <- convert.from.json(json)
-    ref <- node.find_parent(dd, name=input$seldelNode)
+    dd <- sdcHier_import(inp=json, tot_lab=NULL)
+    res <- sdcHier_info(dd, node_labs=input$seldelNode)$parent
     dd <- delete_nodes(dd, reference_node=ref, node_labs=input$seldelNode)
-    curJson(convert.to.json(dd))
+    curJson(sdcHier_convert(dd, format="json"))
     updateTree(session, "tree", data=curJson())
   })
 
@@ -162,11 +162,14 @@ shinyServer(function(input, output, session) {
     if (is.null(json)) {
       return(NULL)
     }
-    dd <- convert.from.json(json)
-    dd <- node.rename(dd, from=input$selRenameNode, to=input$name_renameNode)
-    curJson(convert.to.json(dd))
+    dd <- sdcHier_import(inp=json, tot_lab=NULL)
+    dd <- sdcHier_rename(dd,
+      node_labs=input$selRenameNode,
+      node_labs_new=input$name_renameNode)
+
+    curJson(sdcHier_convert(dd, format="json"))
     updateTree(session, "tree", data=curJson())
-    updateTextInput(session, inputId="name_renameNode", value = "")
+    updateTextInput(session, inputId="name_renameNode", value="")
   })
 
   ## export/save
@@ -189,14 +192,10 @@ shinyServer(function(input, output, session) {
     if (is.null(json)) {
       return(NULL)
     }
-    dd <- convert.from.json(json, totLab=input$name_exportTot)
-    print(dd)
-
+    dd <- sdcHier_import(inp=json, tot_lab=input$name_exportTot)
     if (input$exportFormat=="data.frame") {
-      js$closeWindow()
-      dd < sdcTable:::node_to_sdcinput(dd)
+      dd <- sdcHier_convert(dd, format="data.frame")
     }
-    js$closeWindow()
     stopApp(dd)
   })
 })

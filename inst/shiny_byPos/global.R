@@ -6,7 +6,6 @@ library(shinyTree)
 library(shinyjs)
 
 library(data.tree)
-library(sdcTable)
 library(jsonlite)
 library(rlang)
 

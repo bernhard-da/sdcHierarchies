@@ -3,7 +3,6 @@ shinyUI(pageWithSidebar(
 
   sidebarPanel(
     shinyjs::useShinyjs(),
-    shinyjs::extendShinyjs(text = jscode, functions = c("closeWindow")),
 
     radioButtons("what", h3("What do you want to do?"),
         choices=c("Add a Node"="add","Delete a Node"="delete","Rename a Node"="rename","Export Hierarchy"="export")),
