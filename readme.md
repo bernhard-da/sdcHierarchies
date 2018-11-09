@@ -22,5 +22,14 @@ devtools::install_github("bernhard-da/sdcHierarchies")
 ```
 
 ### Updates
+#### `0.6.0`
+- fixes for shiny-Apps `dynHier()` and `fixedHier()`
+- renamed `dim_by_position()` to `sdcHier_compute()`
+- `sdcHier_convert()` can output the required code to compute the hierarchy
+
+#### `0.5.0`
+- `sdcHier_convert()` can output the json-code
+- fixes to documentation and shinyApps `dynHier()` and `fixedHier()`
+
 #### `0.4.0`
 - Functions (`sdcHier_create()`, `sdcHier_add()`, `sdcHier_delete()`, `sdcHier_rename()`, `sdcHier_info()`, `sdcHier_nodenames()` and `sdcHier_convert()`) dealing with creation and updating of nested hierarchies and extracting information have been added
