@@ -1,5 +1,6 @@
-shinyUI(pageWithSidebar(
-  headerPanel("sdcHier (dyn"),
+library(shinythemes)
+shinyUI(fluidPage(theme = shinytheme("flatly"),
+  headerPanel("sdcHier (dyn)"),
 
   sidebarPanel(
     shinyjs::useShinyjs(),
@@ -32,13 +33,23 @@ shinyUI(pageWithSidebar(
     ))
   ),
   mainPanel(
-    h3("Current Hierarchy (interactive)"),
-    p("You can drag-and-drop nodes to customize the hierarchy"),
-    div(id="output_tree_dynamic", shinyTree("tree", dragAndDrop=TRUE, theme="proton")),
-    div(id="output_tree_dynamic_empty", p("Please start adding nodes!")),
+    fluidRow(
+      column(6, align="center", h2("Current Hierarchy (interactive)")),
+      column(6, align="center", h2("Output"))
+    ),
 
-    h3("Output"),
-    div(id="output_table_static", verbatimTextOutput("str")),
-    div(id="output_table_static_empty", p("No hierarchy defined"))
+    fluidRow(
+      column(6, align="center", p("Drag-and-drop nodes around!")),
+      column(6, align="center", p(""))
+    ),
+    fluidRow(
+      column(6, align="center", div(id="output_tree_dynamic", shinyTree("tree", dragAndDrop=TRUE, theme="proton"))),
+      column(6, align="center", div(id="output_table_static", verbatimTextOutput("str")))
+    ),
+
+    fluidRow(
+      column(6, align="center", div(id="output_tree_dynamic_empty", p("Please start adding nodes!"))),
+      column(6, align="center", div(id="output_table_static_empty", p("No hierarchy defined")))
+    )
   )
 ))

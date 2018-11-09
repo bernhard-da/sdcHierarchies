@@ -61,7 +61,7 @@ shinyServer(function(input, output, session) {
   # update JSON in case hierarchies have been moved/dragged around
   observeEvent(input$tree, {
     req(input$tree)
-    curJson(sdcHier_convert(shinytree_to_node(input$tree)), format="json")
+    curJson(sdcHier_convert(shinytree_to_node(input$tree), format="json"))
   })
 
   allNodes <- reactive({
@@ -126,7 +126,7 @@ shinyServer(function(input, output, session) {
       return(NULL)
     }
     dd <- sdcHier_import(inp=json, tot_lab=NULL)
-    dd <- add_nodes(dd, reference_node=input$selAddNode_ref, node_labs=input$name_addNode)
+    dd <- sdcHier_add(dd, refnode=input$selAddNode_ref, node_labs=input$name_addNode)
     curJson(sdcHier_convert(dd, format="json"))
     updateTree(session, "tree", data=curJson())
     updateTextInput(session, inputId="name_addNode", value = "")
@@ -140,7 +140,7 @@ shinyServer(function(input, output, session) {
     }
     dd <- sdcHier_import(inp=json, tot_lab=NULL)
     res <- sdcHier_info(dd, node_labs=input$seldelNode)$parent
-    dd <- delete_nodes(dd, reference_node=ref, node_labs=input$seldelNode)
+    dd <- sdcHier_delete(dd, node_labs=input$seldelNode)
     curJson(sdcHier_convert(dd, format="json"))
     updateTree(session, "tree", data=curJson())
   })
