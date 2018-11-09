@@ -26,5 +26,5 @@ dynHier <- function(x=NULL, ...) {
   shinyOptions(.appDir = appDir)
   shinyOptions(.data = x)
 
-  runApp(appDir, launch.browser=FALSE)
+  runApp(appDir, launch.browser=TRUE)
 }

@@ -5,4 +5,5 @@
 #' @importFrom data.tree FromDataFrameNetwork FindNode Node
 #' @importFrom jsonlite fromJSON toJSON
 #' @importFrom rlang is_scalar_logical is_scalar_character is_integerish
+#' @import shinythemes
 NULL

@@ -18,10 +18,9 @@ shinyServer(function(input, output, session) {
     updateTree(session, "tree", data=json)
 
     if (isEmptyTree()) {
-      shinyjs::hide("output_tree_dynamic")
-      shinyjs::hide("output_table_static")
-      shinyjs::show("output_tree_dynamic_empty")
-      shinyjs::show("output_table_static_empty")
+      shinyjs::show("row_empty_results")
+      shinyjs::hide("row_info_drag")
+      shinyjs::hide("row_results")
 
       shinyjs::hide("seldelNode")
       shinyjs::hide("delNode")
@@ -37,10 +36,9 @@ shinyServer(function(input, output, session) {
       shinyjs::hide("modExport")
       shinyjs::show("row_msg_export")
     } else {
-      shinyjs::show("output_tree_dynamic")
-      shinyjs::show("output_table_static")
-      shinyjs::hide("output_tree_dynamic_empty")
-      shinyjs::hide("output_table_static_empty")
+      shinyjs::hide("row_empty_results")
+      shinyjs::show("row_info_drag")
+      shinyjs::show("row_results")
 
       shinyjs::show("seldelNode")
       shinyjs::show("delNode")

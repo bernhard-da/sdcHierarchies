@@ -38,18 +38,18 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
       column(6, align="center", h2("Output"))
     ),
 
-    fluidRow(
+    fluidRow(id="row_info_drag",
       column(6, align="center", p("Drag-and-drop nodes around!")),
-      column(6, align="center", p(""))
+      column(6, align="center", NULL)
     ),
-    fluidRow(
-      column(6, align="center", div(id="output_tree_dynamic", shinyTree("tree", dragAndDrop=TRUE, theme="proton"))),
-      column(6, align="center", div(id="output_table_static", verbatimTextOutput("str")))
+    fluidRow(id="row_results",
+      column(6, align="center", shinyTree("tree", dragAndDrop=TRUE, theme="proton")),
+      column(6, align="center", verbatimTextOutput("str"))
     ),
 
-    fluidRow(
-      column(6, align="center", div(id="output_tree_dynamic_empty", p("Please start adding nodes!"))),
-      column(6, align="center", div(id="output_table_static_empty", p("No hierarchy defined")))
+    fluidRow(id="row_empty_results",
+      column(6, align="center", p("Please start adding nodes!")),
+      column(6, align="center", p("No hierarchy defined"))
     )
   )
 ))

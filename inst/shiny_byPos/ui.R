@@ -1,4 +1,4 @@
-shinyUI(pageWithSidebar(
+shinyUI(fluidPage(theme = shinytheme("flatly"),
   headerPanel("sdcHier (by position)"),
 
   sidebarPanel(

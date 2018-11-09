@@ -6,7 +6,7 @@ Authors@R: c(
   person("Bernhard", "Meindl", email = "Bernhard.Meindl@statistik.gv.at", role = c("aut","cre")))
 Description: This package allows to interactively generate and modify nested hierarchies.
 License: GPL-3
-Depends: data.tree
+Depends: data.tree, shinythemes
 Imports: shiny, shinyjs, shinyTree, jsonlite, rlang
 Encoding: UTF-8
 LazyData: true
