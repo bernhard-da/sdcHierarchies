@@ -13,9 +13,8 @@
 #' x <- dynHier(); print(x)
 #'
 #' ## start with a hierarchy-input
-#' dim <- sdcTable::create_node("Total")
-#' dim <- sdcTable::add_nodes(dim, reference_node="Total", node_labs=LETTERS[1:3])
-#' dim_mod <- dynamicHierarchy(dim); print(dim_mod)
+#' aDim <- sdcHier_create("Total", node_labs=letters[1:5])
+#' aDim_mod <- dynHier(aDim); print(aDim_mod)
 #' }
 dynHier <- function(x=NULL, ...) {
   appDir <- system.file("shiny_sdcHier", package="sdcHierarchies")
