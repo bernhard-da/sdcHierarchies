@@ -13,14 +13,13 @@ be a character-string (json).}
 \item{from}{(character) from which format should be imported.
 Possible choices are:
 \itemize{
-\item \emph{"json"}
+\item \strong{"json"}: json-encoded string will be returned
 }}
 
-\item{tot_lab}{TODO}
+\item{tot_lab}{optional name of overall total}
 }
 \value{
-a (nested) hierarchy suitable as input
-for \code{sdcHier_xyz()}-functions
+a (nested) hierarchy
 }
 \description{
 returns a tree from various input sources

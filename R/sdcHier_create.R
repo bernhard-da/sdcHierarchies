@@ -1,14 +1,13 @@
 #' sdcHier_create
 #'
 #' generate and modify hierarchical data structure to be used in other packages such
-#' as [cellKey](https://github.com/sdcTools/cellKey) or [sdcTable](https://github.com/sdcTools/sdcTable)
+#' as \href{https://github.com/sdcTools/cellKey}{cellKey}
+#' or \href{https://github.com/sdcTools/sdcTable}{sdcTable}.
 #'
 #' @param tot_lab (character) name of the overall total
 #' @param node_labs (character) name of levels (nodes) in the hierarchy
-#' @md
 #' @return a (nested) sdc hierarchy tree
 #' @export
-#' @author Bernhard Meindl <bernhard.meindl@gmail.com>
 #' @examples
 #' ## create a hierarchy
 #' h <- sdcHier_create(tot="tot", node_labs=letters[1:3])

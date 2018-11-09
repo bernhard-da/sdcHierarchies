@@ -7,12 +7,12 @@
 sdcHier_add(h, refnode, node_labs)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link[=sdcHier_create]{sdcHier_create()}} or modified using \code{\link[=sdcHier_add]{sdcHier_add()}}, \code{\link[=sdcHier_delete]{sdcHier_delete()}} or
-\code{\link[=sdcHier_rename]{sdcHier_rename()}}.}
+\item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
+using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdcHier_rename}}.}
 
-\item{refnode}{...}
+\item{refnode}{(character) an existing node in the input \code{h}}
 
-\item{node_labs}{...}
+\item{node_labs}{names of the new nodes/levels that should be added}
 }
 \value{
 a (nested) sdc hierarchy tree

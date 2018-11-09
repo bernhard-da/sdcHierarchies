@@ -1,5 +1,7 @@
 #' dim_by_position
 #'
+#' computes hierarchies from character-vectors
+#'
 #' @param dim a character vector containing codes of a hierarchical variables.
 #' @param dim_spec an (integerish) vector containing either the length (in terms of characters) for each level or the
 #' end-positions of these levels. In the latter-case, one needs to set argument \code{method} to \code{"endpos"}

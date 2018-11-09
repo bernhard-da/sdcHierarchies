@@ -30,7 +30,7 @@ first positions of \code{dim}}
 a hierarchical data structure depending on choice of argument \code{as_df}
 }
 \description{
-dim_by_position
+computes hierarchies from character-vectors
 }
 \examples{
 ## nuts: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)

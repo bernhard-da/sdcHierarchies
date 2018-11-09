@@ -1,5 +1,3 @@
-# internally used for shinyApps
-
 #' sdcHier_import
 #'
 #' returns a tree from various input sources
@@ -8,12 +6,12 @@
 #' be a character-string (json).
 #' @param from (character) from which format should be imported.
 #' Possible choices are:
-#' - *"json"*
-#' @param tot_lab TODO
+#' \itemize{
+#' \item \strong{"json"}: json-encoded string will be returned
+#' }
+#' @param tot_lab optional name of overall total
 #'
-#' @return a (nested) hierarchy suitable as input
-#' for `sdcHier_xyz()`-functions
-#' @md
+#' @return a (nested) hierarchy
 #' @export
 #' @examples
 #' ## not yet

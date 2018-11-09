@@ -7,13 +7,14 @@
 sdcHier_info(h, node_labs = NULL)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link[=sdcHier_create]{sdcHier_create()}} or modified using \code{\link[=sdcHier_add]{sdcHier_add()}}, \code{\link[=sdcHier_delete]{sdcHier_delete()}} or
-\code{\link[=sdcHier_rename]{sdcHier_rename()}}.}
+\item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
+using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdcHier_rename}}.}
 
-\item{node_labs}{...}
+\item{node_labs}{names of the new nodes/levels that should be added}
 }
 \value{
-\code{list}
+a \code{list} with information about the required nodes. If \code{node_labs} is \code{NULL},
+then the information is computed for all nodes.
 }
 \description{
 get information about all or specific nodes in a nested hierarchy

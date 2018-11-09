@@ -3,7 +3,6 @@
 #' add nodes/levels from a nested hierarchy
 #' @inherit sdcHier_add
 #' @export
-#' @md
 #' @examples
 #' ## for examples, see ?sdcHier_create
 sdcHier_delete <- function(h, node_labs) {

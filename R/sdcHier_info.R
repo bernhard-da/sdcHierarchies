@@ -3,8 +3,8 @@
 #' get information about all or specific nodes in a nested hierarchy
 #' @inherit sdcHier_add
 #' @export
-#' @return `list`
-#' @md
+#' @return a \code{list} with information about the required nodes. If \code{node_labs} is \code{NULL},
+#' then the information is computed for all nodes.
 #' @examples
 #' ## for examples, see ?sdcHier_create
 sdcHier_info <- function(h, node_labs=NULL) {

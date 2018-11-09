@@ -7,14 +7,15 @@
 sdcHier_convert(h, format = "data.frame")
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link[=sdcHier_create]{sdcHier_create()}} or modified using \code{\link[=sdcHier_add]{sdcHier_add()}}, \code{\link[=sdcHier_delete]{sdcHier_delete()}} or
-\code{\link[=sdcHier_rename]{sdcHier_rename()}}.}
+\item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
+using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdcHier_rename}}.}
 
 \item{format}{(character) specifying the export format. possible choices are:
 \itemize{
-\item \strong{"data.frame"}: a \code{data.frame} with two columns. The first columns contains a string containing as many \code{@} as the level
-of the node in the string (e.g \code{@} corresponds to the overall total while \code{@} would be all codes contributing to the total.
-The second column contains the names of the levels.
+\item \strong{"data.frame"}: a \code{data.frame} with two columns. The first columns contains a string
+containing as many \code{@} as the level of the node in the string (e.g \code{@} corresponds to the overall
+total while \code{@} would be all codes contributing to the total. The second column contains the names
+of the levels.
 \item \strong{"json"}: json format suitable as input for shiny Tree
 }}
 }

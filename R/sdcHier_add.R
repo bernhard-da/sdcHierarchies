@@ -3,12 +3,11 @@
 #' add nodes/levels to a nested hierarchy
 #'
 #' @inherit sdcHier_create
-#' @param h a (nested) hierarchy created using [sdcHier_create()] or modified using [sdcHier_add()], [sdcHier_delete()] or
-#' [sdcHier_rename()].
-#' @param refnode ...
-#' @param node_labs ...
+#' @param h a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
+#' using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdcHier_rename}}.
+#' @param refnode (character) an existing node in the input \code{h}
+#' @param node_labs names of the new nodes/levels that should be added
 #' @export
-#' @md
 #' @examples
 #' ## for examples, see ?sdcHier_create
 sdcHier_add <- function(h, refnode, node_labs) {

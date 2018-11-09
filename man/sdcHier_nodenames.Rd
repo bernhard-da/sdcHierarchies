@@ -7,8 +7,8 @@
 sdcHier_nodenames(h, node_lab = NULL)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link[=sdcHier_create]{sdcHier_create()}} or modified using \code{\link[=sdcHier_add]{sdcHier_add()}}, \code{\link[=sdcHier_delete]{sdcHier_delete()}} or
-\code{\link[=sdcHier_rename]{sdcHier_rename()}}.}
+\item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
+using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdcHier_rename}}.}
 
 \item{node_lab}{(character) name of start node from which all lower level-names should be returned}
 }

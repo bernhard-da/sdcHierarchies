@@ -16,7 +16,8 @@ a (nested) sdc hierarchy tree
 }
 \description{
 generate and modify hierarchical data structure to be used in other packages such
-as \href{https://github.com/sdcTools/cellKey}{cellKey} or \href{https://github.com/sdcTools/sdcTable}{sdcTable}
+as \href{https://github.com/sdcTools/cellKey}{cellKey}
+or \href{https://github.com/sdcTools/sdcTable}{sdcTable}.
 }
 \examples{
 ## create a hierarchy
@@ -49,7 +50,4 @@ sdcHier_nodenames(h, node_lab="a")
 
 ## convert to data.frame
 sdcHier_convert(h, format="data.frame")
-}
-\author{
-Bernhard Meindl \href{mailto:bernhard.meindl@gmail.com}{bernhard.meindl@gmail.com}
 }
