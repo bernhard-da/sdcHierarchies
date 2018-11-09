@@ -8,12 +8,13 @@ sdcHier_import(inp, from = "json", tot_lab = NULL)
 }
 \arguments{
 \item{inp}{an import from which should be converted. This could either
-be a character-string (json).}
+be a character-string (json) or a \code{data.frame}.}
 
 \item{from}{(character) from which format should be imported.
 Possible choices are:
 \itemize{
-\item \strong{"json"}: json-encoded string will be returned
+\item \strong{"json"}: json-encoded string should be converted
+\item \strong{"data.frame"}: a \code{data.frame} in \code{@;level}-format will be converted
 }}
 
 \item{tot_lab}{optional name of overall total}
