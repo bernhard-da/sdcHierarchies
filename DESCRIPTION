@@ -7,7 +7,7 @@ Authors@R: c(
 Description: This package allows to interactively generate and modify nested hierarchies.
 License: GPL-3
 Depends: data.tree
-Imports: shiny, sdcTable, shinyjs, shinyTree, jsonlite, rlang, miniUI
+Imports: shiny, shinyjs, shinyTree, jsonlite, rlang
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
