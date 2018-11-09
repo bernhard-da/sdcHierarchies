@@ -48,6 +48,8 @@ sdcHier_info(h, node_labs="B")
 sdcHier_nodenames(h)
 sdcHier_nodenames(h, node_lab="a")
 
-## convert to data.frame
+## convert to different output formats
 sdcHier_convert(h, format="data.frame")
+sdcHier_convert(h, format="json")
+sdcHier_convert(h, format="code")
 }

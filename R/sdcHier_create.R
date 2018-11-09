@@ -37,8 +37,10 @@
 #' sdcHier_nodenames(h)
 #' sdcHier_nodenames(h, node_lab="a")
 #'
-#' ## convert to data.frame
+#' ## convert to different output formats
 #' sdcHier_convert(h, format="data.frame")
+#' sdcHier_convert(h, format="json")
+#' sdcHier_convert(h, format="code")
 sdcHier_create <- function(tot_lab, node_labs=NULL) {
   stopifnot(is_scalar_character(tot_lab))
   if (!is.null(node_labs)) {

@@ -8,11 +8,23 @@
 #' total while \code{@@} would be all codes contributing to the total. The second column contains the names
 #' of the levels.
 #' \item \strong{"json"}: json format suitable as input for shiny Tree
+#' \item \strong{"code"}: code required to generate the hierarchy
 #' }
 #' @export
 #' @examples
 #' ## for examples, see ?sdcHier_create
 sdcHier_convert <- function(h, format="data.frame") {
+  # to data.frame
+  h_to_df <- function(h) {
+    res <- sdcHier_info(h)
+    df <- do.call("rbind", lapply(res, function(x) {
+      data.frame(level=paste(rep("@", x$level), collapse=""), name=x$name, stringsAsFactors=FALSE)
+    }))
+    rownames(df) <- NULL
+    return(df)
+  }
+
+  # node to json
   h_to_json <- function(h) {
     write.json.row <- function(id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
       stopifnot(is_scalar_character(id))
@@ -46,22 +58,46 @@ sdcHier_convert <- function(h, format="data.frame") {
     sub(",\\]","\\]", js)
   }
 
+  # node to code
+  h_to_code <- function(h) {
+    all_names <- sdcHier_nodenames(h)
+    code <- "library(sdcHierarchies)"
+    code <- paste0("d <- sdcHier_create(tot_lab=",shQuote(all_names[1]),")")
+    all_names <- all_names[-c(1)]
+    info <- sdcHier_info(h, node_labs=all_names)
+
+    runInd <- TRUE
+    while(runInd) {
+      lev <- all_names[1]
+      cur_info <- info[[lev]]
+      nn <- c(lev, cur_info$siblings)
+      all_names <- setdiff(all_names, nn)
+
+      s1 <- shQuote(cur_info$parent)
+      s2 <- paste0("c(",paste0(shQuote(nn), collapse=","),")")
+      code <- c(code, paste0("sdcHier_add(d, refnode=",s1,", node_labs=",s2,")"))
+      if (length(all_names)==0) {
+        runInd <- FALSE
+      }
+    }
+    code <- c(code, "print(d)")
+    cat(code, sep="\n")
+    return(invisible(code))
+  }
+
   h_is_valid(h)
 
   stopifnot(is_scalar_character(format))
-  stopifnot(format %in% c("data.frame","json"))
+  stopifnot(format %in% c("data.frame","json","code"))
 
   if (format=="data.frame") {
-    res <- sdcHier_info(h)
-
-    df <- do.call("rbind", lapply(res, function(x) {
-      data.frame(level=paste(rep("@", x$level), collapse=""), name=x$name, stringsAsFactors=FALSE)
-    }))
-    rownames(df) <- NULL
-    return(df)
+    return(h_to_df(h))
   }
   if (format=="json") {
     return(h_to_json(h))
+  }
+  if (format=="code") {
+    return(h_to_code(h))
   }
   stop(paste("Error in sdcHier_convert()"), call.=FALSE)
 }

@@ -17,6 +17,7 @@ containing as many \code{@} as the level of the node in the string (e.g \code{@}
 total while \code{@} would be all codes contributing to the total. The second column contains the names
 of the levels.
 \item \strong{"json"}: json format suitable as input for shiny Tree
+\item \strong{"code"}: code required to generate the hierarchy
 }}
 }
 \value{
