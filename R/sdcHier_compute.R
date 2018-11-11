@@ -73,19 +73,6 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
   endpos_to_len <- function(end_pos) {
     diff(c(0,end_pos))
   }
-
-  # convert node to df
-  dim_to_df <- function(inp) {
-    stopifnot("Node" %in% class(inp))
-    xx <- Traverse(inp)
-    codes <- sapply(xx, function(x) x$name)
-    levels <- sapply(xx, function(x) x$level)
-    ats <- sapply(1:length(levels), function(x) {
-      paste(rep("@", levels[x]), collapse="")
-    })
-    data.frame(levels=ats, codes=codes, stringsAsFactors=FALSE)
-  }
-
   stopifnot(is_scalar_character(method), method %in% c("len","endpos"))
 
   if (method=="endpos") {
@@ -146,8 +133,9 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
     }
   }
   nn <- FromDataFrameTable(df, pathName="path")
+  class(nn) <- c(class(nn), "sdcHier")
   if (as_df==TRUE) {
-    return(dim_to_df(nn))
+    return(sdcHier_convert(nn, format="data.frame"))
   }
   return(nn)
 }
