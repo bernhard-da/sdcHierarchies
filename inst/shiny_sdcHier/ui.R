@@ -1,6 +1,6 @@
 library(shinythemes)
 shinyUI(fluidPage(theme = shinytheme("flatly"),
-  headerPanel("sdcHier (dyn)"),
+  headerPanel("Create a hierarchy interactively"),
 
   sidebarPanel(
     shinyjs::useShinyjs(),
@@ -42,7 +42,7 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
       column(6, align="center", NULL)
     ),
     fluidRow(id="row_results",
-      column(6, align="center", shinyTree("tree", dragAndDrop=TRUE, theme="proton")),
+      column(6, align="left", shinyTree("tree", dragAndDrop=TRUE, theme="proton")),
       column(6, align="center", verbatimTextOutput("str"))
     ),
 
