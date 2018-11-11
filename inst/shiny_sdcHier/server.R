@@ -172,7 +172,7 @@ shinyServer(function(input, output, session) {
 
   ## export/save
   observeEvent(input$exportFormat, {
-    updateActionButton(session, inputId="modExport", label = paste("Export to", input$exportFormat))
+    updateActionButton(session, inputId="modExport", label=paste("Export to", input$exportFormat))
   })
   # show/hide modExport-Button
   observe({

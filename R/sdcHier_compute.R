@@ -110,9 +110,9 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
 
   # only total specified
   if (onlyTotal==TRUE) {
-    nn <- FromDataFrameTable(df, pathName="path")
+    nn <- sdcHier_create(as.character(df[1,1]))
     if (as_df==TRUE) {
-      return(dim_to_df(nn))
+      return(sdcHier_convert(nn, format="data.frame"))
     }
     return(nn)
   }

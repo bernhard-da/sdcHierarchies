@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' codes <- c("01","02","011","012")
+#' codes <- c("11","12","21","22","23","31","32")
 #' res <- fixedHier(codes); print(res)
 #' }
 fixedHier <- function(x, ...) {

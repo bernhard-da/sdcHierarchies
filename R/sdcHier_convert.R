@@ -1,5 +1,7 @@
 #' sdcHier_convert
 #'
+#' convert nested hierarchies into other data structures
+#'
 #' @inherit sdcHier_add
 #' @param format (character) specifying the export format. possible choices are:
 #' \itemize{
@@ -17,6 +19,10 @@ sdcHier_convert <- function(h, format="data.frame") {
   # to data.frame
   h_to_df <- function(h) {
     res <- sdcHier_info(h)
+
+    if (length(res)==6 && names(res)[1]=="exists") {
+      return(data.frame(level="@", name=res$name, stringsAsFactors=FALSE))
+    }
     df <- do.call("rbind", lapply(res, function(x) {
       data.frame(level=paste(rep("@", x$level), collapse=""), name=x$name, stringsAsFactors=FALSE)
     }))
