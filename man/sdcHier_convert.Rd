@@ -24,7 +24,7 @@ of the levels.
 a (nested) sdc hierarchy tree
 }
 \description{
-add nodes/levels to a nested hierarchy
+convert nested hierarchies into other data structures
 }
 \examples{
 ## for examples, see ?sdcHier_create
