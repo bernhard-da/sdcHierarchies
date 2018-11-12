@@ -22,6 +22,11 @@ devtools::install_github("bernhard-da/sdcHierarchies")
 ```
 
 ### Updates
+#### `0.7.0`
+- some bugfixes
+- removed argument `full_names` froms `sdcHier_compute()`
+- show code to generated hierarchies in `dynHier()` and `fixedHier()`
+
 #### `0.6.0`
 - fixes for shiny-Apps `dynHier()` and `fixedHier()`
 - renamed `dim_by_position()` to `sdcHier_compute()`
