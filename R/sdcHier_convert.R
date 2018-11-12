@@ -68,7 +68,7 @@ sdcHier_convert <- function(h, format="data.frame") {
   h_to_code <- function(h) {
     all_names <- sdcHier_nodenames(h)
     code <- "library(sdcHierarchies)"
-    code <- paste0("d <- sdcHier_create(tot_lab=",shQuote(all_names[1]),")")
+    code <- c(code, paste0("d <- sdcHier_create(tot_lab=",shQuote(all_names[1]),")"))
     all_names <- all_names[-c(1)]
     info <- sdcHier_info(h, node_labs=all_names)
 
