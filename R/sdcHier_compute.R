@@ -8,7 +8,6 @@
 #' In the latter-case, one needs to set argument \code{method} to \code{"endpos"}
 #' @param tot_lev \code{NULL} or a scalar characer specifying the name of the overall
 #' total in case it is not encoded at the first positions of \code{dim}
-#' @param full_names (logical) should full names or short-names be returned
 #' @param method either \code{len} (the default) or \code{endpos}
 #' \itemize{
 #' \item \code{len}: the number of characters for each of the levels needs to be specified
@@ -28,15 +27,15 @@
 #'   "03361","03451","03452","03453","03454","03455","03456",
 #'   "10155")
 #' a <- sdcHier_compute(dim=geo_m, dim_spec=c(2,3,5),
-#'   full_names=TRUE, tot_lev="Tot", method="endpos")
+#'   tot_lev="Tot", method="endpos")
 #' b <- sdcHier_compute(dim=geo_m, dim_spec=c(2,1,2),
-#'   full_names=TRUE, tot_lev="Tot", method="len")
+#'   tot_lev="Tot", method="len")
 #' identical(ToDataFrameTypeCol(a), ToDataFrameTypeCol(b))
 #'
 #' ## return data.frame suitable as input for tau-argus or sdcTable
-#' a <- sdcHier_compute(dim=geo_m, dim_spec=c(2,3,5), full_names=TRUE,
+#' a <- sdcHier_compute(dim=geo_m, dim_spec=c(2,3,5),
 #'   tot_lev="Tot", method="endpos", as_df=TRUE)
-#' b <- sdcHier_compute(dim=geo_m, dim_spec=c(2,1,2), full_names=TRUE,
+#' b <- sdcHier_compute(dim=geo_m, dim_spec=c(2,1,2),
 #'   tot_lev="Tot", method="len", as_df=TRUE)
 #' identical(a, b)
 #'
@@ -44,9 +43,9 @@
 #' ## --> we need to set tot_level to NULL (the default)
 #' geo_m_with_tot <- paste0("Tot",geo_m)
 #' a <- sdcHier_compute(dim=geo_m_with_tot, dim_spec=c(3,2,1,2),
-#'   full_names=TRUE, method="len", as_df=TRUE)
+#'   method="len", as_df=TRUE)
 #' b <- sdcHier_compute(dim=geo_m_with_tot, dim_spec=c(3,5,6,8),
-#'   full_names=TRUE, method="endpos", as_df=TRUE)
+#'   method="endpos", as_df=TRUE)
 #' identical(a, b)
 #'
 #' ## second example, unequal strings; overall total not included in input
@@ -56,19 +55,19 @@
 #'   "1.3.2.","1.3.3.","1.3.4.","1.3.5.",
 #'   "1.4.1.","1.4.2.","1.4.3.","1.4.4.","1.4.5.",
 #'   "1.5.","1.6","1.7.","1.8.","1.9.","2.","3.")
-#' a <- sdcHier_compute(dim=yae_h, dim_spec=c(2,4,6) , full_names=TRUE, tot_lev="Tot", method="endpos")
-#' b <- sdcHier_compute(dim=yae_h, dim_spec=c(2,2,2), full_names=TRUE, tot_lev="Tot", method="len")
+#' a <- sdcHier_compute(dim=yae_h, dim_spec=c(2,4,6), tot_lev="Tot", method="endpos")
+#' b <- sdcHier_compute(dim=yae_h, dim_spec=c(2,2,2), tot_lev="Tot", method="len")
 #' identical(ToDataFrameTypeCol(a), ToDataFrameTypeCol(b))
 #'
 #' ## total is contained in the first 3 positions of the input values
 #' ## --> we need to set tot_level to NULL (the default)
 #' yae_h_with_tot <- paste0("Tot",yae_h)
 #' a <- sdcHier_compute(dim=yae_h_with_tot, dim_spec=c(3,2,2,2),
-#' full_names=TRUE, method="len", as_df=TRUE)
+#'   method="len", as_df=TRUE)
 #' b <- sdcHier_compute(dim=yae_h_with_tot, dim_spec=c(3,5,7,9),
-#'   full_names=TRUE, method="endpos", as_df=TRUE)
+#'   method="endpos", as_df=TRUE)
 #' identical(a, b)
-sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method="len", as_df=FALSE) {
+sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FALSE) {
   # convert endpos to length
   endpos_to_len <- function(end_pos) {
     diff(c(0,end_pos))
@@ -82,7 +81,6 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
   }
 
   stopifnot(is.character(dim))
-  stopifnot(is_scalar_logical(full_names))
   stopifnot(is_integerish(dim_len))
   stopifnot(all(dim_len>0))
 
@@ -91,6 +89,9 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
   }
 
   stopifnot(sum(dim_len)>= max(nchar(dim)))
+  if (sum(any(duplicated(dim)))>0) {
+    stop(paste("duplicated values detected in argument",shQuote("dim"),"!"), call.=FALSE)
+  }
 
   N <- length(dim)
   onlyTotal <- FALSE
@@ -99,13 +100,15 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
       onlyTotal <- TRUE
     }
     df <- data.frame(path=substr(dim, 1, dim_len[1]), stringsAsFactors=FALSE)
+    if (length(unique(df$path))>1) {
+      stop(paste("Top-Level should be included in first", dim_len[1], "characters, but >1 values were detected!"), call.=FALSE)
+    }
+
     dim <- substr(dim, dim_len[1]+1, nchar(dim))
     dim_len <- dim_len[-c(1)]
   } else {
     df <- data.frame(path=rep(tot_lev, N), stringsAsFactors=FALSE)
-    if (length(dim_len)==2) {
-      onlyTotal <- TRUE
-    }
+    onlyTotal <- FALSE
   }
 
   # only total specified
@@ -125,11 +128,7 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, full_names=TRUE, method
     ii <- which(levs!="")
 
     if (length(ii)>0) {
-      if (full_names==TRUE) {
-        df$path[ii] <- paste0(df$path[ii], "/", substr(dim, 1, to)[ii])
-      } else {
-        df$path[ii] <- paste0(df$path[ii], "/", levs[ii])
-      }
+      df$path[ii] <- paste0(df$path[ii], "/", substr(dim, 1, to)[ii])
     }
   }
   nn <- FromDataFrameTable(df, pathName="path")
