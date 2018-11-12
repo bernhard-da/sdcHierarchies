@@ -32,7 +32,7 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
       column(12, align="center", div(id="helptxt", ""))
     ),
     uiOutput("spec"),
-    actionButton("createHier", "createHierarchy")
+    actionButton("createHier", "createHierarchy", class="btn-success")
   ),
   mainPanel(
     fluidRow(
@@ -41,13 +41,18 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
     ),
     fluidRow(
       column(6,
-        div(id="col_orig", verbatimTextOutput("origDim"), align="center"),
-        div(id="error_gen", p("Something went wrong, please try other specifications"))
+        div(id="col_orig", verbatimTextOutput("origDim"), align="center")
       ),
-      column(6, div(id="col_generated", verbatimTextOutput("generatedDim"), align="center"))
+      column(6, div(id="col_generated", verbatimTextOutput("generatedDim"), align="center")),
+      shinyjs::hidden(div(id="error_gen", p("Something went wrong, please try other specifications"), align="center"))
     ),
-    fluidRow(
-      column(12, align="center", div(id="id_export_btn", actionButton("btn_export", "Export")))
-    )
+    fluidRow(id="row_export_btn",
+      column(12, align="center", actionButton("btn_export", "Export", class="btn-success"))
+    ),
+
+    shinyjs::hidden(fluidRow(id="row_code",
+      column(12, align="left",h3("Code")),
+      column(12, align="left", verbatimTextOutput("requiredCode"))
+    ))
   )
 ))

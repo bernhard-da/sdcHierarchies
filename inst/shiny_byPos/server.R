@@ -58,9 +58,9 @@ shinyServer(function(input, output, session) {
 
   observeEvent(input$tot_is_included, {
     if (input$tot_is_included=="yes") {
-      shinyjs::hide("tot_level")
+      shinyjs::hide("row_tot_level")
     } else {
-      shinyjs::show("tot_level")
+      shinyjs::show("row_tot_level")
     }
   })
 
@@ -107,33 +107,47 @@ shinyServer(function(input, output, session) {
     if (input$as_df=="yes") {
       as_df <- TRUE
     }
-    res <- try(sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev,
-      full_names=TRUE, method=input$method, as_df=as_df))
+    res <- try(sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=as_df))
     if (!"try-error" %in% class(res)) {
       genDim(res)
       ok_res(TRUE)
       shinyjs::hide("error_gen")
-      shinyjs::show("col_orig")
+      shinyjs::show("col_generated")
     } else {
       ok_res(FALSE)
       shinyjs::show("error_gen")
-      shinyjs::hide("col_orig")
+      shinyjs::hide("col_generated")
     }
   })
 
-  output$origDim <- renderTable(
-    data.frame(code=curDim())
-  )
+  output$origDim <- renderPrint({
+    print(data.frame(code=curDim()), row.names=FALSE)
+  })
 
-  output$generatedDim <- renderTable(
-    genDim()
-  )
+  output$generatedDim <- renderPrint({
+    if (ok_res()==TRUE) {
+      genDim()
+    }
+  })
+
+  output$requiredCode <- renderPrint({
+    if (ok_res()==TRUE) {
+      if (input$as_df=="yes") {
+        nn <- sdcHier_import(inp=genDim(), from="data.frame")
+      } else {
+        nn <- genDim()
+      }
+      sdcHier_convert(nn, format="code")
+    }
+  })
 
   observe({
     if (ok_res()==TRUE) {
-      shinyjs::show("id_export_btn")
+      shinyjs::show("row_export_btn")
+      shinyjs::show("row_code")
     } else {
-      shinyjs::hide("id_export_btn")
+      shinyjs::hide("row_export_btn")
+      shinyjs::hide("row_code")
     }
   })
 
