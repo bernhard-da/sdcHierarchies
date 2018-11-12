@@ -49,6 +49,11 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
     fluidRow(id="row_empty_results",
       column(6, align="center", p("Please start adding nodes!")),
       column(6, align="center", p("No hierarchy defined"))
+    ),
+
+    fluidRow(id="row_code",
+      column(12, align="left", h2("R-Code")),
+      column(12, align="left", verbatimTextOutput("code"))
     )
   )
 ))

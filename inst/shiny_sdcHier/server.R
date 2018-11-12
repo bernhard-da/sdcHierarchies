@@ -101,6 +101,12 @@ shinyServer(function(input, output, session) {
     sdcHier_import(inp=curJson(), tot_lab=NULL)
   })
 
+  output$code <- renderPrint({
+    if (!isEmptyTree()) {
+      sdcHier_convert(sdcHier_import(inp=curJson(), tot_lab=NULL), "code")
+    }
+  })
+
   ## add values
   observe({
     updateSelectInput(session, inputId="selAddNode_ref", choices=allNodes())
