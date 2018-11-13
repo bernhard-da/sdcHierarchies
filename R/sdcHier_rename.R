@@ -24,5 +24,5 @@ sdcHier_rename <- function(h, node_labs, node_labs_new) {
     aa <- FindNode(h, node_labs[i])
     aa$name <- node_labs_new[i]
   }
-  return(h)
+  return(invisible(h))
 }

@@ -41,6 +41,11 @@
 #' sdcHier_convert(h, format="data.frame")
 #' sdcHier_convert(h, format="json")
 #' sdcHier_convert(h, format="code")
+#'
+#' ## write output file file:
+#' \dontrun{
+#' sdcHier_convert(h, format="data.frame", path="/tmp/out_df.csv")
+#' }
 sdcHier_create <- function(tot_lab, node_labs=NULL) {
   stopifnot(is_scalar_character(tot_lab))
   if (!is.null(node_labs)) {

@@ -19,5 +19,5 @@ sdcHier_delete <- function(h, node_labs) {
       FindNode(h, res[[i]]$parent)$RemoveChild(node_labs[i])
     }
   }
-  return(h)
+  return(invisible(h))
 }

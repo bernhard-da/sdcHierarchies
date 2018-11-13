@@ -30,5 +30,5 @@ sdcHier_add <- function(h, refnode, node_labs) {
       FindNode(h, refnode)$AddChild(node_labs[i])
     }
   }
-  return(h)
+  return(invisible(h))
 }
