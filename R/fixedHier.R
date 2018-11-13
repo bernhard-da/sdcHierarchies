@@ -27,5 +27,5 @@ fixedHier <- function(x, ...) {
 
   shinyOptions(.data = x)
 
-  runApp(appDir, launch.browser=FALSE)
+  runApp(appDir, launch.browser=TRUE)
 }
