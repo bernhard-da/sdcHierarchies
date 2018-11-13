@@ -18,7 +18,7 @@ devtools::install_github("bernhard-da/sdcHierarchies")
 ?fixedHier
 
 # function that computes hierarchies given positions
-?dim_by_position
+?sdcHier_compute
 ```
 
 ### Updates
