@@ -32,28 +32,33 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
     ))
   ),
   mainPanel(
-    fluidRow(
-      column(6, align="center", h2("Current hierarchy (interactive)")),
-      column(6, align="center", h2("Output"))
-    ),
+    tabsetPanel(id="panel1",
+      tabPanel(title="Hierarchy",
+        fluidRow(
+          column(6, align="center", h2("Current hierarchy (interactive)")),
+          column(6, align="center", h2("Output"))
+        ),
 
-    fluidRow(id="row_info_drag",
-      column(6, align="center", p("Drag-and-drop nodes around!")),
-      column(6, align="center", NULL)
-    ),
-    fluidRow(id="row_results",
-      column(6, align="left", shinyTree("tree", dragAndDrop=TRUE, theme="proton")),
-      column(6, align="center", verbatimTextOutput("str"))
-    ),
+        fluidRow(id="row_info_drag",
+          column(6, align="center", p("Drag-and-drop nodes around!")),
+          column(6, align="center", NULL)
+        ),
+        fluidRow(id="row_results",
+          column(6, align="left", shinyTree("tree", dragAndDrop=TRUE, theme="proton")),
+          column(6, align="center", verbatimTextOutput("str"))
+        ),
 
-    fluidRow(id="row_empty_results",
-      column(6, align="center", p("Please start adding nodes!")),
-      column(6, align="center", p("No hierarchy defined"))
-    ),
-
-    fluidRow(id="row_code",
-      column(12, align="left", h2("R-Code")),
-      column(12, align="left", verbatimTextOutput("code"))
+        fluidRow(id="row_empty_results",
+          column(6, align="center", p("Please start adding nodes!")),
+          column(6, align="center", p("No hierarchy defined"))
+        )
+      ),
+      tabPanel("Code",
+        fluidRow(id="row_code",
+          column(12, align="left", h2("R-Code")),
+          column(12, align="left", verbatimTextOutput("code"))
+        )
+      )
     )
   )
 ))
