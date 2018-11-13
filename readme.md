@@ -26,6 +26,7 @@ devtools::install_github("bernhard-da/sdcHierarchies")
 - `sdcHier_convert()` gained an argument `path` to write the output to a file
 - new function `sdcHier_compute_fromList()` to create a hierarchy from a named list
 - invisibly return results to avoid duplicated printing
+- start with tabbed interface for shiny-apps
 
 #### `0.7.0`
 - some bugfixes
