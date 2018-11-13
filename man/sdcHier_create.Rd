@@ -52,4 +52,9 @@ sdcHier_nodenames(h, node_lab="a")
 sdcHier_convert(h, format="data.frame")
 sdcHier_convert(h, format="json")
 sdcHier_convert(h, format="code")
+
+## write output file file:
+\dontrun{
+sdcHier_convert(h, format="data.frame", path="/tmp/out_df.csv")
+}
 }
