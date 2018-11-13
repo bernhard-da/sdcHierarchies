@@ -2,6 +2,7 @@
 
 export(dynHier)
 export(fixedHier)
+export(sdcHier)
 export(sdcHier_add)
 export(sdcHier_compute)
 export(sdcHier_compute_fromList)
