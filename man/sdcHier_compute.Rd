@@ -45,7 +45,7 @@ a <- sdcHier_compute(dim=geo_m, dim_spec=c(2,3,5),
   tot_lev="Tot", method="endpos")
 b <- sdcHier_compute(dim=geo_m, dim_spec=c(2,1,2),
   tot_lev="Tot", method="len")
-identical(ToDataFrameTypeCol(a), ToDataFrameTypeCol(b))
+identical(sdcHier_convert(a, format="data.frame"), sdcHier_convert(b, format="data.frame"))
 
 ## return data.frame suitable as input for tau-argus or sdcTable
 a <- sdcHier_compute(dim=geo_m, dim_spec=c(2,3,5),
@@ -69,10 +69,10 @@ yae_h <- c(
   "1.2.1.","1.2.2.","1.2.3.","1.2.4.","1.2.5.","1.3.1.",
   "1.3.2.","1.3.3.","1.3.4.","1.3.5.",
   "1.4.1.","1.4.2.","1.4.3.","1.4.4.","1.4.5.",
-  "1.5.","1.6","1.7.","1.8.","1.9.","2.","3.")
+  "1.5.","1.6.","1.7.","1.8.","1.9.","2.","3.")
 a <- sdcHier_compute(dim=yae_h, dim_spec=c(2,4,6), tot_lev="Tot", method="endpos")
 b <- sdcHier_compute(dim=yae_h, dim_spec=c(2,2,2), tot_lev="Tot", method="len")
-identical(ToDataFrameTypeCol(a), ToDataFrameTypeCol(b))
+identical(sdcHier_convert(a, format="data.frame"), sdcHier_convert(b, format="data.frame"))
 
 ## total is contained in the first 3 positions of the input values
 ## --> we need to set tot_level to NULL (the default)
