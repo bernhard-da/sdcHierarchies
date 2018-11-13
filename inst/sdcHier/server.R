@@ -143,11 +143,13 @@ shinyServer(function(input, output, session) {
 
   observe({
     if (ok_res()==TRUE) {
-      shinyjs::show("row_export_btn")
-      shinyjs::show("row_code")
+      shinyjs::show("div_code"); shinyjs::hide("div_code_hidden")
+      shinyjs::show("div_interactive"); shinyjs::hide("div_interactive_hidden")
+      shinyjs::show("div_export"); shinyjs::hide("div_export_hidden")
     } else {
-      shinyjs::hide("row_export_btn")
-      shinyjs::hide("row_code")
+      shinyjs::hide("div_code"); shinyjs::show("div_code_hidden")
+      shinyjs::hide("div_interactive"); shinyjs::show("div_interactive_hidden")
+      shinyjs::hide("div_export"); shinyjs::show("div_export_hidden")
     }
   })
 

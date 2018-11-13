@@ -41,27 +41,34 @@ shinyUI(fluidPage(theme=shinytheme("flatly"),
           column(6, div(id="col_orig", verbatimTextOutput("origDim"), align="center")),
           column(6, div(id="col_generated", verbatimTextOutput("generatedDim"), align="center")),
           shinyjs::hidden(div(id="error_gen", p("Something went wrong, please try other specifications"), align="center"))
-        ),
-        fluidRow(id="row_export_btn",
-          column(12, align="center", actionButton("btn_export", "Export", class="btn-success"))
         )
       ),
       tabPanel(title="Code",
-        shinyjs::hidden(
-          fluidRow(id="row_code",
-            column(12, align="left",h3("Code")),
+        div(id="div_code_hidden", h2("Please create a hierarchy first")),
+        shinyjs::hidden(div(id="div_code",
+          fluidRow(
+            column(12, align="left",h2("Code")),
             column(12, align="left", verbatimTextOutput("requiredCode"))
-        ))
+        )))
       ),
       tabPanel(title="Interactive Modification",
-        fluidRow(
-          column(12, align="left",h2("Modify the Hierarchy"))
-        )
+        div(id="div_interactive_hidden", h2("Please create a hierarchy first")),
+        shinyjs::hidden(div(id="div_interactive",
+          fluidRow(
+            column(12, align="left",h2("Modify the Hierarchy"))
+          )
+        ))
       ),
       tabPanel(title="Export",
-        fluidRow(
-          column(12, align="left",h2("Export the results"))
-        )
+        div(id="div_export_hidden", h2("Please create a hierarchy first")),
+        shinyjs::hidden(div(id="div_export",
+          fluidRow(
+            column(12, align="left",h2("Export the results"))
+          ),
+          fluidRow(id="row_export_btn",
+            column(12, align="center", actionButton("btn_export", "Export", class="btn-success"))
+          )
+        ))
       )
     )
   )
