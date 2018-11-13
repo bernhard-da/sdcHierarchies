@@ -30,6 +30,16 @@
 #' geo_ll[["10"]] <- c("101")
 #' geo_ll[["101"]] <- c("10155")
 #' d <- sdcHier_compute_fromList(dim=geo_ll, tot_lev="Total", as_df=FALSE); d
+#'
+#' ## second example; same as in ?sdcHier_compute
+#' yae_ll <- list()
+#' yae_ll[["Total"]] <- c("1.","2.","3.")
+#' yae_ll[["1."]] <- paste0("1.",1:9,".")
+#' yae_ll[["1.1."]] <- paste0("1.1.",1:2,".")
+#' yae_ll[["1.2."]] <- paste0("1.2.",1:5,".")
+#' yae_ll[["1.3."]] <- paste0("1.3.",1:5,".")
+#' yae_ll[["1.4."]] <- paste0("1.4.",1:6,".")
+#' d <- sdcHier_compute_fromList(dim=yae_ll, tot_lev="Total", as_df=FALSE); d
 sdcHier_compute_fromList <- function(dim, tot_lev, as_df=FALSE) {
   stopifnot(is_scalar_character(tot_lev))
   nn <- names(dim)
@@ -50,7 +60,7 @@ sdcHier_compute_fromList <- function(dim, tot_lev, as_df=FALSE) {
   }
 
   nodes <- setdiff(nn, tot_lev)
-  ind <- which(! nodes %in% all_codes)
+  ind <- which(!nodes %in% all_codes)
   if (length(ind)>0) {
     stop(paste("The following sub-levels were not found as inputs:\n",paste0("- ", nodes[ind], collapse="\n")), call.=FALSE)
   }
