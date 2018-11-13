@@ -137,7 +137,7 @@ shinyServer(function(input, output, session) {
       } else {
         nn <- genDim()
       }
-      sdcHier_convert(nn, format="code")
+      cat(sdcHier_convert(nn, format="code"), sep="\n")
     }
   })
 

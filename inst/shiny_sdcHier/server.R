@@ -103,7 +103,7 @@ shinyServer(function(input, output, session) {
 
   output$code <- renderPrint({
     if (!isEmptyTree()) {
-      sdcHier_convert(sdcHier_import(inp=curJson(), tot_lab=NULL), "code")
+      cat(sdcHier_convert(sdcHier_import(inp=curJson(), tot_lab=NULL), "code"), sep="\n")
     }
   })
 

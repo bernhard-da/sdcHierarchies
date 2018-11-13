@@ -1,6 +1,6 @@
 library(shinythemes)
 shinyUI(fluidPage(theme = shinytheme("flatly"),
-  headerPanel("Create a hierarchy interactively"),
+  headerPanel("Create and modify a hierarchy"),
 
   sidebarPanel(
     shinyjs::useShinyjs(),
@@ -33,7 +33,7 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
   ),
   mainPanel(
     fluidRow(
-      column(6, align="center", h2("Current Hierarchy (interactive)")),
+      column(6, align="center", h2("Current hierarchy (interactive)")),
       column(6, align="center", h2("Output"))
     ),
 
