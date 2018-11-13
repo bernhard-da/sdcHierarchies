@@ -12,10 +12,23 @@
 #' \item \strong{"json"}: json format suitable as input for shiny Tree
 #' \item \strong{"code"}: code required to generate the hierarchy
 #' }
+#' @param path if not \code{NULL}, the output is written to the file specified
 #' @export
 #' @examples
 #' ## for examples, see ?sdcHier_create
-sdcHier_convert <- function(h, format="data.frame") {
+sdcHier_convert <- function(h, format="data.frame", path=NULL) {
+  check_file  <- function(path) {
+    if (file.exists(path)) {
+      stop(paste("File",shQuote(path),"already exists!"), call.=FALSE)
+    }
+    res <- file.create(path, showWarnings=FALSE)
+    if (!res) {
+      stop(paste("File",shQuote(path),"could not be created! Please provide another path"), call.=FALSE)
+    }
+    res <- file.remove(path)
+    return(invisible(TRUE))
+  }
+
   # to data.frame
   h_to_df <- function(h) {
     res <- sdcHier_info(h)
@@ -87,23 +100,41 @@ sdcHier_convert <- function(h, format="data.frame") {
       }
     }
     code <- c(code, "print(d)")
-    cat(code, sep="\n")
     return(invisible(code))
   }
 
   h_is_valid(h)
 
+  write_file <- FALSE
+  if (!is.null(path)) {
+    stopifnot(is_scalar_character(path))
+    check_file(path)
+    write_file <- TRUE
+  }
+
   stopifnot(is_scalar_character(format))
   stopifnot(format %in% c("data.frame","json","code"))
 
   if (format=="data.frame") {
-    return(h_to_df(h))
+    res <- h_to_df(h)
   }
   if (format=="json") {
-    return(h_to_json(h))
+    res <- h_to_json(h)
   }
   if (format=="code") {
-    return(h_to_code(h))
+    res <- h_to_code(h)
   }
-  stop(paste("Error in sdcHier_convert()"), call.=FALSE)
+
+  if (write_file==TRUE) {
+    cat(paste("Output is written to",shQuote(path),"\n"))
+    if (format=="data.frame") {
+      write.table(res, file=path, sep=";", row.names=FALSE)
+      return(res)
+    } else {
+      cat(res, sep="\n", file=path)
+      cat(res, sep="\n")
+      return(invisible(res))
+    }
+  }
+  return(res)
 }
