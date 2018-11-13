@@ -23,7 +23,7 @@ sdcHier <- function(x, ...) {
   shinyOptions(.appDir = appDir)
 
   res <- try(h_is_valid(x), silent=TRUE)
-  if (!res & !is.character(x)) {
+  if ("error" %in% class(res) & !is.character(x)) {
     stop("argument 'x' needs to be a character vector!\n")
   }
   shinyOptions(.data = x)

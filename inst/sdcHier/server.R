@@ -1,38 +1,26 @@
 shinyServer(function(input, output, session) {
+
+  for (file in list.files("controllers")) {
+    source(file.path("controllers", file), local=TRUE)
+  }
+
   curDim <- reactiveVal(dim)
   genDim <- reactiveVal(NULL)
-
-  max_nchar <- reactive({
-    max(nchar(curDim()))
-  })
-
+  curJson <- reactiveVal(NULL)
   ok_res <- reactiveVal()
 
   if (is.null(json)) {
     ok_res(FALSE)
   } else {
     ok_res(TRUE)
+    curJson(json)
+    genDim(sdcHier_import(inp=json, tot_lab=NULL))
   }
 
   # possible number of levels
   observe({
     if (!ok_res()) {
       updateSliderInput(session, inputId="nr_levels", max = max_nchar(), val=max_nchar())
-    }
-  })
-
-  specs <- reactive({
-    req(input$nr_levels)
-    if (!ok_res()) {
-      out <- sapply(1:input$nr_levels, function(i) {
-        input[[paste0("pos", i)]]
-      })
-
-      xx <- sapply(out, function(x) { is.null(x)})
-      if (sum(xx)>0) {
-        return(NULL)
-      }
-      out
     }
   })
 
@@ -46,7 +34,7 @@ shinyServer(function(input, output, session) {
           return(paste("# digits for level",1:nr))
         }
         if (method=="endpos") {
-          return(paste("endpos for level",1:nr))
+          return(paste("Endposition for level",1:nr))
         }
       }
       vals <- function(nr, method) {
@@ -59,10 +47,34 @@ shinyServer(function(input, output, session) {
       }
       ll <- labs(nr=input$nr_levels, method=input$method)
       vv <- vals(nr=input$nr_levels, method=input$method)
-      lapply(1:input$nr_levels, function(i) {
-        numericInput(inputId = paste0("pos", i), label=ll[i],
+
+      nrCols <- 3
+      nrRows <- ceiling(input$nr_levels / 3)
+      nrCells <- nrCols*nrRows
+
+      res <- lapply(1:input$nr_levels, function(i) {
+        numericInput(inputId=paste0("pos", i), label=ll[i],
           min=1, max=max_nchar(), value=vv[i], step=1)
       })
+
+      if (length(res)<nrCells) {
+        for (i in (length(res)+1):nrCells) {
+          res[[i]] <- ""
+        }
+      }
+
+      out <- NULL
+      counter <- 1
+      for (i in 1:nrRows) {
+        out <- list(out,
+          fluidRow(
+            column(4, align="center", res[[counter]]),
+            column(4, align="center", res[[counter+1]]),
+            column(4, align="center", res[[counter+2]])
+          ))
+        counter <- counter + nrCols
+      }
+      out
     }
   })
 
@@ -94,20 +106,6 @@ shinyServer(function(input, output, session) {
       }
     }
   })
-
-  observeEvent(input$method, {
-    if (!ok_res()) {
-      if (input$method=="len") {
-        txt <- paste("The sum of the slider inputs must be at least the maximum number (",tags$code(max_nchar()),") of characters in your input vector")
-      }
-      if (input$method=="endpos") {
-        txt <- paste("The slider values must be in ascending order and the maximum value must be larger or equal of the
-          maximum number (",tags$code(max_nchar()),") of characters in the input")
-      }
-      shinyjs::html(id="helptxt", html=as.character(txt))
-    }
-  })
-
 
 
   observeEvent(input$createHier, {
@@ -145,12 +143,12 @@ shinyServer(function(input, output, session) {
   })
 
   output$requiredCode <- renderPrint({
-    if (ok_res()==TRUE) {
-      if (input$as_df=="yes") {
-        nn <- sdcHier_import(inp=genDim(), from="data.frame")
-      } else {
+    if (ok_res()) {
+      #if (input$as_df=="yes") {
+      #  nn <- sdcHier_import(inp=genDim(), from="data.frame")
+      #} else {
         nn <- genDim()
-      }
+      #}
       cat(sdcHier_convert(nn, format="code"), sep="\n")
     }
   })
@@ -158,11 +156,11 @@ shinyServer(function(input, output, session) {
   observe({
     if (ok_res()==TRUE) {
       shinyjs::show("div_code"); shinyjs::hide("div_code_hidden")
-      shinyjs::show("div_interactive"); shinyjs::hide("div_interactive_hidden")
+      shinyjs::show("div_modify"); shinyjs::hide("div_create")
       shinyjs::show("div_export"); shinyjs::hide("div_export_hidden")
     } else {
       shinyjs::hide("div_code"); shinyjs::show("div_code_hidden")
-      shinyjs::hide("div_interactive"); shinyjs::show("div_interactive_hidden")
+      shinyjs::hide("div_modify"); shinyjs::show("div_create")
       shinyjs::hide("div_export"); shinyjs::show("div_export_hidden")
     }
   })
