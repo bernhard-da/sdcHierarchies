@@ -12,16 +12,21 @@ devtools::install_github("bernhard-da/sdcHierarchies")
 ### Main Functions
 ```
 # shiny-app to create/modify a tree by dragging levels around,...
-?dynHier
+`?dynHier`
 
 # shiny-app to generate a hierarchy from a given input that contains the nested level-structure
-?fixedHier
+`?fixedHier`
 
 # function that computes hierarchies given positions
-?sdcHier_compute
+`?sdcHier_compute`, `?sdcHier_compute_fromList`
 ```
 
 ### Updates
+#### `0.8.0`
+- `sdcHier_convert()` gained an argument `path` to write the output to a file
+- new function `sdcHier_compute_fromList()` to create a hierarchy from a named list
+- invisibly return results to avoid duplicated printing
+
 #### `0.7.0`
 - some bugfixes
 - removed argument `full_names` froms `sdcHier_compute()`
