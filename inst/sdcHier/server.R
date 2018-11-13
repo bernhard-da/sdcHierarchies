@@ -7,53 +7,63 @@ shinyServer(function(input, output, session) {
   })
 
   ok_res <- reactiveVal()
-  ok_res(FALSE)
 
+  if (is.null(json)) {
+    ok_res(FALSE)
+  } else {
+    ok_res(TRUE)
+  }
 
   # possible number of levels
   observe({
-    updateSliderInput(session, inputId="nr_levels", max = max_nchar(), val=max_nchar())
+    if (!ok_res()) {
+      updateSliderInput(session, inputId="nr_levels", max = max_nchar(), val=max_nchar())
+    }
   })
 
   specs <- reactive({
     req(input$nr_levels)
-    out <- sapply(1:input$nr_levels, function(i) {
-      input[[paste0("pos", i)]]
-    })
+    if (!ok_res()) {
+      out <- sapply(1:input$nr_levels, function(i) {
+        input[[paste0("pos", i)]]
+      })
 
-    xx <- sapply(out, function(x) { is.null(x)})
-    if (sum(xx)>0) {
-      return(NULL)
+      xx <- sapply(out, function(x) { is.null(x)})
+      if (sum(xx)>0) {
+        return(NULL)
+      }
+      out
     }
-    out
   })
 
   output$spec <- renderUI({
-    req(input$nr_levels)
-    req(input$method)
+    if (!ok_res()) {
+      req(input$nr_levels)
+      req(input$method)
 
-    labs <- function(nr, method) {
-      if (method=="len") {
-        return(paste("# digits for level",1:nr))
+      labs <- function(nr, method) {
+        if (method=="len") {
+          return(paste("# digits for level",1:nr))
+        }
+        if (method=="endpos") {
+          return(paste("endpos for level",1:nr))
+        }
       }
-      if (method=="endpos") {
-        return(paste("endpos for level",1:nr))
+      vals <- function(nr, method) {
+        if (method=="len") {
+          return(rep(1, nr))
+        }
+        if (method=="endpos") {
+          return(1:nr)
+        }
       }
+      ll <- labs(nr=input$nr_levels, method=input$method)
+      vv <- vals(nr=input$nr_levels, method=input$method)
+      lapply(1:input$nr_levels, function(i) {
+        numericInput(inputId = paste0("pos", i), label=ll[i],
+          min=1, max=max_nchar(), value=vv[i], step=1)
+      })
     }
-    vals <- function(nr, method) {
-      if (method=="len") {
-        return(rep(1, nr))
-      }
-      if (method=="endpos") {
-        return(1:nr)
-      }
-    }
-    ll <- labs(nr=input$nr_levels, method=input$method)
-    vv <- vals(nr=input$nr_levels, method=input$method)
-    lapply(1:input$nr_levels, function(i) {
-      numericInput(inputId = paste0("pos", i), label=ll[i],
-                   min = 1, max = max_nchar(), value = vv[i], step = 1)
-    })
   })
 
   observeEvent(input$tot_is_included, {
@@ -86,15 +96,19 @@ shinyServer(function(input, output, session) {
   })
 
   observeEvent(input$method, {
-    if (input$method=="len") {
-      txt <- paste("The sum of the slider inputs must be at least the maximum number (",tags$code(max_nchar()),") of characters in your input vector")
+    if (!ok_res()) {
+      if (input$method=="len") {
+        txt <- paste("The sum of the slider inputs must be at least the maximum number (",tags$code(max_nchar()),") of characters in your input vector")
+      }
+      if (input$method=="endpos") {
+        txt <- paste("The slider values must be in ascending order and the maximum value must be larger or equal of the
+          maximum number (",tags$code(max_nchar()),") of characters in the input")
+      }
+      shinyjs::html(id="helptxt", html=as.character(txt))
     }
-    if (input$method=="endpos") {
-      txt <- paste("The slider values must be in ascending order and the maximum value must be larger or equal of the
-                   maximum number (",tags$code(max_nchar()),") of characters in the input")
-    }
-    shinyjs::html(id="helptxt", html=as.character(txt))
-    })
+  })
+
+
 
   observeEvent(input$createHier, {
     if (input$tot_is_included=="yes") {

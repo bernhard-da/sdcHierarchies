@@ -7,3 +7,31 @@ library(rlang)
 library(shinyBS)
 
 dim <- getShinyOption(".data")
+
+
+res <- try(h_is_valid(dim), silent=TRUE)
+
+if (res==TRUE) {
+  json <- sdcHier_convert(dim, format="json")
+} else {
+  json <- NULL
+}
+
+# converts input$tree to node (internally used only)
+shinytree_to_node <- function(tree, totLab=NULL) {
+  json <- toJSON(tree)
+  json <- gsub("\\[0\\]", '[]', json)
+  ll <- fromJSON(json)
+  tt <- data.tree:::as.Node.list(ll)
+
+  aa <- ToDataFrameTypeCol(tt)
+  aa[is.na(aa)] <- ""
+
+  if (!is.null(totLab)) {
+    aa[[1]] <- "bla"
+  }
+  aa$path <- apply(aa, 1, paste, collapse="/")
+  aa <- FromDataFrameTable(aa, pathName="path")
+  class(aa) <- c(class(aa), "sdcHier")
+  return(aa)
+}

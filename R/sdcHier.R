@@ -22,11 +22,10 @@ sdcHier <- function(x, ...) {
   shinyOptions(.startdir = getwd())
   shinyOptions(.appDir = appDir)
 
-  if (!is.character(x)) {
+  res <- try(h_is_valid(x), silent=TRUE)
+  if (!res & !is.character(x)) {
     stop("argument 'x' needs to be a character vector!\n")
   }
-
   shinyOptions(.data = x)
-
   runApp(appDir, launch.browser=TRUE)
 }
