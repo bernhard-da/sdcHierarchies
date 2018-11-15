@@ -7,8 +7,6 @@ library(rlang)
 library(shinyBS)
 
 dim <- getShinyOption(".data")
-
-
 res <- try(h_is_valid(dim), silent=TRUE)
 
 if (res==TRUE) {
