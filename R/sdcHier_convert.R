@@ -83,20 +83,22 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
     code <- "library(sdcHierarchies)"
     code <- c(code, paste0("d <- sdcHier_create(tot_lab=",shQuote(all_names[1]),")"))
     all_names <- all_names[-c(1)]
-    info <- sdcHier_info(h, node_labs=all_names)
 
-    runInd <- TRUE
-    while(runInd) {
-      lev <- all_names[1]
-      cur_info <- info[[lev]]
-      nn <- c(lev, cur_info$siblings)
-      all_names <- setdiff(all_names, nn)
+    if (length(all_names)>0) {
+      info <- sdcHier_info(h, node_labs=all_names)
+      runInd <- TRUE
+      while(runInd) {
+        lev <- all_names[1]
+        cur_info <- info[[lev]]
+        nn <- c(lev, cur_info$siblings)
+        all_names <- setdiff(all_names, nn)
 
-      s1 <- shQuote(cur_info$parent)
-      s2 <- paste0("c(",paste0(shQuote(nn), collapse=","),")")
-      code <- c(code, paste0("sdcHier_add(d, refnode=",s1,", node_labs=",s2,")"))
-      if (length(all_names)==0) {
-        runInd <- FALSE
+        s1 <- shQuote(cur_info$parent)
+        s2 <- paste0("c(",paste0(shQuote(nn), collapse=","),")")
+        code <- c(code, paste0("sdcHier_add(d, refnode=",s1,", node_labs=",s2,")"))
+        if (length(all_names)==0) {
+          runInd <- FALSE
+        }
       }
     }
     code <- c(code, "print(d)")
