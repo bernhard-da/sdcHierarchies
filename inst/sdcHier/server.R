@@ -3,6 +3,7 @@ shinyServer(function(input, output, session) {
   genDim <- reactiveVal(NULL)
   curJson <- reactiveVal(NULL)
   ok_res <- reactiveVal()
+  code_import <- reactiveVal()
 
   for (file in list.files("controllers")) {
     source(file.path("controllers", file), local=TRUE)
@@ -40,8 +41,8 @@ shinyServer(function(input, output, session) {
       ll <- labs(nr=input$nr_levels, method=input$method)
       vv <- vals(nr=input$nr_levels, method=input$method)
 
-      nrCols <- 3
-      nrRows <- ceiling(input$nr_levels / 3)
+      nrCols <- 2
+      nrRows <- ceiling(input$nr_levels / nrCols)
       nrCells <- nrCols*nrRows
 
       res <- lapply(1:input$nr_levels, function(i) {
@@ -60,9 +61,8 @@ shinyServer(function(input, output, session) {
       for (i in 1:nrRows) {
         out <- list(out,
           fluidRow(
-            column(4, align="center", res[[counter]]),
-            column(4, align="center", res[[counter+1]]),
-            column(4, align="center", res[[counter+2]])
+            column(6, align="center", res[[counter]]),
+            column(6, align="center", res[[counter+1]])
           ))
         counter <- counter + nrCols
       }
@@ -70,21 +70,25 @@ shinyServer(function(input, output, session) {
     }
   })
 
-
   # outputs create
   output$origDim <- renderPrint({
     print(data.frame(code=curDim()), row.names=FALSE)
   })
   output$generatedDim <- renderPrint({
-    if (ok_res()==TRUE) {
       genDim()
-    }
   })
 
   # common outputs
   output$requiredCode <- renderPrint({
     dd <- sdcHier_import(inp=curJson(), tot_lab=input$name_exportTot)
-    cat(sdcHier_convert(dd, format="code"), sep="\n")
+    code_convert <- sdcHier_convert(dd, format="code")
+    code <- code_import()
+    if (!is.null(code)) {
+      code <- c(code, "", "## code to create hierarchy (after modification)", code_convert[-1])
+    } else {
+      code <- c(code, code_convert)
+    }
+    cat(code, sep="\n")
   })
 
   ## outputs modify tree
@@ -94,7 +98,11 @@ shinyServer(function(input, output, session) {
   output$treeprint <- renderPrint({
     json <- curJson()
     if (!is.null(json)) {
-      sdcHier_import(inp=json, tot_lab=NULL)
+      tot_lev <- input$tot_level
+      if (tot_lev=="") {
+        tot_lev <- "Total"
+      }
+      sdcHier_import(inp=json, tot_lab=tot_lev)
     }
   })
 

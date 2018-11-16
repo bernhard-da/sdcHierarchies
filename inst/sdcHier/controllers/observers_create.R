@@ -58,22 +58,45 @@ observeEvent(input$createHier, {
   }
 
   as_df <- FALSE
-  if (input$as_df=="yes") {
-    as_df <- TRUE
-  }
   res <- try(sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=as_df))
   if (!"try-error" %in% class(res)) {
     genDim(res)
-    nn <- sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=FALSE)
-    newJson <- sdcHier_convert(nn, format="json")
-    cat("newJson:", newJson,"\n")
-    curJson(newJson)
-    ok_res(TRUE)
     shinyjs::hide("error_gen")
     shinyjs::show("col_generated")
+    shinyjs::show("row_btn_switch")
   } else {
+    shinyjs::hide("row_btn_switch")
     ok_res(FALSE)
     shinyjs::show("error_gen")
     shinyjs::hide("col_generated")
   }
+})
+
+observeEvent(input$btn_switch, {
+  if (input$tot_is_included=="yes") {
+    tot_lev <- NULL
+  } else {
+    tot_lev <- input$tot_level
+  }
+  nn <- sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=FALSE)
+
+  code <- c("library(sdcHierarchies)")
+  code <- c(code, paste0("dim <- c(",paste(shQuote(dim), collapse=","),")"))
+  cc <- paste0("d <- sdcHier_compute(dim=dim, dim_spec=c(",paste(specs(), collapse=","),")")
+  cc <- paste0(cc, ", tot_lev=")
+  if (is.null(tot_lev)) {
+    cc <- paste0(cc, "NULL")
+  } else {
+    cc <- paste0(cc, shQuote(tot_lev))
+  }
+  cc <- paste0(cc, ", method=",shQuote(input$method))
+  cc <- paste0(cc, ", as_df=FALSE)")
+  code <- c(code, cc)
+
+  code_import(code)
+
+  curJson(sdcHier_convert(nn, format="json"))
+  ok_res(TRUE)
+  #shinyjs::hide("error_gen")
+  #shinyjs::show("col_generated")
 })

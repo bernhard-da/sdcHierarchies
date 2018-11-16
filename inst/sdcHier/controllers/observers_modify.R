@@ -138,3 +138,14 @@ observeEvent(input$what, {
     shinyjs::show("action_export")
   }
 })
+
+observeEvent(input$reset_btn, {
+  curJson(NULL)
+  curDim(dim)
+  genDim(NULL)
+  shinyjs::reset("tot_is_included")
+  shinyjs::reset("method")
+  shinyjs::reset("tot_level")
+  shinyjs::hide("row_btn_switch")
+  ok_res(FALSE)
+})
