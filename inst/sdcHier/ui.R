@@ -27,7 +27,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
           uiOutput("spec"),
           actionButton("createHier", "createHierarchy", class="btn-success")
         )),
-        div(id="sidebar_modify",
+        shinyjs::hidden(div(id="sidebar_modify",
             radioButtons("what", h4("What do you want to do?"),
               choices=c("Add a Node"="add","Delete a Node"="delete","Rename a Node"="rename")),
             shinyjs::hidden(div(id="action_add",
@@ -47,7 +47,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
               div(id="row_msg_rename", p("No Nodes available to rename"))
             )
           )
-        )
+        ))
       ),
       mainPanel(
         shinyjs::hidden(div(id="div_create",

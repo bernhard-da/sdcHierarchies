@@ -7,7 +7,7 @@ max_nchar <- reactive({
 # this is an input for sdcHier_compute()
 specs <- reactive({
   req(input$nr_levels)
-  if (!ok_res()) {
+  if (!modify_mode()) {
     out <- sapply(1:input$nr_levels, function(i) {
       input[[paste0("pos", i)]]
     })

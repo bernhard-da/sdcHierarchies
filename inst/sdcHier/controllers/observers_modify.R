@@ -147,5 +147,5 @@ observeEvent(input$reset_btn, {
   shinyjs::reset("method")
   shinyjs::reset("tot_level")
   shinyjs::hide("row_btn_switch")
-  ok_res(FALSE)
+  modify_mode(FALSE)
 })

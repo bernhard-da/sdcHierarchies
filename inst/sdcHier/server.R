@@ -2,23 +2,25 @@ shinyServer(function(input, output, session) {
   curDim <- reactiveVal(dim)
   genDim <- reactiveVal(NULL)
   curJson <- reactiveVal(NULL)
-  ok_res <- reactiveVal()
   code_import <- reactiveVal()
+  modify_mode <- reactiveVal(FALSE)
 
   for (file in list.files("controllers")) {
     source(file.path("controllers", file), local=TRUE)
   }
 
   if (is.null(json)) {
-    ok_res(FALSE)
+    shinyjs::show("sidebar_create")
+    modify_mode(FALSE)
   } else {
-    ok_res(TRUE)
     curJson(json)
     genDim(sdcHier_import(inp=json, tot_lab=NULL))
+    shinyjs::show("sidebar_modify")
+    modify_mode(TRUE)
   }
 
   output$spec <- renderUI({
-    if (!ok_res()) {
+    if (!modify_mode()) {
       req(input$nr_levels)
       req(input$method)
 
@@ -74,19 +76,25 @@ shinyServer(function(input, output, session) {
   output$origDim <- renderPrint({
     print(data.frame(code=curDim()), row.names=FALSE)
   })
+
+  # the generated hierarchy
   output$generatedDim <- renderPrint({
-      genDim()
+    cur_hier <- genDim()
+    if (!is.null(cur_hier)) {
+      print(cur_hier)
+    }
   })
 
   # common outputs
   output$requiredCode <- renderPrint({
-    dd <- sdcHier_import(inp=curJson(), tot_lab=input$name_exportTot)
-    code_convert <- sdcHier_convert(dd, format="code")
     code <- code_import()
-    if (!is.null(code)) {
-      code <- c(code, "", "## code to create hierarchy (after modification)", code_convert[-1])
-    } else {
-      code <- c(code, code_convert)
+    if (modify_mode()==TRUE) {
+      cur_json <- curJson()
+      if (!is.null(cur_json)) {
+        dd <- sdcHier_import(inp=curJson(), tot_lab=input$name_exportTot)
+        code_convert <- sdcHier_convert(dd, format="code")
+        code <- c(code, "", "## code to create hierarchy (after modification)", code_convert[-1])
+      }
     }
     cat(code, sep="\n")
   })
