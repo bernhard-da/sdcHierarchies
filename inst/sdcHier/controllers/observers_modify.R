@@ -147,7 +147,7 @@ observeEvent(input$what, {
 observeEvent(input$reset_btn, {
   curJson(NULL)
   data(dim)
-  genDim(NULL)
+  hierarchy(NULL)
   shinyjs::reset("tot_is_included")
   shinyjs::reset("method")
   shinyjs::reset("tot_level")

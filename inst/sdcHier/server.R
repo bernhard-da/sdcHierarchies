@@ -1,6 +1,6 @@
 shinyServer(function(input, output, session) {
   data <- reactiveVal(dim)
-  genDim <- reactiveVal(NULL)
+  hierarchy <- reactiveVal(NULL)
   curJson <- reactiveVal(NULL)
   code_import <- reactiveVal(NULL)
   code_modify <- reactiveVal(NULL)
@@ -15,7 +15,7 @@ shinyServer(function(input, output, session) {
     modify_mode(FALSE)
   } else {
     curJson(json)
-    genDim(sdcHier_import(inp=json, tot_lab=NULL))
+    hierarchy(sdcHier_import(inp=json, tot_lab=NULL))
     shinyjs::show("sidebar_modify")
     modify_mode(TRUE)
   }
@@ -80,7 +80,7 @@ shinyServer(function(input, output, session) {
 
   # the generated hierarchy
   output$generatedDim <- renderPrint({
-    cur_hier <- genDim()
+    cur_hier <- hierarchy()
     if (!is.null(cur_hier)) {
       print(cur_hier)
     }
@@ -119,6 +119,6 @@ shinyServer(function(input, output, session) {
 
   # export button
   observeEvent(input$btn_export, {
-    stopApp(genDim())
+    stopApp(hierarchy())
   })
 })
