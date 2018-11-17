@@ -1,5 +1,5 @@
 observe({
-  if (!is.null(curJson())) {
+  if (!is.null(json())) {
     shinyjs::show("div_code"); shinyjs::hide("div_code_hidden")
     shinyjs::show("div_export"); shinyjs::hide("div_export_hidden")
 

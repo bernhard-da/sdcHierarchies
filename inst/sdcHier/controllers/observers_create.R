@@ -77,7 +77,7 @@ observeEvent(input$createHier, {
     code <- c(code, cc)
 
     code_import(code)
-    curJson(sdcHier_convert(nn, format="json"))
+    json(sdcHier_convert(nn, format="json"))
     shinyjs::hide("error_gen")
     shinyjs::show("col_generated")
     shinyjs::show("row_btn_switch")

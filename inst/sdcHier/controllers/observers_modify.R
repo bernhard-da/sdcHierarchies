@@ -1,7 +1,7 @@
 # update tree if json has changed
 observe({
   if (modify_mode()==TRUE) {
-    js <- curJson()
+    js <- json()
     updateTree(session, "mytree", data=js)
     dd <- sdcHier_import(inp=js, tot_lab=input$name_exportTot)
     code_modify(sdcHier_convert(dd, format="code"))
@@ -11,12 +11,12 @@ observe({
 # update JSON in case hierarchies have been moved/dragged around
 observeEvent(input$mytree, {
   req(input$mytree)
-  curJson(sdcHier_convert(shinytree_to_node(input$mytree), format="json"))
+  json(sdcHier_convert(shinytree_to_node(input$mytree), format="json"))
 })
 
 ## update select inputs
 observe({
-  if (!is.null(curJson())) {
+  if (!is.null(json())) {
     updateSelectInput(session, inputId="selAddNode_ref", choices=allNodes())
     updateSelectInput(session, inputId="seldelNode", choices=setdiff(allNodes(),"rootnode"))
     updateSelectInput(session, inputId="selRenameNode", choices=setdiff(allNodes(),"rootnode"))
@@ -35,28 +35,28 @@ observe({
 })
 
 observeEvent(input$addNode, {
-  json <- curJson()
-  if (is.null(json)) {
+  js <- json()
+  if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=json, tot_lab=NULL)
+  dd <- sdcHier_import(inp=js, tot_lab=NULL)
   dd <- sdcHier_add(dd, refnode=input$selAddNode_ref, node_labs=input$name_addNode)
-  curJson(sdcHier_convert(dd, format="json"))
-  updateTree(session, "mytree", data=curJson())
-  updateTextInput(session, inputId="name_addNode", value = "")
+  json(sdcHier_convert(dd, format="json"))
+  updateTree(session, "mytree", data=json())
+  updateTextInput(session, inputId="name_addNode", value="")
 })
 
 ## delete node
 observeEvent(input$delNode, {
-  json <- curJson()
-  if (is.null(json)) {
+  js <- json()
+  if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=json, tot_lab=NULL)
+  dd <- sdcHier_import(inp=js, tot_lab=NULL)
   res <- sdcHier_info(dd, node_labs=input$seldelNode)$parent
   dd <- sdcHier_delete(dd, node_labs=input$seldelNode)
-  curJson(sdcHier_convert(dd, format="json"))
-  updateTree(session, "mytree", data=curJson())
+  json(sdcHier_convert(dd, format="json"))
+  updateTree(session, "mytree", data=json())
 })
 
 ## rename a node
@@ -72,17 +72,17 @@ observe({
 })
 
 observeEvent(input$modRename, {
-  json <- curJson()
-  if (is.null(json)) {
+  js <- json()
+  if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=json, tot_lab=NULL)
+  dd <- sdcHier_import(inp=js, tot_lab=NULL)
   dd <- sdcHier_rename(dd,
-                       node_labs=input$selRenameNode,
-                       node_labs_new=input$name_renameNode)
+    node_labs=input$selRenameNode,
+    node_labs_new=input$name_renameNode)
 
-  curJson(sdcHier_convert(dd, format="json"))
-  updateTree(session, "mytree", data=curJson())
+  json(sdcHier_convert(dd, format="json"))
+  updateTree(session, "mytree", data=json())
   updateTextInput(session, inputId="name_renameNode", value="")
 })
 
@@ -93,7 +93,7 @@ observeEvent(input$exportFormat, {
 
 # show/hide modExport-Button
 observe({
-  if (!is.null(curJson())) {
+  if (!is.null(json())) {
     if (input$name_exportTot=="") {
       shinyjs::hide("modExport")
     } else {
@@ -105,11 +105,11 @@ observe({
 })
 observeEvent(input$modExport, {
   req(input$exportFormat)
-  json <- curJson()
-  if (is.null(json)) {
+  js <- json()
+  if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=json, tot_lab=input$name_exportTot)
+  dd <- sdcHier_import(inp=js, tot_lab=input$name_exportTot)
   if (input$exportFormat=="data.frame") {
     dd <- sdcHier_convert(dd, format="data.frame")
   }
@@ -145,7 +145,7 @@ observeEvent(input$what, {
 })
 
 observeEvent(input$reset_btn, {
-  curJson(NULL)
+  json(NULL)
   data(dim)
   hierarchy(NULL)
   shinyjs::reset("tot_is_included")

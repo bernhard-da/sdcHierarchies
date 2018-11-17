@@ -1,7 +1,7 @@
 shinyServer(function(input, output, session) {
   data <- reactiveVal(dim)
   hierarchy <- reactiveVal(NULL)
-  curJson <- reactiveVal(NULL)
+  json <- reactiveVal(NULL)
   code_import <- reactiveVal(NULL)
   code_modify <- reactiveVal(NULL)
   modify_mode <- reactiveVal(FALSE)
@@ -10,12 +10,12 @@ shinyServer(function(input, output, session) {
     source(file.path("controllers", file), local=TRUE)
   }
 
-  if (is.null(json)) {
+  if (is.null(js)) {
     shinyjs::show("sidebar_create")
     modify_mode(FALSE)
   } else {
-    curJson(json)
-    hierarchy(sdcHier_import(inp=json, tot_lab=NULL))
+    json(js)
+    hierarchy(sdcHier_import(inp=js, tot_lab=NULL))
     shinyjs::show("sidebar_modify")
     modify_mode(TRUE)
   }
@@ -107,13 +107,13 @@ shinyServer(function(input, output, session) {
 
   # print the tree
   output$treeprint <- renderPrint({
-    json <- curJson()
-    if (!is.null(json)) {
+    js <- json()
+    if (!is.null(js)) {
       tot_lev <- input$tot_level
       if (tot_lev=="") {
         tot_lev <- "Total"
       }
-      sdcHier_import(inp=json, tot_lab=tot_lev)
+      sdcHier_import(inp=js, tot_lab=tot_lev)
     }
   })
 

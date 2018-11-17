@@ -11,10 +11,10 @@ res <- try(h_is_valid(dim), silent=TRUE)
 
 # start_with_hier: did we start with an existing hierarchy
 if (res==TRUE) {
-  json <- sdcHier_convert(dim, format="json")
+  js <- sdcHier_convert(dim, format="json")
   start_with_hier <- TRUE
 } else {
-  json <- NULL
+  js <- NULL
   start_with_hier <- FALSE
 }
 
