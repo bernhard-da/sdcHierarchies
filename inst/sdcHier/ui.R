@@ -52,8 +52,8 @@ shinyUI(navbarPage("Interactive sdcHierarches",
       mainPanel(
         shinyjs::hidden(div(id="div_create",
           fluidRow(
-            column(6, h1("Original Input"), align="center"),
-            column(6, h1("Generated Hierarchy"), align="center")
+            column(6, h1("Data (input)"), align="center"),
+            column(6, h1("Hierarchy (computed"), align="center")
           ),
           fluidRow(
             column(6, div(id="col_orig", verbatimTextOutput("origDim"), align="center")),

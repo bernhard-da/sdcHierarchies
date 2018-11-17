@@ -57,10 +57,10 @@ observeEvent(input$createHier, {
   }
 
   as_df <- FALSE
-  res <- try(sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=as_df))
+  res <- try(sdcHier_compute(dim=data(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=as_df))
   if (!"try-error" %in% class(res)) {
     genDim(res)
-    nn <- sdcHier_compute(dim=curDim(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=FALSE)
+    nn <- sdcHier_compute(dim=data(), dim_spec=specs(), tot_lev=tot_lev, method=input$method, as_df=FALSE)
 
     code <- c("library(sdcHierarchies)")
     code <- c(code, "## impute hierarchy from vector")

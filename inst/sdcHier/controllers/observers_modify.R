@@ -146,7 +146,7 @@ observeEvent(input$what, {
 
 observeEvent(input$reset_btn, {
   curJson(NULL)
-  curDim(dim)
+  data(dim)
   genDim(NULL)
   shinyjs::reset("tot_is_included")
   shinyjs::reset("method")

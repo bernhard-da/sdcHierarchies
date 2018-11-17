@@ -1,5 +1,5 @@
 shinyServer(function(input, output, session) {
-  curDim <- reactiveVal(dim)
+  data <- reactiveVal(dim)
   genDim <- reactiveVal(NULL)
   curJson <- reactiveVal(NULL)
   code_import <- reactiveVal(NULL)
@@ -75,7 +75,7 @@ shinyServer(function(input, output, session) {
 
   # outputs create
   output$origDim <- renderPrint({
-    print(data.frame(code=curDim()), row.names=FALSE)
+    print(data.frame(code=data()), row.names=FALSE)
   })
 
   # the generated hierarchy

@@ -1,6 +1,6 @@
 # maximum number of dimensions for a given hierarchy
 max_nchar <- reactive({
-  max(nchar(curDim()))
+  max(nchar(data()))
 })
 
 # read the len/endpos for each level
