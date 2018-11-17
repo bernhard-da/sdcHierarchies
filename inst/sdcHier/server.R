@@ -92,7 +92,11 @@ shinyServer(function(input, output, session) {
     if (modify_mode()==TRUE) {
       code2 <- code_modify()
       if (!is.null(code2)) {
-        code <- c(code, "", "## code to create hierarchy (after modification)", code2[-1])
+        if (is.null(code)) {
+          code <- c(code, "library(sdcHierarchies)", "## code to create hierarchy (after modification)", code2[-1])
+        } else {
+          code <- c(code, "", "## code to create hierarchy (after modification)", code2[-1])
+        }
       }
     }
     cat(code, sep="\n")

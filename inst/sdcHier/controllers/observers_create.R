@@ -1,14 +1,16 @@
 # is the input by length or by endpos?
 # this is an input for sdcHier_compute()
 observeEvent(input$method, {
-  if (input$method=="len") {
-    txt <- paste("The sum of the slider inputs must be at least the maximum number (",tags$code(max_nchar()),") of characters in your input vector")
-  }
-  if (input$method=="endpos") {
-    txt <- paste("The slider values must be in ascending order and the maximum value must be larger or equal of the
+  if (!modify_mode()) {
+    if (input$method=="len") {
+      txt <- paste("The sum of the slider inputs must be at least the maximum number (",tags$code(max_nchar()),") of characters in your input vector")
+    }
+    if (input$method=="endpos") {
+      txt <- paste("The slider values must be in ascending order and the maximum value must be larger or equal of the
         maximum number (",tags$code(max_nchar()),") of characters in the input")
+    }
+    shinyjs::html(id="helptxt", html=as.character(txt))
   }
-  shinyjs::html(id="helptxt", html=as.character(txt))
 })
 
 # is the total included in the string
@@ -22,7 +24,9 @@ observeEvent(input$tot_is_included, {
 
 # possible number of levels
 observe({
-  updateSliderInput(session, inputId="nr_levels", max=max_nchar(), val=max_nchar())
+  if (!modify_mode()) {
+    updateSliderInput(session, inputId="nr_levels", max=max_nchar(), val=max_nchar())
+  }
 })
 
 # should createHierarchy-button be shown?

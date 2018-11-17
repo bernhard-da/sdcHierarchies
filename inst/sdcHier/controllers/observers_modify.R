@@ -42,7 +42,7 @@ observeEvent(input$addNode, {
   dd <- sdcHier_import(inp=json, tot_lab=NULL)
   dd <- sdcHier_add(dd, refnode=input$selAddNode_ref, node_labs=input$name_addNode)
   curJson(sdcHier_convert(dd, format="json"))
-  updateTree(session, "tree", data=curJson())
+  updateTree(session, "mytree", data=curJson())
   updateTextInput(session, inputId="name_addNode", value = "")
 })
 
@@ -56,7 +56,7 @@ observeEvent(input$delNode, {
   res <- sdcHier_info(dd, node_labs=input$seldelNode)$parent
   dd <- sdcHier_delete(dd, node_labs=input$seldelNode)
   curJson(sdcHier_convert(dd, format="json"))
-  updateTree(session, "tree", data=curJson())
+  updateTree(session, "mytree", data=curJson())
 })
 
 ## rename a node
@@ -82,7 +82,7 @@ observeEvent(input$modRename, {
                        node_labs_new=input$name_renameNode)
 
   curJson(sdcHier_convert(dd, format="json"))
-  updateTree(session, "tree", data=curJson())
+  updateTree(session, "mytree", data=curJson())
   updateTextInput(session, inputId="name_renameNode", value="")
 })
 
