@@ -1,6 +1,11 @@
 # update tree if json has changed
 observe({
-  updateTree(session, "mytree", data=curJson())
+  if (modify_mode()==TRUE) {
+    js <- curJson()
+    updateTree(session, "mytree", data=js)
+    dd <- sdcHier_import(inp=js, tot_lab=input$name_exportTot)
+    code_modify(sdcHier_convert(dd, format="code"))
+  }
 })
 
 # update JSON in case hierarchies have been moved/dragged around

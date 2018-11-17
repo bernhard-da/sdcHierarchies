@@ -2,7 +2,8 @@ shinyServer(function(input, output, session) {
   curDim <- reactiveVal(dim)
   genDim <- reactiveVal(NULL)
   curJson <- reactiveVal(NULL)
-  code_import <- reactiveVal()
+  code_import <- reactiveVal(NULL)
+  code_modify <- reactiveVal(NULL)
   modify_mode <- reactiveVal(FALSE)
 
   for (file in list.files("controllers")) {
@@ -89,11 +90,9 @@ shinyServer(function(input, output, session) {
   output$requiredCode <- renderPrint({
     code <- code_import()
     if (modify_mode()==TRUE) {
-      cur_json <- curJson()
-      if (!is.null(cur_json)) {
-        dd <- sdcHier_import(inp=curJson(), tot_lab=input$name_exportTot)
-        code_convert <- sdcHier_convert(dd, format="code")
-        code <- c(code, "", "## code to create hierarchy (after modification)", code_convert[-1])
+      code2 <- code_modify()
+      if (!is.null(code2)) {
+        code <- c(code, "", "## code to create hierarchy (after modification)", code2[-1])
       }
     }
     cat(code, sep="\n")
@@ -114,6 +113,7 @@ shinyServer(function(input, output, session) {
     }
   })
 
+  # export button
   observeEvent(input$btn_export, {
     stopApp(genDim())
   })
