@@ -25,7 +25,11 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             column(12, align="center", div(id="helptxt", ""))
           ),
           uiOutput("spec"),
-          actionButton("createHier", "createHierarchy", class="btn-success")
+
+          fluidRow(
+            column(6, align="center", actionButton("createHier", "createHierarchy", class="btn-success")),
+            column(6, align="left", shinyjs::hidden(actionButton("btn_switch", "Switch to modify view", class="btn-primary")))
+          )
         )),
         shinyjs::hidden(div(id="sidebar_modify",
             radioButtons("what", h4("What do you want to do?"),
@@ -53,16 +57,13 @@ shinyUI(navbarPage("Interactive sdcHierarches",
         shinyjs::hidden(div(id="div_create",
           fluidRow(
             column(6, h1("Data (input)"), align="center"),
-            column(6, h1("Hierarchy (computed"), align="center")
+            column(6, h1("Hierarchy (computed)"), align="center")
           ),
           fluidRow(
-            column(6, div(id="col_orig", verbatimTextOutput("origDim"), align="center")),
-            column(6, div(id="col_generated", verbatimTextOutput("generatedDim"), align="center")),
-            shinyjs::hidden(div(id="error_gen", p("Something went wrong, please try other specifications"), align="center"))
-          ),
-          shinyjs::hidden(fluidRow(id="row_btn_switch",
-            column(12, align="left", actionButton("btn_switch", "Switch to modify view", class="btn-success"))
-          ))
+            column(6, div(id="col_data", verbatimTextOutput("origDim"), align="center")),
+            column(6, div(id="col_hierarchy", verbatimTextOutput("generatedDim"), align="center")),
+            shinyjs::hidden(div(id="txt_error_created", p("Something went wrong, please try other specifications"), align="center"))
+          )
         )),
         div(id="div_modify",
           fluidRow(column(12, align="left",h1("Modify the Hierarchy"))),

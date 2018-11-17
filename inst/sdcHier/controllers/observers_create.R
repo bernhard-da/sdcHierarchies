@@ -78,13 +78,13 @@ observeEvent(input$createHier, {
 
     code_import(code)
     json(sdcHier_convert(nn, format="json"))
-    shinyjs::hide("error_gen")
-    shinyjs::show("col_generated")
-    shinyjs::show("row_btn_switch")
+    shinyjs::hide("txt_error_created")
+    shinyjs::show("col_hierarchy")
+    shinyjs::show("btn_switch")
   } else {
-    shinyjs::hide("row_btn_switch")
-    shinyjs::show("error_gen")
-    shinyjs::hide("col_generated")
+    shinyjs::show("txt_error_created")
+    shinyjs::hide("col_hierarchy")
+    shinyjs::hide("btn_switch")
   }
 })
 

@@ -151,6 +151,6 @@ observeEvent(input$reset_btn, {
   shinyjs::reset("tot_is_included")
   shinyjs::reset("method")
   shinyjs::reset("tot_level")
-  shinyjs::hide("row_btn_switch")
+  shinyjs::hide("btn_switch")
   modify_mode(FALSE)
 })
