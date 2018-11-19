@@ -12,7 +12,7 @@ devtools::install_github("bernhard-da/sdcHierarchies")
 ### Main Functions
 ```
 # shiny-app to import or create/modify a tree by dragging levels around,...
-`?sdcHier`
+?sdcHier
 
 ## run an example starting with a vector
 x <- c("01","02","03")
@@ -26,16 +26,21 @@ sdcHier_add(h, "b2", c("b2a","b2b"))
 res <- sdcHier(h)
 
 # functions that computes hierarchies given positions
-`?sdcHier_compute`, `?sdcHier_compute_fromList`
+?sdcHier_compute
+?sdcHier_compute_fromList
 
 # functions that create/modify hierarchies
-`?sdcHier_create`, `?sdcHier_add`, `?sdcHier_rename`, `?sdcHier_delete`, 
+?sdcHier_create
+?sdcHier_add
+?sdcHier_rename
+?sdcHier_delete 
 
 # functions that convert hierarchies
-`?sdcHier_import`, `?sdcHier_convert`, 
+?sdcHier_import
+?sdcHier_convert 
 
 # get information about the hierarchy
-`?sdcHier_info` 
+?sdcHier_info 
 ```
 
 ### Updates
