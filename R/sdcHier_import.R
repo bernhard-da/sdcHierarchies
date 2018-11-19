@@ -21,7 +21,7 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
       if (!is.null(tot_lab)) {
         return(tot_lab)
       }
-      tot_lab <- attributes(json)$rootname
+      tot_lab <- attributes(json)$totlev
       if (is.null(tot_lab) | tot_lab=="") {
         tot_lab <- "rootnode"
       }

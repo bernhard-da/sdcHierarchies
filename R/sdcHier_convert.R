@@ -65,8 +65,9 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
       return(js)
     }
 
-    df[[1]] <- "#"
     js <- "["
+    totlev <- as.character(df[1,1])
+    df[[1]] <- "#"
     for (i in 2:ncol(df)) {
       sub <- unique(df[,c(i-1, i)])
       sub <- sub[!is.na(sub[[2]]),]
@@ -75,7 +76,9 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
       }
     }
     js <- paste0(js,"]")
-    sub(",\\]","\\]", js)
+    js <- sub(",\\]","\\]", js)
+    attr(js, "totlev") <- totlev
+    js
   }
 
   # node to code
