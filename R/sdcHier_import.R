@@ -17,16 +17,26 @@
 #' ## not yet
 sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
   convert.from.json <- function(json, totLab=NULL) {
+    totlab_from_attr <- function(json, tot_lab) {
+      if (!is.null(tot_lab)) {
+        return(tot_lab)
+      }
+      tot_lab <- attributes(json)$rootname
+      if (is.null(tot_lab) | tot_lab=="") {
+        tot_lab <- "rootnode"
+      }
+      tot_lab
+    }
     tab <- fromJSON(json)
     if (length(tab)==0) {
-      return(sdcHier_create("rootnode"))
+      return(sdcHier_create(tot_lab=totlab_from_attr(json, tot_lab)))
     }
     tab <- tab[,c(2,1)]
     colnames(tab) <- c("from","to")
     if (!is.null(totLab)) {
       tab$from[tab$from=="#"] <- totLab
     } else {
-      tab$from[tab$from=="#"] <- "rootnode"
+      tab$from[tab$from=="#"] <- totlab_from_attr(json, tot_lab)
     }
     tt <- FromDataFrameNetwork(tab)
     class(tt) <- c(class(tt), "sdcHier")

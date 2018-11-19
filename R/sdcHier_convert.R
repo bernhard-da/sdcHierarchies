@@ -61,6 +61,7 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
 
     if (!is.data.frame(df)) {
       js <- paste0('[]')
+      attr(js, "totlev") <- df
       return(js)
     }
 
