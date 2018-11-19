@@ -1,7 +1,7 @@
 shinyServer(function(input, output, session) {
   data <- reactiveVal(dim)
-  hierarchy <- reactiveVal(NULL)
   json <- reactiveVal(NULL)
+  json_prev <- reactiveVal(NULL)
   code_import <- reactiveVal(NULL)
   code_modify <- reactiveVal(NULL)
   modify_mode <- reactiveVal(FALSE)
@@ -15,7 +15,6 @@ shinyServer(function(input, output, session) {
     modify_mode(FALSE)
   } else {
     json(js)
-    hierarchy(dim)
     shinyjs::show("sidebar_modify")
     modify_mode(TRUE)
   }

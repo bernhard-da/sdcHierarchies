@@ -4,9 +4,9 @@ observe({
     shinyjs::show("div_export"); shinyjs::hide("div_export_hidden")
 
     if (start_with_hier==FALSE) {
-      shinyjs::show("row_reset_btn")
+      shinyjs::show("btn_reset")
     } else {
-      shinyjs::hide("row_reset_btn")
+      shinyjs::hide("btn_reset")
     }
   } else {
     shinyjs::hide("div_code"); shinyjs::show("div_code_hidden")

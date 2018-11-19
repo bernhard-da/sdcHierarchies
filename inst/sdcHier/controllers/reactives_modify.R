@@ -6,10 +6,22 @@ isEmptyTree <- reactive({
   return(FALSE)
 })
 
+hierarchy <- reactive({
+  js <- json()
+  if (is.null(js)) {
+    return(NULL)
+  }
+  sdcHier_import(inp=js, from="json")
+})
+
 totLevelName <- reactive({
-  sdcHier_nodenames(hierarchy())[1]
+  attributes(json())$totlev
 })
 
 allNodes <- reactive({
-  sdcHier_nodenames(hierarchy())
+  dd <- hierarchy()
+  if (is.null(dd)) {
+    return("")
+  }
+  sdcHier_nodenames(dd)
 })

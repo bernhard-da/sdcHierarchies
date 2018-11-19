@@ -8,10 +8,9 @@ observe({
   }
 })
 
-
 # update header containing overall total
 observe({
-  shinyjs::html(id="header_total", html = totLevelName())
+  shinyjs::html(id="header_total", html=totLevelName())
 })
 
 # update JSON in case hierarchies have been moved/dragged around
@@ -30,40 +29,40 @@ observe({
   }
 })
 
-# show/hide addNode-Button
+# enable/disable addNode-Button
 observe({
   if (input$name_addNode=="") {
-    shinyjs::hide("addNode")
+    shinyjs::disable("btn_add")
   } else {
     if (!input$name_addNode %in% allNodes()) {
-      shinyjs::show("addNode")
+      shinyjs::enable("btn_add")
     }
   }
 })
 
 # add a new node
-observeEvent(input$addNode, {
+observeEvent(input$btn_add, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
+  dd <- hierarchy()
   dd <- sdcHier_add(dd, refnode=input$selAddNode_ref, node_labs=input$name_addNode)
-  hierarchy(dd)
+  json_prev(js)
   json(sdcHier_convert(dd, format="json"))
   updateTextInput(session, inputId="name_addNode", value="")
 })
 
 ## delete a node
-observeEvent(input$delNode, {
+observeEvent(input$btn_delete, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
+  dd <- hierarchy()
   res <- sdcHier_info(dd, node_labs=input$seldelNode)$parent
   dd <- sdcHier_delete(dd, node_labs=input$seldelNode)
-  hierarchy(dd)
+  json_prev(js)
   json(sdcHier_convert(dd, format="json"))
 })
 
@@ -71,25 +70,25 @@ observeEvent(input$delNode, {
 # show/hide renameNode-Button
 observe({
   if (input$name_renameNode=="") {
-    shinyjs::hide("modRename")
+    shinyjs::disable("btn_rename")
   } else {
     if (!input$name_renameNode %in% allNodes()) {
-      shinyjs::show("modRename")
+      shinyjs::enable("btn_rename")
     }
   }
 })
 
 # rename a node
-observeEvent(input$modRename, {
+observeEvent(input$btn_rename, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
+  dd <- hierarchy()
   dd <- sdcHier_rename(dd,
     node_labs=input$selRenameNode,
     node_labs_new=input$name_renameNode)
-  hierarchy(dd)
+  json_prev(js)
   json(sdcHier_convert(dd, format="json"))
   updateTextInput(session, inputId="name_renameNode", value="")
 })
@@ -129,7 +128,6 @@ observeEvent(input$btn_export, {
 
 observeEvent(input$what, {
   shinyjs::hide("action_delete_warning")
-
   shinyjs::reset("name_addNode")
   if (input$what=="add") {
     shinyjs::hide("action_delete")
@@ -156,13 +154,27 @@ observeEvent(input$what, {
   }
 })
 
-observeEvent(input$reset_btn, {
+observeEvent(input$btn_reset, {
   json(NULL)
   data(dim)
-  hierarchy(NULL)
   shinyjs::reset("tot_is_included")
   shinyjs::reset("method")
   shinyjs::reset("tot_level")
   shinyjs::hide("btn_switch")
   modify_mode(FALSE)
+})
+
+observe({
+  js_prev <- json_prev()
+  if (!is.null(js_prev)) {
+    shinyjs::enable("btn_undo")
+  } else {
+    shinyjs::disable("btn_undo")
+  }
+})
+
+observeEvent(input$btn_undo, {
+  js_prev <- json_prev()
+  json_prev(NULL)
+  json(js_prev)
 })
