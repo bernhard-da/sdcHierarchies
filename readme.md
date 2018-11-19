@@ -44,6 +44,9 @@ res <- sdcHier(h)
 ```
 
 ### Updates
+#### `0.10.0`
+- implement *undo*-feature in `sdcHier()`
+
 #### `0.9.0`
 - combine `dynHier()` and `fixedHier()` to `sdcHier()`
 
