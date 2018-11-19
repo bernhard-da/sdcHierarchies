@@ -41,14 +41,15 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             )),
             shinyjs::hidden(div(id="action_delete",
               selectInput("seldelNode", "Select Node for Deletion", choices=NULL),
-              actionButton("delNode", "Delete selected Node", class="btn-success"),
-              div(id="row_msg_delete", p("No Nodes available to delete"))
+              actionButton("delNode", "Delete selected Node", class="btn-success")
+            )),
+            shinyjs::hidden(div(id="action_delete_warning",
+              p("You need to add nodes/levels to your hierarchy before you can delete any.")
             )),
             shinyjs::hidden(div(id="action_rename",
               selectInput("selRenameNode", "Select Node to Rename", choices=NULL),
               textInput("name_renameNode", "new Label", value=""),
-              actionButton("modRename", "Rename selected Node", class="btn-success"),
-              div(id="row_msg_rename", p("No Nodes available to rename"))
+              actionButton("modRename", "Rename selected Node", class="btn-success")
             )
           )
         ))
@@ -72,7 +73,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             tags$br()
           ),
           fluidRow(
-            column(6, align="left", h3("Interactive")),
+            column(6, align="left", h3(id="header_total", "Interactive")),
             column(6, align="left", h3("Output"))
           ),
           fluidRow(

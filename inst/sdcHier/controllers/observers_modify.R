@@ -8,6 +8,12 @@ observe({
   }
 })
 
+
+# update header containing overall total
+observe({
+  shinyjs::html(id="header_total", html = totLevelName())
+})
+
 # update JSON in case hierarchies have been moved/dragged around
 observeEvent(input$mytree, {
   req(input$mytree)
@@ -122,30 +128,31 @@ observeEvent(input$btn_export, {
 })
 
 observeEvent(input$what, {
+  shinyjs::hide("action_delete_warning")
+
   shinyjs::reset("name_addNode")
   if (input$what=="add") {
     shinyjs::hide("action_delete")
     shinyjs::hide("action_rename")
-    shinyjs::hide("action_export")
     shinyjs::show("action_add")
   }
   if (input$what=="delete") {
     shinyjs::hide("action_add")
     shinyjs::hide("action_rename")
-    shinyjs::hide("action_export")
-    shinyjs::show("action_delete")
+
+    if (isEmptyTree()) {
+      shinyjs::hide("action_delete")
+      shinyjs::show("action_delete_warning")
+
+    } else {
+      shinyjs::show("action_delete")
+      shinyjs::hide("action_delete_warning")
+    }
   }
   if (input$what=="rename") {
     shinyjs::hide("action_add")
     shinyjs::hide("action_delete")
-    shinyjs::hide("action_export")
     shinyjs::show("action_rename")
-  }
-  if (input$what=="export") {
-    shinyjs::hide("action_add")
-    shinyjs::hide("action_delete")
-    shinyjs::hide("action_rename")
-    shinyjs::show("action_export")
   }
 })
 
