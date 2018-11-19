@@ -4,18 +4,19 @@ library(shinyjs)
 library(data.tree)
 library(jsonlite)
 library(rlang)
+library(shinyBS)
 
-data <- getShinyOption(".data")
-if (is.null(data)) {
-  dd <- sdcHier_create("rootnode")
+dim <- getShinyOption(".data")
+res <- try(h_is_valid(dim), silent=TRUE)
+
+# start_with_hier: did we start with an existing hierarchy
+if (res==TRUE) {
+  js <- sdcHier_convert(dim, format="json")
+  start_with_hier <- TRUE
 } else {
-  if (h_is_valid(data)) {
-    dd <- data
-  } else {
-    dd <- sdcHier_create("rootnode")
-  }
+  js <- NULL
+  start_with_hier <- FALSE
 }
-rm(data)
 
 # converts input$tree to node (internally used only)
 shinytree_to_node <- function(tree, totLab=NULL) {
@@ -35,5 +36,3 @@ shinytree_to_node <- function(tree, totLab=NULL) {
   class(aa) <- c(class(aa), "sdcHier")
   return(aa)
 }
-
-json <- sdcHier_convert(dd, format="json")
