@@ -23,3 +23,26 @@ observe({
     shinyjs::hide("sidebar_modify"); shinyjs::hide("div_modify")
   }
 })
+
+# write code to file
+output$btn_dl_code <- downloadHandler(
+  filename=function() {
+    paste0("code_generate_hier_", format(Sys.Date(),"%d%m%Y"), ".R")
+  },
+  content=function(con) {
+    cat(code_complete(), sep="\n", file=con)
+  }
+)
+
+output$btn_export_dl <- downloadHandler(
+  filename=function() {
+    paste0("sdchierarchy_", format(Sys.Date(),"%d%m%Y"), ".rds")
+  },
+  content=function(con) {
+    dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
+    if (input$exportFormat=="data.frame") {
+      dd <- sdcHier_convert(dd, format="data.frame")
+    }
+    saveRDS(dd, file=con)
+  }
+)

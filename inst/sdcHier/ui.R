@@ -87,11 +87,17 @@ shinyUI(navbarPage("Interactive sdcHierarches",
     div(id="div_code_hidden", h1("Please create a hierarchy first")),
       shinyjs::hidden(div(id="div_code",
       fluidRow(
-        column(12, align="left",h1("Code")),
+        column(12, align="left",h1("Code"))
+      ),
+      fluidRow(
+        column(12, align="left",p("Below, the code required to re-generate the current hierarchy is shown. Clicking the
+          button allows you to save the code to an Rscript."))
+      ),
+      fluidRow(
         column(12, align="left", verbatimTextOutput("requiredCode"))
       ),
       fluidRow(
-        column(12, align="left", actionButton("reset_dl_code", "Download the code", class="btn-success"))
+        column(12, align="left", downloadButton(outputId="btn_dl_code", label="Download code", class="btn-success"))
       )
     )
   )),
@@ -102,15 +108,23 @@ shinyUI(navbarPage("Interactive sdcHierarches",
         column(12, align="left", h1("Export hierarchy"))
       ),
       fluidRow(
-        column(12, align="left", p("Select a output-format and additional options to export the current hierarchy"))
+        column(12, align="left", p("Select a output-format and additional options to export the current hierarchy."),
+               p("Once you click on the Button, the result will be returned to your R-prompt. Please make sure that
+                  you start the interactive app as follows: ",code("x <- sdcHier(...)"),". In this case, the output will be assigned
+                 to object",code("x"),"."))
       ),
       fluidRow(
-        column(6, align="center", selectInput("exportFormat", "Format for export", choices=c("node", "data.frame"))),
-        column(6, align="center", textInput("name_exportTot", "Node-Name for overall total", value="Total"))
+        column(12, align="left", selectInput("exportFormat", "Format for export", choices=c("node", "data.frame")))
       ),
       fluidRow(
-        column(12, align="center", actionButton("modExport", "Export", class="btn-success"))
-      )
+        column(12, align="left", selectInput("exportType", "Return as?", choices=c("object", "file (rds)"="file")))
+      ),
+      shinyjs::hidden(div(id="row_export_btn",
+        column(12, align="left", actionButton("btn_export", "Export", class="btn-success"))
+      )),
+      shinyjs::hidden(fluidRow(id="row_export_dl_btn",
+        column(12, align="left", downloadButton(outputId="btn_export_dl", label="Export to File", class="btn-success"))
+      ))
     )
   ))
 ))

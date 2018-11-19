@@ -15,7 +15,7 @@ shinyServer(function(input, output, session) {
     modify_mode(FALSE)
   } else {
     json(js)
-    hierarchy(sdcHier_import(inp=js, tot_lab=NULL))
+    hierarchy(dim)
     shinyjs::show("sidebar_modify")
     modify_mode(TRUE)
   }
@@ -88,18 +88,7 @@ shinyServer(function(input, output, session) {
 
   # common outputs
   output$requiredCode <- renderPrint({
-    code <- code_import()
-    if (modify_mode()==TRUE) {
-      code2 <- code_modify()
-      if (!is.null(code2)) {
-        if (is.null(code)) {
-          code <- c(code, "library(sdcHierarchies)", "## code to create hierarchy (after modification)", code2[-1])
-        } else {
-          code <- c(code, "", "## code to create hierarchy (after modification)", code2[-1])
-        }
-      }
-    }
-    cat(code, sep="\n")
+    cat(code_complete(), sep="\n")
   })
 
   ## outputs modify tree
@@ -109,7 +98,7 @@ shinyServer(function(input, output, session) {
   output$treeprint <- renderPrint({
     js <- json()
     if (!is.null(js)) {
-      tot_lev <- input$tot_level
+      tot_lev <- totLevelName()
       if (tot_lev=="") {
         tot_lev <- "Total"
       }

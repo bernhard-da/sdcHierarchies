@@ -3,7 +3,7 @@ observe({
   if (modify_mode()==TRUE) {
     js <- json()
     updateTree(session, "mytree", data=js)
-    dd <- sdcHier_import(inp=js, tot_lab=input$name_exportTot)
+    dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
     code_modify(sdcHier_convert(dd, format="code"))
   }
 })
@@ -18,8 +18,9 @@ observeEvent(input$mytree, {
 observe({
   if (!is.null(json())) {
     updateSelectInput(session, inputId="selAddNode_ref", choices=allNodes())
-    updateSelectInput(session, inputId="seldelNode", choices=setdiff(allNodes(),"rootnode"))
-    updateSelectInput(session, inputId="selRenameNode", choices=setdiff(allNodes(),"rootnode"))
+    updateSelectInput(session, inputId="seldelNode", choices=setdiff(allNodes(),totLevelName()))
+    updateSelectInput(session, inputId="selRenameNode", choices=setdiff(allNodes(),totLevelName()))
+    updateSelectInput(session, inputId="selRenameNode", choices=allNodes())
   }
 })
 
@@ -34,29 +35,30 @@ observe({
   }
 })
 
+# add a new node
 observeEvent(input$addNode, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=js, tot_lab=NULL)
+  dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
   dd <- sdcHier_add(dd, refnode=input$selAddNode_ref, node_labs=input$name_addNode)
+  hierarchy(dd)
   json(sdcHier_convert(dd, format="json"))
-  updateTree(session, "mytree", data=json())
   updateTextInput(session, inputId="name_addNode", value="")
 })
 
-## delete node
+## delete a node
 observeEvent(input$delNode, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=js, tot_lab=NULL)
+  dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
   res <- sdcHier_info(dd, node_labs=input$seldelNode)$parent
   dd <- sdcHier_delete(dd, node_labs=input$seldelNode)
+  hierarchy(dd)
   json(sdcHier_convert(dd, format="json"))
-  updateTree(session, "mytree", data=json())
 })
 
 ## rename a node
@@ -71,45 +73,48 @@ observe({
   }
 })
 
+# rename a node
 observeEvent(input$modRename, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
-  dd <- sdcHier_import(inp=js, tot_lab=NULL)
+  dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
   dd <- sdcHier_rename(dd,
     node_labs=input$selRenameNode,
     node_labs_new=input$name_renameNode)
-
+  hierarchy(dd)
   json(sdcHier_convert(dd, format="json"))
-  updateTree(session, "mytree", data=json())
   updateTextInput(session, inputId="name_renameNode", value="")
 })
 
 ## export/save
 observeEvent(input$exportFormat, {
-  updateActionButton(session, inputId="modExport", label=paste("Export to", input$exportFormat))
-})
-
-# show/hide modExport-Button
-observe({
-  if (!is.null(json())) {
-    if (input$name_exportTot=="") {
-      shinyjs::hide("modExport")
-    } else {
-      if (!input$name_exportTot %in% allNodes()) {
-        shinyjs::show("modExport")
-      }
-    }
+  ff <- input$exportFormat
+  if (!ff=="file") {
+    updateActionButton(session, inputId="btn_export", label=paste("Export to", ff))
   }
 })
-observeEvent(input$modExport, {
+
+observeEvent(input$exportType, {
+  if (input$exportType=="file") {
+    shinyjs::hide("row_export_btn")
+    shinyjs::show("row_export_dl_btn")
+  } else {
+    shinyjs::hide("row_export_dl_btn")
+    shinyjs::show("row_export_btn")
+    updateActionButton(session, inputId="btn_export", label=paste("Export to", input$exportFormat))
+  }
+})
+
+observeEvent(input$btn_export, {
   req(input$exportFormat)
   js <- json()
   if (is.null(js)) {
-    return(NULL)
+    stopApp(NULL)
   }
-  dd <- sdcHier_import(inp=js, tot_lab=input$name_exportTot)
+
+  dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
   if (input$exportFormat=="data.frame") {
     dd <- sdcHier_convert(dd, format="data.frame")
   }
