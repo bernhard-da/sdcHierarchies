@@ -31,6 +31,7 @@ h_nodeinfo <- function(sdcHier, node_lab) {
     out$level <- nn$level
     out$is_leaf <- nn$isLeaf
     out$siblings <- names(nn$siblings)
+    out$children <- names(nn$children)
     out$parent <- nn$parent$name
     out$is_bogus <- length(out$siblings)==0 && out$is_leaf==TRUE
   } else {
@@ -39,6 +40,7 @@ h_nodeinfo <- function(sdcHier, node_lab) {
     out$level <- NA
     out$is_leaf <- NA
     out$siblings <- NA
+    out$children <- NA
     out$parent <- NA
     out$is_bogus <- NA
   }
