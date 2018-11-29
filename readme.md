@@ -9,38 +9,12 @@ The package is not tested and will likely change a lot in future versions. Still
 devtools::install_github("bernhard-da/sdcHierarchies")
 ```
 
-### Main Functions
+### Usage
+
+Please have a look at the package-vignette
 ```
-# shiny-app to import or create/modify a tree by dragging levels around,...
-?sdcHier
-
-## run an example starting with a vector
-x <- c("01","02","03")
-res < sdcHier(x)
-
-## run an example starting with a hierarchy
-h <- sdcHier_create("tot", letters[1:5])
-sdcHier_add(h, "a", "a1")
-sdcHier_add(h, "b", c("b1","b2"))
-sdcHier_add(h, "b2", c("b2a","b2b"))
-res <- sdcHier(h)
-
-# functions that computes hierarchies given positions
-?sdcHier_compute
-?sdcHier_compute_fromList
-
-# functions that create/modify hierarchies
-?sdcHier_create
-?sdcHier_add
-?sdcHier_rename
-?sdcHier_delete 
-
-# functions that convert hierarchies
-?sdcHier_import
-?sdcHier_convert 
-
-# get information about the hierarchy
-?sdcHier_info 
+library(sdcHierarchies)
+sdcHier_vignette()
 ```
 
 ### Updates
