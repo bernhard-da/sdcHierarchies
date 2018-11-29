@@ -4,7 +4,8 @@
 \alias{sdcHier_convert}
 \title{sdcHier_convert}
 \usage{
-sdcHier_convert(h, format = "data.frame", path = NULL)
+sdcHier_convert(h, format = "data.frame", path = NULL,
+  verbose = FALSE)
 }
 \arguments{
 \item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
@@ -16,11 +17,15 @@ using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdc
 containing as many \code{@} as the level of the node in the string (e.g \code{@} corresponds to the overall
 total while \code{@} would be all codes contributing to the total. The second column contains the names
 of the levels.
+\item \strong{"argus"}: used to create hrc-files suitable for tau-argus
 \item \strong{"json"}: json format suitable as input for shiny Tree
 \item \strong{"code"}: code required to generate the hierarchy
 }}
 
 \item{path}{if not \code{NULL}, the output is written to the file specified}
+
+\item{verbose}{(logical) if true, the result of the conversion will not only
+be (invisibly) returned but also printed in the prompt}
 }
 \value{
 a (nested) sdc hierarchy tree

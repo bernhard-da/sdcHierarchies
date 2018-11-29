@@ -123,6 +123,12 @@ observeEvent(input$btn_export, {
   if (input$exportFormat=="data.frame") {
     dd <- sdcHier_convert(dd, format="data.frame")
   }
+  if (input$exportFormat=="argus") {
+    dd <- sdcHier_convert(dd, format="argus")
+  }
+  if (input$exportFormat=="code") {
+    dd <- sdcHier_convert(dd, format="code")
+  }
   stopApp(dd)
 })
 

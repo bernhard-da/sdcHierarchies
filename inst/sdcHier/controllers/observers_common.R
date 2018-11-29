@@ -36,13 +36,34 @@ output$btn_dl_code <- downloadHandler(
 
 output$btn_export_dl <- downloadHandler(
   filename=function() {
-    paste0("sdchierarchy_", format(Sys.Date(),"%d%m%Y"), ".rds")
+    ff <- input$exportFormat
+    if (ff=="data.frame") {
+      ext <- ".csv"
+    } else if (ff=="argus") {
+      ext <- ".hrc"
+    } else if (ff=="code") {
+      ext <- ".R"
+    } else if (ff=="json") {
+      ext <- ".json"
+    } else {
+      ext <- ".txt"
+    }
+    paste0("sdcHier_", input$exportFormat,"_",format(Sys.Date(),"%d%m%Y"), ext)
   },
   content=function(con) {
     dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
     if (input$exportFormat=="data.frame") {
-      dd <- sdcHier_convert(dd, format="data.frame")
+      dd <- sdcHier_convert(dd, format="data.frame", path=con)
     }
-    saveRDS(dd, file=con)
+    if (input$exportFormat=="code") {
+      dd <- sdcHier_convert(dd, format="code", path=con)
+    }
+    if (input$exportFormat=="argus") {
+      dd <- sdcHier_convert(dd, format="argus", path=con)
+    }
+    if (input$exportFormat=="json") {
+      dd <- sdcHier_convert(dd, format="json", path=con)
+    }
+    #saveRDS(dd, file=con)
   }
 )

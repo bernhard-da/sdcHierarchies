@@ -92,15 +92,16 @@ shinyUI(navbarPage("Interactive sdcHierarches",
   tabPanel("Export",
     div(id="div_export_hidden", h1("Please create a hierarchy first")),
     shinyjs::hidden(div(id="div_export",
-      fluidRow(column(12, align="left", h1("Export hierarchy"))),
+      fluidRow(column(12, align="left", h1("Export results"))),
       fluidRow(
         column(12, align="left", p("Select a output-format and additional options to export the current hierarchy."),
-          p("Once you click on the Button, the result will be returned to your R-prompt. Please make sure that
-             you start the interactive app as follows: ",code("x <- sdcHier(...)"),". In this case, the output will be assigned
-             to object",code("x"),"."))
+          p("Once you click on the Button, the result will be either saved to disk or returned to your R-prompt if you select",code("R-object."),
+            "In this case please make sure that you start the interactive app as follows: ",
+             code("x <- sdcHier(...)"),". In this case, the output will be assigned to object",code("x"),"."))
       ),
-      fluidRow(column(12, align="left", selectInput("exportFormat", "Format for export", choices=c("node", "data.frame")))),
-      fluidRow(column(12, align="left", selectInput("exportType", "Return as?", choices=c("object", "file (rds)"="file")))),
+      fluidRow(column(12, align="left", selectInput("exportFormat", "Format for export",
+        choices=c("sdcHierarchy"="node", "data.frame suitable for sdcTable"="data.frame","hrc-file for tau-Argus"="argus","json-encoded string"="json")))),
+      fluidRow(column(12, align="left", selectInput("exportType", "Return the result as?", choices=c("R-object", "File"="file")))),
       shinyjs::hidden(div(id="row_export_btn", column(12, align="left", actionButton("btn_export", "Export", class="btn-success")))),
       shinyjs::hidden(fluidRow(id="row_export_dl_btn",
         column(12, align="left", downloadButton(outputId="btn_export_dl", label="Export to File", class="btn-success"))
