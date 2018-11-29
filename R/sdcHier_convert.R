@@ -9,14 +9,17 @@
 #' containing as many \code{@} as the level of the node in the string (e.g \code{@} corresponds to the overall
 #' total while \code{@@} would be all codes contributing to the total. The second column contains the names
 #' of the levels.
+#' \item \strong{"argus"}: used to create hrc-files suitable for tau-argus
 #' \item \strong{"json"}: json format suitable as input for shiny Tree
 #' \item \strong{"code"}: code required to generate the hierarchy
 #' }
 #' @param path if not \code{NULL}, the output is written to the file specified
+#' @param verbose (logical) if true, the result of the conversion will not only
+#' be (invisibly) returned but also printed in the prompt
 #' @export
 #' @examples
 #' ## for examples, see ?sdcHier_create
-sdcHier_convert <- function(h, format="data.frame", path=NULL) {
+sdcHier_convert <- function(h, format="data.frame", path=NULL, verbose=FALSE) {
   check_file  <- function(path) {
     if (file.exists(path)) {
       stop(paste("File",shQuote(path),"already exists!"), call.=FALSE)
@@ -30,7 +33,7 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
   }
 
   # to data.frame
-  h_to_df <- function(h) {
+  h_to_df <- function(h, path, verbose) {
     res <- sdcHier_info(h)
 
     if (length(res)==6 && names(res)[1]=="exists") {
@@ -40,11 +43,17 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
       data.frame(level=paste(rep("@", x$level), collapse=""), name=x$name, stringsAsFactors=FALSE)
     }))
     rownames(df) <- NULL
+    if (!is.null(path)) {
+      write.table(df, file=path, sep=";", row.names=FALSE)
+    }
+    if (verbose) {
+      print(df)
+    }
     return(df)
   }
 
   # node to json
-  h_to_json <- function(h) {
+  h_to_json <- function(h, path, verbose) {
     write.json.row <- function(id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
       stopifnot(is_scalar_character(id))
       stopifnot(is_scalar_character(parent))
@@ -65,9 +74,9 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
       return(js)
     }
 
-    js <- "["
-    totlev <- as.character(df[1,1])
+    totlab <- df[[1]][1]
     df[[1]] <- "#"
+    js <- "["
     for (i in 2:ncol(df)) {
       sub <- unique(df[,c(i-1, i)])
       sub <- sub[!is.na(sub[[2]]),]
@@ -77,12 +86,19 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
     }
     js <- paste0(js,"]")
     js <- sub(",\\]","\\]", js)
-    attr(js, "totlev") <- totlev
-    js
+
+    if (!is.null(path)) {
+      cat(js, sep="\n", file=path)
+    }
+    if (verbose) {
+      cat(js, sep="\n")
+    }
+    attr(js, "totlev") <- as.character(totlab)
+    return(js)
   }
 
   # node to code
-  h_to_code <- function(h) {
+  h_to_code <- function(h, path, verbose) {
     all_names <- sdcHier_nodenames(h)
     code <- "library(sdcHierarchies)"
     code <- c(code, paste0("d <- sdcHier_create(tot_lab=",shQuote(all_names[1]),")"))
@@ -106,41 +122,67 @@ sdcHier_convert <- function(h, format="data.frame", path=NULL) {
       }
     }
     code <- c(code, "print(d)")
-    return(invisible(code))
+
+    if (!is.null(path)) {
+      cat(code, sep="\n", file=path)
+    }
+    if (verbose) {
+      cat(code, sep="\n")
+    }
+    return(code)
   }
 
-  h_is_valid(h)
+  # node to argus
+  h_to_argus <- function(h, path, verbose) {
+    df <- sdcHier_convert(h, "data.frame")
+    df <- df[-1,]
+    df$level <- substr(df$level, 3, nchar(df$level))
+    sout <-  df$name
+    ind_levs <-  df$level!=""
+    m1 <- max(nchar(df$level[ind_levs]))
+    slev <- sprintf(paste0("%-",m1,"s"), df$level[ind_levs])
 
-  write_file <- FALSE
-  if (!is.null(path)) {
-    stopifnot(is_scalar_character(path))
-    check_file(path)
-    write_file <- TRUE
+    m2 <- max(nchar(df$name[ind_levs]))
+    sname <- sprintf(paste0("%",m2,"s"), df$name[ind_levs])
+
+    sout[ind_levs] <- paste(slev, sname)
+    outdf <- data.frame(inp=sout, stringsAsFactors=FALSE)
+
+    if (!is.null(path)) {
+      write.table(outdf$inp, file=path, sep=" ", row.names=FALSE, col.names=FALSE, quote=FALSE,  eol="\r\n")
+    }
+    if (verbose) {
+      print(df, right=FALSE)
+    }
+    return(df)
   }
 
   stopifnot(is_scalar_character(format))
-  stopifnot(format %in% c("data.frame","json","code"))
-
-  if (format=="data.frame") {
-    res <- h_to_df(h)
-  }
-  if (format=="json") {
-    res <- h_to_json(h)
-  }
-  if (format=="code") {
-    res <- h_to_code(h)
-  }
-
-  if (write_file==TRUE) {
-    cat(paste("Output is written to",shQuote(path),"\n"))
-    if (format=="data.frame") {
-      write.table(res, file=path, sep=";", row.names=FALSE)
-      return(res)
-    } else {
-      cat(res, sep="\n", file=path)
-      cat(res, sep="\n")
-      return(invisible(res))
+  stopifnot(format %in% c("data.frame","json","argus","code"))
+  stopifnot(is_scalar_logical(verbose))
+  h_is_valid(h)
+  if (!is.null(path)) {
+    stopifnot(is_scalar_character(path))
+    check_file(path)
+    if (verbose) {
+      cat(paste("Output is written to",shQuote(path),"\n"))
     }
   }
+
+  if (format=="data.frame") {
+    res <- h_to_df(h, path=path, verbose=verbose)
+  }
+  if (format=="json") {
+    res <- h_to_json(h, path=path, verbose=verbose)
+  }
+  if (format=="code") {
+    res <- h_to_code(h, path=path, verbose=verbose)
+  }
+  if (format=="argus") {
+    res <- h_to_argus(h, path=path, verbose=verbose)
+  }
+
+  attr(res, "sdcHier_convert") <- TRUE
+  attr(res, "sdcHier_format") <- format
   return(res)
 }
