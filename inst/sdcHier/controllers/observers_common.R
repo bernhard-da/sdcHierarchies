@@ -53,17 +53,16 @@ output$btn_export_dl <- downloadHandler(
   content=function(con) {
     dd <- sdcHier_import(inp=js, tot_lab=totLevelName())
     if (input$exportFormat=="data.frame") {
-      dd <- sdcHier_convert(dd, format="data.frame", path=con)
+      dd <- sdcHier_export(dd, format="data.frame", path=con)
     }
     if (input$exportFormat=="code") {
-      dd <- sdcHier_convert(dd, format="code", path=con)
+      dd <- sdcHier_export(dd, format="code", path=con)
     }
     if (input$exportFormat=="argus") {
-      dd <- sdcHier_convert(dd, format="argus", path=con)
+      dd <- sdcHier_export(dd, format="argus", path=con)
     }
     if (input$exportFormat=="json") {
-      dd <- sdcHier_convert(dd, format="json", path=con)
+      dd <- sdcHier_export(dd, format="json", path=con)
     }
-    #saveRDS(dd, file=con)
   }
 )
