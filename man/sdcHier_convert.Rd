@@ -4,8 +4,7 @@
 \alias{sdcHier_convert}
 \title{sdcHier_convert}
 \usage{
-sdcHier_convert(h, format = "data.frame", path = NULL,
-  verbose = FALSE)
+sdcHier_convert(h, format = "data.frame", verbose = FALSE)
 }
 \arguments{
 \item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
@@ -22,8 +21,6 @@ of the levels.
 \item \strong{"code"}: code required to generate the hierarchy
 }}
 
-\item{path}{if not \code{NULL}, the output is written to the file specified}
-
 \item{verbose}{(logical) if true, the result of the conversion will not only
 be (invisibly) returned but also printed in the prompt}
 }
@@ -34,5 +31,5 @@ a (nested) sdc hierarchy tree
 convert nested hierarchies into other data structures
 }
 \examples{
-## for examples, see ?sdcHier_create
+## for examples, see sdcHier_vignette()
 }
