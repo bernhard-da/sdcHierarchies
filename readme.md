@@ -6,7 +6,7 @@ The package is not tested and will likely change a lot in future versions. Still
 
 ### Installation
 ```
-devtools::install_github("bernhard-da/sdcHierarchies")
+install_github("bernhard-da/sdcHierarchies", build_vignette=TRUE, dependencies=TRUE)
 ```
 
 ### Usage
