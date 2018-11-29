@@ -9,7 +9,7 @@
 #' @param node_labs names of the new nodes/levels that should be added
 #' @export
 #' @examples
-#' ## for examples, see ?sdcHier_create
+#' ## for examples, see sdcHier_vignette()
 sdcHier_add <- function(h, refnode, node_labs) {
   h_is_valid(h)
 

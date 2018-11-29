@@ -6,7 +6,7 @@
 #' @return a \code{list} with information about the required nodes. If \code{node_labs} is \code{NULL},
 #' then the information is computed for all nodes.
 #' @examples
-#' ## for examples, see ?sdcHier_create
+#' ## for examples, see sdcHier_vignette()
 sdcHier_info <- function(h, node_labs=NULL) {
   h_is_valid(h)
   all_nodes <- sdcHier_nodenames(h)

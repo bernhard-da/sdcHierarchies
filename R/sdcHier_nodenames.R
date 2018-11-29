@@ -5,7 +5,7 @@
 #' @param node_lab (character) name of start node from which all lower level-names should be returned
 #' @export
 #' @examples
-#' ## for examples, see ?sdcHier_create
+#' ## for examples, see sdcHier_vignette()
 sdcHier_nodenames <- function(h, node_lab=NULL) {
   h_is_valid(h)
 

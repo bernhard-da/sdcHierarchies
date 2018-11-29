@@ -20,41 +20,5 @@ as \href{https://github.com/sdcTools/cellKey}{cellKey}
 or \href{https://github.com/sdcTools/sdcTable}{sdcTable}.
 }
 \examples{
-## create a hierarchy
-h <- sdcHier_create(tot="tot", node_labs=letters[1:3])
-
-## add nodes
-sdcHier_add(h, refnode="a", node_labs=c("a1"))
-sdcHier_add(h, refnode="a", node_labs=c("a2","a3"))
-sdcHier_add(h, refnode="a", node_labs=c("a2","a3"))
-
-## delete nodes
-sdcHier_delete(h, node_labs=c("a2","a3"))
-sdcHier_delete(h, node_labs=c("a2","a3"))
-sdcHier_delete(h, node_labs=c("c"))
-
-## rename levels
-sdcHier_rename(h, node_labs=c("a1","b"), node_labs_new=c("x1","B"))
-
-# info about a specific node
-sdcHier_info(h, node_lab="a")
-
-# nodeinfo about all nodes
-sdcHier_info(h, node_labs=NULL)
-sdcHier_info(h, node_labs="tot")
-sdcHier_info(h, node_labs="B")
-
-## nodenames
-sdcHier_nodenames(h)
-sdcHier_nodenames(h, node_lab="a")
-
-## convert to different output formats
-sdcHier_convert(h, format="data.frame")
-sdcHier_convert(h, format="json")
-sdcHier_convert(h, format="code")
-
-## write output file file:
-\dontrun{
-sdcHier_convert(h, format="data.frame", path="/tmp/out_df.csv")
-}
+## for examples, see sdcHier_vignette()
 }

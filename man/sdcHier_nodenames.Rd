@@ -19,5 +19,5 @@ a (nested) sdc hierarchy tree
 get the names of the nodes and all (sub)-nodes and leaves of a given nested hierarchy
 }
 \examples{
-## for examples, see ?sdcHier_create
+## for examples, see sdcHier_vignette()
 }

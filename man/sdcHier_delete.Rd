@@ -19,5 +19,5 @@ a (nested) sdc hierarchy tree
 add nodes/levels from a nested hierarchy
 }
 \examples{
-## for examples, see ?sdcHier_create
+## for examples, see sdcHier_vignette()
 }

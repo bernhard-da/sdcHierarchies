@@ -20,5 +20,5 @@ then the information is computed for all nodes.
 get information about all or specific nodes in a nested hierarchy
 }
 \examples{
-## for examples, see ?sdcHier_create
+## for examples, see sdcHier_vignette()
 }

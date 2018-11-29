@@ -21,5 +21,5 @@ a (nested) sdc hierarchy tree
 rename nodes/levels in a nested hierarchy
 }
 \examples{
-## for examples, see ?sdcHier_create
+## for examples, see sdcHier_vignette()
 }

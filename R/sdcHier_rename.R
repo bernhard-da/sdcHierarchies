@@ -5,7 +5,7 @@
 #' @param node_labs_new (character) new names of nodes/levels that should be changed
 #' @export
 #' @examples
-#' ## for examples, see ?sdcHier_create
+#' ## for examples, see sdcHier_vignette()
 sdcHier_rename <- function(h, node_labs, node_labs_new) {
   h_is_valid(h)
   stopifnot(is.character(node_labs))

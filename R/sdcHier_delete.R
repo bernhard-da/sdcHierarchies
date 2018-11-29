@@ -4,7 +4,7 @@
 #' @inherit sdcHier_add
 #' @export
 #' @examples
-#' ## for examples, see ?sdcHier_create
+#' ## for examples, see sdcHier_vignette()
 sdcHier_delete <- function(h, node_labs) {
   h_is_valid(h)
   stopifnot(is.character(node_labs))

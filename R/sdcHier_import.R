@@ -14,7 +14,7 @@
 #' @return a (nested) hierarchy
 #' @export
 #' @examples
-#' ## not yet
+#' ## for examples, see sdcHier_vignette()
 sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
   h_from_json <- function(json, totLab=NULL) {
     totlab_from_attr <- function(json, tot_lab) {
@@ -80,45 +80,8 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
   }
   h_from_argus <- function(df, totLab=NULL) {
     stopifnot(is.data.frame(df))
-    stopifnot(ncol(df)==2)
-    colnames(df) <- c("levels", "labs")
-    rr <- unique(unlist(strsplit(df$levels, "")))
-    stopifnot(length(rr)==1, rr=="@")
-    stopifnot(df$levels[1]=="")
-    df$labs <- as.character(df$labs)
-
-
-    df$levels <- paste0("@@", df$levels)
-    if (is.null(totLab)) {
-      totLab <- "Total"
-    }
-    df <- rbind(data.frame(levels="@", labs=totLab, stringsAsFactors=FALSE), df)
-
-    dd <- sdcHier_create(tot_lab=df$labs[1])
-    if (nrow(df)==1) {
-      return(dd)
-    }
-    df$hier <- nchar(df$levels)
-    df$index <- 1:nrow(df)
-    for (i in 2:nrow(df)) {
-      cur_hier <- df[i, "hier"]
-      prev_hier <- df[(i-1), "hier"]
-      if (cur_hier==prev_hier) {
-        # sibling
-        nn <- FindNode(dd, df$labs[i-1])
-        nn$AddSibling(df$labs[i])
-      } else {
-        if (cur_hier>prev_hier) {
-          nn <- FindNode(dd, df$labs[i-1])
-          nn$AddChild(df$labs[i])
-        } else {
-          ii <- max(which(df$hier[1:i]==(cur_hier-1)))
-          nn <- FindNode(dd, df$labs[ii])
-          nn$AddChild(df$labs[i])
-        }
-      }
-    }
-    return(dd)
+    stopifnot(attributes(df)$sdcHier_format=="argus")
+    return(h_from_data.frame(df, totLab=totLab))
   }
   h_from_code <- function(code, totLab=NULL) {
     stopifnot(is.character(code))

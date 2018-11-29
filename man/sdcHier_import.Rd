@@ -26,5 +26,5 @@ a (nested) hierarchy
 returns a tree from various input sources
 }
 \examples{
-## not yet
+## for examples, see sdcHier_vignette()
 }
