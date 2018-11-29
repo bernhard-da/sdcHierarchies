@@ -44,6 +44,13 @@ res <- sdcHier(h)
 ```
 
 ### Updates
+#### `0.11.0`
+- `sdcHier_convert()` can now convert a hierarchy to the format tau-argus understands using `format='argus'`
+- `sdcHier_export()` writes hierarchies in specific formats to disk
+- `sdcHier_import()` gained the ability to return sdc hierarchies from `hrc`-files in tau-argus format as well as from code and json
+- `sdcHier_info()` now shows the children of a node (if existing)
+- `sdcHier()` gained the feature to export hierarchies as json-encoded strings and hrc-files suitable as input for tau-argus
+- started with vignette that can be started with `sdcHier_vignette()`
 #### `0.10.0`
 - implement *undo*-feature in `sdcHier()`
 
