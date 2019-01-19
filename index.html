@@ -18,7 +18,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -75,8 +75,120 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
-This package allows to interactively generate and modify nested hierarchies.
+  <div class="col-md-9 contents">
+    
+
+    
+    
+<div id="sdchierarchies" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sdchierarchies" class="anchor"></a>sdcHierarchies</h2>
+<p>R-Package to (interactively) generate or modify (nested) hierarchies that are required as input for packages such as <a href="https://cran.r-project.org/web/packages/sdcTable/index.html"><strong>sdcTable</strong></a> or <a href="https://github.com/sdcTools/cellKey"><strong>cellKey</strong></a></p>
+<p>The package is not tested and will likely change a lot in future versions. Still, any feedback/pull requests are very much welcome!</p>
+<div id="installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h3>
+<pre><code>install_github("bernhard-da/sdcHierarchies", build_vignette=TRUE, dependencies=TRUE)</code></pre>
+</div>
+<div id="usage" class="section level3">
+<h3 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h3>
+<p>Please have a look at the package-vignette</p>
+<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(sdcHierarchies)
+sdcHier_vignette()</a></code></pre>
+</div>
+<div id="updates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#updates" class="anchor"></a>Updates</h3>
+<div id="section" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section" class="anchor"></a><code>0.11.0</code>
+</h4>
+<ul>
+<li>
+<code><a href="reference/sdcHier_convert.html">sdcHier_convert()</a></code> can now convert a hierarchy to the format tau-argus understands using <code>format='argus'</code>
+</li>
+<li>
+<code><a href="reference/sdcHier_export.html">sdcHier_export()</a></code> writes hierarchies in specific formats to disk</li>
+<li>
+<code><a href="reference/sdcHier_import.html">sdcHier_import()</a></code> gained the ability to return sdc hierarchies from <code>hrc</code>-files in tau-argus format as well as from code and json</li>
+<li>
+<code><a href="reference/sdcHier_info.html">sdcHier_info()</a></code> now shows the children of a node (if existing)</li>
+<li>
+<code><a href="reference/sdcHier.html">sdcHier()</a></code> gained the feature to export hierarchies as json-encoded strings and hrc-files suitable as input for tau-argus</li>
+<li>started with vignette that can be started with <code><a href="reference/sdcHier_vignette.html">sdcHier_vignette()</a></code> #### <code>0.10.0</code>
+</li>
+<li>implement <em>undo</em>-feature in <code><a href="reference/sdcHier.html">sdcHier()</a></code>
+</li>
+</ul>
+</div>
+<div id="section-1" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section-1" class="anchor"></a><code>0.9.0</code>
+</h4>
+<ul>
+<li>combine <code>dynHier()</code> and <code>fixedHier()</code> to <code><a href="reference/sdcHier.html">sdcHier()</a></code>
+</li>
+</ul>
+</div>
+<div id="section-2" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section-2" class="anchor"></a><code>0.8.0</code>
+</h4>
+<ul>
+<li>
+<code><a href="reference/sdcHier_convert.html">sdcHier_convert()</a></code> gained an argument <code>path</code> to write the output to a file</li>
+<li>new function <code><a href="reference/sdcHier_compute_fromList.html">sdcHier_compute_fromList()</a></code> to create a hierarchy from a named list</li>
+<li>invisibly return results to avoid duplicated printing</li>
+<li>start with tabbed interface for shiny-apps</li>
+</ul>
+</div>
+<div id="section-3" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section-3" class="anchor"></a><code>0.7.0</code>
+</h4>
+<ul>
+<li>some bugfixes</li>
+<li>removed argument <code>full_names</code> froms <code><a href="reference/sdcHier_compute.html">sdcHier_compute()</a></code>
+</li>
+<li>show code to generated hierarchies in <code>dynHier()</code> and <code>fixedHier()</code>
+</li>
+</ul>
+</div>
+<div id="section-4" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section-4" class="anchor"></a><code>0.6.0</code>
+</h4>
+<ul>
+<li>fixes for shiny-Apps <code>dynHier()</code> and <code>fixedHier()</code>
+</li>
+<li>renamed <code>dim_by_position()</code> to <code><a href="reference/sdcHier_compute.html">sdcHier_compute()</a></code>
+</li>
+<li>
+<code><a href="reference/sdcHier_convert.html">sdcHier_convert()</a></code> can output the required code to compute the hierarchy</li>
+</ul>
+</div>
+<div id="section-5" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section-5" class="anchor"></a><code>0.5.0</code>
+</h4>
+<ul>
+<li>
+<code><a href="reference/sdcHier_convert.html">sdcHier_convert()</a></code> can output the json-code</li>
+<li>fixes to documentation and shinyApps <code>dynHier()</code> and <code>fixedHier()</code>
+</li>
+</ul>
+</div>
+<div id="section-6" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section-6" class="anchor"></a><code>0.4.0</code>
+</h4>
+<ul>
+<li>Functions (<code><a href="reference/sdcHier_create.html">sdcHier_create()</a></code>, <code><a href="reference/sdcHier_add.html">sdcHier_add()</a></code>, <code><a href="reference/sdcHier_delete.html">sdcHier_delete()</a></code>, <code><a href="reference/sdcHier_rename.html">sdcHier_rename()</a></code>, <code><a href="reference/sdcHier_info.html">sdcHier_info()</a></code>, <code><a href="reference/sdcHier_nodenames.html">sdcHier_nodenames()</a></code> and <code><a href="reference/sdcHier_convert.html">sdcHier_convert()</a></code>) dealing with creation and updating of nested hierarchies and extracting information have been added</li>
+</ul>
+</div>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -102,8 +214,10 @@ This package allows to interactively generate and modify nested hierarchies.
 </ul>
 </div>
 
-  </div>
+      </div>
+
 </div>
+
 
       <footer><div class="copyright">
   <p>Developed by Bernhard Meindl.</p>
