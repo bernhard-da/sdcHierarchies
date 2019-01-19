@@ -7,11 +7,11 @@ library(rlang)
 library(shinyBS)
 
 dim <- getShinyOption(".data")
-res <- try(h_is_valid(dim), silent=TRUE)
+res <- try(h_is_valid(dim), silent = TRUE)
 
 # start_with_hier: did we start with an existing hierarchy
-if (res==TRUE) {
-  js <- sdcHier_convert(dim, format="json")
+if (res == TRUE) {
+  js <- sdcHier_convert(dim, format = "json")
   start_with_hier <- TRUE
 } else {
   js <- NULL
@@ -21,7 +21,7 @@ if (res==TRUE) {
 # converts input$tree to node (internally used only)
 shinytree_to_node <- function(tree, totLab=NULL) {
   json <- toJSON(tree)
-  json <- gsub("\\[0\\]", '[]', json)
+  json <- gsub("\\[0\\]", "[]", json)
   ll <- fromJSON(json)
   tt <- data.tree:::as.Node.list(ll)
 
@@ -31,8 +31,8 @@ shinytree_to_node <- function(tree, totLab=NULL) {
   if (!is.null(totLab)) {
     aa[[1]] <- "bla"
   }
-  aa$path <- apply(aa, 1, paste, collapse="/")
-  aa <- FromDataFrameTable(aa, pathName="path")
+  aa$path <- apply(aa, 1, paste, collapse = "/")
+  aa <- FromDataFrameTable(aa, pathName = "path")
   class(aa) <- c(class(aa), "sdcHier")
   return(aa)
 }

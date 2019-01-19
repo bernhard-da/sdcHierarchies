@@ -12,8 +12,10 @@ specs <- reactive({
       input[[paste0("pos", i)]]
     })
 
-    xx <- sapply(out, function(x) { is.null(x)})
-    if (sum(xx)>0) {
+    xx <- sapply(out, function(x) {
+      is.null(x)
+    })
+    if (sum(xx) > 0) {
       return(NULL)
     }
     out

@@ -7,7 +7,7 @@ shinyServer(function(input, output, session) {
   modify_mode <- reactiveVal(FALSE)
 
   for (file in list.files("controllers")) {
-    source(file.path("controllers", file), local=TRUE)
+    source(file.path("controllers", file), local = TRUE)
   }
 
   if (is.null(js)) {
@@ -25,35 +25,35 @@ shinyServer(function(input, output, session) {
       req(input$method)
 
       labs <- function(nr, method) {
-        if (method=="len") {
-          return(paste("# digits for level",1:nr))
+        if (method == "len") {
+          return(paste("# digits for level", 1:nr))
         }
-        if (method=="endpos") {
-          return(paste("Endposition for level",1:nr))
+        if (method == "endpos") {
+          return(paste("Endposition for level", 1:nr))
         }
       }
       vals <- function(nr, method) {
-        if (method=="len") {
+        if (method == "len") {
           return(rep(1, nr))
         }
-        if (method=="endpos") {
+        if (method == "endpos") {
           return(1:nr)
         }
       }
-      ll <- labs(nr=input$nr_levels, method=input$method)
-      vv <- vals(nr=input$nr_levels, method=input$method)
+      ll <- labs(nr = input$nr_levels, method = input$method)
+      vv <- vals(nr = input$nr_levels, method = input$method)
 
       nrCols <- 2
       nrRows <- ceiling(input$nr_levels / nrCols)
-      nrCells <- nrCols*nrRows
+      nrCells <- nrCols * nrRows
 
       res <- lapply(1:input$nr_levels, function(i) {
-        numericInput(inputId=paste0("pos", i), label=ll[i],
-          min=1, max=max_nchar(), value=vv[i], step=1)
+        numericInput(inputId = paste0("pos", i), label = ll[i],
+          min = 1, max = max_nchar(), value = vv[i], step = 1)
       })
 
-      if (length(res)<nrCells) {
-        for (i in (length(res)+1):nrCells) {
+      if (length(res) < nrCells) {
+        for (i in (length(res) + 1):nrCells) {
           res[[i]] <- ""
         }
       }
@@ -63,8 +63,8 @@ shinyServer(function(input, output, session) {
       for (i in 1:nrRows) {
         out <- list(out,
           fluidRow(
-            column(6, align="center", res[[counter]]),
-            column(6, align="center", res[[counter+1]])
+            column(6, align = "center", res[[counter]]),
+            column(6, align = "center", res[[counter + 1]])
           ))
         counter <- counter + nrCols
       }
@@ -74,7 +74,7 @@ shinyServer(function(input, output, session) {
 
   # outputs create
   output$origDim <- renderPrint({
-    print(data.frame(code=data()), row.names=FALSE)
+    print(data.frame(code = data()), row.names = FALSE)
   })
 
   # the generated hierarchy
@@ -87,7 +87,7 @@ shinyServer(function(input, output, session) {
 
   # common outputs
   output$requiredCode <- renderPrint({
-    cat(code_complete(), sep="\n")
+    cat(code_complete(), sep = "\n")
   })
 
   ## outputs modify tree
@@ -98,10 +98,10 @@ shinyServer(function(input, output, session) {
     js <- json()
     if (!is.null(js)) {
       tot_lev <- totLevelName()
-      if (tot_lev=="") {
+      if (tot_lev == "") {
         tot_lev <- "Total"
       }
-      sdcHier_import(inp=js, tot_lab=tot_lev)
+      sdcHier_import(inp = js, tot_lab = tot_lev)
     }
   })
 

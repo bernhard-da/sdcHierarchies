@@ -1,6 +1,6 @@
 # do we have a tree with root-node only?
 isEmptyTree <- reactive({
-  if (json()=="[]") {
+  if (json() == "[]") {
     return(TRUE)
   }
   return(FALSE)
@@ -11,7 +11,7 @@ hierarchy <- reactive({
   if (is.null(js)) {
     return(NULL)
   }
-  sdcHier_import(inp=js, from="json")
+  sdcHier_import(inp = js, from = "json")
 })
 
 totLevelName <- reactive({
