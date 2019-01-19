@@ -1,7 +1,9 @@
+^codecov\.yml$
+^\.lintr$
 ^\.travis\.yml$
 ^Meta$
 ^doc$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 debug
-readme.md
+README.Rmd
