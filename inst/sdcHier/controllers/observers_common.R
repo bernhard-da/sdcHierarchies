@@ -51,7 +51,7 @@ output$btn_export_dl <- downloadHandler(
     paste0("sdcHier_", input$exportFormat, "_", format(Sys.Date(), "%d%m%Y"), ext)
   },
   content = function(con) {
-    dd <- sdcHier_import(inp = js, tot_lab = totLevelName())
+    dd <- sdcHier_import(inp = js, tot_lab = overall_level_name())
     if (input$exportFormat == "data.frame") {
       dd <- sdcHier_export(dd, format = "data.frame", path = con)
     }

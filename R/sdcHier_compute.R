@@ -93,11 +93,11 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FAL
     stop(paste("duplicated values detected in argument", shQuote("dim"), "!"), call. = FALSE)
   }
 
-  N <- length(dim)
-  onlyTotal <- FALSE
+  tree_depth <- length(dim)
+  only_total <- FALSE
   if (is.null(tot_lev)) {
     if (length(dim_len) == 1) {
-      onlyTotal <- TRUE
+      only_total <- TRUE
     }
     df <- data.frame(path = substr(dim, 1, dim_len[1]), stringsAsFactors = FALSE)
     if (length(unique(df$path)) > 1) {
@@ -108,12 +108,12 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FAL
     dim <- substr(dim, dim_len[1] + 1, nchar(dim))
     dim_len <- dim_len[-c(1)]
   } else {
-    df <- data.frame(path = rep(tot_lev, N), stringsAsFactors = FALSE)
-    onlyTotal <- FALSE
+    df <- data.frame(path = rep(tot_lev, tree_depth), stringsAsFactors = FALSE)
+    only_total <- FALSE
   }
 
   # only total specified
-  if (onlyTotal == TRUE) {
+  if (only_total == TRUE) {
     nn <- sdcHier_create(as.character(df[1, 1]))
     if (as_df == TRUE) {
       return(sdcHier_convert(nn, format = "data.frame"))

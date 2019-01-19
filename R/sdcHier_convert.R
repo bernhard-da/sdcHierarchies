@@ -38,7 +38,7 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
 
   # node to json
   h_to_json <- function(h, verbose) {
-    write.json.row <- function(id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
+    write_json_row <- function(id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
       stopifnot(is_scalar_character(id))
       stopifnot(is_scalar_character(parent))
       stopifnot(is_scalar_character(text))
@@ -71,7 +71,7 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
       sub <- unique(df[, c(i - 1, i)])
       sub <- sub[!is.na(sub[[2]]), ]
       for (j in 1:nrow(sub)) {
-        js <- paste0(js, write.json.row(id = sub[[2]][j], parent = sub[[1]][j], text = sub[[2]][j]), ",")
+        js <- paste0(js, write_json_row(id = sub[[2]][j], parent = sub[[1]][j], text = sub[[2]][j]), ",")
       }
     }
     js <- paste0(js, "]")
@@ -92,8 +92,7 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
 
     if (length(all_names) > 0) {
       info <- sdcHier_info(h, node_labs = all_names)
-      runInd <- TRUE
-      while (runInd) {
+      while (length(all_names) > 0) {
         lev <- all_names[1]
         cur_info <- info[[lev]]
         nn <- c(lev, cur_info$siblings)
@@ -102,9 +101,6 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
         s1 <- shQuote(cur_info$parent)
         s2 <- paste0("c(", paste0(shQuote(nn), collapse = ","), ")")
         code <- c(code, paste0("sdcHier_add(d, refnode=", s1, ", node_labs=", s2, ")"))
-        if (length(all_names) == 0) {
-          runInd <- FALSE
-        }
       }
     }
     code <- c(code, "print(d)")

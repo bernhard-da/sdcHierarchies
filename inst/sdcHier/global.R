@@ -19,7 +19,7 @@ if (res == TRUE) {
 }
 
 # converts input$tree to node (internally used only)
-shinytree_to_node <- function(tree, totLab=NULL) {
+shinytree_to_node <- function(tree, tot_lab=NULL) {
   json <- toJSON(tree)
   json <- gsub("\\[0\\]", "[]", json)
   ll <- fromJSON(json)

@@ -170,8 +170,8 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             column(6, h1("Hierarchy (computed)"), align = "center")
           ),
           fluidRow(
-            column(6, div(id = "col_data", verbatimTextOutput("origDim"), align = "center")),
-            column(6, div(id = "col_hierarchy", verbatimTextOutput("generatedDim"), align = "center")),
+            column(6, div(id = "col_data", verbatimTextOutput("original_dim"), align = "center")),
+            column(6, div(id = "col_hierarchy", verbatimTextOutput("generated_dim"), align = "center")),
             shinyjs::hidden(
               div(id = "txt_error_created",
                 p("Something went wrong, please try other specifications"), align = "center")
@@ -213,7 +213,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
       ),
       fluidRow(
         column(12, align = "left",
-          verbatimTextOutput("requiredCode")
+          verbatimTextOutput("required_code")
         )
       ),
       fluidRow(

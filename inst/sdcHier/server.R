@@ -43,42 +43,42 @@ shinyServer(function(input, output, session) {
       ll <- labs(nr = input$nr_levels, method = input$method)
       vv <- vals(nr = input$nr_levels, method = input$method)
 
-      nrCols <- 2
-      nrRows <- ceiling(input$nr_levels / nrCols)
-      nrCells <- nrCols * nrRows
+      nr_cols <- 2
+      nr_rows <- ceiling(input$nr_levels / nr_cols)
+      nr_cells <- nr_cols * nr_rows
 
       res <- lapply(1:input$nr_levels, function(i) {
         numericInput(inputId = paste0("pos", i), label = ll[i],
           min = 1, max = max_nchar(), value = vv[i], step = 1)
       })
 
-      if (length(res) < nrCells) {
-        for (i in (length(res) + 1):nrCells) {
+      if (length(res) < nr_cells) {
+        for (i in (length(res) + 1):nr_cells) {
           res[[i]] <- ""
         }
       }
 
       out <- NULL
       counter <- 1
-      for (i in 1:nrRows) {
+      for (i in 1:nr_rows) {
         out <- list(out,
           fluidRow(
             column(6, align = "center", res[[counter]]),
             column(6, align = "center", res[[counter + 1]])
           ))
-        counter <- counter + nrCols
+        counter <- counter + nr_cols
       }
       out
     }
   })
 
   # outputs create
-  output$origDim <- renderPrint({
+  output$original_dim <- renderPrint({
     print(data.frame(code = data()), row.names = FALSE)
   })
 
   # the generated hierarchy
-  output$generatedDim <- renderPrint({
+  output$generated_dim <- renderPrint({
     cur_hier <- hierarchy()
     if (!is.null(cur_hier)) {
       print(cur_hier)
@@ -86,7 +86,7 @@ shinyServer(function(input, output, session) {
   })
 
   # common outputs
-  output$requiredCode <- renderPrint({
+  output$required_code <- renderPrint({
     cat(code_complete(), sep = "\n")
   })
 
@@ -97,7 +97,7 @@ shinyServer(function(input, output, session) {
   output$treeprint <- renderPrint({
     js <- json()
     if (!is.null(js)) {
-      tot_lev <- totLevelName()
+      tot_lev <- overall_level_name()
       if (tot_lev == "") {
         tot_lev <- "Total"
       }

@@ -16,7 +16,7 @@
 #' @examples
 #' ## for examples, see sdcHier_vignette()
 sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
-  h_from_json <- function(json, totLab=NULL) {
+  h_from_json <- function(json, tot_lab=NULL) {
     totlab_from_attr <- function(json, tot_lab) {
       if (!is.null(tot_lab)) {
         return(tot_lab)
@@ -33,8 +33,8 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     }
     tab <- tab[, c(2, 1)]
     colnames(tab) <- c("from", "to")
-    if (!is.null(totLab)) {
-      tab$from[tab$from == "#"] <- totLab
+    if (!is.null(tot_lab)) {
+      tab$from[tab$from == "#"] <- tot_lab
     } else {
       tab$from[tab$from == "#"] <- totlab_from_attr(json, tot_lab)
     }
@@ -42,7 +42,7 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     class(tt) <- c(class(tt), "sdcHier")
     tt
   }
-  h_from_data.frame <- function(df, totLab=NULL) {
+  h_from_data.frame <- function(df, tot_lab=NULL) {
     stopifnot(is.data.frame(df))
     stopifnot(ncol(df) == 2)
     colnames(df) <- c("levels", "labs")
@@ -78,19 +78,19 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     }
     return(dd)
   }
-  h_from_argus <- function(df, totLab=NULL) {
+  h_from_argus <- function(df, tot_lab=NULL) {
     stopifnot(is.data.frame(df))
     stopifnot(attributes(df)$sdcHier_format == "argus")
-    return(h_from_data.frame(df, totLab = totLab))
+    return(h_from_data.frame(df, tot_lab = tot_lab))
   }
-  h_from_code <- function(code, totLab=NULL) {
+  h_from_code <- function(code, tot_lab=NULL) {
     stopifnot(is.character(code))
     stopifnot(attributes(code)$sdcHier_convert == TRUE)
     stopifnot(attributes(code)$sdcHier_format == "code")
     code <- paste(code[-c(1, length(code))], collapse = ";")
     return(eval(parse(text = code)))
   }
-  h_from_hrc <- function(hrc, totLab=NULL) {
+  h_from_hrc <- function(hrc, tot_lab=NULL) {
     df <- data.frame(inp = readLines(hrc), stringsAsFactors = FALSE)
     r1 <- strsplit(df$inp, " ")
     df$level <- sapply(r1, function(x) {
@@ -109,10 +109,10 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     })
     df$inp <- NULL
     df$level <- paste0("@@", df$level)
-    if (is.null(totLab)) {
-      totLab <- "Total"
+    if (is.null(tot_lab)) {
+      tot_lab <- "Total"
     }
-    df <- rbind(data.frame(level = "@", names = totLab, stringsAsFactors = FALSE), df)
+    df <- rbind(data.frame(level = "@", names = tot_lab, stringsAsFactors = FALSE), df)
     return(h_from_data.frame(df))
   }
 
@@ -123,7 +123,7 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
   }
 
   if (from == "json") {
-    return(h_from_json(json = inp, totLab = tot_lab))
+    return(h_from_json(json = inp, tot_lab = tot_lab))
   }
   if (from == "data.frame") {
     return(h_from_data.frame(df = inp))
@@ -135,7 +135,7 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     return(h_from_code(code = inp))
   }
   if (from == "hrc") {
-    return(h_from_hrc(hrc = inp, totLab = tot_lab))
+    return(h_from_hrc(hrc = inp, tot_lab = tot_lab))
   }
   stop("uncaught error in sdcHier_import()", call. = FALSE)
 }

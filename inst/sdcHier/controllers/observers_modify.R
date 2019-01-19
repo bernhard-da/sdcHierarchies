@@ -3,14 +3,14 @@ observe({
   if (modify_mode() == TRUE) {
     js <- json()
     updateTree(session, "mytree", data = js)
-    dd <- sdcHier_import(inp = js, tot_lab = totLevelName())
+    dd <- sdcHier_import(inp = js, tot_lab = overall_level_name())
     code_modify(sdcHier_convert(dd, format = "code"))
   }
 })
 
 # update header containing overall total
 observe({
-  shinyjs::html(id = "header_total", html = totLevelName())
+  shinyjs::html(id = "header_total", html = overall_level_name())
 })
 
 # update JSON in case hierarchies have been moved/dragged around
@@ -22,10 +22,10 @@ observeEvent(input$mytree, {
 ## update select inputs
 observe({
   if (!is.null(json())) {
-    updateSelectInput(session, inputId = "selAddNode_ref", choices = allNodes())
-    updateSelectInput(session, inputId = "seldelNode", choices = setdiff(allNodes(), totLevelName()))
-    updateSelectInput(session, inputId = "selRenameNode", choices = setdiff(allNodes(), totLevelName()))
-    updateSelectInput(session, inputId = "selRenameNode", choices = allNodes())
+    updateSelectInput(session, inputId = "selAddNode_ref", choices = all_nodes())
+    updateSelectInput(session, inputId = "seldelNode", choices = setdiff(all_nodes(), overall_level_name()))
+    updateSelectInput(session, inputId = "selRenameNode", choices = setdiff(all_nodes(), overall_level_name()))
+    updateSelectInput(session, inputId = "selRenameNode", choices = all_nodes())
   }
 })
 
@@ -34,7 +34,7 @@ observe({
   if (input$name_addNode == "") {
     shinyjs::disable("btn_add")
   } else {
-    if (!input$name_addNode %in% allNodes()) {
+    if (!input$name_addNode %in% all_nodes()) {
       shinyjs::enable("btn_add")
     }
   }
@@ -72,7 +72,7 @@ observe({
   if (input$name_renameNode == "") {
     shinyjs::disable("btn_rename")
   } else {
-    if (!input$name_renameNode %in% allNodes()) {
+    if (!input$name_renameNode %in% all_nodes()) {
       shinyjs::enable("btn_rename")
     }
   }
@@ -119,7 +119,7 @@ observeEvent(input$btn_export, {
     stopApp(NULL)
   }
 
-  dd <- sdcHier_import(inp = js, tot_lab = totLevelName())
+  dd <- sdcHier_import(inp = js, tot_lab = overall_level_name())
   if (input$exportFormat == "data.frame") {
     dd <- sdcHier_convert(dd, format = "data.frame")
   }
@@ -144,7 +144,7 @@ observeEvent(input$what, {
     shinyjs::hide("action_add")
     shinyjs::hide("action_rename")
 
-    if (isEmptyTree()) {
+    if (is_empty_tree()) {
       shinyjs::hide("action_delete")
       shinyjs::show("action_delete_warning")
 

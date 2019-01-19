@@ -14,18 +14,18 @@
 #' res <- sdcHier(codes); print(res)
 #' }
 sdcHier <- function(x, ...) {
-  appDir <- system.file("sdcHier", package = "sdcHierarchies")
-  if (appDir == "") {
+  app_dir <- system.file("sdcHier", package = "sdcHierarchies")
+  if (app_dir == "") {
     stop("Could not find example directory. Try re-installing `sdcHierarchies`.", call. = FALSE)
   }
 
   shinyOptions(.startdir = getwd())
-  shinyOptions(.appDir = appDir)
+  shinyOptions(.appDir = app_dir)
 
   res <- try(h_is_valid(x), silent = TRUE)
   if ("error" %in% class(res) & !is.character(x)) {
     stop("argument 'x' needs to be a character vector!\n")
   }
   shinyOptions(.data = x)
-  runApp(appDir, launch.browser = TRUE)
+  runApp(app_dir, launch.browser = TRUE)
 }

@@ -77,9 +77,9 @@ sdcHier_compute_fromList <- function(dim, tot_lev, as_df=FALSE) {
     todo <- df[df$finished == FALSE, "nodes"]
     levs <- intersect(todo, sdcHier_nodenames(d))
     for (i in seq_along(levs)) {
-      curN <- levs[i]
-      sdcHier_add(d, refnode = curN, node_labs = as.character(dim[[curN]]))
-      df[df$nodes == curN, "finished"] <- TRUE
+      cur_nr <- levs[i]
+      sdcHier_add(d, refnode = cur_nr, node_labs = as.character(dim[[cur_nr]]))
+      df[df$nodes == cur_nr, "finished"] <- TRUE
     }
     not_finished <- sum(df$finished == FALSE) > 0
   }
