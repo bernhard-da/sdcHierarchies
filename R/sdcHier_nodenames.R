@@ -15,7 +15,7 @@ sdcHier_nodenames <- function(h, node_lab=NULL) {
 
   stopifnot(is_scalar_character(node_lab))
   if (!h_node_exists(h, node_lab)) {
-    stop(paste(shQuote(node_lab),"is not a node in the given hierachy"), call.=FALSE)
+    stop(paste(shQuote(node_lab), "is not a node in the given hierachy"), call. = FALSE)
   }
   nn <- FindNode(h, node_lab)
   return(as.character(nn$Get("name")))

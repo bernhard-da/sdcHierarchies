@@ -19,16 +19,15 @@
 #' @examples
 #' ## for examples, see sdcHier_vignette()
 sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
-
   # to data.frame
   h_to_df <- function(h, verbose) {
     res <- sdcHier_info(h)
 
-    if (length(res)==6 && names(res)[1]=="exists") {
-      return(data.frame(level="@", name=res$name, stringsAsFactors=FALSE))
+    if (length(res) == 6 && names(res)[1] == "exists") {
+      return(data.frame(level = "@", name = res$name, stringsAsFactors = FALSE))
     }
     df <- do.call("rbind", lapply(res, function(x) {
-      data.frame(level=paste(rep("@", x$level), collapse=""), name=x$name, stringsAsFactors=FALSE)
+      data.frame(level = paste(rep("@", x$level), collapse = ""), name = x$name, stringsAsFactors = FALSE)
     }))
     rownames(df) <- NULL
     if (verbose) {
@@ -43,18 +42,24 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
       stopifnot(is_scalar_character(id))
       stopifnot(is_scalar_character(parent))
       stopifnot(is_scalar_character(text))
-      op <- ifelse(opened==TRUE, "true","false")
-      dis <- ifelse(disabled==TRUE, "true","false")
-      sel <- ifelse(selected==TRUE, "true","false")
-      js <- paste0("{",dQuote("id"),":",dQuote(id),",",dQuote("parent"),":",dQuote(parent),",",dQuote("text"),":",dQuote(text))
-      js <- paste0(js, ",",dQuote("state"),":{",dQuote("opened"),":",op,",",dQuote("disabled"),":",dis,",",dQuote("selected"),":",sel,"}}")
+      op <- ifelse(opened == TRUE, "true", "false")
+      dis <- ifelse(disabled == TRUE, "true", "false")
+      sel <- ifelse(selected == TRUE, "true", "false")
+      js <- paste0("{",
+        dQuote("id"), ":", dQuote(id), ",",
+        dQuote("parent"), ":", dQuote(parent), ",",
+        dQuote("text"), ":", dQuote(text), ",",
+        dQuote("state"), ":{",
+        dQuote("opened"), ":", op, ",",
+        dQuote("disabled"), ":", dis, ",",
+        dQuote("selected"), ":", sel, "}}")
       js
     }
 
     df <- ToDataFrameTypeCol(h)
 
     if (!is.data.frame(df)) {
-      js <- paste0('[]')
+      js <- paste0("[]")
       attr(js, "totlev") <- df
       return(js)
     }
@@ -63,16 +68,16 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
     df[[1]] <- "#"
     js <- "["
     for (i in 2:ncol(df)) {
-      sub <- unique(df[,c(i-1, i)])
-      sub <- sub[!is.na(sub[[2]]),]
+      sub <- unique(df[, c(i - 1, i)])
+      sub <- sub[!is.na(sub[[2]]), ]
       for (j in 1:nrow(sub)) {
-        js <- paste0(js, write.json.row(id=sub[[2]][j], parent=sub[[1]][j], text=sub[[2]][j]),",")
+        js <- paste0(js, write.json.row(id = sub[[2]][j], parent = sub[[1]][j], text = sub[[2]][j]), ",")
       }
     }
-    js <- paste0(js,"]")
-    js <- sub(",\\]","\\]", js)
+    js <- paste0(js, "]")
+    js <- sub(",\\]", "\\]", js)
     if (verbose) {
-      cat(js, sep="\n")
+      cat(js, sep = "\n")
     }
     attr(js, "totlev") <- as.character(totlab)
     return(js)
@@ -82,29 +87,29 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
   h_to_code <- function(h, verbose) {
     all_names <- sdcHier_nodenames(h)
     code <- "library(sdcHierarchies)"
-    code <- c(code, paste0("d <- sdcHier_create(tot_lab=",shQuote(all_names[1]),")"))
+    code <- c(code, paste0("d <- sdcHier_create(tot_lab=", shQuote(all_names[1]), ")"))
     all_names <- all_names[-c(1)]
 
-    if (length(all_names)>0) {
-      info <- sdcHier_info(h, node_labs=all_names)
+    if (length(all_names) > 0) {
+      info <- sdcHier_info(h, node_labs = all_names)
       runInd <- TRUE
-      while(runInd) {
+      while (runInd) {
         lev <- all_names[1]
         cur_info <- info[[lev]]
         nn <- c(lev, cur_info$siblings)
         all_names <- setdiff(all_names, nn)
 
         s1 <- shQuote(cur_info$parent)
-        s2 <- paste0("c(",paste0(shQuote(nn), collapse=","),")")
-        code <- c(code, paste0("sdcHier_add(d, refnode=",s1,", node_labs=",s2,")"))
-        if (length(all_names)==0) {
+        s2 <- paste0("c(", paste0(shQuote(nn), collapse = ","), ")")
+        code <- c(code, paste0("sdcHier_add(d, refnode=", s1, ", node_labs=", s2, ")"))
+        if (length(all_names) == 0) {
           runInd <- FALSE
         }
       }
     }
     code <- c(code, "print(d)")
     if (verbose) {
-      cat(code, sep="\n")
+      cat(code, sep = "\n")
     }
     return(code)
   }
@@ -112,18 +117,17 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
   # node to argus
   h_to_argus <- function(h, verbose) {
     dforig <- df <- sdcHier_convert(h, "data.frame")
-    df <- df[-1,]
+    df <- df[-1, ]
     df$level <- substr(df$level, 3, nchar(df$level))
     sout <-  df$name
-    ind_levs <-  df$level!=""
+    ind_levs <-  df$level != ""
     m1 <- max(nchar(df$level[ind_levs]))
-    slev <- sprintf(paste0("%-",m1,"s"), df$level[ind_levs])
+    slev <- sprintf(paste0("%-", m1, "s"), df$level[ind_levs])
 
     m2 <- max(nchar(df$name[ind_levs]))
-    sname <- sprintf(paste0("%",m2,"s"), df$name[ind_levs])
+    sname <- sprintf(paste0("%", m2, "s"), df$name[ind_levs])
 
     sout[ind_levs] <- paste(slev, sname)
-    #outdf <- data.frame(inp=sout, stringsAsFactors=FALSE)
     if (verbose) {
       print(dforig)
     }
@@ -132,22 +136,22 @@ sdcHier_convert <- function(h, format="data.frame", verbose=FALSE) {
   }
 
   stopifnot(is_scalar_character(format))
-  stopifnot(format %in% c("data.frame","json","argus","code"))
+  stopifnot(format %in% c("data.frame", "json", "argus", "code"))
   stopifnot(is_scalar_logical(verbose))
   h_is_valid(h)
 
 
-  if (format=="data.frame") {
-    res <- h_to_df(h, verbose=verbose)
+  if (format == "data.frame") {
+    res <- h_to_df(h, verbose = verbose)
   }
-  if (format=="json") {
-    res <- h_to_json(h, verbose=verbose)
+  if (format == "json") {
+    res <- h_to_json(h, verbose = verbose)
   }
-  if (format=="code") {
-    res <- h_to_code(h, verbose=verbose)
+  if (format == "code") {
+    res <- h_to_code(h, verbose = verbose)
   }
-  if (format=="argus") {
-    res <- h_to_argus(h, verbose=verbose)
+  if (format == "argus") {
+    res <- h_to_argus(h, verbose = verbose)
   }
 
   attr(res, "sdcHier_convert") <- TRUE

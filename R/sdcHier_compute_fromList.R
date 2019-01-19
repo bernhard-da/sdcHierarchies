@@ -44,47 +44,48 @@ sdcHier_compute_fromList <- function(dim, tot_lev, as_df=FALSE) {
   stopifnot(is_scalar_character(tot_lev))
   nn <- names(dim)
   if (is.null(nn)) {
-    stop(paste("Argument",shQuote(dim),"must be a named list"), call.=FALSE)
+    stop(paste("Argument", shQuote(dim), "must be a named list"), call. = FALSE)
   }
-  if (sum(nn=="")>0) {
-    stop(paste("Some elements of argument",shQuote(dim),"are not named"), call.=FALSE)
+  if (sum(nn == "") > 0) {
+    stop(paste("Some elements of argument", shQuote(dim), "are not named"), call. = FALSE)
   }
   stopifnot(tot_lev %in% nn)
   if (any(duplicated(nn))) {
-    stop(paste("Duplicated names in argument",shQuote(dim),"found"), call.=FALSE)
+    stop(paste("Duplicated names in argument", shQuote(dim), "found"), call. = FALSE)
   }
 
   all_codes <- as.character(unlist(dim))
   if (tot_lev %in% all_codes) {
-    stop(paste("The overall total",shQuote(tot_lev),"was found in argument",shQuote("dim")), call.=FALSE)
+    stop(paste("The overall total", shQuote(tot_lev), "was found in argument", shQuote("dim")), call. = FALSE)
   }
 
   nodes <- setdiff(nn, tot_lev)
   ind <- which(!nodes %in% all_codes)
-  if (length(ind)>0) {
-    stop(paste("The following sub-levels were not found as inputs:\n",paste0("- ", nodes[ind], collapse="\n")), call.=FALSE)
+  if (length(ind) > 0) {
+    nn <- paste0("- ", nodes[ind], collapse = "\n")
+    stop(paste("The following sub-levels were not found as inputs:\n", nn), call. = FALSE)
   }
 
   # generate hierarchy
-  df <- data.frame(nodes=nn, finished=FALSE)
+  df <- data.frame(nodes = nn, finished = FALSE)
   cur_nodes <- dim[[tot_lev]]
-  d <- sdcHier_create(tot_lab=tot_lev, node_labs=cur_nodes)
-  df[df$nodes==tot_lev, "finished"] <- TRUE
+  d <- sdcHier_create(tot_lab = tot_lev, node_labs = cur_nodes)
+  df[df$nodes == tot_lev, "finished"] <- TRUE
 
-  not_finished <- sum(df$finished==FALSE)>=0
-  while(not_finished) {
-    todo <- df[df$finished==FALSE, "nodes"]
+  not_finished <- sum(df$finished == FALSE) >= 0
+  while (not_finished) {
+    todo <- df[df$finished == FALSE, "nodes"]
     levs <- intersect(todo, sdcHier_nodenames(d))
     for (i in seq_along(levs)) {
       curN <- levs[i]
-      sdcHier_add(d, refnode=curN, node_labs=as.character(dim[[curN]]))
-      df[df$nodes==curN, "finished"] <- TRUE
+      sdcHier_add(d, refnode = curN, node_labs = as.character(dim[[curN]]))
+      df[df$nodes == curN, "finished"] <- TRUE
     }
-    not_finished <- sum(df$finished==FALSE)>0
+    not_finished <- sum(df$finished == FALSE) > 0
   }
 
-  if (as_df==TRUE) {
-    d <- sdcHier_convert(d, format="data.frame")
+  if (as_df == TRUE) {
+    d <- sdcHier_convert(d, format = "data.frame")
   }
   return(d)
 }

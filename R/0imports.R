@@ -7,5 +7,5 @@
 #' @importFrom rlang is_scalar_logical is_scalar_character is_integerish
 #' @importFrom utils write.table tail RShowDoc
 #' @import shinythemes
-options(useFancyQuotes=FALSE)
+options(useFancyQuotes = FALSE)
 NULL

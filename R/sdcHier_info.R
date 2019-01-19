@@ -16,11 +16,11 @@ sdcHier_info <- function(h, node_labs=NULL) {
     stopifnot(is.character(node_labs))
   }
 
-  if (length(node_labs)==1) {
-    return(h_nodeinfo(h, node_lab=node_labs))
+  if (length(node_labs) == 1) {
+    return(h_nodeinfo(h, node_lab = node_labs))
   }
   out <- lapply(node_labs, function(x) {
-    h_nodeinfo(h, node_lab=x)
+    h_nodeinfo(h, node_lab = x)
   })
   names(out) <- node_labs
   out

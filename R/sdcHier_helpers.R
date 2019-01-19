@@ -2,10 +2,10 @@
 h_is_valid <- function(h) {
   err <- paste("not a valid sdcHierarchy-obj generated with", shQuote("sdcHier_create()"))
   if (is.null(h)) {
-    stop(err, call.=FALSE)
+    stop(err, call. = FALSE)
   }
   if (!"sdcHier" %in% class(h)) {
-    stop(err, call.=FALSE)
+    stop(err, call. = FALSE)
   }
   invisible(TRUE)
 }
@@ -33,7 +33,7 @@ h_nodeinfo <- function(sdcHier, node_lab) {
     out$siblings <- names(nn$siblings)
     out$children <- names(nn$children)
     out$parent <- nn$parent$name
-    out$is_bogus <- length(out$siblings)==0 && out$is_leaf==TRUE
+    out$is_bogus <- length(out$siblings) == 0 && out$is_leaf == TRUE
   } else {
     out$name <- NA
     out$is_rootnode <- NA

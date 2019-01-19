@@ -9,5 +9,5 @@
 #' sdcHier_vignette()
 #' }
 sdcHier_vignette <- function() {
-  RShowDoc("usage", package="sdcHierarchies")
+  RShowDoc("usage", package = "sdcHierarchies")
 }
