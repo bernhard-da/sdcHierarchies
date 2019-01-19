@@ -15,7 +15,7 @@ sdcHier_create <- function(tot_lab, node_labs=NULL) {
   if (!is.null(node_labs)) {
     stopifnot(is.character(node_labs))
     if (tot_lab %in% node_labs) {
-      stop("at least one leaf-names matches the overall total", call.=FALSE)
+      stop("at least one leaf-names matches the overall total", call. = FALSE)
     }
   }
 
@@ -28,4 +28,3 @@ sdcHier_create <- function(tot_lab, node_labs=NULL) {
   }
   h
 }
-

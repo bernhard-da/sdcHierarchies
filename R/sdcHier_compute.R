@@ -70,11 +70,11 @@
 sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FALSE) {
   # convert endpos to length
   endpos_to_len <- function(end_pos) {
-    diff(c(0,end_pos))
+    diff(c(0, end_pos))
   }
-  stopifnot(is_scalar_character(method), method %in% c("len","endpos"))
+  stopifnot(is_scalar_character(method), method %in% c("len", "endpos"))
 
-  if (method=="endpos") {
+  if (method == "endpos") {
     dim_len <- endpos_to_len(dim_spec)
   } else {
     dim_len <- dim_spec
@@ -82,59 +82,60 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FAL
 
   stopifnot(is.character(dim))
   stopifnot(is_integerish(dim_len))
-  stopifnot(all(dim_len>0))
+  stopifnot(all(dim_len > 0))
 
   if (!is.null(tot_lev)) {
     stopifnot(is_scalar_character(tot_lev))
   }
 
-  stopifnot(sum(dim_len)>= max(nchar(dim)))
-  if (sum(any(duplicated(dim)))>0) {
-    stop(paste("duplicated values detected in argument",shQuote("dim"),"!"), call.=FALSE)
+  stopifnot(sum(dim_len) >= max(nchar(dim)))
+  if (sum(any(duplicated(dim))) > 0) {
+    stop(paste("duplicated values detected in argument", shQuote("dim"), "!"), call. = FALSE)
   }
 
   N <- length(dim)
   onlyTotal <- FALSE
   if (is.null(tot_lev)) {
-    if (length(dim_len)==1) {
+    if (length(dim_len) == 1) {
       onlyTotal <- TRUE
     }
-    df <- data.frame(path=substr(dim, 1, dim_len[1]), stringsAsFactors=FALSE)
-    if (length(unique(df$path))>1) {
-      stop(paste("Top-Level should be included in first", dim_len[1], "characters, but >1 values were detected!"), call.=FALSE)
+    df <- data.frame(path = substr(dim, 1, dim_len[1]), stringsAsFactors = FALSE)
+    if (length(unique(df$path)) > 1) {
+      err <- paste("Top-Level should be included in first", dim_len[1], "characters, but >1 values were detected!")
+      stop(err, call. = FALSE)
     }
 
-    dim <- substr(dim, dim_len[1]+1, nchar(dim))
+    dim <- substr(dim, dim_len[1] + 1, nchar(dim))
     dim_len <- dim_len[-c(1)]
   } else {
-    df <- data.frame(path=rep(tot_lev, N), stringsAsFactors=FALSE)
+    df <- data.frame(path = rep(tot_lev, N), stringsAsFactors = FALSE)
     onlyTotal <- FALSE
   }
 
   # only total specified
-  if (onlyTotal==TRUE) {
-    nn <- sdcHier_create(as.character(df[1,1]))
-    if (as_df==TRUE) {
-      return(sdcHier_convert(nn, format="data.frame"))
+  if (onlyTotal == TRUE) {
+    nn <- sdcHier_create(as.character(df[1, 1]))
+    if (as_df == TRUE) {
+      return(sdcHier_convert(nn, format = "data.frame"))
     }
     return(nn)
   }
 
-  cs <- c(0,cumsum(dim_len))
+  cs <- c(0, cumsum(dim_len))
   for (i in 2:length(cs)) {
-    from <- cs[i-1]+1
+    from <- cs[i - 1] + 1
     to <- cs[i]
     levs <- substr(dim, from, to)
-    ii <- which(levs!="")
+    ii <- which(levs != "")
 
-    if (length(ii)>0) {
+    if (length(ii) > 0) {
       df$path[ii] <- paste0(df$path[ii], "/", substr(dim, 1, to)[ii])
     }
   }
-  nn <- FromDataFrameTable(df, pathName="path")
+  nn <- FromDataFrameTable(df, pathName = "path")
   class(nn) <- c(class(nn), "sdcHier")
-  if (as_df==TRUE) {
-    return(sdcHier_convert(nn, format="data.frame"))
+  if (as_df == TRUE) {
+    return(sdcHier_convert(nn, format = "data.frame"))
   }
   return(nn)
 }

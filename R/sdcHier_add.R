@@ -17,15 +17,15 @@ sdcHier_add <- function(h, refnode, node_labs) {
   stopifnot(is.character(node_labs))
 
   if (refnode %in% node_labs) {
-    stop(paste("at least one leaf-name equals",shQuote(refnode)), call.=FALSE)
+    stop(paste("at least one leaf-name equals", shQuote(refnode)), call. = FALSE)
   }
   res <- sapply(node_labs, function(x) {
-    sdcHier_info(h, node_labs=x)$exists
+    sdcHier_info(h, node_labs = x)$exists
   })
   nn <- node_labs
   for (i in 1:length(nn)) {
-    if (res[i]==TRUE) {
-      warning(paste("Node",shQuote(nn[i]),"already exists and won't be added --> skipping"), call.=FALSE)
+    if (res[i] == TRUE) {
+      warning(paste("Node", shQuote(nn[i]), "already exists and won't be added --> skipping"), call. = FALSE)
     } else {
       FindNode(h, refnode)$AddChild(node_labs[i])
     }
