@@ -17,4 +17,4 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/bernhard-da/sdcHierarchies
-BugReports: https://github.com/bernhard/sdcHierarchies/issues
+BugReports: https://github.com/bernhard-da/sdcHierarchies/issues
