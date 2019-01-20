@@ -4,7 +4,7 @@ sdcHierarchies
 
 [![Travis build status](https://travis-ci.org/bernhard-da/sdcHierarchies.svg?branch=master)](https://travis-ci.org/bernhard-da/sdcHierarchies) [![Coverage status](https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/master/graph/badge.svg)](https://codecov.io/github/bernhard-da/sdcHierarchies?branch=master) [![GitHub last commit](https://img.shields.io/github/last-commit/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies/commits/master) [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies)
 
-R-Package to (interactively) generate or modify (nested) hierarchies that are required as input for packages such as [**sdcTable**](https://cran.r-project.org/web/packages/sdcTable/index.html) or [**cellKey**](https://github.com/sdcTools/cellKey)
+R-Package to (interactively) generate or modify (nested) hierarchies that are required as input for packages such as [**sdcTable**](https://cran.r-project.org/web/packages/sdcTable/index.html) or [**cellKey**](https://github.com/sdcTools/cellKey).
 
 The package is not tested and will likely change a lot in future versions. Still, any feedback/pull requests are very much welcome!
 
@@ -14,12 +14,18 @@ The package is not tested and will likely change a lot in future versions. Still
 
 ### Usage
 
-Please have a look at the package-vignette
+Please have a look at the package vignette:
 
     library(sdcHierarchies)
     sdcHier_vignette()
 
 ### Updates
+
+#### `0.12.0`
+
+-   continuous integration using travis
+-   check code is linted correctly
+-   building docs using pkgsdown, site is [**here**](https://bernhard-da.github.io/sdcHierarchies)
 
 #### `0.11.0`
 

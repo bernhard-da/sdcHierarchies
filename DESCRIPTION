@@ -1,8 +1,8 @@
 Package: sdcHierarchies
 Type: Package
 Title: Allows to create and (interactively) modify nested hierarchies
-Version: 0.11.0
-Date: 2018-11-29
+Version: 0.12.0
+Date: 2019-01-20
 Authors@R: c(
   person("Bernhard", "Meindl", email="Bernhard.Meindl@statistik.gv.at", role=c("aut","cre")))
 Description: This package allows to interactively generate and modify nested hierarchies.
