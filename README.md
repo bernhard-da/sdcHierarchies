@@ -15,3 +15,7 @@ The package is in its early stages and will likely change a lot in future versio
 ### Usage
 
 Please have a look at the package vignette `sdcHierarchies:: sdcHier_vignette()` or by clicking [**here**](https://bernhard-da.github.io/sdcHierarchies/articles/usage.html) or browse the automatically generated [**documentation**](https://bernhard-da.github.io/sdcHierarchies/).
+
+### Updates
+
+Updates/Changes are listed [**here**](https://bernhard-da.github.io/sdcHierarchies/news/index.html).
