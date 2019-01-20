@@ -12,7 +12,7 @@ r_github_packages:
 
 after_success:
   - R CMD INSTALL $PKG_TARBALL
-  - Rscript -e 'lintr::lint_package()'
+  - Rscript -e 'lintr::lint_package(linters=with_defaults(line_length_linter(120), object_name_linter = NULL))'
   - Rscript -e 'covr::codecov()'
 
 before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
@@ -20,3 +20,8 @@ deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
+
+notifications:
+  email:
+    on_success: always
+    on_failure: always
