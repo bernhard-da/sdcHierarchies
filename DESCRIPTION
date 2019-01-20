@@ -14,8 +14,7 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
-    rmarkdown,
-    covr
+    rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/bernhard-da/sdcHierarchies
 BugReports: https://github.com/bernhard/sdcHierarchies/issues
