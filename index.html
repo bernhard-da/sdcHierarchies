@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.0</span>
       </span>
     </div>
 
@@ -84,7 +84,7 @@
 <h2 class="hasAnchor">
 <a href="#sdchierarchies" class="anchor"></a>sdcHierarchies</h2>
 
-<p>R-Package to (interactively) generate or modify (nested) hierarchies that are required as input for packages such as <a href="https://cran.r-project.org/web/packages/sdcTable/index.html"><strong>sdcTable</strong></a> or <a href="https://github.com/sdcTools/cellKey"><strong>cellKey</strong></a></p>
+<p>R-Package to (interactively) generate or modify (nested) hierarchies that are required as input for packages such as <a href="https://cran.r-project.org/web/packages/sdcTable/index.html"><strong>sdcTable</strong></a> or <a href="https://github.com/sdcTools/cellKey"><strong>cellKey</strong></a>.</p>
 <p>The package is not tested and will likely change a lot in future versions. Still, any feedback/pull requests are very much welcome!</p>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
@@ -94,7 +94,7 @@
 <div id="usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h3>
-<p>Please have a look at the package-vignette</p>
+<p>Please have a look at the package vignette:</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(sdcHierarchies)
 sdcHier_vignette()</a></code></pre>
 </div>
@@ -103,7 +103,18 @@ sdcHier_vignette()</a></code></pre>
 <a href="#updates" class="anchor"></a>Updates</h3>
 <div id="section" class="section level4">
 <h4 class="hasAnchor">
-<a href="#section" class="anchor"></a><code>0.11.0</code>
+<a href="#section" class="anchor"></a><code>0.12.0</code>
+</h4>
+<ul>
+<li>continuous integration using travis</li>
+<li>check code is linted correctly</li>
+<li>building docs using pkgsdown, site is <a href="https://bernhard-da.github.io/sdcHierarchies"><strong>here</strong></a>
+</li>
+</ul>
+</div>
+<div id="section-1" class="section level4">
+<h4 class="hasAnchor">
+<a href="#section-1" class="anchor"></a><code>0.11.0</code>
 </h4>
 <ul>
 <li>
@@ -123,18 +134,18 @@ sdcHier_vignette()</a></code></pre>
 </li>
 </ul>
 </div>
-<div id="section-1" class="section level4">
+<div id="section-2" class="section level4">
 <h4 class="hasAnchor">
-<a href="#section-1" class="anchor"></a><code>0.9.0</code>
+<a href="#section-2" class="anchor"></a><code>0.9.0</code>
 </h4>
 <ul>
 <li>combine <code>dynHier()</code> and <code>fixedHier()</code> to <code><a href="reference/sdcHier.html">sdcHier()</a></code>
 </li>
 </ul>
 </div>
-<div id="section-2" class="section level4">
+<div id="section-3" class="section level4">
 <h4 class="hasAnchor">
-<a href="#section-2" class="anchor"></a><code>0.8.0</code>
+<a href="#section-3" class="anchor"></a><code>0.8.0</code>
 </h4>
 <ul>
 <li>
@@ -144,9 +155,9 @@ sdcHier_vignette()</a></code></pre>
 <li>start with tabbed interface for shiny-apps</li>
 </ul>
 </div>
-<div id="section-3" class="section level4">
+<div id="section-4" class="section level4">
 <h4 class="hasAnchor">
-<a href="#section-3" class="anchor"></a><code>0.7.0</code>
+<a href="#section-4" class="anchor"></a><code>0.7.0</code>
 </h4>
 <ul>
 <li>some bugfixes</li>
@@ -156,9 +167,9 @@ sdcHier_vignette()</a></code></pre>
 </li>
 </ul>
 </div>
-<div id="section-4" class="section level4">
+<div id="section-5" class="section level4">
 <h4 class="hasAnchor">
-<a href="#section-4" class="anchor"></a><code>0.6.0</code>
+<a href="#section-5" class="anchor"></a><code>0.6.0</code>
 </h4>
 <ul>
 <li>fixes for shiny-Apps <code>dynHier()</code> and <code>fixedHier()</code>
@@ -169,9 +180,9 @@ sdcHier_vignette()</a></code></pre>
 <code><a href="reference/sdcHier_convert.html">sdcHier_convert()</a></code> can output the required code to compute the hierarchy</li>
 </ul>
 </div>
-<div id="section-5" class="section level4">
+<div id="section-6" class="section level4">
 <h4 class="hasAnchor">
-<a href="#section-5" class="anchor"></a><code>0.5.0</code>
+<a href="#section-6" class="anchor"></a><code>0.5.0</code>
 </h4>
 <ul>
 <li>
@@ -180,9 +191,9 @@ sdcHier_vignette()</a></code></pre>
 </li>
 </ul>
 </div>
-<div id="section-6" class="section level4">
+<div id="section-7" class="section level4">
 <h4 class="hasAnchor">
-<a href="#section-6" class="anchor"></a><code>0.4.0</code>
+<a href="#section-7" class="anchor"></a><code>0.4.0</code>
 </h4>
 <ul>
 <li>Functions (<code><a href="reference/sdcHier_create.html">sdcHier_create()</a></code>, <code><a href="reference/sdcHier_add.html">sdcHier_add()</a></code>, <code><a href="reference/sdcHier_delete.html">sdcHier_delete()</a></code>, <code><a href="reference/sdcHier_rename.html">sdcHier_rename()</a></code>, <code><a href="reference/sdcHier_info.html">sdcHier_info()</a></code>, <code><a href="reference/sdcHier_nodenames.html">sdcHier_nodenames()</a></code> and <code><a href="reference/sdcHier_convert.html">sdcHier_convert()</a></code>) dealing with creation and updating of nested hierarchies and extracting information have been added</li>
