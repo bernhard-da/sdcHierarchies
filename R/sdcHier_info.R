@@ -2,9 +2,11 @@
 #'
 #' get information about all or specific nodes in a nested hierarchy
 #' @inherit sdcHier_add
+#' @param node_labs (character) name(s) of nodes for which information should be extracted.
 #' @export
-#' @return a \code{list} with information about the required nodes. If \code{node_labs} is \code{NULL},
-#' then the information is computed for all nodes.
+#' @return a \code{list} with information about the required nodes. If \code{node_labs} is
+#' \code{NULL} (the default), the information is computed for all available nodes of
+#' the hierarchy.
 #' @examples
 #' ## for examples, see sdcHier_vignette()
 sdcHier_info <- function(h, node_labs=NULL) {

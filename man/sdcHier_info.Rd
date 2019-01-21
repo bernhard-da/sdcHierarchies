@@ -10,11 +10,12 @@ sdcHier_info(h, node_labs = NULL)
 \item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
 using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdcHier_rename}}.}
 
-\item{node_labs}{names of the new nodes/levels that should be added}
+\item{node_labs}{(character) name(s) of nodes for which information should be extracted.}
 }
 \value{
-a \code{list} with information about the required nodes. If \code{node_labs} is \code{NULL},
-then the information is computed for all nodes.
+a \code{list} with information about the required nodes. If \code{node_labs} is
+\code{NULL} (the default), the information is computed for all available nodes of
+the hierarchy.
 }
 \description{
 get information about all or specific nodes in a nested hierarchy
