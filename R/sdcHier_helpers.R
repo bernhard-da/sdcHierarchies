@@ -20,39 +20,49 @@ h_node_exists <- function(h, node_lab) {
 
 # compute the levels of the codes contributing to a specific name
 # used in sdcHier_info()
-h_min_contributing_codes <- function(sdcHier, node_name) {
+h_min_contributing_codes <- function(h, node_name) {
+  h_is_valid(h)
   stopifnot(is_scalar_character(node_name))
-  nn <- FindNode(sdcHier, node_name)
-  if (is.null(nn)) {
-    stop(paste("Node", shQuote(node_name), "not found\n"), call. = FALSE)
+  dt <- as.data.table(ToDataFrameNetwork(h))
+
+  all_codes <- unique(c(dt[, from], dt[, to]))
+  if (!node_name %in% all_codes) {
+    stop("node not found!\n", call. = FALSE)
   }
 
-  if (nn$isLeaf) {
-    ## this node has no leaves (is not a sub-total)
-    return(NA)
+  # never in "from"
+  index_subtot <- all_codes %in% dt[, from]
+  codes_minimal <- all_codes[!index_subtot]
+
+  if (node_name %in% codes_minimal) {
+    return(NA) # it is contributing only to it self
   }
 
-  if (nn$totalCount == 2) {
-    ## this node only has one leaf
-    return(names(nn$leaves))
+  counter <- 1
+  tmp <- dt[from == node_name]
+  codes <- c()
+  cc <- intersect(codes_minimal, tmp[, to])
+  if (length(cc) > 0) {
+    tmp <- tmp[!to %in% cc]
+    codes <- c(codes, cc)
+  }
+  if (nrow(tmp) == 0) {
+    return(codes)
   }
 
-  na_char <- "_____NA____"
-
-  df <- ToDataFrameTypeCol(nn)
-  df[is.na(df)] <- na_char
-
-  indices <- data.frame(t(apply(df, 1, function(x) {
-    x != na_char
-  })))
-  col_indices <- sapply(1:nrow(df), function(x) {
-    tmp <- as.character(df[x, ])
-    max(which(tmp != na_char))
-  })
-  contributing_codes <- sapply(1:nrow(df), function(x) {
-    df[x, col_indices[x]]
-  })
-  contributing_codes
+  counter <- counter + 1
+  while (nrow(tmp) > 0 || counter > 10000) {
+    cc <- intersect(codes_minimal, tmp[, to])
+    if (length(cc) > 0) {
+      tmp <- tmp[!to %in% cc]
+      codes <- c(codes, cc)
+    } else {
+      tmp <- dt[from %in% tmp[, to]]
+      tmp[, from := node_name]
+    }
+    counter <- counter + 1
+  }
+  return(codes)
 }
 
 # nodeinfo for a specific hierarchy
@@ -72,7 +82,7 @@ h_nodeinfo <- function(sdcHier, node_lab) {
     } else {
       out$siblings <- names(nn$siblings)
     }
-    out$contributing_codes <- h_min_contributing_codes(nn, node_name = node_lab)
+    out$contributing_codes <- h_min_contributing_codes(sdcHier, node_name = node_lab)
 
     ch <- names(nn$children)
     if (length(ch) == 0) {
