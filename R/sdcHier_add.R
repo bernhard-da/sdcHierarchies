@@ -27,7 +27,7 @@ sdcHier_add <- function(h, refnode, node_labs) {
     if (res[i] == TRUE) {
       warning(paste("Node", shQuote(nn[i]), "already exists and won't be added --> skipping"), call. = FALSE)
     } else {
-      FindNode(h, refnode)$AddChild(node_labs[i])
+      data.tree::FindNode(h, refnode)$AddChild(node_labs[i])
     }
   }
   return(invisible(h))

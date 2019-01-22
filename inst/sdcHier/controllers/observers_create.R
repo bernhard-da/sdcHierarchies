@@ -1,6 +1,6 @@
 # is the input by length or by endpos?
 # this is an input for sdcHier_compute()
-observeEvent(input$method, {
+shiny::observeEvent(input$method, {
   if (!modify_mode()) {
     if (input$method == "len") {
       max_nr <- tags$code(max_nchar())
@@ -16,7 +16,7 @@ observeEvent(input$method, {
 })
 
 # is the total included in the string
-observeEvent(input$tot_is_included, {
+shiny::observeEvent(input$tot_is_included, {
   if (input$tot_is_included == "yes") {
     shinyjs::hide("row_tot_level")
   } else {
@@ -25,33 +25,33 @@ observeEvent(input$tot_is_included, {
 })
 
 # possible number of levels
-observe({
+shiny::observe({
   if (!modify_mode()) {
-    updateSliderInput(session, inputId = "nr_levels", max = max_nchar(), val = max_nchar())
+    shiny::updateSliderInput(session, inputId = "nr_levels", max = max_nchar(), val = max_nchar())
   }
 })
 
 # should createHierarchy-button be shown?
-observe({
+shiny::observe({
   if (!is.null(specs()) && !is.null(max_nchar())) {
     if (input$method == "len") {
       if (sum(specs()) < max_nchar()) {
-        shinyjs::hide("createHier")
+        shinyjs::hide("create_hier")
       } else {
-        shinyjs::show("createHier")
+        shinyjs::show("create_hier")
       }
     }
     if (input$method == "endpos") {
       if (tail(specs(), 1) < max_nchar()) {
-        shinyjs::hide("createHier")
+        shinyjs::hide("create_hier")
       } else {
-        shinyjs::show("createHier")
+        shinyjs::show("create_hier")
       }
     }
   }
 })
 
-observeEvent(input$createHier, {
+shiny::observeEvent(input$create_hier, {
   if (input$tot_is_included == "yes") {
     tot_lev <- NULL
   } else {
@@ -103,7 +103,7 @@ observeEvent(input$createHier, {
   }
 })
 
-observeEvent(input$btn_switch, {
+shiny::observeEvent(input$btn_switch, {
   if (input$tot_is_included == "yes") {
     tot_lev <- NULL
   } else {

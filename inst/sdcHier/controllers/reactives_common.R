@@ -6,6 +6,7 @@ code_complete <- reactive({
       if (is.null(code)) {
         code <- c(code, "library(sdcHierarchies)", "## code to create hierarchy (after modification)", code2[-1])
       } else {
+        ## notlint
         code <- c(code, "", "## code to create hierarchy (after modification)", code2[-1])
       }
     }

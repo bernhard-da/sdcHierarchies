@@ -5,11 +5,21 @@ shinyUI(navbarPage("Interactive sdcHierarches",
       sidebarPanel(width = 4,
         shinyjs::hidden(div(id = "sidebar_create",
           fluidRow(
-            column(6, align = "center", div(id = "help_tot_is_included", icon(name = "question-circle"))),
-            column(6, align = "center", div(id = "help_method", icon(name = "question-circle")))
+            column(
+              width = 6,
+              align = "center",
+              div(id = "help_tot_is_included", icon(name = "question-circle"))
+            ),
+            column(
+              width = 6,
+              align = "center",
+              div(id = "help_method", icon(name = "question-circle"))
+            )
           ),
           fluidRow(
-            column(6, align = "center",
+            column(
+              width = 6,
+              align = "center",
               radioButtons(
                 inputId = "tot_is_included",
                 label = "Overall Total available?",
@@ -17,7 +27,9 @@ shinyUI(navbarPage("Interactive sdcHierarches",
                 inline = TRUE
               )
             ),
-            column(6, align = "center",
+            column(
+              width = 6,
+              align = "center",
               radioButtons(
                 inputId = "method",
                 label = "Specify level-structure by",
@@ -27,7 +39,9 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             )
           ),
           shinyjs::hidden(fluidRow(id = "row_tot_level",
-            column(12, align = "center",
+            column(
+              width = 12,
+              align = "center",
               textInput(
                 inputId = "tot_level",
                 label = "Name of overall total category",
@@ -35,11 +49,20 @@ shinyUI(navbarPage("Interactive sdcHierarches",
               )
             )
           )),
-          bsTooltip(id = "help_tot_is_included", placement = "top", title = "help for tot_is_incl"),
-          bsTooltip(id = "help_method", placement = "top", title = "help for method"),
-
+          shinyBS::bsTooltip(
+            id = "help_tot_is_included",
+            placement = "top",
+            title = "help for tot_is_incl"
+          ),
+          shinyBS::bsTooltip(
+            id = "help_method",
+            placement = "top",
+            title = "help for method"
+          ),
           fluidRow(id = "row_nr_levels",
-            column(12, align = "center",
+            column(
+              width = 12,
+              align = "center",
               sliderInput("nr_levels",
                 label = "Number of levels",
                 min = 1,
@@ -50,24 +73,32 @@ shinyUI(navbarPage("Interactive sdcHierarches",
               )
             )
           ),
-          fluidRow(id = "row_helptxt", column(12, align = "center", div(id = "helptxt", ""))),
+          fluidRow(id = "row_helptxt",
+            column(
+              width = 12,
+              align = "center",
+              div(id = "helptxt", "")
+            )
+          ),
           uiOutput("spec"),
-
           fluidRow(
-            column(6, align = "center",
-              actionButton("createHier",
-                label = "createHierarchy",
+            column(
+              width = 6,
+              align = "center",
+              shiny::actionButton(
+                inputId = "create_hier",
+                label = "Create a hierarchy",
                 class = "btn-success"
               )
             ),
-            column(6, align = "left",
-              shinyjs::hidden(
-                actionButton(
-                  inputId = "btn_switch",
-                  label = "Switch to modify view",
-                  class = "btn-primary"
-                )
-              )
+            column(
+              width = 6,
+              align = "left",
+              shinyjs::hidden(actionButton(
+                inputId = "btn_switch",
+                label = "Switch to modify view",
+                class = "btn-primary"
+              ))
             )
           )
         )),
@@ -81,7 +112,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             fluidRow(
               column(12, align = "left",
                 selectInput(
-                  inputId = "selAddNode_ref",
+                  inputId = "sel_addnode_ref",
                   label = "Reference-Node",
                   choices = NULL
                 )
@@ -90,7 +121,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             fluidRow(
               column(12, align = "left",
                 textInput(
-                  inputId = "name_addNode",
+                  inputId = "name_add_node",
                   label = "Level-Name"
                 )
               )
@@ -109,16 +140,20 @@ shinyUI(navbarPage("Interactive sdcHierarches",
           )),
           shinyjs::hidden(div(id = "action_delete",
             fluidRow(
-              column(12, align = "left",
+              column(
+                width = 12,
+                align = "left",
                 selectInput(
-                  inputId = "seldelNode",
+                  inputId = "sel_delnode",
                   label = "Select Node for Deletion",
                   choices = NULL
                 )
               )
             ),
             fluidRow(
-              column(12, align = "left",
+              column(
+                width = 12,
+                align = "left",
                 actionButton(
                   inputId = "btn_delete",
                   label = "Delete selected Node",
@@ -132,25 +167,31 @@ shinyUI(navbarPage("Interactive sdcHierarches",
           )),
           shinyjs::hidden(div(id = "action_rename",
             fluidRow(
-              column(12, align = "left",
+              column(
+                width = 12,
+                align = "left",
                 selectInput(
-                  inputId = "selRenameNode",
+                  inputId = "sel_rename_node",
                   label = "Select Node to Rename",
                   choices = NULL
                 )
               )
             ),
             fluidRow(
-              column(12, align = "left",
+              column(
+                width = 12,
+                align = "left",
                 textInput(
-                  inputId = "name_renameNode",
+                  inputId = "name_rename_node",
                   label = "new Label",
                   value = ""
                 )
               )
             ),
             fluidRow(
-              column(12, align = "left",
+              column(
+                width = 12,
+                align = "left",
                 shinyjs::disabled(
                   actionButton(
                     inputId = "btn_rename",
@@ -166,58 +207,133 @@ shinyUI(navbarPage("Interactive sdcHierarches",
       mainPanel(
         shinyjs::hidden(div(id = "div_create",
           fluidRow(
-            column(6, h1("Data (input)"), align = "center"),
-            column(6, h1("Hierarchy (computed)"), align = "center")
+            column(
+              width = 6,
+              h1("Data (input)"),
+              align = "center"
+            ),
+            column(
+              width = 6,
+              h1("Hierarchy (computed)"),
+              align = "center"
+            )
           ),
           fluidRow(
-            column(6, div(id = "col_data", verbatimTextOutput("original_dim"), align = "center")),
-            column(6, div(id = "col_hierarchy", verbatimTextOutput("generated_dim"), align = "center")),
+            column(
+              width = 6,
+              div(
+                id = "col_data",
+                verbatimTextOutput("original_dim"),
+                align = "center"
+              )
+            ),
+            column(
+              width = 6,
+              div(
+                id = "col_hierarchy",
+                verbatimTextOutput("generated_dim"),
+                align = "center"
+              )
+            ),
             shinyjs::hidden(
-              div(id = "txt_error_created",
-                p("Something went wrong, please try other specifications"), align = "center")
+              div(
+                id = "txt_error_created",
+                p("Something went wrong, please try other specifications"), align = "center"
+              )
             )
           )
         )),
         div(id = "div_modify",
-          fluidRow(column(12, align = "left", h1("Modify the Hierarchy"))),
           fluidRow(
-            column(12, align = "left",
-              shinyjs::hidden(actionButton("btn_reset", "Reset hierarchy", class = "btn-danger")),
-              shinyjs::disabled(actionButton("btn_undo", "Undo last action", class = "btn-primary")))
+            column(
+              width = 12,
+              align = "left",
+              h1("Modify the Hierarchy")
+            )
           ),
           fluidRow(
-            column(6, align = "left", h3(id = "header_total", "")),
-            column(6, align = "left", h3("Output"))
+            column(
+              width = 12,
+              align = "left",
+              shinyjs::hidden(
+                shiny::actionButton(
+                  inputId = "btn_reset",
+                  label = "Reset hierarchy",
+                  class = "btn-danger"
+                )
+              ),
+              shinyjs::disabled(
+                shiny::actionButton(
+                  inputId = "btn_undo",
+                  label = "Undo last action",
+                  class = "btn-primary"
+                )
+              )
+            )
           ),
           fluidRow(
-            column(6, align = "left", shinyTree("mytree", dragAndDrop = TRUE, theme = "proton")),
-            column(6, align = "left", verbatimTextOutput("treeprint"))
+            column(
+              width = 6,
+              align = "left",
+              h3(id = "header_total", "")
+            ),
+            column(
+              width = 6,
+              align = "left",
+              h3("Output")
+            )
+          ),
+          fluidRow(
+            column(
+              width = 6,
+              align = "left",
+              shinyTree::shinyTree(
+                outputId = "mytree",
+                dragAndDrop = TRUE,
+                theme = "proton"
+              )
+            ),
+            column(
+              width = 6,
+              align = "left",
+              shiny::verbatimTextOutput("treeprint")
+            )
           )
         )
       )
     )
   ),
   tabPanel("Code",
-    div(id = "div_code_hidden", h1("Please create a hierarchy first")),
-      shinyjs::hidden(div(id = "div_code",
+    div(
+      id = "div_code_hidden",
+      h1("Please create a hierarchy first")
+    ),
+    shinyjs::hidden(div(id = "div_code",
       fluidRow(
-        column(12, align = "left",
+        column(
+          width = 12,
+          align = "left",
           h1("Code")
         )
       ),
       fluidRow(
-        column(12, align = "left",
-          p("Below, the code required to re-generate the current hierarchy is shown. Clicking the button allows you to
-            save the code to an Rscript.")
+        column(
+          width = 12,
+          align = "left",
+          p("Below, the code required to re-generate the current hierarchy is shown. Clicking
+            the button allows you to save the code to an Rscript.")
         )
       ),
       fluidRow(
-        column(12, align = "left",
-          verbatimTextOutput("required_code")
+        column(
+          width = 12,
+          align = "left",
+          shiny::verbatimTextOutput("required_code")
         )
       ),
       fluidRow(
-        column(12, align = "left",
+        column(
+          width = 12, align = "left",
           downloadButton(
             outputId = "btn_dl_code",
             label = "Download code",
@@ -230,57 +346,77 @@ shinyUI(navbarPage("Interactive sdcHierarches",
   tabPanel("Export",
     div(id = "div_export_hidden", h1("Please create a hierarchy first")),
     shinyjs::hidden(div(id = "div_export",
-      fluidRow(column(12, align = "left", h1("Export results"))),
       fluidRow(
-        column(12, align = "left",
+        column(
+          width = 12,
+          align = "left",
+          h1("Export results")
+        )
+      ),
+      fluidRow(
+        column(
+          width = 12,
+          align = "left",
           p("Select a output-format and additional options to export the current hierarchy."),
           p("Once you click on the Button, the result will be either saved to disk or returned to your R-prompt
             if you select", code("R-object."),
             "In this case please make sure that you start the interactive app as follows: ",
             code("x <- sdcHier(...)"), ". In this case, the output will be assigned to object", code("x"), ".")
-          )
+        )
       ),
       fluidRow(
-        column(12, align = "left",
-          selectInput(
-            inputId = "exportFormat",
+        column(
+          width = 12,
+          align = "left",
+          shiny::selectInput(
+            inputId = "export_format",
             label = "Format for export",
             choices = c(
               "sdcHierarchy" = "node",
               "data.frame suitable for sdcTable" = "df",
               "hrc-file for tau-Argus" = "argus",
               "json-encoded string" = "json",
-              "a list suitable for sdcTable" = "sdc")
+              "a list suitable for sdcTable" = "sdc"
+            )
           )
         )
       ),
       fluidRow(
-        column(12, align = "left",
-          selectInput(
-            inputId = "exportType",
+        column(
+          width = 12,
+          align = "left",
+          shiny::selectInput(
+            inputId = "export_type",
             label = "Return the result as?",
             choices = c("R-object", "File" = "file")
           )
         )
       ),
       shinyjs::hidden(div(id = "row_export_btn",
-        column(12, align = "left",
-          actionButton(
+        column(
+          width = 12,
+          align = "left",
+          shiny::actionButton(
             inputId = "btn_export",
             label = "Export",
             class = "btn-success"
           )
         )
       )),
-      shinyjs::hidden(fluidRow(id = "row_export_dl_btn",
-        column(12, align = "left",
-          downloadButton(
-            outputId = "btn_export_dl",
-            label = "Export to File",
-            class = "btn-success"
+      shinyjs::hidden(
+        fluidRow(
+          id = "row_export_dl_btn",
+          column(
+            width = 12,
+            align = "left",
+            shiny::downloadButton(
+              outputId = "btn_export_dl",
+              label = "Export to File",
+              class = "btn-success"
+            )
           )
         )
-      ))
+      )
     )
   ))
 ))

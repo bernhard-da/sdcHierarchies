@@ -126,7 +126,7 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     stopifnot(attributes(inp)$sdcHier_format == "sdc")
 
     df <- data.frame(
-      levels  =inp$codes$level,
+      levels = inp$codes$level,
       labs = inp$codes$orig,
       stringsAsFactors = FALSE)
     df$levels <- sapply(1:nrow(df), function(x) {

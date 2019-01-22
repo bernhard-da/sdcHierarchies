@@ -159,7 +159,7 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
       for (i in length(bogus$bogus_codes):1) {
         b_up <- bogus$bogus_parents[i]
         b_code <- bogus$bogus_codes[i]
-        FindNode(h, name=b_up)$RemoveChild(b_code)
+        FindNode(h, name = b_up)$RemoveChild(b_code)
       }
       # compute information about nodes again after dups have been removed
       all_info <- sdcHier_info(h, node_labs = NULL)
@@ -172,7 +172,6 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
 
     dt <- sdcHier_convert(h, format = "dt")
     dt[, levs := nchar(level)]
-    nr_levels <- length(unique(dt[, levs]))
 
     # compute required number of digits per level
     hdt <- data.table(ToDataFrameTypeCol(h))
@@ -183,13 +182,12 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
       tmp <- unique(hdt[, cn[c(i - 1, i)], with = FALSE])
       tmp <- tmp[!is.na(get(cn[i])), ]
       setkeyv(tmp, cn[i - 1])
-      tmp <- tmp[, .N, by=key(tmp)]
+      tmp <- tmp[, .N, by = key(tmp)]
       new_digits <- nchar(as.character(max(tmp[, N])))
       req_digits <- c(req_digits, new_digits)
     }
 
     # compute default codes
-    nr_levels <- dt[, max(levs)]
     dt[, code_default := paste(rep("0", sum(req_digits)), collapse = "")]
     dt[, id := .I]
 

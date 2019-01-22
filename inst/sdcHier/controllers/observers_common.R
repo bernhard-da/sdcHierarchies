@@ -25,7 +25,7 @@ observe({
 })
 
 # write code to file
-output$btn_dl_code <- downloadHandler(
+output$btn_dl_code <- shiny::downloadHandler(
   filename = function() {
     paste0("code_generate_hier_", format(Sys.Date(), "%d%m%Y"), ".R")
   },
@@ -34,9 +34,9 @@ output$btn_dl_code <- downloadHandler(
   }
 )
 
-output$btn_export_dl <- downloadHandler(
+output$btn_export_dl <- shiny::downloadHandler(
   filename = function() {
-    ff <- input$exportFormat
+    ff <- input$export_format
     if (ff == "data.frame") {
       ext <- ".csv"
     } else if (ff == "argus") {
@@ -48,20 +48,20 @@ output$btn_export_dl <- downloadHandler(
     } else {
       ext <- ".txt"
     }
-    paste0("sdcHier_", input$exportFormat, "_", format(Sys.Date(), "%d%m%Y"), ext)
+    paste0("sdcHier_", input$export_format, "_", format(Sys.Date(), "%d%m%Y"), ext)
   },
   content = function(con) {
     dd <- sdcHier_import(inp = js, tot_lab = overall_level_name())
-    if (input$exportFormat == "data.frame") {
+    if (input$export_format == "data.frame") {
       dd <- sdcHier_export(dd, format = "data.frame", path = con)
     }
-    if (input$exportFormat == "code") {
+    if (input$export_format == "code") {
       dd <- sdcHier_export(dd, format = "code", path = con)
     }
-    if (input$exportFormat == "argus") {
+    if (input$export_format == "argus") {
       dd <- sdcHier_export(dd, format = "argus", path = con)
     }
-    if (input$exportFormat == "json") {
+    if (input$export_format == "json") {
       dd <- sdcHier_export(dd, format = "json", path = con)
     }
   }

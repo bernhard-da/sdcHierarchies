@@ -1,10 +1,10 @@
 shinyServer(function(input, output, session) {
-  data <- reactiveVal(dim)
-  json <- reactiveVal(NULL)
-  json_prev <- reactiveVal(NULL)
-  code_import <- reactiveVal(NULL)
-  code_modify <- reactiveVal(NULL)
-  modify_mode <- reactiveVal(FALSE)
+  data <- shiny::reactiveVal(dim)
+  json <- shiny::reactiveVal(NULL)
+  json_prev <- shiny::reactiveVal(NULL)
+  code_import <- shiny::reactiveVal(NULL)
+  code_modify <- shiny::reactiveVal(NULL)
+  modify_mode <- shiny::reactiveVal(FALSE)
 
   for (file in list.files("controllers")) {
     source(file.path("controllers", file), local = TRUE)

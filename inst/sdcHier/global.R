@@ -1,10 +1,10 @@
-library(shiny)
-library(shinyTree)
-library(shinyjs)
-library(data.tree)
-library(jsonlite)
-library(rlang)
-library(shinyBS)
+library("shiny")
+library("shinyTree")
+library("shinyjs")
+library("data.tree")
+library("jsonlite")
+library("rlang")
+library("shinyBS")
 
 dim <- getShinyOption(".data")
 res <- try(h_is_valid(dim), silent = TRUE)
@@ -28,9 +28,9 @@ shinytree_to_node <- function(tree, tot_lab=NULL) {
   aa <- ToDataFrameTypeCol(tt)
   aa[is.na(aa)] <- ""
 
-  if (!is.null(totLab)) {
-    aa[[1]] <- "bla"
-  }
+  #if (!is.null(totLab)) {
+  #  aa[[1]] <- "bla"
+  #}
   aa$path <- apply(aa, 1, paste, collapse = "/")
   aa <- FromDataFrameTable(aa, pathName = "path")
   class(aa) <- c(class(aa), "sdcHier")

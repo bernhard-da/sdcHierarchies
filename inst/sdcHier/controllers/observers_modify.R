@@ -9,12 +9,12 @@ observe({
 })
 
 # update header containing overall total
-observe({
+shiny::observe({
   shinyjs::html(id = "header_total", html = overall_level_name())
 })
 
 # update JSON in case hierarchies have been moved/dragged around
-observeEvent(input$mytree, {
+shiny::observeEvent(input$mytree, {
   req(input$mytree)
   json(sdcHier_convert(shinytree_to_node(input$mytree), format = "json"))
 })
@@ -22,119 +22,145 @@ observeEvent(input$mytree, {
 ## update select inputs
 observe({
   if (!is.null(json())) {
-    updateSelectInput(session, inputId = "selAddNode_ref", choices = all_nodes())
-    updateSelectInput(session, inputId = "seldelNode", choices = setdiff(all_nodes(), overall_level_name()))
-    updateSelectInput(session, inputId = "selRenameNode", choices = setdiff(all_nodes(), overall_level_name()))
-    updateSelectInput(session, inputId = "selRenameNode", choices = all_nodes())
+    shiny::updateSelectInput(
+      session,
+      inputId = "sel_addnode_ref",
+      choices = all_nodes()
+    )
+    shiny::updateSelectInput(
+      session,
+      inputId = "sel_delnode",
+      choices = setdiff(all_nodes(), overall_level_name())
+    )
+    shiny::updateSelectInput(
+      session,
+      inputId = "sel_rename_node",
+      choices = setdiff(all_nodes(), overall_level_name())
+    )
+    shiny::updateSelectInput(
+      session,
+      inputId = "sel_rename_node",
+      choices = all_nodes()
+    )
   }
 })
 
 # enable/disable addNode-Button
-observe({
-  if (input$name_addNode == "") {
+shiny::observe({
+  if (input$name_add_node == "") {
     shinyjs::disable("btn_add")
   } else {
-    if (!input$name_addNode %in% all_nodes()) {
+    if (!input$name_add_node %in% all_nodes()) {
       shinyjs::enable("btn_add")
     }
   }
 })
 
 # add a new node
-observeEvent(input$btn_add, {
+shiny::observeEvent(input$btn_add, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
   dd <- hierarchy()
-  dd <- sdcHier_add(dd, refnode = input$selAddNode_ref, node_labs = input$name_addNode)
+  dd <- sdcHier_add(dd, refnode = input$sel_addnode_ref, node_labs = input$name_add_node)
   json_prev(js)
   json(sdcHier_convert(dd, format = "json"))
-  updateTextInput(session, inputId = "name_addNode", value = "")
+  shiny::updateTextInput(session, inputId = "name_add_node", value = "")
 })
 
 ## delete a node
-observeEvent(input$btn_delete, {
+shiny::observeEvent(input$btn_delete, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
   dd <- hierarchy()
-  res <- sdcHier_info(dd, node_labs = input$seldelNode)$parent
-  dd <- sdcHier_delete(dd, node_labs = input$seldelNode)
+  res <- sdcHier_info(dd, node_labs = input$sel_delnode)$parent
+  dd <- sdcHier_delete(dd, node_labs = input$sel_delnode)
   json_prev(js)
   json(sdcHier_convert(dd, format = "json"))
 })
 
 ## rename a node
 # show/hide renameNode-Button
-observe({
-  if (input$name_renameNode == "") {
+shiny::observe({
+  if (input$name_rename_node == "") {
     shinyjs::disable("btn_rename")
   } else {
-    if (!input$name_renameNode %in% all_nodes()) {
+    if (!input$name_rename_node %in% all_nodes()) {
       shinyjs::enable("btn_rename")
     }
   }
 })
 
 # rename a node
-observeEvent(input$btn_rename, {
+shiny::observeEvent(input$btn_rename, {
   js <- json()
   if (is.null(js)) {
     return(NULL)
   }
   dd <- hierarchy()
-  dd <- sdcHier_rename(dd,
-    node_labs = input$selRenameNode,
-    node_labs_new = input$name_renameNode)
+  dd <- sdcHier_rename(
+    dd,
+    node_labs = input$sel_rename_node,
+    node_labs_new = input$name_rename_node
+  )
   json_prev(js)
   json(sdcHier_convert(dd, format = "json"))
-  updateTextInput(session, inputId = "name_renameNode", value = "")
+  shiny::updateTextInput(session, inputId = "name_rename_node", value = "")
 })
 
 # update the label of the export button
-observeEvent(input$exportFormat, {
-  ff <- input$exportFormat
+shiny::observeEvent(input$export_format, {
+  ff <- input$export_format
   if (!ff == "file") {
-    updateActionButton(session, inputId = "btn_export", label = paste("Export to", ff))
+    shiny::updateActionButton(
+      session,
+      inputId = "btn_export",
+      label = paste("Export to", ff)
+    )
   }
 })
 
-observeEvent(input$exportType, {
-  if (input$exportType == "file") {
+shiny::observeEvent(input$export_type, {
+  if (input$export_type == "file") {
     shinyjs::hide("row_export_btn")
     shinyjs::show("row_export_dl_btn")
   } else {
     shinyjs::hide("row_export_dl_btn")
     shinyjs::show("row_export_btn")
-    updateActionButton(session, inputId = "btn_export", label = paste("Export to", input$exportFormat))
+    shiny::updateActionButton(
+      session,
+      inputId = "btn_export",
+      label = paste("Export to", input$export_format)
+    )
   }
 })
 
-observeEvent(input$btn_export, {
-  req(input$exportFormat)
+shiny::observeEvent(input$btn_export, {
+  shiny::req(input$export_format)
   js <- json()
   if (is.null(js)) {
-    stopApp(NULL)
+    shiny::stopApp(NULL)
   }
 
   dd <- sdcHier_import(inp = js, tot_lab = overall_level_name())
-  if (input$exportFormat == "data.frame") {
-    dd <- sdcHier_convert(dd, format = "data.frame")
+  if (input$export_format == "data.frame") {
+    dd <- sdcHier_convert(dd, format = "df")
   }
-  if (input$exportFormat == "argus") {
+  if (input$export_format == "argus") {
     dd <- sdcHier_convert(dd, format = "argus")
   }
-  if (input$exportFormat == "code") {
+  if (input$export_format == "code") {
     dd <- sdcHier_convert(dd, format = "code")
   }
-  stopApp(dd)
+  shiny::stopApp(dd)
 })
 
-observeEvent(input$what, {
+shiny::observeEvent(input$what, {
   shinyjs::hide("action_delete_warning")
-  shinyjs::reset("name_addNode")
+  shinyjs::reset("name_add_node")
   if (input$what == "add") {
     shinyjs::hide("action_delete")
     shinyjs::hide("action_rename")
@@ -160,7 +186,7 @@ observeEvent(input$what, {
   }
 })
 
-observeEvent(input$btn_reset, {
+shiny::observeEvent(input$btn_reset, {
   json(NULL)
   data(dim)
   shinyjs::reset("tot_is_included")
@@ -170,7 +196,7 @@ observeEvent(input$btn_reset, {
   modify_mode(FALSE)
 })
 
-observe({
+shiny::observe({
   js_prev <- json_prev()
   if (!is.null(js_prev)) {
     shinyjs::enable("btn_undo")
@@ -179,7 +205,7 @@ observe({
   }
 })
 
-observeEvent(input$btn_undo, {
+shiny::observeEvent(input$btn_undo, {
   js_prev <- json_prev()
   json_prev(NULL)
   json(js_prev)
