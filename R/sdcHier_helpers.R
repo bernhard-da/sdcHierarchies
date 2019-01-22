@@ -21,8 +21,10 @@ h_node_exists <- function(h, node_lab) {
 # compute the levels of the codes contributing to a specific name
 # used in sdcHier_info()
 h_min_contributing_codes <- function(h, node_name) {
+  from <- to <- NULL
   h_is_valid(h)
   stopifnot(is_scalar_character(node_name))
+
   dt <- as.data.table(ToDataFrameNetwork(h))
 
   all_codes <- unique(c(dt[, from], dt[, to]))

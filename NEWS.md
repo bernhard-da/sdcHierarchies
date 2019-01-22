@@ -1,3 +1,8 @@
+# sdcHierarchies 0.13.1
+- various fixes and improvements; 
+- rewrote `h_min_contributing_codes()`
+- started to add unit-tests
+
 # sdcHierarchies 0.13.0
 - in `sdcHier_info()`, the codes really contributing to a given node are computed and returned 
 - `sdcHier_convert()` allows to return a `data.table`
