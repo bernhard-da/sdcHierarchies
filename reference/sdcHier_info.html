@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.0</span>
       </span>
     </div>
 
@@ -145,7 +145,18 @@ using <code><a href='sdcHier_add.html'>sdcHier_add</a></code>, <code><a href='sd
 
     <p>a <code>list</code> with information about the required nodes. If <code>node_labs</code> is
 <code>NULL</code> (the default), the information is computed for all available nodes of
-the hierarchy.</p>
+the hierarchy. The following properties are computed:</p><ul>
+<li><p>exists: (logical) does the node exist</p></li>
+<li><p>name: (character) node name</p></li>
+<li><p>is_rootnode: (logical) is the node the overall root of the tree?</p></li>
+<li><p>level: (numeric) what is the level of the nod</p></li>
+<li><p>is_leaf: (logical) is the node a leaf?</p></li>
+<li><p>siblings: (character) what are siblings of this node?</p></li>
+<li><p>contributing_codes: (character) which codes are contributing to this node? If none (it is a leaf), <code>NA</code> is returned</p></li>
+<li><p>children: (character) the names of the children of the node. If it has none (it is a leaf), <code>NA</code> is returned</p></li>
+<li><p>is_bogus: (logical) is it a bogus code (i. e the only children of a leaf?)</p></li>
+</ul>
+
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
