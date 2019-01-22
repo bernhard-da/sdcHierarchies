@@ -4,7 +4,7 @@
 \alias{sdcHier_export}
 \title{sdcHier_export}
 \usage{
-sdcHier_export(h, format = "data.frame", path, verbose = FALSE)
+sdcHier_export(h, format = "df", path, verbose = FALSE)
 }
 \arguments{
 \item{h}{a (nested) hierarchy created using \code{\link{sdcHier_create}} or modified
@@ -12,13 +12,15 @@ using \code{\link{sdcHier_add}}, \code{\link{sdcHier_delete}} or \code{\link{sdc
 
 \item{format}{(character) specifying the export format. possible choices are:
 \itemize{
-\item \strong{"data.frame"}: a \code{data.frame} with two columns. The first columns contains a string
+\item \strong{"df"}: a \code{data.frame} with two columns. The first columns contains a string
 containing as many \code{@} as the level of the node in the string (e.g \code{@} corresponds to the overall
 total while \code{@} would be all codes contributing to the total. The second column contains the names
 of the levels.
+\item \strong{"dt"}: like the \code{df}-version but this result is converted to a \code{data.table}
 \item \strong{"argus"}: used to create hrc-files suitable for tau-argus
 \item \strong{"json"}: json format suitable as input for shiny Tree
 \item \strong{"code"}: code required to generate the hierarchy
+\item \strong{"sdc"}: a \code{list} which is a suitable input for \code{sdcTable}
 }}
 
 \item{path}{(character) relative or absolute path where results should

@@ -1,7 +1,13 @@
+# sdcHierarchies 0.13.0
+- in `sdcHier_info()`, the codes really contributing to a given node are computed and returned 
+- `sdcHier_convert()` allows to return a `data.table`
+- `sdcHier_convert()` allows to return a list object suitable for `sdcTable` (`format = "sdc"`)
+- `sdcHier_import()` allows to create a hierarchy from a list-input created from `sdcHier_convert(..., format = "sdc")`
+
 # sdcHierarchies 0.12.0
-  - continuous integration using travis
-  - check code is linted correctly
-  - building docs using pkgsdown, site is [**here**](https://bernhard-da.github.io/sdcHierarchies)
+- continuous integration using travis
+- check code is linted correctly
+- building docs using pkgsdown, site is [**here**](https://bernhard-da.github.io/sdcHierarchies)
 
 # sdcHierarchies 0.11.0
 - `sdcHier_convert()` can now convert a hierarchy to the format tau-argus understands using `format='argus'`

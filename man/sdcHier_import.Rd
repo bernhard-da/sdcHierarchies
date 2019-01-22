@@ -14,7 +14,11 @@ be a character-string (json) or a \code{data.frame}.}
 Possible choices are:
 \itemize{
 \item \strong{"json"}: json-encoded string should be converted
-\item \strong{"data.frame"}: a \code{data.frame} in \code{@;level}-format will be converted
+\item \strong{"df"}: a \code{data.frame} in \code{@;level}-format will be converted
+\item \strong{"argus"}: an object exported using \code{\link{sdcHier_convert}} using \code{format = "argus"}
+\item \strong{"code"}: an object exported using \code{\link{sdcHier_convert}} using \code{format = "code"}
+\item \strong{"hrc"}: text-files in tau-argus hrc-format
+\item \strong{"sdc"}: an object exported using \code{\link{sdcHier_convert}} using \code{format = "sdc"}
 }}
 
 \item{tot_lab}{optional name of overall total}

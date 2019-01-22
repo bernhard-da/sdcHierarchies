@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' ## for examples, see sdcHier_vignette()
-sdcHier_export <- function(h, format="data.frame", path, verbose=FALSE) {
+sdcHier_export <- function(h, format="df", path, verbose=FALSE) {
   check_file  <- function(path) {
     if (file.exists(path)) {
       stop(paste("File", shQuote(path), "already exists!"), call. = FALSE)
@@ -29,7 +29,7 @@ sdcHier_export <- function(h, format="data.frame", path, verbose=FALSE) {
   if (verbose) {
     cat(paste("Output is written to", shQuote(path), "\n"))
   }
-  if (format == "data.frame") {
+  if (format %in% c("df", "dt")) {
     write.table(df, file = path, sep = ";", row.names = FALSE)
   }
   if (format == "json") {
@@ -39,8 +39,22 @@ sdcHier_export <- function(h, format="data.frame", path, verbose=FALSE) {
     cat(res, sep = "\n", file = path)
   }
   if (format == "argus") {
-    df <- data.frame(inp = attributes(res)$sout, stringsAsFactors = FALSE)
-    write.table(df$inp, file = path, sep = " ", row.names = FALSE, col.names = FALSE, quote = FALSE,  eol = "\r\n")
+    df <- data.frame(
+      inp = attributes(res)$sout,
+      stringsAsFactors = FALSE
+    )
+    write.table(
+      df$inp,
+      file = path,
+      sep = " ",
+      row.names = FALSE,
+      col.names = FALSE,
+      quote = FALSE,
+      eol = "\r\n"
+    )
+  }
+  if (format == "sdc") {
+    saveRDS(res, file = path)
   }
   return(invisible(res))
 }

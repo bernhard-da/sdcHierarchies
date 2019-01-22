@@ -59,22 +59,36 @@ observeEvent(input$createHier, {
   }
 
   as_df <- FALSE
-  res <- try(sdcHier_compute(dim = data(), dim_spec = specs(), tot_lev = tot_lev, method = input$method, as_df = as_df))
+  res <- try(
+    sdcHier_compute(
+      dim = data(),
+      dim_spec = specs(),
+      tot_lev = tot_lev,
+      method = input$method,
+      as_df = as_df
+    )
+  )
   if (!"try-error" %in% class(res)) {
-    nn <- sdcHier_compute(dim = data(), dim_spec = specs(), tot_lev = tot_lev, method = input$method, as_df = FALSE)
+    nn <- sdcHier_compute(
+      dim = data(),
+      dim_spec = specs(),
+      tot_lev = tot_lev,
+      method = input$method,
+      as_df = FALSE
+    )
 
     code <- c("library(sdcHierarchies)")
     code <- c(code, "## impute hierarchy from vector")
-    code <- c(code, paste0("dim <- c(", paste(shQuote(dim), collapse = ","), ")"))
-    cc <- paste0("d <- sdcHier_compute(dim=dim, dim_spec=c(", paste(specs(), collapse = ","), ")")
-    cc <- paste0(cc, ", tot_lev=")
+    code <- c(code, paste0("dim <- c(", paste(shQuote(dim), collapse = ", "), ")"))
+    cc <- paste0("d <- sdcHier_compute(dim = dim, dim_spec = c(", paste(specs(), collapse = ", "), ")")
+    cc <- paste0(cc, ", tot_lev = ")
     if (is.null(tot_lev)) {
       cc <- paste0(cc, "NULL")
     } else {
       cc <- paste0(cc, shQuote(tot_lev))
     }
-    cc <- paste0(cc, ", method=", shQuote(input$method))
-    cc <- paste0(cc, ", as_df=FALSE)")
+    cc <- paste0(cc, ", method = ", shQuote(input$method))
+    cc <- paste0(cc, ", as_df = FALSE)")
     code <- c(code, cc)
 
     code_import(code)

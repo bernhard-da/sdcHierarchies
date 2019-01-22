@@ -1,14 +1,14 @@
 Package: sdcHierarchies
 Type: Package
 Title: Allows to create and (interactively) modify nested hierarchies
-Version: 0.12.0
+Version: 0.13.0
 Date: 2019-01-20
 Authors@R: c(
   person("Bernhard", "Meindl", email="Bernhard.Meindl@statistik.gv.at", role=c("aut","cre")))
-Description: This package allows to interactively generate and modify nested hierarchies.
+Description: This package allows to interactively generate and modify, import and export nested hierarchies.
 License: GPL-3
 Depends: data.tree, shinythemes
-Imports: shiny, shinyjs, shinyTree, jsonlite, rlang
+Imports: shiny, shinyjs, shinyTree, jsonlite, rlang, data.table
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1

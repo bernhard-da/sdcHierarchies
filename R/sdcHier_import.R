@@ -8,7 +8,11 @@
 #' Possible choices are:
 #' \itemize{
 #' \item \strong{"json"}: json-encoded string should be converted
-#' \item \strong{"data.frame"}: a \code{data.frame} in \code{@;level}-format will be converted
+#' \item \strong{"df"}: a \code{data.frame} in \code{@;level}-format will be converted
+#' \item \strong{"argus"}: an object exported using \code{\link{sdcHier_convert}} using \code{format = "argus"}
+#' \item \strong{"code"}: an object exported using \code{\link{sdcHier_convert}} using \code{format = "code"}
+#' \item \strong{"hrc"}: text-files in tau-argus hrc-format
+#' \item \strong{"sdc"}: an object exported using \code{\link{sdcHier_convert}} using \code{format = "sdc"}
 #' }
 #' @param tot_lab optional name of overall total
 #' @return a (nested) hierarchy
@@ -42,7 +46,7 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     class(tt) <- c(class(tt), "sdcHier")
     tt
   }
-  h_from_data.frame <- function(df, tot_lab=NULL) {
+  h_from_df <- function(df, tot_lab=NULL) {
     stopifnot(is.data.frame(df))
     stopifnot(ncol(df) == 2)
     colnames(df) <- c("levels", "labs")
@@ -81,7 +85,7 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
   h_from_argus <- function(df, tot_lab=NULL) {
     stopifnot(is.data.frame(df))
     stopifnot(attributes(df)$sdcHier_format == "argus")
-    return(h_from_data.frame(df, tot_lab = tot_lab))
+    return(h_from_df(df, tot_lab = tot_lab))
   }
   h_from_code <- function(code, tot_lab=NULL) {
     stopifnot(is.character(code))
@@ -113,11 +117,37 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
       tot_lab <- "Total"
     }
     df <- rbind(data.frame(level = "@", names = tot_lab, stringsAsFactors = FALSE), df)
-    return(h_from_data.frame(df))
+    return(h_from_df(df))
+  }
+  h_from_sdc <- function(inp) {
+    code_default <- codes_minimal <- id <- key <- NULL
+    level <- levs <- name <- setkeyv <- NULL
+    stopifnot(is.list(inp))
+    stopifnot(attributes(inp)$sdcHier_format == "sdc")
+
+    df <- data.frame(
+      levels  =inp$codes$level,
+      labs = inp$codes$orig,
+      stringsAsFactors = FALSE)
+    df$levels <- sapply(1:nrow(df), function(x) {
+      paste(rep("@", df$levels[x]), collapse = "")
+    })
+
+    h <- h_from_df(df)
+
+    bogus <- inp$bogus
+    if (!is.null(bogus$bogus_codes)) {
+      for (i in 1:length(bogus$bogus_codes)) {
+        sdcHier_add(h,
+          refnode = bogus$bogus_parents[i],
+          node_labs = bogus$bogus_codes[i])
+      }
+    }
+    return(h)
   }
 
   stopifnot(is_scalar_character(from))
-  stopifnot(from %in% c("json", "data.frame", "argus", "hrc", "code"))
+  stopifnot(from %in% c("json", "df", "argus", "hrc", "code", "sdc"))
   if (!is.null(tot_lab)) {
     stopifnot(is_scalar_character(tot_lab))
   }
@@ -125,8 +155,8 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
   if (from == "json") {
     return(h_from_json(json = inp, tot_lab = tot_lab))
   }
-  if (from == "data.frame") {
-    return(h_from_data.frame(df = inp))
+  if (from == "df") {
+    return(h_from_df(df = inp))
   }
   if (from == "argus") {
     return(h_from_argus(df = inp))
@@ -136,6 +166,9 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
   }
   if (from == "hrc") {
     return(h_from_hrc(hrc = inp, tot_lab = tot_lab))
+  }
+  if (from == "sdc") {
+    return(h_from_sdc(inp = inp))
   }
   stop("uncaught error in sdcHier_import()", call. = FALSE)
 }

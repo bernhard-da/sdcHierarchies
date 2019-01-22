@@ -219,7 +219,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
       fluidRow(
         column(12, align = "left",
           downloadButton(
-            outputid = "btn_dl_code",
+            outputId = "btn_dl_code",
             label = "Download code",
             class = "btn-success"
           )
@@ -247,9 +247,10 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             label = "Format for export",
             choices = c(
               "sdcHierarchy" = "node",
-              "data.frame suitable for sdcTable" = "data.frame",
+              "data.frame suitable for sdcTable" = "df",
               "hrc-file for tau-Argus" = "argus",
-              "json-encoded string" = "json")
+              "json-encoded string" = "json",
+              "a list suitable for sdcTable" = "sdc")
           )
         )
       ),
@@ -265,8 +266,8 @@ shinyUI(navbarPage("Interactive sdcHierarches",
       shinyjs::hidden(div(id = "row_export_btn",
         column(12, align = "left",
           actionButton(
-            "btn_export",
-            "Export",
+            inputId = "btn_export",
+            label = "Export",
             class = "btn-success"
           )
         )
@@ -274,7 +275,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
       shinyjs::hidden(fluidRow(id = "row_export_dl_btn",
         column(12, align = "left",
           downloadButton(
-            outputid = "btn_export_dl",
+            outputId = "btn_export_dl",
             label = "Export to File",
             class = "btn-success"
           )

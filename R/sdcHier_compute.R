@@ -30,7 +30,7 @@
 #'   tot_lev="Tot", method="endpos")
 #' b <- sdcHier_compute(dim=geo_m, dim_spec=c(2,1,2),
 #'   tot_lev="Tot", method="len")
-#' identical(sdcHier_convert(a, format="data.frame"), sdcHier_convert(b, format="data.frame"))
+#' identical(sdcHier_convert(a, format="df"), sdcHier_convert(b, format="df"))
 #'
 #' ## return data.frame suitable as input for tau-argus or sdcTable
 #' a <- sdcHier_compute(dim=geo_m, dim_spec=c(2,3,5),
@@ -57,7 +57,7 @@
 #'   "1.5.","1.6.","1.7.","1.8.","1.9.","2.","3.")
 #' a <- sdcHier_compute(dim=yae_h, dim_spec=c(2,4,6), tot_lev="Tot", method="endpos")
 #' b <- sdcHier_compute(dim=yae_h, dim_spec=c(2,2,2), tot_lev="Tot", method="len")
-#' identical(sdcHier_convert(a, format="data.frame"), sdcHier_convert(b, format="data.frame"))
+#' identical(sdcHier_convert(a, format="df"), sdcHier_convert(b, format="df"))
 #'
 #' ## total is contained in the first 3 positions of the input values
 #' ## --> we need to set tot_level to NULL (the default)
@@ -116,7 +116,7 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FAL
   if (only_total == TRUE) {
     nn <- sdcHier_create(as.character(df[1, 1]))
     if (as_df == TRUE) {
-      return(sdcHier_convert(nn, format = "data.frame"))
+      return(sdcHier_convert(nn, format = "df"))
     }
     return(nn)
   }
@@ -135,7 +135,7 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FAL
   nn <- FromDataFrameTable(df, pathName = "path")
   class(nn) <- c(class(nn), "sdcHier")
   if (as_df == TRUE) {
-    return(sdcHier_convert(nn, format = "data.frame"))
+    return(sdcHier_convert(nn, format = "df"))
   }
   return(nn)
 }
