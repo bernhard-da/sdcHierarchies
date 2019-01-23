@@ -26,11 +26,7 @@ shinytree_to_node <- function(tree, tot_lab=NULL) {
   tt <- data.tree:::as.Node.list(ll)
 
   aa <- ToDataFrameTypeCol(tt)
-  aa[is.na(aa)] <- ""
 
-  #if (!is.null(totLab)) {
-  #  aa[[1]] <- "bla"
-  #}
   aa$path <- apply(aa, 1, paste, collapse = "/")
   aa <- FromDataFrameTable(aa, pathName = "path")
   class(aa) <- c(class(aa), "sdcHier")

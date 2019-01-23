@@ -67,7 +67,7 @@ exp_levs <- c("@", "@@", rep("@@@", 2), rep("@@", 3))
 expect_identical(df$name, exp_names)
 expect_identical(df$level, exp_levs)
 
-dt <- sdcHier_convert(dim2, format="dt")
+dt <- sdcHier_convert(dim2, format = "dt")
 expect_is(dt, "data.table")
 
 sdc <- sdcHier_convert(dim2, format = "sdc")
@@ -101,4 +101,3 @@ expect_identical(info[["a2"]]$is_bogus, TRUE)
 
 expect_error(sdcHier_nodenames(dim2, "X"))
 expect_equal(sdcHier_nodenames(dim2, "A"), c("A", "a2"))
-
