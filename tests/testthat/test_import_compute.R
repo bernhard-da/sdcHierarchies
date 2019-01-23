@@ -59,7 +59,7 @@ expect_error(
 
 sdcHier_add(dim2, refnode = "A", node_labs = c("a1", "a2"))
 
-df <- sdcHier_convert(dim2, format="df")
+df <- sdcHier_convert(dim2, format = "df")
 expect_is(df, "data.frame")
 
 exp_names <- c("top", "A", "a1", "a2", "b", "C", "d")
@@ -88,7 +88,7 @@ expect_equal(
 expect_warning(sdcHier_delete(dim2, node_labs = "X"))
 
 sdcHier_delete(dim2, node_labs = c("a1", "d"))
-df <- sdcHier_convert(dim2, format="df")
+df <- sdcHier_convert(dim2, format = "df")
 
 exp_names <- c("top", "A", "a2", "b", "C")
 exp_levs <- c("@", "@@", "@@@", rep("@@", 2))
@@ -100,5 +100,5 @@ info <- sdcHier_info(dim2)
 expect_identical(info[["a2"]]$is_bogus, TRUE)
 
 expect_error(sdcHier_nodenames(dim2, "X"))
-expect_equal(sdcHier_nodenames(dim2, "A"), c("A","a2"))
+expect_equal(sdcHier_nodenames(dim2, "A"), c("A", "a2"))
 
