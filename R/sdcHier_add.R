@@ -31,7 +31,7 @@ sdcHier_add <- function(h, refnode, node_labs) {
   nn <- node_labs
   for (i in 1:length(nn)) {
     if (res[i] == TRUE) {
-      n <- n
+      n <- shQuote(nn[i])
       w <- paste("Node", n, "already exists and won't be added --> skipping")
       warning(w, call. = FALSE)
     } else {

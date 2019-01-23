@@ -128,7 +128,7 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
 
   # node to argus
   h_to_argus <- function(h, verbose) {
-    dforig <- df <- sdcHier_convert(h, "data.frame")
+    dforig <- df <- sdcHier_convert(h, format = "df")
     df <- df[-1, ]
     df$level <- substr(df$level, 3, nchar(df$level))
     sout <-  df$name

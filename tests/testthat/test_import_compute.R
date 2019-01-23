@@ -1,4 +1,12 @@
-context("Importing and ")
+context("Importing and modifying hierarchies")
+
+expect_error(
+  sdcHier_create(
+    tot_lab = "top",
+    node_labs = c("top")
+  ),
+  "at least one leaf-names matches the overall total"
+)
 
 dim1 <- sdcHier_create(
   tot_lab = "Total",
@@ -56,8 +64,28 @@ expect_error(
   "The reference node does not exist!"
 )
 
+expect_error(
+  sdcHier_add(
+    dim2,
+    refnode = "A",
+    node_labs = "A"
+  )
+)
 
-sdcHier_add(dim2, refnode = "A", node_labs = c("a1", "a2"))
+expect_warning(
+  sdcHier_add(
+    dim2,
+    refnode = "top",
+    node_labs = "A"
+  )
+)
+
+
+sdcHier_add(
+  dim2,
+  refnode = "A",
+  node_labs = c("a1", "a2")
+)
 
 df <- sdcHier_convert(dim2, format = "df")
 expect_is(df, "data.frame")
