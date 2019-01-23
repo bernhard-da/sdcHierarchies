@@ -2,25 +2,28 @@
 
 language: R
 sudo: false
-cache: packages
+cache:
+  - packages: true
 
-r:
-- release
+warnings_are_errors: true
+r_check_args: "--as-cran"
 
-r_github_packages:
-  - r-lib/covr
-  - jimhester/lintr
-  - r-lib/pkgdown
-
-after_success:
-  - R CMD INSTALL $PKG_TARBALL
-  - Rscript -e 'lintr::lint_package(linters=with_defaults(line_length_linter(120), object_name_linter = NULL))'
-  - Rscript -e 'covr::codecov()'
-
-deploy:
-  provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github()'
-  skip_cleanup: true
+matrix:
+  include:
+  - r: devel
+  - r: release
+    r_github_packages:
+    - r-lib/covr
+    - jimhester/lintr
+    - r-lib/pkgdown
+    after_success:
+    - R CMD INSTALL $PKG_TARBALL
+    - Rscript -e 'covr::codecov()'
+    - Rscript -e 'lintr::lint_package()'
+    deploy:
+      provider: script
+      script: Rscript -e 'pkgdown::deploy_site_github()'
+      skip_cleanup: true
 
 notifications:
   email:
