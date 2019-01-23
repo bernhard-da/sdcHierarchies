@@ -20,7 +20,8 @@ sdcHier_add <- function(h, refnode, node_labs) {
     stop("The reference node does not exist!\n", call. = FALSE)
   }
   if (refnode %in% node_labs) {
-    stop(paste("at least one leaf-name equals", shQuote(refnode)), call. = FALSE)
+    err <- paste("at least one leaf-name equals", shQuote(refnode))
+    stop(err, call. = FALSE)
   }
 
   res <- sapply(node_labs, function(x) {
@@ -30,7 +31,9 @@ sdcHier_add <- function(h, refnode, node_labs) {
   nn <- node_labs
   for (i in 1:length(nn)) {
     if (res[i] == TRUE) {
-      warning(paste("Node", shQuote(nn[i]), "already exists and won't be added --> skipping"), call. = FALSE)
+      n <- n
+      w <- paste("Node", n, "already exists and won't be added --> skipping")
+      warning(w, call. = FALSE)
     } else {
       data.tree::FindNode(h, refnode)$AddChild(node_labs[i])
     }

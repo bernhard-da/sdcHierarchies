@@ -1,3 +1,6 @@
+# sdcHierarchies 0.13.2
+- code style improves
+
 # sdcHierarchies 0.13.1
 - various fixes and improvements; 
 - rewrote `h_min_contributing_codes()`

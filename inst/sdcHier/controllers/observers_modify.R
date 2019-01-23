@@ -63,7 +63,11 @@ shiny::observeEvent(input$btn_add, {
     return(NULL)
   }
   dd <- hierarchy()
-  dd <- sdcHier_add(dd, refnode = input$sel_addnode_ref, node_labs = input$name_add_node)
+  dd <- sdcHier_add(
+    dd,
+    refnode = input$sel_addnode_ref,
+    node_labs = input$name_add_node
+  )
   json_prev(js)
   json(sdcHier_convert(dd, format = "json"))
   shiny::updateTextInput(session, inputId = "name_add_node", value = "")

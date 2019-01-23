@@ -106,7 +106,11 @@ shinyUI(navbarPage("Interactive sdcHierarches",
           radioButtons(
             inputId = "what",
             label = h4("What do you want to do?"),
-            choices = c("Add a Node" = "add", "Delete a Node" = "delete", "Rename a Node" = "rename")
+            choices = c(
+              "Add a Node" = "add",
+              "Delete a Node" = "delete",
+              "Rename a Node" = "rename"
+            )
           ),
           shinyjs::hidden(div(id = "action_add",
             fluidRow(
@@ -163,7 +167,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             )
           )),
           shinyjs::hidden(div(id = "action_delete_warning",
-            p("You need to add nodes/levels to your hierarchy before you can delete any.")
+            p("No nodes / levels available for deletion.")
           )),
           shinyjs::hidden(div(id = "action_rename",
             fluidRow(
@@ -238,7 +242,8 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             shinyjs::hidden(
               div(
                 id = "txt_error_created",
-                p("Something went wrong, please try other specifications"), align = "center"
+                align = "center",
+                p("Something went wrong, please try other specifications")
               )
             )
           )
@@ -320,8 +325,8 @@ shinyUI(navbarPage("Interactive sdcHierarches",
         column(
           width = 12,
           align = "left",
-          p("Below, the code required to re-generate the current hierarchy is shown. Clicking
-            the button allows you to save the code to an Rscript.")
+          p("Below, the required code to re-generate the hierarchy is shown.
+            Clicking the button allows you to save the code into a R-script.")
         )
       ),
       fluidRow(
@@ -357,11 +362,14 @@ shinyUI(navbarPage("Interactive sdcHierarches",
         column(
           width = 12,
           align = "left",
-          p("Select a output-format and additional options to export the current hierarchy."),
-          p("Once you click on the Button, the result will be either saved to disk or returned to your R-prompt
-            if you select", code("R-object."),
-            "In this case please make sure that you start the interactive app as follows: ",
-            code("x <- sdcHier(...)"), ". In this case, the output will be assigned to object", code("x"), ".")
+          p("Select an output format and additional options that are
+             used when exporting the hierarchy."),
+          p("Once you click on the button, the result will be either saved to
+             disk or returned to your prompt if you select", code("R-object."),
+            "In this case please make sure that you start the interactive
+             app as follows: ", code("x <- sdcHier(...)"),
+            ". In this case, the output will be assigned to
+             object", code("x"), ".")
         )
       ),
       fluidRow(

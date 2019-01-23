@@ -1,4 +1,4 @@
-context("Creating and modifying hierarchies")
+context("Importing and ")
 
 dim1 <- sdcHier_create(
   tot_lab = "Total",

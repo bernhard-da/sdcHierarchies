@@ -29,7 +29,11 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
       return(data.frame(level = "@", name = res$name, stringsAsFactors = FALSE))
     }
     df <- do.call("rbind", lapply(res, function(x) {
-      data.frame(level = paste(rep("@", x$level), collapse = ""), name = x$name, stringsAsFactors = FALSE)
+      data.frame(
+        level = paste(rep("@", x$level), collapse = ""),
+        name = x$name,
+        stringsAsFactors = FALSE
+      )
     }))
     rownames(df) <- NULL
     if (verbose) {
@@ -40,7 +44,8 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
 
   # node to json
   h_to_json <- function(h, verbose) {
-    write_json_row <- function(id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
+    write_json_row <- function(
+      id, parent, text, opened=TRUE, disabled=FALSE, selected=FALSE) {
       stopifnot(is_scalar_character(id))
       stopifnot(is_scalar_character(parent))
       stopifnot(is_scalar_character(text))
@@ -73,7 +78,14 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
       sub <- unique(df[, c(i - 1, i)])
       sub <- sub[!is.na(sub[[2]]), ]
       for (j in 1:nrow(sub)) {
-        js <- paste0(js, write_json_row(id = sub[[2]][j], parent = sub[[1]][j], text = sub[[2]][j]), ",")
+        js <- paste0(
+          js,
+          write_json_row(
+            id = sub[[2]][j],
+            parent = sub[[1]][j],
+            text = sub[[2]][j]),
+          ","
+        )
       }
     }
     js <- paste0(js, "]")
@@ -89,7 +101,8 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
   h_to_code <- function(h, verbose) {
     all_names <- sdcHier_nodenames(h)
     code <- "library(sdcHierarchies)"
-    code <- c(code, paste0("d <- sdcHier_create(tot_lab = ", shQuote(all_names[1]), ")"))
+    t <- shQuote(all_names[1])
+    code <- c(code, paste0("d <- sdcHier_create(tot_lab = ", t, ")"))
     all_names <- all_names[-c(1)]
 
     if (length(all_names) > 0) {
@@ -102,7 +115,8 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
 
         s1 <- shQuote(cur_info$parent)
         s2 <- paste0("c(", paste0(shQuote(nn), collapse = ", "), ")")
-        code <- c(code, paste0("sdcHier_add(d, refnode = ", s1, ", node_labs = ", s2, ")"))
+        s3 <- paste0("sdcHier_add(d, refnode = ", s1, ", node_labs = ", s2, ")")
+        code <- c(code, s3)
       }
     }
     code <- c(code, "print(d)")
@@ -216,7 +230,8 @@ sdcHier_convert <- function(h, format="df", verbose=FALSE) {
     ## these are those that are leaves in the tree
     dt[, codes_minimal := as.logical(sapply(all_info, function(x) x$is_leaf))]
 
-    ## in sdcHierarchies, we do not add artificial categories; only those specified will/can be used
+    ## in sdcHierarchies, we do not add artificial categories
+    ## only those specified will/can be used;
     ## this is a difference to sdcTable (old version)
 
     ## compute all dimensions (additivity!)

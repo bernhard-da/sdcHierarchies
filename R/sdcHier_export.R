@@ -16,7 +16,9 @@ sdcHier_export <- function(h, format="df", path, verbose=FALSE) {
     }
     res <- file.create(path, showWarnings = FALSE)
     if (!res) {
-      stop(paste("File", shQuote(path), "could not be created! Please provide another path"), call. = FALSE)
+      err <- paste("File", shQuote(path), "could not be created!")
+      err <- paste(err, "Please provide another path")
+      stop(err, call. = FALSE)
     }
     res <- file.remove(path)
     return(invisible(TRUE))

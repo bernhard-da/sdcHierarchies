@@ -16,7 +16,9 @@
 sdcHier <- function(x, ...) {
   app_dir <- system.file("sdcHier", package = "sdcHierarchies")
   if (app_dir == "") {
-    stop("Could not find example directory. Try re-installing `sdcHierarchies`.", call. = FALSE)
+    err <- "Could not find example directory."
+    err < paste(err, "Try re-installing `sdcHierarchies`.")
+    stop(err, call. = FALSE)
   }
 
   shinyOptions(.startdir = getwd())

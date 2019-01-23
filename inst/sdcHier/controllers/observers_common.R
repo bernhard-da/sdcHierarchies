@@ -48,7 +48,10 @@ output$btn_export_dl <- shiny::downloadHandler(
     } else {
       ext <- ".txt"
     }
-    paste0("sdcHier_", input$export_format, "_", format(Sys.Date(), "%d%m%Y"), ext)
+    paste0(
+      "sdcHier_", input$export_format, "_",
+      format(Sys.Date(), "%d%m%Y"), ext
+    )
   },
   content = function(con) {
     dd <- sdcHier_import(inp = js, tot_lab = overall_level_name())

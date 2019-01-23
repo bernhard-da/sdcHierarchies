@@ -1,6 +1,7 @@
 ## helpers
 h_is_valid <- function(h) {
-  err <- paste("not a valid sdcHierarchy-obj generated with", shQuote("sdcHier_create()"))
+  fn <- shQuote("sdcHier_create()")
+  err <- paste("not a valid sdcHierarchy-obj generated with", fn)
   if (is.null(h)) {
     stop(err, call. = FALSE)
   }
@@ -84,7 +85,10 @@ h_nodeinfo <- function(sdcHier, node_lab) {
     } else {
       out$siblings <- names(nn$siblings)
     }
-    out$contributing_codes <- h_min_contributing_codes(sdcHier, node_name = node_lab)
+    out$contributing_codes <- h_min_contributing_codes(
+      sdcHier,
+      node_name = node_lab
+    )
 
     ch <- names(nn$children)
     if (length(ch) == 0) {

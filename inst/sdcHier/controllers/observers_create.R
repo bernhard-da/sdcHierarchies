@@ -4,12 +4,15 @@ shiny::observeEvent(input$method, {
   if (!modify_mode()) {
     if (input$method == "len") {
       max_nr <- tags$code(max_nchar())
-      txt <- paste0("The sum of the slider inputs must be at at least the maximum number (", max_nr, ")")
+      txt <- "The sum of the slider inputs must be at at least"
+      txt <- paste0(txt, " the maximum number (", max_nr, ")")
       txt <- paste(txt, "of characters in your input vector")
     }
     if (input$method == "endpos") {
-      txt <- paste("The slider values must be in ascending order and the maximum value must be larger or equal of the
-        maximum number (", tags$code(max_nchar()), ") of characters in the input")
+      nc <- tags$code(max_nchar())
+      txt <- "The slider values must be in ascending order and the maximum"
+      txt <- paste0(txt, "value must be >= the maximum number (", nc, ") of")
+      txt <- paste(txt, "characters in the input")
     }
     shinyjs::html(id = "helptxt", html = as.character(txt))
   }
@@ -27,7 +30,12 @@ shiny::observeEvent(input$tot_is_included, {
 # possible number of levels
 shiny::observe({
   if (!modify_mode()) {
-    shiny::updateSliderInput(session, inputId = "nr_levels", max = max_nchar(), val = max_nchar())
+    shiny::updateSliderInput(
+      session,
+      inputId = "nr_levels",
+      max = max_nchar(),
+      val = max_nchar()
+    )
   }
 })
 
@@ -79,8 +87,12 @@ shiny::observeEvent(input$create_hier, {
 
     code <- c("library(sdcHierarchies)")
     code <- c(code, "## impute hierarchy from vector")
-    code <- c(code, paste0("dim <- c(", paste(shQuote(dim), collapse = ", "), ")"))
-    cc <- paste0("d <- sdcHier_compute(dim = dim, dim_spec = c(", paste(specs(), collapse = ", "), ")")
+
+    dims <- paste(shQuote(dim), collapse = ", ")
+    code <- c(code, paste0("dim <- c(", dims, ")"))
+
+    spec <- paste(specs(), collapse = ", ")
+    cc <- paste0("d <- sdcHier_compute(dim = dim, dim_spec = c(", spec, ")")
     cc <- paste0(cc, ", tot_lev = ")
     if (is.null(tot_lev)) {
       cc <- paste0(cc, "NULL")

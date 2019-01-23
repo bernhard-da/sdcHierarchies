@@ -14,7 +14,9 @@ sdcHier_delete <- function(h, node_labs) {
   })
   for (i in 1:length(node_labs)) {
     if (res[[1]]$exists == FALSE) {
-      warning(paste("node", shQuote(node_labs[i]), "does not exist and can't be deleted!"), call. = FALSE)
+      ll <- shQuote(node_labs[i])
+      w <- paste("node", ll, "does not exist and can't be deleted!")
+      warning(w, call. = FALSE)
     } else {
       FindNode(h, res[[i]]$parent)$RemoveChild(node_labs[i])
     }

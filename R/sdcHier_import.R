@@ -116,12 +116,16 @@ sdcHier_import <- function(inp, from="json", tot_lab=NULL) {
     if (is.null(tot_lab)) {
       tot_lab <- "Total"
     }
-    df <- rbind(data.frame(level = "@", names = tot_lab, stringsAsFactors = FALSE), df)
+    df <- rbind(
+      data.frame(
+        level = "@",
+        names = tot_lab,
+        stringsAsFactors = FALSE),
+      df
+    )
     return(h_from_df(df))
   }
   h_from_sdc <- function(inp) {
-    code_default <- codes_minimal <- id <- key <- NULL
-    level <- levs <- name <- setkeyv <- NULL
     stopifnot(is.list(inp))
     stopifnot(attributes(inp)$sdcHier_format == "sdc")
 

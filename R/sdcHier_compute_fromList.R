@@ -47,23 +47,29 @@ sdcHier_compute_fromList <- function(dim, tot_lev, as_df=FALSE) {
     stop(paste("Argument", shQuote(dim), "must be a named list"), call. = FALSE)
   }
   if (sum(nn == "") > 0) {
-    stop(paste("Some elements of argument", shQuote(dim), "are not named"), call. = FALSE)
+    d <- shQuote(dim)
+    stop(paste("Some elements of argument", d, "are not named"), call. = FALSE)
   }
   stopifnot(tot_lev %in% nn)
   if (any(duplicated(nn))) {
-    stop(paste("Duplicated names in argument", shQuote(dim), "found"), call. = FALSE)
+    d <- shQuote(dim)
+    stop(paste("Duplicated names in argument", d, "found"), call. = FALSE)
   }
 
   all_codes <- as.character(unlist(dim))
   if (tot_lev %in% all_codes) {
-    stop(paste("The overall total", shQuote(tot_lev), "was found in argument", shQuote("dim")), call. = FALSE)
+    t <- shQuote(tot_lev)
+    d <- shQuote("dim")
+    err <- paste("The overall total", t, "was found in argument", d)
+    stop(err, call. = FALSE)
   }
 
   nodes <- setdiff(nn, tot_lev)
   ind <- which(!nodes %in% all_codes)
   if (length(ind) > 0) {
     nn <- paste0("- ", nodes[ind], collapse = "\n")
-    stop(paste("The following sub-levels were not found as inputs:\n", nn), call. = FALSE)
+    err <- paste("The following sub-levels were not found as inputs:\n", nn)
+    stop(err, call. = FALSE)
   }
 
   # generate hierarchy

@@ -14,10 +14,14 @@ sdcHier_rename <- function(h, node_labs, node_labs_new) {
 
   all_nodes <- sdcHier_nodenames(h)
   if (!all(node_labs %in% all_nodes)) {
-    stop(paste("some nodes specified in argument", shQuote("node_labs"), "don't exist!"), call. = FALSE)
+    ll <- shQuote("node_labs")
+    err <- paste("some nodes specified in argument", ll, "don't exist!")
+    stop(err, call. = TRUE)
   }
   if (any(node_labs_new %in% all_nodes)) {
-    stop(paste("some nodes specified in argument", shQuote("node_labs_new"), "already exist!"), call. = FALSE)
+    ll <- shQuote("node_labs_new")
+    err <- paste("some nodes specified in argument", ll, "already exist!")
+    stop(err, call. = TRUE)
   }
 
   for (i in 1:length(node_labs)) {

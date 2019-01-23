@@ -90,7 +90,8 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FAL
 
   stopifnot(sum(dim_len) >= max(nchar(dim)))
   if (sum(any(duplicated(dim))) > 0) {
-    stop(paste("duplicated values detected in argument", shQuote("dim"), "!"), call. = FALSE)
+    err <- paste("duplicated values detected in argument", shQuote("dim"), "!")
+    stop(err, call. = FALSE)
   }
 
   tree_depth <- length(dim)
@@ -99,9 +100,13 @@ sdcHier_compute <- function(dim, dim_spec, tot_lev=NULL, method="len", as_df=FAL
     if (length(dim_len) == 1) {
       only_total <- TRUE
     }
-    df <- data.frame(path = substr(dim, 1, dim_len[1]), stringsAsFactors = FALSE)
+    df <- data.frame(
+      path = substr(dim, 1, dim_len[1]),
+      stringsAsFactors = FALSE
+    )
     if (length(unique(df$path)) > 1) {
-      err <- paste("Top-Level should be included in first", dim_len[1], "characters, but >1 values were detected!")
+      err <- paste("Top-Level should be included in first", dim_len[1])
+      err <- paste(err, "characters, but >1 values were detected!")
       stop(err, call. = FALSE)
     }
 
