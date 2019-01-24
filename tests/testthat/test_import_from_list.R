@@ -34,10 +34,11 @@ out_argus <- sdcHier_convert(d, format = "argus")
 out_code <- sdcHier_convert(d, format = "code")
 out_sdc <- sdcHier_convert(d, format = "sdc")
 
-d_from_code <- sdcHier_import(
-  inp = out_code, from = "code"
-)
-d_from_sdc <- sdcHier_import(
-  inp = out_sdc, from = "sdc"
-)
+d_from_json <- sdcHier_import(inp = out_json, from = "json")
+d_from_code <- sdcHier_import(inp = out_code, from = "code")
+d_from_sdc <- sdcHier_import(inp = out_sdc, from = "sdc")
+d_from_argus <- sdcHier_import(inp = out_argus, from = "argus")
+
+expect_equal(d_from_json, d_from_code)
 expect_equal(d_from_code, d_from_sdc)
+expect_equal(d_from_sdc, d_from_sdc)
