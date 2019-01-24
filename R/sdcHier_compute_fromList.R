@@ -43,24 +43,23 @@
 sdcHier_compute_fromList <- function(dim, tot_lev, as_df=FALSE) {
   stopifnot(is_scalar_character(tot_lev))
   nn <- names(dim)
+  dim_q <- shQuote(substitute(dim))
   if (is.null(nn)) {
-    stop(paste("Argument", shQuote(dim), "must be a named list"), call. = FALSE)
+    stop(paste("Argument", dim_q, "must be a named list"), call. = FALSE)
   }
   if (sum(nn == "") > 0) {
-    d <- shQuote(dim)
-    stop(paste("Some elements of argument", d, "are not named"), call. = FALSE)
+    stop(paste("Some elements of argument", dim_q, "are not named."), call. = FALSE)
   }
   stopifnot(tot_lev %in% nn)
   if (any(duplicated(nn))) {
-    d <- shQuote(dim)
-    stop(paste("Duplicated names in argument", d, "found"), call. = FALSE)
+    stop(paste("Duplicated names in argument", dim_q, "found."), call. = FALSE)
   }
 
   all_codes <- as.character(unlist(dim))
   if (tot_lev %in% all_codes) {
     t <- shQuote(tot_lev)
     d <- shQuote("dim")
-    err <- paste("The overall total", t, "was found in argument", d)
+    err <- paste("The overall total", t, "was found in", dim_q)
     stop(err, call. = FALSE)
   }
 
@@ -91,7 +90,7 @@ sdcHier_compute_fromList <- function(dim, tot_lev, as_df=FALSE) {
   }
 
   if (as_df == TRUE) {
-    d <- sdcHier_convert(d, format = "data.frame")
+    d <- sdcHier_convert(d, format = "df")
   }
   return(d)
 }
