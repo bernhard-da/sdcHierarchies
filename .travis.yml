@@ -10,7 +10,6 @@ r_check_args: "--as-cran"
 
 matrix:
   include:
-  - r: devel
   - r: release
     r_github_packages:
     - r-lib/covr
@@ -24,6 +23,7 @@ matrix:
       provider: script
       script: Rscript -e 'pkgdown::deploy_site_github()'
       skip_cleanup: true
+  - r: devel
 
 notifications:
   email:
