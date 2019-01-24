@@ -80,11 +80,19 @@ expect_warning(
   )
 )
 
-
 sdcHier_add(
   dim2,
   refnode = "A",
   node_labs = c("a1", "a2")
+)
+
+expect_error(
+  sdcHier_rename(
+    dim2,
+    node_labs = "A",
+    node_labs_new = "C"
+  ),
+  "some nodes specified in argument 'node_labs_new' already exist!"
 )
 
 df <- sdcHier_convert(dim2, format = "df")
