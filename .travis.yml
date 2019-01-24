@@ -19,6 +19,7 @@ matrix:
     - R CMD INSTALL $PKG_TARBALL
     - Rscript -e 'covr::codecov()'
     - Rscript -e 'devtools::install(); devtools::test()'
+    - Rscript -e 'lintr::lint_package()'
     deploy:
       provider: script
       script: Rscript -e 'pkgdown::deploy_site_github()'
