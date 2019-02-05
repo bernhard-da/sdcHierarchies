@@ -16,7 +16,15 @@ shiny::observe({
 # update JSON in case hierarchies have been moved/dragged around
 shiny::observeEvent(input$mytree, {
   req(input$mytree)
-  json(sdcHier_convert(shinytree_to_node(input$mytree), format = "json"))
+  json(
+    sdcHier_convert(
+      shinytree_to_node(
+        tree = input$mytree,
+        tot_lab = overall_level_name()
+      ),
+      format = "json"
+    )
+  )
 })
 
 ## update select inputs
