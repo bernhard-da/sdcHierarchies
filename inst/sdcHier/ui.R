@@ -49,25 +49,39 @@ shinyUI(navbarPage("Interactive sdcHierarches",
               )
             )
           )),
+
+
+          help_tot <- c(
+            "If selected, the label for the overall total should be contained within the input vector.",
+            "If not selected, a code or label for the global total can be set below."
+          ),
+          help_method <- c(
+            "Endpos: Define the position at which each level in the hierarchy ends.",
+            "",
+            "Len: The length (in terms of characters) each hiearchical levels requires in the input vector"
+          ),
+
           shinyBS::bsTooltip(
             id = "help_tot_is_included",
-            placement = "top",
-            title = "help for tot_is_incl"
+            placement = "right",
+            title = paste(help_tot, collapse = "<br>"),
+            options = list(container = "body")
           ),
           shinyBS::bsTooltip(
             id = "help_method",
-            placement = "top",
-            title = "help for method"
+            placement = "right",
+            title = paste(help_method, collapse = "<br>"),
+            options = list(container = "body")
           ),
           fluidRow(id = "row_nr_levels",
             column(
               width = 12,
               align = "center",
-              sliderInput("nr_levels",
+              shiny::sliderInput("nr_levels",
                 label = "Number of levels",
                 min = 1,
                 max = 6,
-                val = 1,
+                value = 1,
                 step = 1,
                 ticks = FALSE
               )
@@ -77,7 +91,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             column(
               width = 12,
               align = "center",
-              div(id = "helptxt", "")
+              htmltools::div(id = "helptxt", "")
             )
           ),
           uiOutput("spec"),
@@ -102,17 +116,17 @@ shinyUI(navbarPage("Interactive sdcHierarches",
             )
           )
         )),
-        shinyjs::hidden(div(id = "sidebar_modify",
+        shinyjs::hidden(htmltools::div(id = "sidebar_modify",
           radioButtons(
             inputId = "what",
-            label = h4("What do you want to do?"),
+            label = htmltools::h4("What do you want to do?"),
             choices = c(
               "Add a Node" = "add",
               "Delete a Node" = "delete",
               "Rename a Node" = "rename"
             )
           ),
-          shinyjs::hidden(div(id = "action_add",
+          shinyjs::hidden(htmltools::div(id = "action_add",
             fluidRow(
               column(12, align = "left",
                 selectInput(
@@ -142,7 +156,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
               )
             )
           )),
-          shinyjs::hidden(div(id = "action_delete",
+          shinyjs::hidden(htmltools::div(id = "action_delete",
             fluidRow(
               column(
                 width = 12,
@@ -166,7 +180,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
               )
             )
           )),
-          shinyjs::hidden(div(id = "action_delete_warning",
+          shinyjs::hidden(htmltools::div(id = "action_delete_warning",
             p("No nodes / levels available for deletion.")
           )),
           shinyjs::hidden(div(id = "action_rename",
