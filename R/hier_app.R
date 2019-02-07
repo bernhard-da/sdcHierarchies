@@ -1,9 +1,14 @@
 #' Create/Modify hierarchies interactively
 #'
-#' This function starts the \emph{shiny}-app to create a nested
-#' hierarchy starting from codes by defining positions. Once
-#' a hierarchy has been defined, it is possible to
-#' modify and export it.
+#' This function starts the interactive \emph{shiny}-app
+#' to (optionally) create and/or modify a nested hierarchy.
+#' It is possible to supply a character vector from which the
+#' hierarchy can be interactively built. Once this has been done,
+#' it is possible to modify and export the resulting hierarchy.
+#'
+#' Another option is to supply an already existing hierarchy object.
+#' In this case, it is possible to modify the existing object in
+#' the app.
 #'
 #' @return The app can return a hierarchy object (either
 #' a \code{data.frame} or a tree-based object)
@@ -15,10 +20,15 @@
 #' @export
 #' @examples
 #' \dontrun{
+#' # start with an empty hierarchy
+#' res <- hier_app()
+#'
+#' # start with a character vector that is used to
+#' build the hierarchy
 #' codes <- c("11", "12", "21", "22", "23", "31", "32")
 #' res <- hier_app(codes); print(res)
 #' }
-hier_app <- function(x, ...) {
+hier_app <- function(x=hier_create(), ...) {
   app_dir <- system.file("app", package = "sdcHierarchies")
   if (app_dir == "") {
     err <- "Could not find example directory."
@@ -30,7 +40,7 @@ hier_app <- function(x, ...) {
   shinyOptions(.appDir = app_dir)
 
   res <- try(h_is_valid(x), silent = TRUE)
-  if ("error" %in% class(res) | !is.character(x)) {
+  if ("error" %in% class(res) && !is.character(x)) {
     e <- c(
       "Argument", shQuote("x"),
       "needs to be either a character vector or a hierarchy object."

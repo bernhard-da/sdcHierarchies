@@ -33,6 +33,6 @@ shinytree_to_node <- function(tree, tot_lab=NULL) {
 
   aa$path <- apply(aa, 1, paste, collapse = "/")
   aa <- FromDataFrameTable(aa, pathName = "path")
-  class(aa) <- c(class(aa), "sdcHier")
+  class(aa) <- c(class(aa), "sdc_hierarchy")
   return(aa)
 }

@@ -384,7 +384,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
           p("Once you click on the button, the result will be either saved to
              disk or returned to your prompt if you select", code("R-object."),
             "In this case please make sure that you start the interactive
-             app as follows: ", code("x <- sdcHier(...)"),
+             app as follows: ", code("x <- hier_app(...)"),
             ". In this case, the output will be assigned to
              object", code("x"), ".")
         )
