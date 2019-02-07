@@ -53,7 +53,7 @@ shinyUI(navbarPage("Interactive sdcHierarches",
 
           help_tot <- c(
             "If selected, the label for the overall",
-            "total should be contained within the input vector.<br><br>",
+            "total should be contained within the input vector.<br>",
             "If not selected, a code or label for the",
             "global total can be set below."
           ),
