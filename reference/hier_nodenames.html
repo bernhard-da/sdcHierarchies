@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • sdcHierarchies</title>
+<title>Extract name of nodes (levels) — hier_nodenames • sdcHierarchies</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Extract name of nodes (levels) — hier_nodenames" />
+
+<meta property="og:description" content="This function allows to extract the all the names of the
+nodes including all (sub)-nodes and leaves in the given
+hierarchy." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +52,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -109,114 +114,63 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Extract name of nodes (levels)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bernhard-da/sdcHierarchies/blob/master/R/hier_nodenames.R'><code>R/hier_nodenames.R</code></a></small>
+    <div class="hidden name"><code>hier_nodenames.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>This function allows to extract the all the names of the
+nodes including all (sub)-nodes and leaves in the given
+hierarchy.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="hier_add.html">hier_add()</a></code> </p>
-        </td>
-        <td><p>Add nodes to an existing hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_app.html">hier_app()</a></code> </p>
-        </td>
-        <td><p>Create/Modify hierarchies interactively</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_compute.html">hier_compute()</a></code> </p>
-        </td>
-        <td><p>compute a nested hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_compute_from_list.html">hier_compute_from_list()</a></code> </p>
-        </td>
-        <td><p>Create a hierarchy from a named list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_convert.html">hier_convert()</a></code> </p>
-        </td>
-        <td><p>Converts hierarchies into different formats</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_create.html">hier_create()</a></code> </p>
-        </td>
-        <td><p>creates a nested hierarchy object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_delete.html">hier_delete()</a></code> </p>
-        </td>
-        <td><p>Delete nodes from an existing hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_export.html">hier_export()</a></code> </p>
-        </td>
-        <td><p>Export a hierarchy into a file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_import.html">hier_import()</a></code> </p>
-        </td>
-        <td><p>Imports a nested data structure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_info.html">hier_info()</a></code> </p>
-        </td>
-        <td><p>hier_info</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_nodenames.html">hier_nodenames()</a></code> </p>
-        </td>
-        <td><p>Extract name of nodes (levels)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_rename.html">hier_rename()</a></code> </p>
-        </td>
-        <td><p>Rename nodes in an existing hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_vignette.html">hier_vignette()</a></code> </p>
-        </td>
-        <td><p>Show the package vignette</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>hier_nodenames</span>(<span class='no'>h</span>, <span class='kw'>node_lab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>h</th>
+      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create</a></code> or modified
+using <code><a href='hier_add.html'>hier_add</a></code>, <code><a href='hier_delete.html'>hier_delete</a></code> or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>node_lab</th>
+      <td><p>(character) name of start node from which all lower level-names should be returned</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>a (nested) sdc hierarchy tree</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>hier_add hier_delete hier_rename hier_export
+hier_convert hier_app hier_info</p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>## for examples, see hier_vignette()
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

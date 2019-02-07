@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • sdcHierarchies</title>
+<title>Create/Modify hierarchies interactively — hier_app • sdcHierarchies</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,13 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Create/Modify hierarchies interactively — hier_app" />
+
+<meta property="og:description" content="This function starts the shiny-app to create a nested
+hierarchy starting from codes by defining positions. Once
+a hierarchy has been defined, it is possible to
+modify and export it." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +53,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -109,114 +115,62 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Create/Modify hierarchies interactively</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bernhard-da/sdcHierarchies/blob/master/R/hier_app.R'><code>R/hier_app.R</code></a></small>
+    <div class="hidden name"><code>hier_app.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>This function starts the <em>shiny</em>-app to create a nested
+hierarchy starting from codes by defining positions. Once
+a hierarchy has been defined, it is possible to
+modify and export it.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="hier_add.html">hier_add()</a></code> </p>
-        </td>
-        <td><p>Add nodes to an existing hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_app.html">hier_app()</a></code> </p>
-        </td>
-        <td><p>Create/Modify hierarchies interactively</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_compute.html">hier_compute()</a></code> </p>
-        </td>
-        <td><p>compute a nested hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_compute_from_list.html">hier_compute_from_list()</a></code> </p>
-        </td>
-        <td><p>Create a hierarchy from a named list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_convert.html">hier_convert()</a></code> </p>
-        </td>
-        <td><p>Converts hierarchies into different formats</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_create.html">hier_create()</a></code> </p>
-        </td>
-        <td><p>creates a nested hierarchy object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_delete.html">hier_delete()</a></code> </p>
-        </td>
-        <td><p>Delete nodes from an existing hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_export.html">hier_export()</a></code> </p>
-        </td>
-        <td><p>Export a hierarchy into a file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_import.html">hier_import()</a></code> </p>
-        </td>
-        <td><p>Imports a nested data structure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_info.html">hier_info()</a></code> </p>
-        </td>
-        <td><p>hier_info</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_nodenames.html">hier_nodenames()</a></code> </p>
-        </td>
-        <td><p>Extract name of nodes (levels)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_rename.html">hier_rename()</a></code> </p>
-        </td>
-        <td><p>Rename nodes in an existing hierarchy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hier_vignette.html">hier_vignette()</a></code> </p>
-        </td>
-        <td><p>Show the package vignette</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>hier_app</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>a character vector containing nested levels or
+an object generated with <code><a href='hier_create.html'>hier_create()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments (e.g <code>host</code>) that are passed
+through <code><a href='https://www.rdocumentation.org/packages/shiny/topics/runApp'>runApp</a></code> when
+starting the shiny application</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>The app can return a hierarchy object (either
+a <code>data.frame</code> or a tree-based object)</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>codes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"11"</span>, <span class='st'>"12"</span>, <span class='st'>"21"</span>, <span class='st'>"22"</span>, <span class='st'>"23"</span>, <span class='st'>"31"</span>, <span class='st'>"32"</span>)
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_app</span>(<span class='no'>codes</span>); <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>res</span>)
+<span class='co'># }</span></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

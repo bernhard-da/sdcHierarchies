@@ -115,6 +115,15 @@
       <small>Source: <a href='https://github.com/bernhard-da/sdcHierarchies/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="sdchierarchies-0-14" class="section level1">
+<h1 class="page-header">
+<a href="#sdchierarchies-0-14" class="anchor"></a>sdcHierarchies 0.14</h1>
+<ul>
+<li>rename functions/methods to <code>hier_xxx()</code>
+</li>
+<li>improve documentation</li>
+</ul>
+</div>
     <div id="sdchierarchies-0-13-2" class="section level1">
 <h1 class="page-header">
 <a href="#sdchierarchies-0-13-2" class="anchor"></a>sdcHierarchies 0.13.2</h1>
@@ -136,14 +145,14 @@
 <h1 class="page-header">
 <a href="#sdchierarchies-0-13-0" class="anchor"></a>sdcHierarchies 0.13.0</h1>
 <ul>
-<li>in <code><a href="../reference/sdcHier_info.html">sdcHier_info()</a></code>, the codes really contributing to a given node are computed and returned</li>
+<li>in <code>sdcHier_info()</code>, the codes really contributing to a given node are computed and returned</li>
 <li>
-<code><a href="../reference/sdcHier_convert.html">sdcHier_convert()</a></code> allows to return a <code>data.table</code>
+<code>sdcHier_convert()</code> allows to return a <code>data.table</code>
 </li>
 <li>
-<code><a href="../reference/sdcHier_convert.html">sdcHier_convert()</a></code> allows to return a list object suitable for <code>sdcTable</code> (<code>format = "sdc"</code>)</li>
+<code>sdcHier_convert()</code> allows to return a list object suitable for <code>sdcTable</code> (<code>format = "sdc"</code>)</li>
 <li>
-<code><a href="../reference/sdcHier_import.html">sdcHier_import()</a></code> allows to create a hierarchy from a list-input created from <code><a href="../reference/sdcHier_convert.html">sdcHier_convert(..., format = "sdc")</a></code>
+<code>sdcHier_import()</code> allows to create a hierarchy from a list-input created from <code>sdcHier_convert(..., format = "sdc")</code>
 </li>
 </ul>
 </div>
@@ -162,17 +171,17 @@
 <a href="#sdchierarchies-0-11-0" class="anchor"></a>sdcHierarchies 0.11.0</h1>
 <ul>
 <li>
-<code><a href="../reference/sdcHier_convert.html">sdcHier_convert()</a></code> can now convert a hierarchy to the format tau-argus understands using <code>format='argus'</code>
+<code>sdcHier_convert()</code> can now convert a hierarchy to the format tau-argus understands using <code>format='argus'</code>
 </li>
 <li>
-<code><a href="../reference/sdcHier_export.html">sdcHier_export()</a></code> writes hierarchies in specific formats to disk</li>
+<code>sdcHier_export()</code> writes hierarchies in specific formats to disk</li>
 <li>
-<code><a href="../reference/sdcHier_import.html">sdcHier_import()</a></code> gained the ability to return sdc hierarchies from <code>hrc</code>-files in tau-argus format as well as from code and json</li>
+<code>sdcHier_import()</code> gained the ability to return sdc hierarchies from <code>hrc</code>-files in tau-argus format as well as from code and json</li>
 <li>
-<code><a href="../reference/sdcHier_info.html">sdcHier_info()</a></code> now shows the children of a node (if existing)</li>
+<code>sdcHier_info()</code> now shows the children of a node (if existing)</li>
 <li>
-<code><a href="../reference/sdcHier.html">sdcHier()</a></code> gained the feature to export hierarchies as json-encoded strings and hrc-files suitable as input for tau-argus</li>
-<li>started with vignette that can be started with <code><a href="../reference/sdcHier_vignette.html">sdcHier_vignette()</a></code>
+<code>sdcHier()</code> gained the feature to export hierarchies as json-encoded strings and hrc-files suitable as input for tau-argus</li>
+<li>started with vignette that can be started with <code>sdcHier_vignette()</code>
 </li>
 </ul>
 </div>
@@ -180,7 +189,7 @@
 <h1 class="page-header">
 <a href="#sdchierarchies-0-10-0" class="anchor"></a>sdcHierarchies 0.10.0</h1>
 <ul>
-<li>implement <em>undo</em>-feature in <code><a href="../reference/sdcHier.html">sdcHier()</a></code>
+<li>implement <em>undo</em>-feature in <code>sdcHier()</code>
 </li>
 </ul>
 </div>
@@ -188,7 +197,7 @@
 <h1 class="page-header">
 <a href="#sdchierarchies-0-9-0" class="anchor"></a>sdcHierarchies 0.9.0</h1>
 <ul>
-<li>combine <code>dynHier()</code> and <code>fixedHier()</code> to <code><a href="../reference/sdcHier.html">sdcHier()</a></code>
+<li>combine <code>dynHier()</code> and <code>fixedHier()</code> to <code>sdcHier()</code>
 </li>
 </ul>
 </div>
@@ -197,8 +206,8 @@
 <a href="#sdchierarchies-0-8-0" class="anchor"></a>sdcHierarchies 0.8.0</h1>
 <ul>
 <li>
-<code><a href="../reference/sdcHier_convert.html">sdcHier_convert()</a></code> gained an argument <code>path</code> to write the output to a file</li>
-<li>new function <code><a href="../reference/sdcHier_compute_fromList.html">sdcHier_compute_fromList()</a></code> to create a hierarchy from a named list</li>
+<code>sdcHier_convert()</code> gained an argument <code>path</code> to write the output to a file</li>
+<li>new function <code>sdcHier_compute_fromList()</code> to create a hierarchy from a named list</li>
 <li>invisibly return results to avoid duplicated printing</li>
 <li>start with tabbed interface for shiny-apps</li>
 </ul>
@@ -208,7 +217,7 @@
 <a href="#sdchierarchies-0-7-0" class="anchor"></a>sdcHierarchies 0.7.0</h1>
 <ul>
 <li>some bugfixes</li>
-<li>removed argument <code>full_names</code> froms <code><a href="../reference/sdcHier_compute.html">sdcHier_compute()</a></code>
+<li>removed argument <code>full_names</code> froms <code>sdcHier_compute()</code>
 </li>
 <li>show code to generated hierarchies in <code>dynHier()</code> and <code>fixedHier()</code>
 </li>
@@ -220,10 +229,10 @@
 <ul>
 <li>fixes for shiny-Apps <code>dynHier()</code> and <code>fixedHier()</code>
 </li>
-<li>renamed <code>dim_by_position()</code> to <code><a href="../reference/sdcHier_compute.html">sdcHier_compute()</a></code>
+<li>renamed <code>dim_by_position()</code> to <code>sdcHier_compute()</code>
 </li>
 <li>
-<code><a href="../reference/sdcHier_convert.html">sdcHier_convert()</a></code> can output the required code to compute the hierarchy</li>
+<code>sdcHier_convert()</code> can output the required code to compute the hierarchy</li>
 </ul>
 </div>
     <div id="sdchierarchies-0-5-0" class="section level1">
@@ -231,7 +240,7 @@
 <a href="#sdchierarchies-0-5-0" class="anchor"></a>sdcHierarchies 0.5.0</h1>
 <ul>
 <li>
-<code><a href="../reference/sdcHier_convert.html">sdcHier_convert()</a></code> can output the json-code</li>
+<code>sdcHier_convert()</code> can output the json-code</li>
 <li>fixes to documentation and shinyApps <code>dynHier()</code> and <code>fixedHier()</code>
 </li>
 </ul>
@@ -240,7 +249,7 @@
 <h1 class="page-header">
 <a href="#sdchierarchies-0-4-0" class="anchor"></a>sdcHierarchies 0.4.0</h1>
 <ul>
-<li>Functions (<code><a href="../reference/sdcHier_create.html">sdcHier_create()</a></code>, <code><a href="../reference/sdcHier_add.html">sdcHier_add()</a></code>, <code><a href="../reference/sdcHier_delete.html">sdcHier_delete()</a></code>, <code><a href="../reference/sdcHier_rename.html">sdcHier_rename()</a></code>, <code><a href="../reference/sdcHier_info.html">sdcHier_info()</a></code>, <code><a href="../reference/sdcHier_nodenames.html">sdcHier_nodenames()</a></code> and <code><a href="../reference/sdcHier_convert.html">sdcHier_convert()</a></code>) dealing with creation and updating of nested hierarchies and extracting information have been added</li>
+<li>Functions (<code>sdcHier_create()</code>, <code>sdcHier_add()</code>, <code>sdcHier_delete()</code>, <code>sdcHier_rename()</code>, <code>sdcHier_info()</code>, <code>sdcHier_nodenames()</code> and <code>sdcHier_convert()</code>) dealing with creation and updating of nested hierarchies and extracting information have been added</li>
 </ul>
 </div>
   </div>
@@ -249,6 +258,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#sdchierarchies-0-14">0.14</a></li>
         <li><a href="#sdchierarchies-0-13-2">0.13.2</a></li>
         <li><a href="#sdchierarchies-0-13-1">0.13.1</a></li>
         <li><a href="#sdchierarchies-0-13-0">0.13.0</a></li>
