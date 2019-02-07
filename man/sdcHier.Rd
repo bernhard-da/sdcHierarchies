@@ -21,7 +21,7 @@ a hierarchy has been defined, it is possible to modify and export it.
 }
 \examples{
 \dontrun{
-codes <- c("11","12","21","22","23","31","32")
+codes <- c("11", "12", "21", "22", "23", "31", "32")
 res <- sdcHier(codes); print(res)
 }
 }

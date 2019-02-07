@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' codes <- c("11","12","21","22","23","31","32")
+#' codes <- c("11", "12", "21", "22", "23", "31", "32")
 #' res <- sdcHier(codes); print(res)
 #' }
 sdcHier <- function(x, ...) {
@@ -25,8 +25,12 @@ sdcHier <- function(x, ...) {
   shinyOptions(.appDir = app_dir)
 
   res <- try(h_is_valid(x), silent = TRUE)
-  if ("error" %in% class(res) & !is.character(x)) {
-    stop("argument 'x' needs to be a character vector!\n")
+  if ("error" %in% class(res) | !is.character(x)) {
+    e <- c(
+      "Argument", shQuote("x"),
+      "needs to be either a character vector or a hierarchy object."
+    )
+    stop(paste(e, collapse = " "), call. = FALSE)
   }
   shinyOptions(.data = x)
   runApp(app_dir, launch.browser = TRUE)
