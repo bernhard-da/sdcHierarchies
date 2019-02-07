@@ -52,25 +52,28 @@ shinyUI(navbarPage("Interactive sdcHierarches",
 
 
           help_tot <- c(
-            "If selected, the label for the overall total should be contained within the input vector.",
-            "If not selected, a code or label for the global total can be set below."
+            "If selected, the label for the overall",
+            "total should be contained within the input vector.<br><br>",
+            "If not selected, a code or label for the",
+            "global total can be set below."
           ),
           help_method <- c(
-            "Endpos: Define the position at which each level in the hierarchy ends.",
-            "",
-            "Len: The length (in terms of characters) each hiearchical levels requires in the input vector"
+            "Endpos: Define the position at which each level",
+            "in the hierarchy ends.<br>",
+            "Len: The length (in terms of characters) each",
+            "hiearchical levels requires in the input vector"
           ),
 
           shinyBS::bsTooltip(
             id = "help_tot_is_included",
             placement = "right",
-            title = paste(help_tot, collapse = "<br>"),
+            title = paste(help_tot, collapse = " "),
             options = list(container = "body")
           ),
           shinyBS::bsTooltip(
             id = "help_method",
             placement = "right",
-            title = paste(help_method, collapse = "<br>"),
+            title = paste(help_method, collapse = " "),
             options = list(container = "body")
           ),
           fluidRow(id = "row_nr_levels",
