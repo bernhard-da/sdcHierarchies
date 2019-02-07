@@ -1,0 +1,42 @@
+#' Create/Modify hierarchies interactively
+#'
+#' This function starts the \emph{shiny}-app to create a nested
+#' hierarchy starting from codes by defining positions. Once
+#' a hierarchy has been defined, it is possible to
+#' modify and export it.
+#'
+#' @return The app can return a hierarchy object (either
+#' a \code{data.frame} or a tree-based object)
+#' @param x a character vector containing nested levels or
+#' an object generated with \code{hier_create()}
+#' @param ... arguments (e.g \code{host}) that are passed
+#' through \code{\link[shiny]{runApp}} when
+#' starting the shiny application
+#' @export
+#' @examples
+#' \dontrun{
+#' codes <- c("11", "12", "21", "22", "23", "31", "32")
+#' res <- hier_app(codes); print(res)
+#' }
+hier_app <- function(x, ...) {
+  app_dir <- system.file("app", package = "sdcHierarchies")
+  if (app_dir == "") {
+    err <- "Could not find example directory."
+    err < paste(err, "Try re-installing `sdcHierarchies`.")
+    stop(err, call. = FALSE)
+  }
+
+  shinyOptions(.startdir = getwd())
+  shinyOptions(.appDir = app_dir)
+
+  res <- try(h_is_valid(x), silent = TRUE)
+  if ("error" %in% class(res) | !is.character(x)) {
+    e <- c(
+      "Argument", shQuote("x"),
+      "needs to be either a character vector or a hierarchy object."
+    )
+    stop(paste(e, collapse = " "), call. = FALSE)
+  }
+  shinyOptions(.data = x)
+  runApp(app_dir, launch.browser = TRUE)
+}

@@ -13,21 +13,21 @@ geo_m <- c(
   "03361", "03451", "03452", "03453", "03454", "03455", "03456",
   "10155")
 
-dim_endpos <- sdcHier_compute(
+dim_endpos <- hier_compute(
   dim = geo_m,
   dim_spec = c(2, 3, 5),
   tot_lev = "Tot",
   method = "endpos")
 
-dim_len <- sdcHier_compute(
+dim_len <- hier_compute(
   dim = geo_m,
   dim_spec = c(2, 1, 2),
   tot_lev = "Tot",
   method = "len")
 
 expect_identical(
-  sdcHier_convert(dim_endpos, format = "df"),
-  sdcHier_convert(dim_len, format = "df")
+  hier_convert(dim_endpos, format = "df"),
+  hier_convert(dim_len, format = "df")
 )
 
 # Total not contained
@@ -38,39 +38,39 @@ yae_h <- c(
   "1.4.1.", "1.4.2.", "1.4.3.", "1.4.4.", "1.4.5.",
   "1.5.", "1.6.", "1.7.", "1.8.", "1.9.", "2.", "3.")
 
-dim_endpos <- sdcHier_compute(
+dim_endpos <- hier_compute(
   dim = yae_h,
   dim_spec = c(2, 4, 6),
   tot_lev = "Tot",
   method = "endpos")
 
-dim_len <- sdcHier_compute(
+dim_len <- hier_compute(
   dim = yae_h,
   dim_spec = c(2, 2, 2),
   tot_lev = "Tot",
   method = "len")
 
 expect_identical(
-  sdcHier_convert(dim_endpos, format = "df"),
-  sdcHier_convert(dim_len, format = "df")
+  hier_convert(dim_endpos, format = "df"),
+  hier_convert(dim_len, format = "df")
 )
 expect_identical(
-  sdcHier_convert(dim_endpos, format = "json"),
-  sdcHier_convert(dim_len, format = "json")
+  hier_convert(dim_endpos, format = "json"),
+  hier_convert(dim_len, format = "json")
 )
 expect_identical(
-  sdcHier_convert(dim_endpos, format = "dt"),
-  sdcHier_convert(dim_len, format = "dt")
+  hier_convert(dim_endpos, format = "dt"),
+  hier_convert(dim_len, format = "dt")
 )
 expect_identical(
-  sdcHier_convert(dim_endpos, format = "argus"),
-  sdcHier_convert(dim_len, format = "argus")
+  hier_convert(dim_endpos, format = "argus"),
+  hier_convert(dim_len, format = "argus")
 )
 expect_identical(
-  sdcHier_convert(dim_endpos, format = "code"),
-  sdcHier_convert(dim_len, format = "code")
+  hier_convert(dim_endpos, format = "code"),
+  hier_convert(dim_len, format = "code")
 )
 expect_identical(
-  sdcHier_convert(dim_endpos, format = "sdc"),
-  sdcHier_convert(dim_len, format = "sdc")
+  hier_convert(dim_endpos, format = "sdc"),
+  hier_convert(dim_len, format = "sdc")
 )
