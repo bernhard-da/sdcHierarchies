@@ -177,7 +177,13 @@
 #'   method = "list",
 #'   as_df = FALSE
 #' ); d
-hier_compute <- function(inp, dim_spec=NULL, tot_lev=NULL, method="len", as_df=FALSE) {
+hier_compute <- function(
+  inp,
+  dim_spec=NULL,
+  tot_lev=NULL,
+  method="len",
+  as_df=FALSE
+  ) {
   # convert endpos to length
   endpos_to_len <- function(end_pos) {
     diff(c(0, end_pos))
@@ -192,7 +198,8 @@ hier_compute <- function(inp, dim_spec=NULL, tot_lev=NULL, method="len", as_df=F
       stop(paste("Argument", dim_q, "must be a named list"), call. = FALSE)
     }
     if (sum(nn == "") > 0) {
-      stop(paste("Some elements of argument", dim_q, "are not named."), call. = FALSE)
+      e <- paste("Some elements of argument", dim_q, "are not named.")
+      stop(e, call. = FALSE)
     }
     stopifnot(tot_lev %in% nn)
     if (any(duplicated(nn))) {
