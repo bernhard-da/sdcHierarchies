@@ -48,5 +48,5 @@ hier_app <- function(x=hier_create(), ...) {
     stop(paste(e, collapse = " "), call. = FALSE)
   }
   shinyOptions(.data = x)
-  runApp(app_dir, launch.browser = TRUE)
+  runApp(app_dir, launch.browser = TRUE, ...)
 }
