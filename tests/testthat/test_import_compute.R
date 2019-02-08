@@ -175,11 +175,46 @@ out_argus <- hier_convert(d, format = "argus")
 out_code <- hier_convert(d, format = "code")
 out_sdc <- hier_convert(d, format = "sdc")
 
-d_from_json <- hier_import(inp = out_json, from = "json")
+d_from_json1 <- hier_import(inp = out_json, from = "json", tot_lab = "Total")
+d_from_json2 <- hier_import(inp = out_json, from = "json")
+
 d_from_code <- hier_import(inp = out_code, from = "code")
 d_from_sdc <- hier_import(inp = out_sdc, from = "sdc")
 d_from_argus <- hier_import(inp = out_argus, from = "argus")
 
-expect_equal(d_from_json, d_from_code)
+expect_equal(d_from_json1, d_from_json2)
+expect_equal(d_from_json2, d_from_code)
 expect_equal(d_from_code, d_from_sdc)
 expect_equal(d_from_sdc, d_from_sdc)
+
+
+out_df <- hier_export(h = d, format = "df", path = tempfile())
+d_df <- hier_import(out_df, from = "df")
+expect_is(out_df, "data.frame")
+
+out_json <- hier_export(h = d, format = "json", path = tempfile())
+d_json <- hier_import(out_json, from = "json")
+expect_equal(attr(out_json, "hier_format"), "json")
+expect_equal(attr(out_json, "hier_convert"), TRUE)
+
+out_argus <- hier_export(h = d, format = "argus", path = tempfile())
+d_argus <- hier_import(out_argus, from = "argus")
+expect_equal(attr(out_argus, "hier_format"), "argus")
+expect_equal(attr(out_argus, "hier_convert"), TRUE)
+
+out_code <- hier_export(h = d, format = "code", path = tempfile())
+d_code <- hier_import(out_code, from = "code")
+expect_equal(attr(out_code, "hier_format"), "code")
+expect_equal(attr(out_code, "hier_convert"), TRUE)
+
+out_sdc <- hier_export(h = d, format = "sdc", path = tempfile())
+d_sdc <- hier_import(out_sdc, from = "sdc")
+expect_equal(attr(out_sdc, "hier_format"), "sdc")
+expect_equal(attr(out_sdc, "hier_convert"), TRUE)
+
+
+expect_equal(d_df, d_json)
+expect_equal(d_json, d_argus)
+expect_equal(d_argus, d_code)
+expect_equal(d_code, d_sdc)
+
