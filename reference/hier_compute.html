@@ -33,7 +33,7 @@
 <meta property="og:title" content="compute a nested hierarchy — hier_compute" />
 
 <meta property="og:description" content="This function allows to compute a nested hierarchy from an character
-vector." />
+vector or a (named) list." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,25 +123,32 @@ vector." />
     <div class="ref-description">
     
     <p>This function allows to compute a nested hierarchy from an character
-vector.</p>
+vector or a (named) list.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>hier_compute</span>(<span class='no'>dim</span>, <span class='no'>dim_spec</span>, <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"len"</span>,
+    <pre class="usage"><span class='fu'>hier_compute</span>(<span class='no'>inp</span>, <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"len"</span>,
   <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dim</th>
-      <td><p>a character vector containing codes of a hierarchical variables.</p></td>
+      <th>inp</th>
+      <td><p>a character vector (for methods <code>len</code> and <code>endpos</code>
+containing codes of a hierarchical variables or a list for
+method <code>list</code>. In the latter case, the input is expected to be a named list
+where each list-element contains the codes belonging to the node that has the
+name of this specific list element. In the examples below, the required input
+formats are further explained.</p></td>
     </tr>
     <tr>
       <th>dim_spec</th>
       <td><p>an (integerish) vector containing either the length
 (in terms of characters) for each level or the end-positions of these levels.
-In the latter-case, one needs to set argument <code>method</code> to <code>"endpos"</code></p></td>
+In the latter-case, one needs to set argument <code>method</code> to <code>"endpos"</code>.
+This argument is ignored in case the hierarchy should be created from a
+named list.</p></td>
     </tr>
     <tr>
       <th>tot_lev</th>
@@ -153,6 +160,7 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
       <td><p>either <code>len</code> (the default) or <code>endpos</code></p><ul>
 <li><p><code>len</code>: the number of characters for each of the levels needs to be specified</p></li>
 <li><p><code>endpos</code>: the end-positions for each levels need to be fixed</p></li>
+<li><p><code>list</code>: the end-positions for each levels need to be fixed</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -167,52 +175,239 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## nuts: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)</span>
+    <pre class="examples"><div class='input'><span class='co'>## Example Regional Codes (NUTS)</span>
+<span class='co'># digits 1-2 (len=2, endpos=2) --&gt; level 1</span>
+<span class='co'># digit 3 (len=1, endpos=3) --&gt; level 2</span>
+<span class='co'># digits 4-5 (len=2, endpos=5) -&gt; level 3</span>
 <span class='co'>## all strings have equal length but total is not encoded in these values</span>
 <span class='no'>geo_m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
-  <span class='st'>"01051"</span>,<span class='st'>"01053"</span>,<span class='st'>"01054"</span>,<span class='st'>"01055"</span>,<span class='st'>"01056"</span>,<span class='st'>"01057"</span>,<span class='st'>"01058"</span>,<span class='st'>"01059"</span>,<span class='st'>"01060"</span>,<span class='st'>"01061"</span>,<span class='st'>"01062"</span>,
+  <span class='st'>"01051"</span>, <span class='st'>"01053"</span>, <span class='st'>"01054"</span>, <span class='st'>"01055"</span>,
+  <span class='st'>"01056"</span>, <span class='st'>"01057"</span>, <span class='st'>"01058"</span>, <span class='st'>"01059"</span>, <span class='st'>"01060"</span>,
+  <span class='st'>"01061"</span>, <span class='st'>"01062"</span>,
   <span class='st'>"02000"</span>,
-  <span class='st'>"03151"</span>,<span class='st'>"03152"</span>,<span class='st'>"03153"</span>,<span class='st'>"03154"</span>,<span class='st'>"03155"</span>,<span class='st'>"03156"</span>,<span class='st'>"03157"</span>,<span class='st'>"03158"</span>,<span class='st'>"03251"</span>,<span class='st'>"03252"</span>,<span class='st'>"03254"</span>,<span class='st'>"03255"</span>,
-  <span class='st'>"03256"</span>,<span class='st'>"03257"</span>,<span class='st'>"03351"</span>,<span class='st'>"03352"</span>,<span class='st'>"03353"</span>,<span class='st'>"03354"</span>,<span class='st'>"03355"</span>,<span class='st'>"03356"</span>,<span class='st'>"03357"</span>,<span class='st'>"03358"</span>,<span class='st'>"03359"</span>,<span class='st'>"03360"</span>,
-  <span class='st'>"03361"</span>,<span class='st'>"03451"</span>,<span class='st'>"03452"</span>,<span class='st'>"03453"</span>,<span class='st'>"03454"</span>,<span class='st'>"03455"</span>,<span class='st'>"03456"</span>,
+  <span class='st'>"03151"</span>, <span class='st'>"03152"</span>, <span class='st'>"03153"</span>, <span class='st'>"03154"</span>, <span class='st'>"03155"</span>, <span class='st'>"03156"</span>, <span class='st'>"03157"</span>, <span class='st'>"03158"</span>,
+  <span class='st'>"03251"</span>, <span class='st'>"03252"</span>, <span class='st'>"03254"</span>, <span class='st'>"03255"</span>, <span class='st'>"03256"</span>, <span class='st'>"03257"</span>,
+  <span class='st'>"03351"</span>, <span class='st'>"03352"</span>, <span class='st'>"03353"</span>, <span class='st'>"03354"</span>, <span class='st'>"03355"</span>,
+  <span class='st'>"03356"</span>, <span class='st'>"03357"</span>, <span class='st'>"03358"</span>, <span class='st'>"03359"</span>,
+  <span class='st'>"03360"</span>, <span class='st'>"03361"</span>,
+  <span class='st'>"03451"</span>, <span class='st'>"03452"</span>, <span class='st'>"03453"</span>, <span class='st'>"03454"</span>, <span class='st'>"03455"</span>, <span class='st'>"03456"</span>,
   <span class='st'>"10155"</span>)
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>geo_m</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>5</span>),
-  <span class='kw'>tot_lev</span><span class='kw'>=</span><span class='st'>"Tot"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"endpos"</span>)
-<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>geo_m</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
-  <span class='kw'>tot_lev</span><span class='kw'>=</span><span class='st'>"Tot"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"len"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>a</span>, <span class='kw'>format</span><span class='kw'>=</span><span class='st'>"df"</span>), <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>b</span>, <span class='kw'>format</span><span class='kw'>=</span><span class='st'>"df"</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='co'>## return data.frame suitable as input for tau-argus or sdcTable</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>geo_m</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>5</span>),
-  <span class='kw'>tot_lev</span><span class='kw'>=</span><span class='st'>"Tot"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"endpos"</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>geo_m</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
-  <span class='kw'>tot_lev</span><span class='kw'>=</span><span class='st'>"Tot"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"len"</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+
+<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>geo_m</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>5</span>),
+  <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Tot"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"endpos"</span>
+)
+<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>geo_m</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
+  <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Tot"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"len"</span>
+)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(
+  <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>a</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>),
+  <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>b</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>)
+)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'>## total is contained in the first 3 positions of the input values</span>
 <span class='co'>## --&gt; we need to set tot_level to NULL (the default)</span>
-<span class='no'>geo_m_with_tot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Tot"</span>,<span class='no'>geo_m</span>)
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>geo_m_with_tot</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
-  <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"len"</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>geo_m_with_tot</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>5</span>,<span class='fl'>6</span>,<span class='fl'>8</span>),
-  <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"endpos"</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>geo_m_with_tot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Tot"</span>, <span class='no'>geo_m</span>)
+<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>geo_m_with_tot</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>2</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"len"</span>,
+  <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
+<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>geo_m_with_tot</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>8</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"endpos"</span>,
+  <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>
+)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='co'>## second example, unequal strings; overall total not included in input</span>
+<span class='co'>## example where inputs have unequal length</span>
+<span class='co'>## the overall total is not included in input vector</span>
 <span class='no'>yae_h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
-  <span class='st'>"1.1.1."</span>,<span class='st'>"1.1.2."</span>,
-  <span class='st'>"1.2.1."</span>,<span class='st'>"1.2.2."</span>,<span class='st'>"1.2.3."</span>,<span class='st'>"1.2.4."</span>,<span class='st'>"1.2.5."</span>,<span class='st'>"1.3.1."</span>,
-  <span class='st'>"1.3.2."</span>,<span class='st'>"1.3.3."</span>,<span class='st'>"1.3.4."</span>,<span class='st'>"1.3.5."</span>,
-  <span class='st'>"1.4.1."</span>,<span class='st'>"1.4.2."</span>,<span class='st'>"1.4.3."</span>,<span class='st'>"1.4.4."</span>,<span class='st'>"1.4.5."</span>,
-  <span class='st'>"1.5."</span>,<span class='st'>"1.6."</span>,<span class='st'>"1.7."</span>,<span class='st'>"1.8."</span>,<span class='st'>"1.9."</span>,<span class='st'>"2."</span>,<span class='st'>"3."</span>)
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>yae_h</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>4</span>,<span class='fl'>6</span>), <span class='kw'>tot_lev</span><span class='kw'>=</span><span class='st'>"Tot"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"endpos"</span>)
-<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>yae_h</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), <span class='kw'>tot_lev</span><span class='kw'>=</span><span class='st'>"Tot"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"len"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>a</span>, <span class='kw'>format</span><span class='kw'>=</span><span class='st'>"df"</span>), <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>b</span>, <span class='kw'>format</span><span class='kw'>=</span><span class='st'>"df"</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='co'>## total is contained in the first 3 positions of the input values</span>
-<span class='co'>## --&gt; we need to set tot_level to NULL (the default)</span>
-<span class='no'>yae_h_with_tot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Tot"</span>,<span class='no'>yae_h</span>)
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>yae_h_with_tot</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>2</span>),
-  <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"len"</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(<span class='kw'>dim</span><span class='kw'>=</span><span class='no'>yae_h_with_tot</span>, <span class='kw'>dim_spec</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>5</span>,<span class='fl'>7</span>,<span class='fl'>9</span>),
-  <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"endpos"</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+  <span class='st'>"1.1.1."</span>, <span class='st'>"1.1.2."</span>,
+  <span class='st'>"1.2.1."</span>, <span class='st'>"1.2.2."</span>, <span class='st'>"1.2.3."</span>, <span class='st'>"1.2.4."</span>, <span class='st'>"1.2.5."</span>, <span class='st'>"1.3.1."</span>,
+  <span class='st'>"1.3.2."</span>, <span class='st'>"1.3.3."</span>, <span class='st'>"1.3.4."</span>, <span class='st'>"1.3.5."</span>,
+  <span class='st'>"1.4.1."</span>, <span class='st'>"1.4.2."</span>, <span class='st'>"1.4.3."</span>, <span class='st'>"1.4.4."</span>, <span class='st'>"1.4.5."</span>,
+  <span class='st'>"1.5."</span>, <span class='st'>"1.6."</span>, <span class='st'>"1.7."</span>, <span class='st'>"1.8."</span>, <span class='st'>"1.9."</span>, <span class='st'>"2."</span>, <span class='st'>"3."</span>)
+
+<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>yae_h</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>4</span>, <span class='fl'>6</span>),
+  <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Tot"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"endpos"</span>
+)
+<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>yae_h</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
+  <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Tot"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"len"</span>
+)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(
+  <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>a</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>),
+  <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>b</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>)
+)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'>## Same exampl, but overall total is contained in the first 3 positions</span>
+<span class='co'>## of the input values --&gt; tot_level needs to be set to NULL (the default)</span>
+<span class='no'>yae_h_with_tot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Tot"</span>, <span class='no'>yae_h</span>)
+<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>yae_h_with_tot</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"len"</span>,
+  <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
+<span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>yae_h_with_tot</span>,
+  <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>7</span>, <span class='fl'>9</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"endpos"</span>,
+  <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'>## An example using a list as input (same as above)</span>
+<span class='co'>## Hierarchy: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)</span>
+<span class='co'>## The order of the list-elements is not important but the</span>
+<span class='co'>## names of input-list correspond to (subtotal/level) names</span>
+<span class='no'>geo_ll</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>()
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"Total"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"01"</span>, <span class='st'>"02"</span>, <span class='st'>"03"</span>, <span class='st'>"10"</span>)
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"010"</span>]]   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+  <span class='st'>"01051"</span>, <span class='st'>"01053"</span>, <span class='st'>"01054"</span>, <span class='st'>"01055"</span>,
+  <span class='st'>"01056"</span>, <span class='st'>"01057"</span>, <span class='st'>"01058"</span>, <span class='st'>"01059"</span>,
+  <span class='st'>"01060"</span>, <span class='st'>"01061"</span>, <span class='st'>"01062"</span>
+)
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"031"</span>]]   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+  <span class='st'>"03151"</span>, <span class='st'>"03152"</span>, <span class='st'>"03153"</span>, <span class='st'>"03154"</span>,
+  <span class='st'>"03155"</span>, <span class='st'>"03156"</span>, <span class='st'>"03157"</span>, <span class='st'>"03158"</span>
+)
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"032"</span>]]   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+  <span class='st'>"03251"</span>, <span class='st'>"03252"</span>, <span class='st'>"03254"</span>,
+  <span class='st'>"03255"</span>, <span class='st'>"03256"</span>, <span class='st'>"03257"</span>
+)
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"033"</span>]]   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+  <span class='st'>"03351"</span>, <span class='st'>"03352"</span>, <span class='st'>"03353"</span>, <span class='st'>"03354"</span>, <span class='st'>"03355"</span>,
+  <span class='st'>"03356"</span>, <span class='st'>"03357"</span>, <span class='st'>"03358"</span>, <span class='st'>"03359"</span>,
+  <span class='st'>"03360"</span>, <span class='st'>"03361"</span>
+)
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"034"</span>]]   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+  <span class='st'>"03451"</span>, <span class='st'>"03452"</span>, <span class='st'>"03453"</span>,
+  <span class='st'>"03454"</span>, <span class='st'>"03455"</span>,<span class='st'>"03456"</span>
+)
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"01"</span>]]    <span class='kw'>&lt;-</span> <span class='st'>"010"</span>
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"02"</span>]]    <span class='kw'>&lt;-</span> <span class='st'>"020"</span>
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"020"</span>]]   <span class='kw'>&lt;-</span> <span class='st'>"02000"</span>
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"03"</span>]]    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"031"</span>, <span class='st'>"032"</span>, <span class='st'>"033"</span>, <span class='st'>"034"</span>)
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"10"</span>]]    <span class='kw'>&lt;-</span> <span class='st'>"101"</span>
+<span class='no'>geo_ll</span><span class='kw'>[[</span><span class='st'>"101"</span>]]   <span class='kw'>&lt;-</span> <span class='st'>"10155"</span>
+
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>geo_ll</span>,
+  <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
+  <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+); <span class='no'>d</span></div><div class='output co'>#&gt; <span class='message'>Argument 'dim_spec' is ignored when constructing a hierarchy from a nested list.</span></div><div class='output co'>#&gt;            levelName
+#&gt; 1  Total            
+#&gt; 2   ¦--01           
+#&gt; 3   ¦   °--010      
+#&gt; 4   ¦       ¦--01051
+#&gt; 5   ¦       ¦--01053
+#&gt; 6   ¦       ¦--01054
+#&gt; 7   ¦       ¦--01055
+#&gt; 8   ¦       ¦--01056
+#&gt; 9   ¦       ¦--01057
+#&gt; 10  ¦       ¦--01058
+#&gt; 11  ¦       ¦--01059
+#&gt; 12  ¦       ¦--01060
+#&gt; 13  ¦       ¦--01061
+#&gt; 14  ¦       °--01062
+#&gt; 15  ¦--02           
+#&gt; 16  ¦   °--020      
+#&gt; 17  ¦       °--02000
+#&gt; 18  ¦--03           
+#&gt; 19  ¦   ¦--031      
+#&gt; 20  ¦   ¦   ¦--03151
+#&gt; 21  ¦   ¦   ¦--03152
+#&gt; 22  ¦   ¦   ¦--03153
+#&gt; 23  ¦   ¦   ¦--03154
+#&gt; 24  ¦   ¦   ¦--03155
+#&gt; 25  ¦   ¦   ¦--03156
+#&gt; 26  ¦   ¦   ¦--03157
+#&gt; 27  ¦   ¦   °--03158
+#&gt; 28  ¦   ¦--032      
+#&gt; 29  ¦   ¦   ¦--03251
+#&gt; 30  ¦   ¦   ¦--03252
+#&gt; 31  ¦   ¦   ¦--03254
+#&gt; 32  ¦   ¦   ¦--03255
+#&gt; 33  ¦   ¦   ¦--03256
+#&gt; 34  ¦   ¦   °--03257
+#&gt; 35  ¦   ¦--033      
+#&gt; 36  ¦   ¦   ¦--03351
+#&gt; 37  ¦   ¦   ¦--03352
+#&gt; 38  ¦   ¦   ¦--03353
+#&gt; 39  ¦   ¦   ¦--03354
+#&gt; 40  ¦   ¦   ¦--03355
+#&gt; 41  ¦   ¦   ¦--03356
+#&gt; 42  ¦   ¦   ¦--03357
+#&gt; 43  ¦   ¦   ¦--03358
+#&gt; 44  ¦   ¦   ¦--03359
+#&gt; 45  ¦   ¦   ¦--03360
+#&gt; 46  ¦   ¦   °--03361
+#&gt; 47  ¦   °--034      
+#&gt; 48  ¦       ¦--03451
+#&gt; 49  ¦       ¦--03452
+#&gt; 50  ¦       ¦--03453
+#&gt; 51  ¦       ¦--03454
+#&gt; 52  ¦       ¦--03455
+#&gt; 53  ¦       °--03456
+#&gt; 54  °--10           
+#&gt; 55      °--101      
+#&gt; 56          °--10155</div><div class='input'>
+<span class='co'>## Reproduce example from above with input defined as named list</span>
+<span class='no'>yae_ll</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>()
+<span class='no'>yae_ll</span><span class='kw'>[[</span><span class='st'>"Total"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1."</span>, <span class='st'>"2."</span>, <span class='st'>"3."</span>)
+<span class='no'>yae_ll</span><span class='kw'>[[</span><span class='st'>"1."</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"1."</span>, <span class='fl'>1</span>:<span class='fl'>9</span>, <span class='st'>"."</span>)
+<span class='no'>yae_ll</span><span class='kw'>[[</span><span class='st'>"1.1."</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"1.1."</span>, <span class='fl'>1</span>:<span class='fl'>2</span>, <span class='st'>"."</span>)
+<span class='no'>yae_ll</span><span class='kw'>[[</span><span class='st'>"1.2."</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"1.2."</span>, <span class='fl'>1</span>:<span class='fl'>5</span>, <span class='st'>"."</span>)
+<span class='no'>yae_ll</span><span class='kw'>[[</span><span class='st'>"1.3."</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"1.3."</span>, <span class='fl'>1</span>:<span class='fl'>5</span>, <span class='st'>"."</span>)
+<span class='no'>yae_ll</span><span class='kw'>[[</span><span class='st'>"1.4."</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"1.4."</span>, <span class='fl'>1</span>:<span class='fl'>6</span>, <span class='st'>"."</span>)
+<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_compute</span>(
+  <span class='kw'>inp</span> <span class='kw'>=</span> <span class='no'>yae_ll</span>,
+  <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
+  <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+); <span class='no'>d</span></div><div class='output co'>#&gt; <span class='message'>Argument 'dim_spec' is ignored when constructing a hierarchy from a nested list.</span></div><div class='output co'>#&gt;             levelName
+#&gt; 1  Total             
+#&gt; 2   ¦--1.            
+#&gt; 3   ¦   ¦--1.1.      
+#&gt; 4   ¦   ¦   ¦--1.1.1.
+#&gt; 5   ¦   ¦   °--1.1.2.
+#&gt; 6   ¦   ¦--1.2.      
+#&gt; 7   ¦   ¦   ¦--1.2.1.
+#&gt; 8   ¦   ¦   ¦--1.2.2.
+#&gt; 9   ¦   ¦   ¦--1.2.3.
+#&gt; 10  ¦   ¦   ¦--1.2.4.
+#&gt; 11  ¦   ¦   °--1.2.5.
+#&gt; 12  ¦   ¦--1.3.      
+#&gt; 13  ¦   ¦   ¦--1.3.1.
+#&gt; 14  ¦   ¦   ¦--1.3.2.
+#&gt; 15  ¦   ¦   ¦--1.3.3.
+#&gt; 16  ¦   ¦   ¦--1.3.4.
+#&gt; 17  ¦   ¦   °--1.3.5.
+#&gt; 18  ¦   ¦--1.4.      
+#&gt; 19  ¦   ¦   ¦--1.4.1.
+#&gt; 20  ¦   ¦   ¦--1.4.2.
+#&gt; 21  ¦   ¦   ¦--1.4.3.
+#&gt; 22  ¦   ¦   ¦--1.4.4.
+#&gt; 23  ¦   ¦   ¦--1.4.5.
+#&gt; 24  ¦   ¦   °--1.4.6.
+#&gt; 25  ¦   ¦--1.5.      
+#&gt; 26  ¦   ¦--1.6.      
+#&gt; 27  ¦   ¦--1.7.      
+#&gt; 28  ¦   ¦--1.8.      
+#&gt; 29  ¦   °--1.9.      
+#&gt; 30  ¦--2.            
+#&gt; 31  °--3.            </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

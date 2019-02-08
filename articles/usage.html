@@ -83,7 +83,7 @@
       <h1>Usage of the sdcHierarchies-Package</h1>
                         <h4 class="author">Bernhard Meindl</h4>
             
-            <h4 class="date">2019-02-07</h4>
+            <h4 class="date">2019-02-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bernhard-da/sdcHierarchies/blob/master/vignettes/usage.Rmd"><code>vignettes/usage.Rmd</code></a></small>
       <div class="hidden name"><code>usage.Rmd</code></div>
@@ -271,13 +271,13 @@
 </ul>
 <p>In case the overal total is not encoded in the input, specifying argument <code>tot_lev</code> allows to give a name to the overall total. The two methods on how to define the positions of the levels are interchangable and lead to the same hierarchy as shown below:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">v1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hier_compute.html">hier_compute</a></span>(</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">  <span class="dt">dim =</span> geo_m, </a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">  <span class="dt">inp =</span> geo_m, </a>
 <a class="sourceLine" id="cb18-3" data-line-number="3">  <span class="dt">dim_spec =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>), </a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">tot_lev =</span> <span class="st">"Tot"</span>, </a>
 <a class="sourceLine" id="cb18-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"endpos"</span>)</a>
 <a class="sourceLine" id="cb18-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb18-7" data-line-number="7">v2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hier_compute.html">hier_compute</a></span>(</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8">  <span class="dt">dim =</span> geo_m, </a>
+<a class="sourceLine" id="cb18-8" data-line-number="8">  <span class="dt">inp =</span> geo_m, </a>
 <a class="sourceLine" id="cb18-9" data-line-number="9">  <span class="dt">dim_spec =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), </a>
 <a class="sourceLine" id="cb18-10" data-line-number="10">  <span class="dt">tot_lev =</span> <span class="st">"Tot"</span>, </a>
 <a class="sourceLine" id="cb18-11" data-line-number="11">  <span class="dt">method =</span> <span class="st">"len"</span>)</a>
@@ -350,7 +350,7 @@
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(geo_m_with_tot)</a></code></pre></div>
 <pre><code>## [1] "Tot01051" "Tot01053" "Tot01054" "Tot01055" "Tot01056" "Tot01057"</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">v3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hier_compute.html">hier_compute</a></span>(</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="dt">dim =</span> geo_m_with_tot, </a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">  <span class="dt">inp =</span> geo_m_with_tot, </a>
 <a class="sourceLine" id="cb24-3" data-line-number="3">  <span class="dt">dim_spec =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), </a>
 <a class="sourceLine" id="cb24-4" data-line-number="4">  <span class="dt">method =</span> <span class="st">"len"</span></a>
 <a class="sourceLine" id="cb24-5" data-line-number="5">); v3</a></code></pre></div>
@@ -421,7 +421,7 @@
 <a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="st">"1.4.1."</span>, <span class="st">"1.4.2."</span>, <span class="st">"1.4.3."</span>, <span class="st">"1.4.4."</span>, <span class="st">"1.4.5."</span>,</a>
 <a class="sourceLine" id="cb26-7" data-line-number="7">  <span class="st">"1.5."</span>, <span class="st">"1.6."</span>, <span class="st">"1.7."</span>, <span class="st">"1.8."</span>, <span class="st">"1.9."</span>, <span class="st">"2."</span>, <span class="st">"3."</span>)</a>
 <a class="sourceLine" id="cb26-8" data-line-number="8">v1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hier_compute.html">hier_compute</a></span>(</a>
-<a class="sourceLine" id="cb26-9" data-line-number="9">  <span class="dt">dim =</span> yae_h, </a>
+<a class="sourceLine" id="cb26-9" data-line-number="9">  <span class="dt">inp =</span> yae_h, </a>
 <a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">dim_spec =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), </a>
 <a class="sourceLine" id="cb26-11" data-line-number="11">  <span class="dt">tot_lev =</span> <span class="st">"Tot"</span>, </a>
 <a class="sourceLine" id="cb26-12" data-line-number="12">  <span class="dt">method =</span> <span class="st">"len"</span></a>
@@ -457,7 +457,7 @@
 ## 28  ¦   °--1.9.      
 ## 29  ¦--2.            
 ## 30  °--3.</code></pre>
-<p>We also note that there is another function <code><a href="../reference/hier_compute_from_list.html">hier_compute_from_list()</a></code> that creates a hierarchy from a given named list. In such a list the name of a list element is interpreted as parent to all codes or labels listed for this element. A simple example is shown below:</p>
+<p>We also note that there is another way to specify the inputs in <code><a href="../reference/hier_compute.html">hier_compute()</a></code>. Setting argument <code>method = "list"</code> allows to create a hierarchy from a given named list. In such a list, the name of a list element is interpreted as parent to all codes or labels listed for this element. A simple example is shown below:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">yae_ll &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>()</a>
 <a class="sourceLine" id="cb28-2" data-line-number="2">yae_ll[[<span class="st">"Total"</span>]] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"1."</span>, <span class="st">"2."</span>, <span class="st">"3."</span>)</a>
 <a class="sourceLine" id="cb28-3" data-line-number="3">yae_ll[[<span class="st">"1."</span>]] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"1."</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="st">"."</span>)</a>
@@ -465,7 +465,8 @@
 <a class="sourceLine" id="cb28-5" data-line-number="5">yae_ll[[<span class="st">"1.2."</span>]] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"1.2."</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="st">"."</span>)</a>
 <a class="sourceLine" id="cb28-6" data-line-number="6">yae_ll[[<span class="st">"1.3."</span>]] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"1.3."</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="st">"."</span>)</a>
 <a class="sourceLine" id="cb28-7" data-line-number="7">yae_ll[[<span class="st">"1.4."</span>]] &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"1.4."</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="st">"."</span>)</a>
-<a class="sourceLine" id="cb28-8" data-line-number="8">d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hier_compute_from_list.html">hier_compute_from_list</a></span>(<span class="dt">dim =</span> yae_ll, <span class="dt">tot_lev =</span> <span class="st">"Total"</span>); d</a></code></pre></div>
+<a class="sourceLine" id="cb28-8" data-line-number="8">d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hier_compute.html">hier_compute</a></span>(<span class="dt">inp =</span> yae_ll, <span class="dt">tot_lev =</span> <span class="st">"Total"</span>, <span class="dt">method =</span> <span class="st">"list"</span>); d</a></code></pre></div>
+<pre><code>## Argument 'dim_spec' is ignored when constructing a hierarchy from a nested list.</code></pre>
 <pre><code>##             levelName
 ## 1  Total             
 ## 2   ¦--1.            
@@ -503,7 +504,7 @@
 <h2 class="hasAnchor">
 <a href="#interactively-create-or-modify-hierarchies" class="anchor"></a>Interactively create or modify hierarchies</h2>
 <p>The package also contains a shiny-app that can be started using <code>sdcHier()</code>. The app allows to pass as input either a character vector (that should be converted into a hierarchy) or an existing hierarchy and can be started as follows given the hierarchy previously generated using <code>hier_compute_fromList()</code>:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw">sdcHier</span>(d)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">d &lt;-<span class="st"> </span><span class="kw">sdcHier</span>(d)</a></code></pre></div>
 <p>If a character vector is passed to <code>sdcHier()</code>, the interface allows to specify the arguments for <code><a href="../reference/hier_compute.html">hier_compute()</a></code>. Once a hierarchy is created, the interface changes and the tree can be dynamically changed by dragging nodes around. Futhermore, it is possible to add, remove or rename nodes. The required code to construct the current hierarchy is displayed and can be saved to disk. Furthermore, there is functionality to <em>undo</em> the last step as well as to export results to either the <strong>R</strong>-session or write results to a file. This is especially helpful if one wants to create for example an <code>hrc</code>-file as input for <span class="math inline">\(\tau\)</span>-argus. Please note that <code>sdcHier()</code> is able to return the modified hierarchy and not only save results to disk. In order to continue working, one may assign the result to a new object as shown in the code above.</p>
 </div>
 <div id="summary" class="section level2">
