@@ -4,7 +4,7 @@
 \alias{hier_app}
 \title{Create/Modify hierarchies interactively}
 \usage{
-hier_app(x, ...)
+hier_app(x = hier_create(), ...)
 }
 \arguments{
 \item{x}{a character vector containing nested levels or
@@ -19,13 +19,24 @@ The app can return a hierarchy object (either
 a \code{data.frame} or a tree-based object)
 }
 \description{
-This function starts the \emph{shiny}-app to create a nested
-hierarchy starting from codes by defining positions. Once
-a hierarchy has been defined, it is possible to
-modify and export it.
+This function starts the interactive \emph{shiny}-app
+to (optionally) create and/or modify a nested hierarchy.
+It is possible to supply a character vector from which the
+hierarchy can be interactively built. Once this has been done,
+it is possible to modify and export the resulting hierarchy.
+}
+\details{
+Another option is to supply an already existing hierarchy object.
+In this case, it is possible to modify the existing object in
+the app.
 }
 \examples{
 \dontrun{
+# start with an empty hierarchy
+res <- hier_app()
+
+# start with a character vector that is used to
+build the hierarchy
 codes <- c("11", "12", "21", "22", "23", "31", "32")
 res <- hier_app(codes); print(res)
 }

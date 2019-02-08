@@ -4,7 +4,7 @@
 \alias{hier_create}
 \title{creates a nested hierarchy object}
 \usage{
-hier_create(tot_lab, node_labs = NULL)
+hier_create(tot_lab = "Total", node_labs = NULL)
 }
 \arguments{
 \item{tot_lab}{(character) name of the overall total}

@@ -69,7 +69,7 @@ shiny::observeEvent(input$create_hier, {
   as_df <- FALSE
   res <- try(
     hier_compute(
-      dim = data(),
+      inp = data(),
       dim_spec = specs(),
       tot_lev = tot_lev,
       method = input$method,
@@ -78,7 +78,7 @@ shiny::observeEvent(input$create_hier, {
   )
   if (!"try-error" %in% class(res)) {
     nn <- hier_compute(
-      dim = data(),
+      inp = data(),
       dim_spec = specs(),
       tot_lev = tot_lev,
       method = input$method,
@@ -89,10 +89,10 @@ shiny::observeEvent(input$create_hier, {
     code <- c(code, "## impute hierarchy from vector")
 
     dims <- paste(shQuote(dim), collapse = ", ")
-    code <- c(code, paste0("dim <- c(", dims, ")"))
+    code <- c(code, paste0("inp <- c(", dims, ")"))
 
     spec <- paste(specs(), collapse = ", ")
-    cc <- paste0("d <- hier_compute(dim = dim, dim_spec = c(", spec, ")")
+    cc <- paste0("d <- hier_compute(inp = inp, dim_spec = c(", spec, ")")
     cc <- paste0(cc, ", tot_lev = ")
     if (is.null(tot_lev)) {
       cc <- paste0(cc, "NULL")

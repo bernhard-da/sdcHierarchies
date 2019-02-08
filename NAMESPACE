@@ -3,7 +3,6 @@
 export(hier_add)
 export(hier_app)
 export(hier_compute)
-export(hier_compute_from_list)
 export(hier_convert)
 export(hier_create)
 export(hier_delete)

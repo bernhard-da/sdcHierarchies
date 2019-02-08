@@ -14,13 +14,13 @@ geo_m <- c(
   "10155")
 
 dim_endpos <- hier_compute(
-  dim = geo_m,
+  inp = geo_m,
   dim_spec = c(2, 3, 5),
   tot_lev = "Tot",
   method = "endpos")
 
 dim_len <- hier_compute(
-  dim = geo_m,
+  inp = geo_m,
   dim_spec = c(2, 1, 2),
   tot_lev = "Tot",
   method = "len")
@@ -39,13 +39,13 @@ yae_h <- c(
   "1.5.", "1.6.", "1.7.", "1.8.", "1.9.", "2.", "3.")
 
 dim_endpos <- hier_compute(
-  dim = yae_h,
+  inp = yae_h,
   dim_spec = c(2, 4, 6),
   tot_lev = "Tot",
   method = "endpos")
 
 dim_len <- hier_compute(
-  dim = yae_h,
+  inp = yae_h,
   dim_spec = c(2, 2, 2),
   tot_lev = "Tot",
   method = "len")

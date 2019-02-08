@@ -4,15 +4,22 @@
 \alias{hier_compute}
 \title{compute a nested hierarchy}
 \usage{
-hier_compute(dim, dim_spec, tot_lev = NULL, method = "len",
+hier_compute(inp, dim_spec = NULL, tot_lev = NULL, method = "len",
   as_df = FALSE)
 }
 \arguments{
-\item{dim}{a character vector containing codes of a hierarchical variables.}
+\item{inp}{a character vector (for methods \code{len} and \code{endpos}
+containing codes of a hierarchical variables or a list for
+method \code{list}. In the latter case, the input is expected to be a named list
+where each list-element contains the codes belonging to the node that has the
+name of this specific list element. In the examples below, the required input
+formats are further explained.}
 
 \item{dim_spec}{an (integerish) vector containing either the length
 (in terms of characters) for each level or the end-positions of these levels.
-In the latter-case, one needs to set argument \code{method} to \code{"endpos"}}
+In the latter-case, one needs to set argument \code{method} to \code{"endpos"}.
+This argument is ignored in case the hierarchy should be created from a
+named list.}
 
 \item{tot_lev}{\code{NULL} or a scalar characer specifying the name of the overall
 total in case it is not encoded at the first positions of \code{dim}}
@@ -21,6 +28,7 @@ total in case it is not encoded at the first positions of \code{dim}}
 \itemize{
 \item \code{len}: the number of characters for each of the levels needs to be specified
 \item \code{endpos}: the end-positions for each levels need to be fixed
+\item \code{list}: the end-positions for each levels need to be fixed
 }}
 
 \item{as_df}{(logical) if \code{FALSE}, a data.tree is returned, else a data.frame suitable as input for tau-argus}
@@ -30,57 +38,158 @@ a hierarchical data structure depending on choice of argument \code{as_df}
 }
 \description{
 This function allows to compute a nested hierarchy from an character
-vector.
+vector or a (named) list.
 }
 \examples{
-## nuts: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)
+## Example Regional Codes (NUTS)
+# digits 1-2 (len=2, endpos=2) --> level 1
+# digit 3 (len=1, endpos=3) --> level 2
+# digits 4-5 (len=2, endpos=5) -> level 3
 ## all strings have equal length but total is not encoded in these values
 geo_m <- c(
-  "01051","01053","01054","01055","01056","01057","01058","01059","01060","01061","01062",
+  "01051", "01053", "01054", "01055",
+  "01056", "01057", "01058", "01059", "01060",
+  "01061", "01062",
   "02000",
-  "03151","03152","03153","03154","03155","03156","03157","03158","03251","03252","03254","03255",
-  "03256","03257","03351","03352","03353","03354","03355","03356","03357","03358","03359","03360",
-  "03361","03451","03452","03453","03454","03455","03456",
+  "03151", "03152", "03153", "03154", "03155", "03156", "03157", "03158",
+  "03251", "03252", "03254", "03255", "03256", "03257",
+  "03351", "03352", "03353", "03354", "03355",
+  "03356", "03357", "03358", "03359",
+  "03360", "03361",
+  "03451", "03452", "03453", "03454", "03455", "03456",
   "10155")
-a <- hier_compute(dim=geo_m, dim_spec=c(2,3,5),
-  tot_lev="Tot", method="endpos")
-b <- hier_compute(dim=geo_m, dim_spec=c(2,1,2),
-  tot_lev="Tot", method="len")
-identical(hier_convert(a, format="df"), hier_convert(b, format="df"))
 
-## return data.frame suitable as input for tau-argus or sdcTable
-a <- hier_compute(dim=geo_m, dim_spec=c(2,3,5),
-  tot_lev="Tot", method="endpos", as_df=TRUE)
-b <- hier_compute(dim=geo_m, dim_spec=c(2,1,2),
-  tot_lev="Tot", method="len", as_df=TRUE)
-identical(a, b)
+a <- hier_compute(
+  inp = geo_m,
+  dim_spec = c(2, 3, 5),
+  tot_lev = "Tot",
+  method = "endpos"
+)
+b <- hier_compute(
+  inp = geo_m,
+  dim_spec = c(2, 1, 2),
+  tot_lev = "Tot",
+  method = "len"
+)
+identical(
+  hier_convert(a, format = "df"),
+  hier_convert(b, format = "df")
+)
 
 ## total is contained in the first 3 positions of the input values
 ## --> we need to set tot_level to NULL (the default)
-geo_m_with_tot <- paste0("Tot",geo_m)
-a <- hier_compute(dim=geo_m_with_tot, dim_spec=c(3,2,1,2),
-  method="len", as_df=TRUE)
-b <- hier_compute(dim=geo_m_with_tot, dim_spec=c(3,5,6,8),
-  method="endpos", as_df=TRUE)
+geo_m_with_tot <- paste0("Tot", geo_m)
+a <- hier_compute(
+  inp = geo_m_with_tot,
+  dim_spec = c(3, 2, 1, 2),
+  method = "len",
+  as_df = TRUE
+)
+b <- hier_compute(
+  inp = geo_m_with_tot,
+  dim_spec = c(3, 5, 6, 8),
+  method = "endpos",
+  as_df=TRUE
+)
 identical(a, b)
 
-## second example, unequal strings; overall total not included in input
+## example where inputs have unequal length
+## the overall total is not included in input vector
 yae_h <- c(
-  "1.1.1.","1.1.2.",
-  "1.2.1.","1.2.2.","1.2.3.","1.2.4.","1.2.5.","1.3.1.",
-  "1.3.2.","1.3.3.","1.3.4.","1.3.5.",
-  "1.4.1.","1.4.2.","1.4.3.","1.4.4.","1.4.5.",
-  "1.5.","1.6.","1.7.","1.8.","1.9.","2.","3.")
-a <- hier_compute(dim=yae_h, dim_spec=c(2,4,6), tot_lev="Tot", method="endpos")
-b <- hier_compute(dim=yae_h, dim_spec=c(2,2,2), tot_lev="Tot", method="len")
-identical(hier_convert(a, format="df"), hier_convert(b, format="df"))
+  "1.1.1.", "1.1.2.",
+  "1.2.1.", "1.2.2.", "1.2.3.", "1.2.4.", "1.2.5.", "1.3.1.",
+  "1.3.2.", "1.3.3.", "1.3.4.", "1.3.5.",
+  "1.4.1.", "1.4.2.", "1.4.3.", "1.4.4.", "1.4.5.",
+  "1.5.", "1.6.", "1.7.", "1.8.", "1.9.", "2.", "3.")
 
-## total is contained in the first 3 positions of the input values
-## --> we need to set tot_level to NULL (the default)
-yae_h_with_tot <- paste0("Tot",yae_h)
-a <- hier_compute(dim=yae_h_with_tot, dim_spec=c(3,2,2,2),
-  method="len", as_df=TRUE)
-b <- hier_compute(dim=yae_h_with_tot, dim_spec=c(3,5,7,9),
-  method="endpos", as_df=TRUE)
+a <- hier_compute(
+  inp = yae_h,
+  dim_spec = c(2, 4, 6),
+  tot_lev = "Tot",
+  method = "endpos"
+)
+b <- hier_compute(
+  inp = yae_h,
+  dim_spec = c(2, 2, 2),
+  tot_lev = "Tot",
+  method = "len"
+)
+identical(
+  hier_convert(a, format = "df"),
+  hier_convert(b, format = "df")
+)
+
+## Same exampl, but overall total is contained in the first 3 positions
+## of the input values --> tot_level needs to be set to NULL (the default)
+yae_h_with_tot <- paste0("Tot", yae_h)
+a <- hier_compute(
+  inp = yae_h_with_tot,
+  dim_spec = c(3, 2, 2, 2),
+  method = "len",
+  as_df = TRUE
+)
+b <- hier_compute(
+  inp = yae_h_with_tot,
+  dim_spec = c(3, 5, 7, 9),
+  method = "endpos",
+  as_df = TRUE
+)
 identical(a, b)
+
+## An example using a list as input (same as above)
+## Hierarchy: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)
+## The order of the list-elements is not important but the
+## names of input-list correspond to (subtotal/level) names
+geo_ll <- list()
+geo_ll[["Total"]] <- c("01", "02", "03", "10")
+geo_ll[["010"]]   <- c(
+  "01051", "01053", "01054", "01055",
+  "01056", "01057", "01058", "01059",
+  "01060", "01061", "01062"
+)
+geo_ll[["031"]]   <- c(
+  "03151", "03152", "03153", "03154",
+  "03155", "03156", "03157", "03158"
+)
+geo_ll[["032"]]   <- c(
+  "03251", "03252", "03254",
+  "03255", "03256", "03257"
+)
+geo_ll[["033"]]   <- c(
+  "03351", "03352", "03353", "03354", "03355",
+  "03356", "03357", "03358", "03359",
+  "03360", "03361"
+)
+geo_ll[["034"]]   <- c(
+  "03451", "03452", "03453",
+  "03454", "03455","03456"
+)
+geo_ll[["01"]]    <- "010"
+geo_ll[["02"]]    <- "020"
+geo_ll[["020"]]   <- "02000"
+geo_ll[["03"]]    <- c("031", "032", "033", "034")
+geo_ll[["10"]]    <- "101"
+geo_ll[["101"]]   <- "10155"
+
+d <- hier_compute(
+  inp = geo_ll,
+  tot_lev = "Total",
+  method = "list",
+  as_df = FALSE
+); d
+
+## Reproduce example from above with input defined as named list
+yae_ll <- list()
+yae_ll[["Total"]] <- c("1.", "2.", "3.")
+yae_ll[["1."]] <- paste0("1.", 1:9, ".")
+yae_ll[["1.1."]] <- paste0("1.1.", 1:2, ".")
+yae_ll[["1.2."]] <- paste0("1.2.", 1:5, ".")
+yae_ll[["1.3."]] <- paste0("1.3.", 1:5, ".")
+yae_ll[["1.4."]] <- paste0("1.4.", 1:6, ".")
+d <- hier_compute(
+  inp = yae_ll,
+  tot_lev = "Total",
+  method = "list",
+  as_df = FALSE
+); d
 }
