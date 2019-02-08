@@ -212,9 +212,7 @@ d_sdc <- hier_import(out_sdc, from = "sdc")
 expect_equal(attr(out_sdc, "hier_format"), "sdc")
 expect_equal(attr(out_sdc, "hier_convert"), TRUE)
 
-
 expect_equal(d_df, d_json)
 expect_equal(d_json, d_argus)
 expect_equal(d_argus, d_code)
 expect_equal(d_code, d_sdc)
-
