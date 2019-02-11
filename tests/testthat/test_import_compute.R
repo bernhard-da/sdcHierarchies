@@ -187,7 +187,6 @@ expect_equal(d_from_json2, d_from_code)
 expect_equal(d_from_code, d_from_sdc)
 expect_equal(d_from_sdc, d_from_sdc)
 
-
 out_df <- hier_export(h = d, format = "df", path = tempfile())
 d_df <- hier_import(out_df, from = "df")
 expect_is(out_df, "data.frame")
