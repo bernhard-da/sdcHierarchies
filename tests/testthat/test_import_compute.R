@@ -29,8 +29,7 @@ expect_error(
     dim1,
     node_labs = "Totalx",
     node_labs_new = "newCode"
-  ),
-  "some nodes specified in argument 'node_labs' don't exist!"
+  )
 )
 
 hier_rename(
@@ -46,8 +45,7 @@ expect_error(
     dim2,
     node_labs = c("a", "C"),
     node_labs_new = c("A", "C")
-  ),
-  "some nodes specified in argument 'node_labs' don't exist!"
+  )
 )
 hier_rename(
   dim2,
@@ -91,8 +89,7 @@ expect_error(
     dim2,
     node_labs = "A",
     node_labs_new = "C"
-  ),
-  "some nodes specified in argument 'node_labs_new' already exist!"
+  )
 )
 
 df <- hier_convert(dim2, format = "df")
@@ -153,8 +150,7 @@ expect_error(
     tot_lev = "Total",
     method = "list",
     as_df = FALSE
-  ),
-  "Some elements of argument 'inp' are not named."
+  )
 )
 
 names(ll)[1] <- "Total"
