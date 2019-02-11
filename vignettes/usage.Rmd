@@ -15,13 +15,20 @@ vignette: >
 
 ```{r, echo=FALSE}
 library(rmarkdown)
-library(sdcHierarchies)
 ```
 
 # Introduction
 The `sdcHierarchies` packages allows to create, modify and export nested hierarchies that are used for example to define tables in statistical disclosure control software such as in [**sdcTable**](https://cran.r-project.org/package=sdcTable)
 
 # Usage
+
+
+Before using, the package needs to be loaded:
+
+```{r}
+library(sdcHierarchies)
+```
+
 
 ## Create and modify a hierarchy from scratch
 
