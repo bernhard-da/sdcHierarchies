@@ -1,6 +1,7 @@
 # sdcHierarchies 0.14
 - rename functions/methods to `hier_xxx()`
 - improve documentation
+- first CRAN version
 
 # sdcHierarchies 0.13.2
 - code style improves
