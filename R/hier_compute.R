@@ -26,6 +26,7 @@
 #' @return a hierarchical data structure depending on choice of argument \code{as_df}
 #' @export
 #' @examples
+#' \dontrun{
 #' ## Example Regional Codes (NUTS)
 #' # digits 1-2 (len=2, endpos=2) --> level 1
 #' # digit 3 (len=1, endpos=3) --> level 2
@@ -177,6 +178,7 @@
 #'   method = "list",
 #'   as_df = FALSE
 #' ); d
+#'}
 hier_compute <- function(
   inp,
   dim_spec=NULL,

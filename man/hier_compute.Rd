@@ -41,6 +41,7 @@ This function allows to compute a nested hierarchy from an character
 vector or a (named) list.
 }
 \examples{
+\dontrun{
 ## Example Regional Codes (NUTS)
 # digits 1-2 (len=2, endpos=2) --> level 1
 # digit 3 (len=1, endpos=3) --> level 2
@@ -192,4 +193,5 @@ d <- hier_compute(
   method = "list",
   as_df = FALSE
 ); d
+}
 }
