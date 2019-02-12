@@ -147,3 +147,16 @@ expect_identical(
 df <- hier_convert(d, format = "df")
 expect_is(df, "data.frame")
 expect_equal(nrow(df), 11)
+
+context("Testing edge-cases")
+
+# different values for encoded overall total
+inp <- c("TotA", "TOtB")
+expect_error(
+  hier_compute(
+    inp = inp,
+    dim_spec = c(3, 1),
+    tot_lev = NULL,
+    method = "len")
+)
+
