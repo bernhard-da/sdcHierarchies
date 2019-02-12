@@ -149,7 +149,6 @@ expect_is(df, "data.frame")
 expect_equal(nrow(df), 11)
 
 context("Testing edge-cases")
-
 expect_error(
   sdcHierarchies::h_min_contributing_codes(h = d, node_name = "x")
 )

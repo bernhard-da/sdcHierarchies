@@ -100,24 +100,21 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     return(eval(parse(text = code)))
   }
   h_from_hrc <- function(hrc, tot_lab=NULL) {
+    stopifnot(file.exists(hrc))
     df <- data.frame(inp = readLines(hrc), stringsAsFactors = FALSE)
-    r1 <- strsplit(df$inp, " ")
-    df$level <- sapply(r1, function(x) {
-      if (substr(x[1], 1, 1) == "@") {
-        return(x[1])
-      } else {
-        return("")
-      }
+    df$inp <- paste0("@", df$inp)
+
+    # compute levels and names
+    rr <- strsplit(df$inp, "@")
+    df$level <- sapply(rr, function(x) {
+      paste(rep("@", times = length(x)), collapse = "")
     })
-    df$names <- sapply(r1, function(x) {
-      if (substr(x[1], 1, 1) == "@") {
-        return(tail(x, 1))
-      } else {
-        return(x[1])
-      }
+    df$names <- sapply(rr, function(x) {
+      trimws(x = tail(x, 1), which = "both")
     })
+
     df$inp <- NULL
-    df$level <- paste0("@@", df$level)
+
     if (is.null(tot_lab)) {
       tot_lab <- "Total"
     }
