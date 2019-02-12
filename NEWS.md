@@ -1,7 +1,11 @@
+# sdcHierarchies 0.15
+- first CRAN version
+
 # sdcHierarchies 0.14
 - rename functions/methods to `hier_xxx()`
 - improve documentation
-- first CRAN version
+- rewrite import of hrc-files from tau-argus in `hier_import`
+- improve test coverage
 
 # sdcHierarchies 0.13.2
 - code style improves
