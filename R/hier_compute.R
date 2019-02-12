@@ -311,7 +311,7 @@ hier_compute <- function(
     )
     if (length(unique(df$path)) > 1) {
       err <- paste("Top-Level should be included in first", dim_len[1])
-      err <- paste(err, "characters, but >1 values were detected!")
+      err <- paste(err, "characters, but > 1 values were detected!")
       stop(err, call. = FALSE)
     }
 
