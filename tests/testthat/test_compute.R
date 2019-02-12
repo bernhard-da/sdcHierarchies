@@ -150,6 +150,18 @@ expect_equal(nrow(df), 11)
 
 context("Testing edge-cases")
 
+expect_error(
+  sdcHierarchies::h_min_contributing_codes(h = d, node_name = "x")
+)
+
+# not valid hierarchies
+expect_error(
+  sdcHierarchies::h_is_valid(h = NULL)
+)
+expect_error(
+  sdcHierarchies::h_is_valid(h = data.frame())
+)
+
 # different values for encoded overall total
 inp <- c("TotA", "TOtB")
 expect_error(
@@ -158,4 +170,37 @@ expect_error(
     dim_spec = c(3, 1),
     tot_lev = NULL,
     method = "len")
+)
+
+# not a named list
+expect_error(
+  hier_compute(
+    inp = list(),
+    tot_lev = "Tot",
+    method = "list"
+  )
+)
+
+# overall total found in sublevels
+ll <- list()
+ll$Tot <- letters[1:2]
+ll$a <- c("Tot", "x")
+expect_error(
+  hier_compute(
+    inp = ll,
+    tot_lev = "Tot",
+    method = "list"
+  )
+)
+
+# sublevels not found as inputs
+ll <- list()
+ll$Tot <- letters[1:2]
+ll$A <- c("a1")
+expect_error(
+  hier_compute(
+    inp = ll,
+    tot_lev = "Tot",
+    method = "list"
+  )
 )
