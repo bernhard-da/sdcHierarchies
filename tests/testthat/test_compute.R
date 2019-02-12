@@ -13,11 +13,28 @@ geo_m <- c(
   "03361", "03451", "03452", "03453", "03454", "03455", "03456",
   "10155")
 
+
+# no dim_spec given
+expect_error(
+  hier_compute(
+    inp = geo_m,
+    tot_lev = "Tot",
+    method = "endpos")
+)
+
 dim_endpos <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 3, 5),
   tot_lev = "Tot",
   method = "endpos")
+
+# no dim_spec given
+expect_error(
+  hier_compute(
+    inp = geo_m,
+    tot_lev = "Tot",
+    method = "len")
+)
 
 dim_len <- hier_compute(
   inp = geo_m,
@@ -74,3 +91,59 @@ expect_identical(
   hier_convert(dim_endpos, format = "sdc"),
   hier_convert(dim_len, format = "sdc")
 )
+
+
+context("Compute hierarchies from nested lists")
+# Total not contained
+ll <- list()
+ll[["Tot"]] <- letters[1:3]
+ll[["a"]] <- "a1"
+
+# tot_lev must be given
+expect_error(
+  hier_compute(inp = ll, method = "list")
+)
+
+# non-existing name for overall total
+expect_error(
+  hier_compute(inp = ll, tot_lev = "x", method = "list")
+)
+
+expect_error(
+  hier_compute(inp = ll, tot_lev = "a1", method = "list")
+)
+
+ll <- append(ll, list("b1", "b2"))
+# some elements are not named
+expect_error(
+  hier_compute(inp = ll, tot_lev = "Tot", method = "list")
+)
+
+ll <- ll[1:2]
+ll$b <- paste0("b", 1:3)
+ll$b1 <- "b1a"
+ll$c <- "c1a"
+ll$c1a <- "c1a_1"
+d <- hier_compute(inp = ll, tot_lev = "Tot", method = "list")
+
+expect_identical(
+  hier_info(d, "c1a_1")$is_bogus,
+  TRUE
+)
+
+expect_identical(
+  hier_info(d, "c1a_1")$parent,
+  "c1a"
+)
+expect_identical(
+  hier_info(d, "c1a_1")$contributing_codes,
+  NA
+)
+expect_identical(
+  hier_info(d, "b")$contributing_codes,
+  c("b2", "b3", "b1a")
+)
+
+df <- hier_convert(d, format = "df")
+expect_is(df, "data.frame")
+expect_equal(nrow(df), 11)
