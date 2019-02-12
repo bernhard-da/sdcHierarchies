@@ -201,7 +201,16 @@ hier_compute <- function(
       e <- paste("Some elements of argument", dim_q, "are not named.")
       stop(e, call. = FALSE)
     }
-    stopifnot(tot_lev %in% nn)
+
+    if (!tot_lev %in% nn) {
+      e <- c(
+        "The given name for the overall total",
+        shQuote(tot_lev),
+        "was not found in the given input list."
+      )
+      stop(paste(e, collapse = " "), call. = FALSE)
+    }
+
     if (any(duplicated(nn))) {
       stop(paste("Duplicated names in argument", dim_q, "found."), call. = FALSE)
     }
@@ -267,7 +276,7 @@ hier_compute <- function(
     } else {
       e <- c(e, "the required number of characters for each level.")
     }
-    stop(e, call. = FALSE)
+    stop(paste(e, collapse = " "), call. = FALSE)
   }
 
   if (method == "endpos") {
