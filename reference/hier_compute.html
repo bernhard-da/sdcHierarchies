@@ -175,7 +175,8 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Example Regional Codes (NUTS)</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## Example Regional Codes (NUTS)</span>
 <span class='co'># digits 1-2 (len=2, endpos=2) --&gt; level 1</span>
 <span class='co'># digit 3 (len=1, endpos=3) --&gt; level 2</span>
 <span class='co'># digits 4-5 (len=2, endpos=5) -&gt; level 3</span>
@@ -208,7 +209,8 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(
   <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>a</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>),
   <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>b</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>)
-)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+)
+
 <span class='co'>## total is contained in the first 3 positions of the input values</span>
 <span class='co'>## --&gt; we need to set tot_level to NULL (the default)</span>
 <span class='no'>geo_m_with_tot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Tot"</span>, <span class='no'>geo_m</span>)
@@ -224,7 +226,8 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"endpos"</span>,
   <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>
 )
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)
+
 <span class='co'>## example where inputs have unequal length</span>
 <span class='co'>## the overall total is not included in input vector</span>
 <span class='no'>yae_h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
@@ -249,7 +252,8 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(
   <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>a</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>),
   <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>b</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>)
-)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+)
+
 <span class='co'>## Same exampl, but overall total is contained in the first 3 positions</span>
 <span class='co'>## of the input values --&gt; tot_level needs to be set to NULL (the default)</span>
 <span class='no'>yae_h_with_tot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Tot"</span>, <span class='no'>yae_h</span>)
@@ -265,7 +269,8 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"endpos"</span>,
   <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>a</span>, <span class='no'>b</span>)
+
 <span class='co'>## An example using a list as input (same as above)</span>
 <span class='co'>## Hierarchy: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)</span>
 <span class='co'>## The order of the list-elements is not important but the</span>
@@ -306,63 +311,8 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
   <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
   <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-); <span class='no'>d</span></div><div class='output co'>#&gt; <span class='message'>Argument 'dim_spec' is ignored when constructing a hierarchy from a nested list.</span></div><div class='output co'>#&gt;            levelName
-#&gt; 1  Total            
-#&gt; 2   ¦--01           
-#&gt; 3   ¦   °--010      
-#&gt; 4   ¦       ¦--01051
-#&gt; 5   ¦       ¦--01053
-#&gt; 6   ¦       ¦--01054
-#&gt; 7   ¦       ¦--01055
-#&gt; 8   ¦       ¦--01056
-#&gt; 9   ¦       ¦--01057
-#&gt; 10  ¦       ¦--01058
-#&gt; 11  ¦       ¦--01059
-#&gt; 12  ¦       ¦--01060
-#&gt; 13  ¦       ¦--01061
-#&gt; 14  ¦       °--01062
-#&gt; 15  ¦--02           
-#&gt; 16  ¦   °--020      
-#&gt; 17  ¦       °--02000
-#&gt; 18  ¦--03           
-#&gt; 19  ¦   ¦--031      
-#&gt; 20  ¦   ¦   ¦--03151
-#&gt; 21  ¦   ¦   ¦--03152
-#&gt; 22  ¦   ¦   ¦--03153
-#&gt; 23  ¦   ¦   ¦--03154
-#&gt; 24  ¦   ¦   ¦--03155
-#&gt; 25  ¦   ¦   ¦--03156
-#&gt; 26  ¦   ¦   ¦--03157
-#&gt; 27  ¦   ¦   °--03158
-#&gt; 28  ¦   ¦--032      
-#&gt; 29  ¦   ¦   ¦--03251
-#&gt; 30  ¦   ¦   ¦--03252
-#&gt; 31  ¦   ¦   ¦--03254
-#&gt; 32  ¦   ¦   ¦--03255
-#&gt; 33  ¦   ¦   ¦--03256
-#&gt; 34  ¦   ¦   °--03257
-#&gt; 35  ¦   ¦--033      
-#&gt; 36  ¦   ¦   ¦--03351
-#&gt; 37  ¦   ¦   ¦--03352
-#&gt; 38  ¦   ¦   ¦--03353
-#&gt; 39  ¦   ¦   ¦--03354
-#&gt; 40  ¦   ¦   ¦--03355
-#&gt; 41  ¦   ¦   ¦--03356
-#&gt; 42  ¦   ¦   ¦--03357
-#&gt; 43  ¦   ¦   ¦--03358
-#&gt; 44  ¦   ¦   ¦--03359
-#&gt; 45  ¦   ¦   ¦--03360
-#&gt; 46  ¦   ¦   °--03361
-#&gt; 47  ¦   °--034      
-#&gt; 48  ¦       ¦--03451
-#&gt; 49  ¦       ¦--03452
-#&gt; 50  ¦       ¦--03453
-#&gt; 51  ¦       ¦--03454
-#&gt; 52  ¦       ¦--03455
-#&gt; 53  ¦       °--03456
-#&gt; 54  °--10           
-#&gt; 55      °--101      
-#&gt; 56          °--10155</div><div class='input'>
+); <span class='no'>d</span>
+
 <span class='co'>## Reproduce example from above with input defined as named list</span>
 <span class='no'>yae_ll</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>()
 <span class='no'>yae_ll</span><span class='kw'>[[</span><span class='st'>"Total"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1."</span>, <span class='st'>"2."</span>, <span class='st'>"3."</span>)
@@ -376,38 +326,8 @@ total in case it is not encoded at the first positions of <code>dim</code></p></
   <span class='kw'>tot_lev</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
   <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-); <span class='no'>d</span></div><div class='output co'>#&gt; <span class='message'>Argument 'dim_spec' is ignored when constructing a hierarchy from a nested list.</span></div><div class='output co'>#&gt;             levelName
-#&gt; 1  Total             
-#&gt; 2   ¦--1.            
-#&gt; 3   ¦   ¦--1.1.      
-#&gt; 4   ¦   ¦   ¦--1.1.1.
-#&gt; 5   ¦   ¦   °--1.1.2.
-#&gt; 6   ¦   ¦--1.2.      
-#&gt; 7   ¦   ¦   ¦--1.2.1.
-#&gt; 8   ¦   ¦   ¦--1.2.2.
-#&gt; 9   ¦   ¦   ¦--1.2.3.
-#&gt; 10  ¦   ¦   ¦--1.2.4.
-#&gt; 11  ¦   ¦   °--1.2.5.
-#&gt; 12  ¦   ¦--1.3.      
-#&gt; 13  ¦   ¦   ¦--1.3.1.
-#&gt; 14  ¦   ¦   ¦--1.3.2.
-#&gt; 15  ¦   ¦   ¦--1.3.3.
-#&gt; 16  ¦   ¦   ¦--1.3.4.
-#&gt; 17  ¦   ¦   °--1.3.5.
-#&gt; 18  ¦   ¦--1.4.      
-#&gt; 19  ¦   ¦   ¦--1.4.1.
-#&gt; 20  ¦   ¦   ¦--1.4.2.
-#&gt; 21  ¦   ¦   ¦--1.4.3.
-#&gt; 22  ¦   ¦   ¦--1.4.4.
-#&gt; 23  ¦   ¦   ¦--1.4.5.
-#&gt; 24  ¦   ¦   °--1.4.6.
-#&gt; 25  ¦   ¦--1.5.      
-#&gt; 26  ¦   ¦--1.6.      
-#&gt; 27  ¦   ¦--1.7.      
-#&gt; 28  ¦   ¦--1.8.      
-#&gt; 29  ¦   °--1.9.      
-#&gt; 30  ¦--2.            
-#&gt; 31  °--3.            </div></pre>
+); <span class='no'>d</span>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
