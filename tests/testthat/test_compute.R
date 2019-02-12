@@ -159,4 +159,3 @@ expect_error(
     tot_lev = NULL,
     method = "len")
 )
-
