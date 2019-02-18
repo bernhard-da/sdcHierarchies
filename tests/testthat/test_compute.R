@@ -26,21 +26,24 @@ dim_endpos <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 3, 5),
   tot_lev = "Tot",
-  method = "endpos")
+  method = "endpos"
+)
 
 # no dim_spec given
 expect_error(
   hier_compute(
     inp = geo_m,
     tot_lev = "Tot",
-    method = "len")
+    method = "len"
+  )
 )
 
 dim_len <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 1, 2),
   tot_lev = "Tot",
-  method = "len")
+  method = "len"
+)
 
 expect_identical(
   hier_convert(dim_endpos, format = "df"),
@@ -59,13 +62,15 @@ dim_endpos <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 4, 6),
   tot_lev = "Tot",
-  method = "endpos")
+  method = "endpos"
+)
 
 dim_len <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 2, 2),
   tot_lev = "Tot",
-  method = "len")
+  method = "len"
+)
 
 expect_identical(
   hier_convert(dim_endpos, format = "df"),
@@ -137,11 +142,13 @@ expect_identical(
 )
 expect_identical(
   hier_info(d, "c1a_1")$contributing_codes,
-  NA
+  "c1a_1"
 )
+
+# b1a is a bugus-code (the only one contributing to b1)
 expect_identical(
   hier_info(d, "b")$contributing_codes,
-  c("b2", "b3", "b1a")
+  c("b1", "b2", "b3")
 )
 
 df <- hier_convert(d, format = "df")
@@ -150,15 +157,15 @@ expect_equal(nrow(df), 11)
 
 context("Testing edge-cases")
 expect_error(
-  sdcHierarchies::h_min_contributing_codes(h = d, node_name = "x")
+  .contributing_codes(h = d, node_name = "x")
 )
 
 # not valid hierarchies
 expect_error(
-  sdcHierarchies::h_is_valid(h = NULL)
+  .is_valid(tree = NULL)
 )
 expect_error(
-  sdcHierarchies::h_is_valid(h = data.frame())
+  .is_valid(tree = data.frame())
 )
 
 # different values for encoded overall total

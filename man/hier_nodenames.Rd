@@ -4,10 +4,10 @@
 \alias{hier_nodenames}
 \title{Extract name of nodes (levels)}
 \usage{
-hier_nodenames(h, node_lab = NULL)
+hier_nodenames(tree, node_lab = NULL)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
 using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
 
 \item{node_lab}{(character) name of start node from which all lower level-names should be returned}

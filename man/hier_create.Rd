@@ -4,12 +4,12 @@
 \alias{hier_create}
 \title{creates a nested hierarchy object}
 \usage{
-hier_create(tot_lab = "Total", node_labs = NULL)
+hier_create(rootnode = "Total", leaves = NULL)
 }
 \arguments{
-\item{tot_lab}{(character) name of the overall total}
+\item{rootnode}{(character) name of the overall total}
 
-\item{node_labs}{(character) name of levels (nodes) in the hierarchy}
+\item{leaves}{(character) name of leaves (nodes) in the hierarchy}
 }
 \value{
 a (nested) sdc hierarchy tree

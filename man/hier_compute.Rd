@@ -41,7 +41,6 @@ This function allows to compute a nested hierarchy from an character
 vector or a (named) list.
 }
 \examples{
-\dontrun{
 ## Example Regional Codes (NUTS)
 # digits 1-2 (len=2, endpos=2) --> level 1
 # digit 3 (len=1, endpos=3) --> level 2
@@ -120,7 +119,7 @@ identical(
   hier_convert(b, format = "df")
 )
 
-## Same exampl, but overall total is contained in the first 3 positions
+## Same example, but overall total is contained in the first 3 positions
 ## of the input values --> tot_level needs to be set to NULL (the default)
 yae_h_with_tot <- paste0("Tot", yae_h)
 a <- hier_compute(
@@ -193,5 +192,4 @@ d <- hier_compute(
   method = "list",
   as_df = FALSE
 ); d
-}
 }

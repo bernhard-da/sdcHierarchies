@@ -2,7 +2,6 @@
 #'
 #' get information about all or specific nodes in a nested hierarchy
 #' @inherit hier_add
-#' @param node_labs (character) name(s) of nodes for which information should be extracted.
 #' @export
 #' @return a \code{list} with information about the required nodes. If \code{node_labs} is
 #' \code{NULL} (the default), the information is computed for all available nodes of
@@ -20,22 +19,24 @@
 #' }
 #' @examples
 #' ## for examples, see hier_vignette()
-hier_info <- function(h, node_labs=NULL) {
-  h_is_valid(h)
-  all_nodes <- hier_nodenames(h)
-  if (is.null(node_labs)) {
-    node_labs <- all_nodes
+hier_info <- function(tree, leaves=NULL) {
+  nn <- .all_nodes(tree)
+  if (is.null(leaves)) {
+    leaves <- nn
   } else {
-    stopifnot(is.character(node_labs))
+    stopifnot(is.character(leaves))
+    if (!all(leaves %in% nn)) {
+      e <- "not all codes provided in `leaves` are available in the hierarchy."
+      stop(e, call. = FALSE)
+    }
+    stopifnot(sum(duplicated(leaves)) == 0)
   }
 
-  if (length(node_labs) == 1) {
-    return(h_nodeinfo(h, node_lab = node_labs))
+  if (length(leaves) == 1) {
+    res <- .info(tree = tree, leaf = leaves)
+  } else {
+    res <- lapply(leaves, .info, tree = tree)
+    names(res) <- leaves
   }
-
-  out <- lapply(node_labs, function(x) {
-    h_nodeinfo(h, node_lab = x)
-  })
-  names(out) <- node_labs
-  out
+  res
 }

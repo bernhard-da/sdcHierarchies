@@ -4,31 +4,48 @@
 #' in an existing nested hierarchy.
 #'
 #' @inherit hier_add
-#' @param node_labs_new (character) new names of nodes/levels that should be changed
+#' @param leaves (character) new names of nodes/levels that should be changed as
+#' a named vector: names refer to new names, values to existing names
 #' @export
 #' @examples
 #' ## for examples, see hier_vignette()
-hier_rename <- function(h, node_labs, node_labs_new) {
-  h_is_valid(h)
-  stopifnot(is.character(node_labs))
-  stopifnot(is.character(node_labs_new))
-  stopifnot(length(node_labs) == length(node_labs_new))
+hier_rename <- function(tree, leaves) {
+  root <- NULL
+  .is_valid(tree)
+  stopifnot(is.character(leaves))
+  stopifnot(is_named(leaves))
 
-  all_nodes <- hier_nodenames(h)
-  if (!all(node_labs %in% all_nodes)) {
-    ll <- shQuote("node_labs")
-    err <- paste("some nodes specified in argument", ll, "don't exist!")
-    stop(err, call. = TRUE)
-  }
-  if (any(node_labs_new %in% all_nodes)) {
-    ll <- shQuote("node_labs_new")
-    err <- paste("some nodes specified in argument", ll, "already exist!")
-    stop(err, call. = TRUE)
+  old <- names(leaves)
+  new <- as.character(leaves)
+
+  if (any(duplicated(new))) {
+    e <- c(
+      "duplicated values for new leaf names",
+      "are not allowed!"
+    )
+    stop(paste(e, collapse = " "), call. = FALSE)
   }
 
-  for (i in 1:length(node_labs)) {
-    aa <- FindNode(h, node_labs[i])
-    aa$name <- node_labs_new[i]
+  if (sum(new %in% .all_nodes(tree)) > 0) {
+    e <- c(
+      "this tree already contains leaves with names specified in",
+      "argument", shQuote(labels)
+    )
+    stop(paste(e, collapse = " "), call. = FALSE)
   }
-  return(invisible(h))
+
+  ex <- sapply(old, function(x) {
+    .exists(tree = tree, leaf = x)
+  })
+  if (!all(ex)) {
+    stop("Some leaves you want to rename do not exist!\n", call. = FALSE)
+  }
+
+  for (i in seq_along(old)) {
+    tree$root[tree$root == old[i]] <- new[i]
+    tree$leaf[tree$leaf == old[i]] <- new[i]
+  }
+  tree <- .add_class(tree)
+  .is_valid(tree)
+  tree
 }

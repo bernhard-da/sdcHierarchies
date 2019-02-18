@@ -10,8 +10,8 @@
 #' @export
 #' @examples
 #' ## for examples, see hier_vignette()
-hier_export <- function(h, format="df", path, verbose=FALSE) {
-  check_file  <- function(path) {
+hier_export <- function(tree, format="df", path, verbose=FALSE) {
+  .check_path  <- function(path) {
     if (file.exists(path)) {
       stop(paste("File", shQuote(path), "already exists!"), call. = FALSE)
     }
@@ -26,14 +26,14 @@ hier_export <- function(h, format="df", path, verbose=FALSE) {
   }
 
   stopifnot(is_scalar_character(path))
-  check_file(path)
-  res <- hier_convert(h, format = format, verbose = verbose)
+  .check_path(path)
+  res <- hier_convert(tree, format = format, verbose = verbose)
 
   if (verbose) {
     cat(paste("Output is written to", shQuote(path), "\n"))
   }
   if (format %in% c("df", "dt")) {
-    write.table(df, file = path, sep = ";", row.names = FALSE)
+    write.table(res, file = path, sep = ";", row.names = FALSE)
   }
   if (format == "json") {
     cat(res, sep = "\n", file = path)

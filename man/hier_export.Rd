@@ -4,10 +4,10 @@
 \alias{hier_export}
 \title{Export a hierarchy into a file}
 \usage{
-hier_export(h, format = "df", path, verbose = FALSE)
+hier_export(tree, format = "df", path, verbose = FALSE)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
 using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
 
 \item{format}{(character) specifying the export format. Possible choices are:

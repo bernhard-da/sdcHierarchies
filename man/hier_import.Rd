@@ -16,6 +16,8 @@ Possible choices are:
 \item \strong{"json"}: json-encoded string should be converted
 \item \strong{"df"}: a \code{data.frame} in \code{@;level}-format will
 be converted
+\item \strong{"dt"}: a \code{data.table} in \code{@;level}-format will
+be converted
 \item \strong{"argus"}: an object exported using \code{\link{hier_convert}}
 using \code{format = "argus"}
 \item \strong{"code"}: an object exported using \code{\link{hier_convert}}

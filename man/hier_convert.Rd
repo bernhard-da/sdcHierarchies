@@ -4,10 +4,10 @@
 \alias{hier_convert}
 \title{Converts hierarchies into different formats}
 \usage{
-hier_convert(h, format = "df", verbose = FALSE)
+hier_convert(tree, format = "df", verbose = FALSE)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
 using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
 
 \item{format}{(character) specifying the export format. Possible choices are:

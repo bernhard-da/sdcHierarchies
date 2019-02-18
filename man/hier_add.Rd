@@ -4,15 +4,15 @@
 \alias{hier_add}
 \title{Add nodes to an existing hierarchy}
 \usage{
-hier_add(h, refnode, node_labs)
+hier_add(tree, node, leaves)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
 using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
 
-\item{refnode}{(character) an existing node in the input \code{h}}
+\item{node}{(character) an existing node in the input \code{h}}
 
-\item{node_labs}{names of the new nodes/levels that should be added}
+\item{leaves}{names of the new nodes/levels that should be added}
 }
 \value{
 a (nested) sdc hierarchy tree

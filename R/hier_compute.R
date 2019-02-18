@@ -26,7 +26,6 @@
 #' @return a hierarchical data structure depending on choice of argument \code{as_df}
 #' @export
 #' @examples
-#' \dontrun{
 #' ## Example Regional Codes (NUTS)
 #' # digits 1-2 (len=2, endpos=2) --> level 1
 #' # digit 3 (len=1, endpos=3) --> level 2
@@ -105,7 +104,7 @@
 #'   hier_convert(b, format = "df")
 #' )
 #'
-#' ## Same exampl, but overall total is contained in the first 3 positions
+#' ## Same example, but overall total is contained in the first 3 positions
 #' ## of the input values --> tot_level needs to be set to NULL (the default)
 #' yae_h_with_tot <- paste0("Tot", yae_h)
 #' a <- hier_compute(
@@ -178,21 +177,19 @@
 #'   method = "list",
 #'   as_df = FALSE
 #' ); d
-#'}
-hier_compute <- function(
-  inp,
-  dim_spec=NULL,
-  tot_lev=NULL,
-  method="len",
-  as_df=FALSE
-  ) {
+hier_compute <- function(inp,
+                         dim_spec = NULL,
+                         tot_lev = NULL,
+                         method = "len",
+                         as_df = FALSE) {
+
   # convert endpos to length
-  endpos_to_len <- function(end_pos) {
+  .endpos_to_len <- function(end_pos) {
     diff(c(0, end_pos))
   }
 
   # compute from a nested (named) list
-  from_list <- function(dim, tot_lev, as_df=FALSE) {
+  .from_list <- function(dim, tot_lev, as_df=FALSE) {
     stopifnot(is_scalar_character(tot_lev))
     nn <- names(dim)
     dim_q <- shQuote(substitute(dim))
@@ -234,30 +231,25 @@ hier_compute <- function(
     }
 
     # generate hierarchy
-    df <- data.frame(nodes = nn, finished = FALSE)
-    cur_nodes <- dim[[tot_lev]]
-    d <- hier_create(tot_lab = tot_lev, node_labs = cur_nodes)
-    df[df$nodes == tot_lev, "finished"] <- TRUE
-
-    not_finished <- sum(df$finished == FALSE) >= 0
-    while (not_finished) {
-      todo <- df[df$finished == FALSE, "nodes"]
-      levs <- intersect(todo, hier_nodenames(d))
-      for (i in seq_along(levs)) {
-        cur_nr <- levs[i]
-        hier_add(d, refnode = cur_nr, node_labs = as.character(dim[[cur_nr]]))
-        df[df$nodes == cur_nr, "finished"] <- TRUE
-      }
-      not_finished <- sum(df$finished == FALSE) > 0
-    }
+    tree <- hier_create(rootnode = tot_lev)
+    dt <- lapply(1:length(dim), function(x) {
+      data.table(
+        root = names(dim)[x],
+        leaf = dim[[x]]
+      )
+    })
+    tree <- .add_nodes(tree = tree, new = rbindlist(dt))
 
     if (as_df == TRUE) {
-      d <- hier_convert(d, format = "df")
+      return(hier_convert(tree, format = "df"))
     }
-    return(d)
+    tree <- .sort(tree)
+    tree <- .add_class(tree)
+    return(tree)
   }
 
-  stopifnot(is_scalar_character(method), method %in% c("len", "endpos", "list"))
+  stopifnot(is_scalar_character(method))
+  stopifnot(method %in% c("len", "endpos", "list"))
 
   if (method == "list") {
     m <- c(
@@ -265,7 +257,7 @@ hier_compute <- function(
       "is ignored when constructing a hierarchy from a nested list."
     )
     message(paste(m, collapse = " "))
-    return(from_list(dim = inp, tot_lev = tot_lev, as_df = as_df))
+    return(.from_list(dim = inp, tot_lev = tot_lev, as_df = as_df))
   }
 
   if (is.null(dim_spec)) {
@@ -282,7 +274,7 @@ hier_compute <- function(
   }
 
   if (method == "endpos") {
-    dim_len <- endpos_to_len(dim_spec)
+    dim_len <- .endpos_to_len(dim_spec)
   } else {
     dim_len <- dim_spec
   }
@@ -326,7 +318,7 @@ hier_compute <- function(
 
   # only total specified
   if (only_total == TRUE) {
-    nn <- hier_create(as.character(df[1, 1]))
+    nn <- hier_create(rootnode = as.character(df[1, 1]))
     if (as_df == TRUE) {
       return(hier_convert(nn, format = "df"))
     }
@@ -334,20 +326,36 @@ hier_compute <- function(
   }
 
   cs <- c(0, cumsum(dim_len))
+  tree <- hier_create(rootnode = as.character(df[1, 1]))
+
+  new <- list()
+  length(new) <- length(cs) - 1
+
   for (i in 2:length(cs)) {
     from <- cs[i - 1] + 1
     to <- cs[i]
+
     levs <- substr(inp, from, to)
     ii <- which(levs != "")
 
     if (length(ii) > 0) {
-      df$path[ii] <- paste0(df$path[ii], "/", substr(inp, 1, to)[ii])
+      if (i == 2) {
+        new[[i - 1]] <- data.table(root = .rootnode(tree), leaf = unique(substr(inp, 1, to)[ii]))
+      } else {
+        to_prev <- cs[i - 1]
+        new[[i - 1]] <- unique(data.table(
+          root = substr(inp, start = 1, stop = to_prev)[ii],
+          leaf = substr(inp, start = 1, stop = to)[ii]
+        ))
+      }
     }
   }
-  nn <- FromDataFrameTable(df, pathName = "path")
-  class(nn) <- c(class(nn), "sdc_hierarchy")
+  tree <- .add_nodes(tree = tree, new = rbindlist(new))
+  tree <- .sort(tree)
+  .is_valid(tree)
+
   if (as_df == TRUE) {
-    return(hier_convert(nn, format = "df"))
+    return(hier_convert(tree, format = "df"))
   }
-  return(nn)
+  return(tree)
 }

@@ -4,15 +4,14 @@
 \alias{hier_rename}
 \title{Rename nodes in an existing hierarchy}
 \usage{
-hier_rename(h, node_labs, node_labs_new)
+hier_rename(tree, leaves)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
 using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
 
-\item{node_labs}{names of the new nodes/levels that should be added}
-
-\item{node_labs_new}{(character) new names of nodes/levels that should be changed}
+\item{leaves}{(character) new names of nodes/levels that should be changed as
+a named vector: names refer to new names, values to existing names}
 }
 \value{
 a (nested) sdc hierarchy tree

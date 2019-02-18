@@ -4,13 +4,13 @@
 \alias{hier_delete}
 \title{Delete nodes from an existing hierarchy}
 \usage{
-hier_delete(h, node_labs)
+hier_delete(tree, nodes)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
 using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
 
-\item{node_labs}{names of the new nodes/levels that should be added}
+\item{nodes}{character vector of nodes that should be deleted}
 }
 \value{
 a (nested) sdc hierarchy tree

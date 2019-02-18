@@ -4,13 +4,13 @@
 \alias{hier_info}
 \title{hier_info}
 \usage{
-hier_info(h, node_labs = NULL)
+hier_info(tree, leaves = NULL)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
 using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
 
-\item{node_labs}{(character) name(s) of nodes for which information should be extracted.}
+\item{leaves}{names of the new nodes/levels that should be added}
 }
 \value{
 a \code{list} with information about the required nodes. If \code{node_labs} is
