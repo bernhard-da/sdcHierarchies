@@ -7,10 +7,12 @@
 hier_nodenames(tree, node_lab = NULL)
 }
 \arguments{
-\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
-using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
+or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+or \code{\link{hier_rename}}.}
 
-\item{node_lab}{(character) name of start node from which all lower level-names should be returned}
+\item{node_lab}{(character) name of start node from which all lower
+level-names should be returned}
 }
 \value{
 a (nested) sdc hierarchy tree

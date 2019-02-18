@@ -6,15 +6,19 @@
 #' @inherit hier_add
 #' @param format (character) specifying the export format. Possible choices are:
 #' \itemize{
-#' \item \strong{"df"}: a \code{data.frame} with two columns. The first columns contains a string
-#' containing as many \code{@} as the level of the node in the string (e.g \code{@} corresponds to the overall
-#' total while \code{@@} would be all codes contributing to the total. The second column contains the names
-#' of the levels.
-#' \item \strong{"dt"}: like the \code{df}-version but this result is converted to a \code{data.table}
+#' \item \strong{"df"}: a \code{data.frame} with two columns. The first
+#' columns contains a string containing as many \code{@} as the level of the
+#' node in the string (e.g \code{@} corresponds to the overall
+#' total while \code{@@} would be all codes contributing to the total.
+#' The second column contains the names of the levels.
+#' \item \strong{"dt"}: like the \code{df}-version but this result is
+#' converted to a \code{data.table}
 #' \item \strong{"argus"}: used to create hrc-files suitable for tau-argus
-#' \item \strong{"json"}: json format suitable e.g. as input for the shinyTree package.
+#' \item \strong{"json"}: json format suitable e.g. as input for
+#' the shinyTree package.
 #' \item \strong{"code"}: code required to generate the hierarchy
-#' \item \strong{"sdc"}: a \code{list} which is a suitable input for \code{sdcTable}
+#' \item \strong{"sdc"}: a \code{list} which is a suitable input
+#' for \code{sdcTable}
 #' }
 #' @param verbose (logical) if true, the result of the conversion will not only
 #' be (invisibly) returned but also printed in the prompt.
@@ -110,7 +114,7 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
           ","
         )
       }
-      tree <- tree[-c(ind),]
+      tree <- tree[-c(ind), ]
     }
     js <- paste0(js, "]")
     js <- sub(",\\]", "\\]", js)
@@ -151,7 +155,10 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
 
         s1 <- .qvec(cur_info$parent)
         s2 <- .qvec(nn)
-        s3 <- paste0("tree <- hier_add(tree = tree, node = ", s1, ", leaves = ", s2, ")")
+        s3 <- paste0(
+          "tree <- hier_add(tree = tree, node = ",
+          s1, ", leaves = ", s2, ")"
+        )
         code <- c(code, s3)
       }
     }

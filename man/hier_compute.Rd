@@ -10,31 +10,35 @@ hier_compute(inp, dim_spec = NULL, tot_lev = NULL, method = "len",
 \arguments{
 \item{inp}{a character vector (for methods \code{len} and \code{endpos}
 containing codes of a hierarchical variables or a list for
-method \code{list}. In the latter case, the input is expected to be a named list
-where each list-element contains the codes belonging to the node that has the
-name of this specific list element. In the examples below, the required input
-formats are further explained.}
+method \code{list}. In the latter case, the input is expected to be a
+named list where each list-element contains the codes belonging to the
+node that has the name of this specific list element. In the examples
+below, the required input formats are further explained.}
 
 \item{dim_spec}{an (integerish) vector containing either the length
-(in terms of characters) for each level or the end-positions of these levels.
-In the latter-case, one needs to set argument \code{method} to \code{"endpos"}.
-This argument is ignored in case the hierarchy should be created from a
-named list.}
+(in terms of characters) for each level or the end-positions of
+these levels. In the latter-case, one needs to set argument
+\code{method} to \code{"endpos"}. This argument is ignored in case the
+hierarchy should be created from a named list.}
 
-\item{tot_lev}{\code{NULL} or a scalar characer specifying the name of the overall
-total in case it is not encoded at the first positions of \code{dim}}
+\item{tot_lev}{\code{NULL} or a scalar characer specifying the name
+of the overall total in case it is not encoded at the first
+positions of \code{dim}}
 
 \item{method}{either \code{len} (the default) or \code{endpos}
 \itemize{
-\item \code{len}: the number of characters for each of the levels needs to be specified
+\item \code{len}: the number of characters for each of the levels
+needs to be specified
 \item \code{endpos}: the end-positions for each levels need to be fixed
 \item \code{list}: the end-positions for each levels need to be fixed
 }}
 
-\item{as_df}{(logical) if \code{FALSE}, a data.tree is returned, else a data.frame suitable as input for tau-argus}
+\item{as_df}{(logical) if \code{FALSE}, a data.tree is returned, else
+a data.frame suitable as input for tau-argus}
 }
 \value{
-a hierarchical data structure depending on choice of argument \code{as_df}
+a hierarchical data structure depending on choice of
+argument \code{as_df}
 }
 \description{
 This function allows to compute a nested hierarchy from an character

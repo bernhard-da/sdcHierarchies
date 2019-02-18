@@ -4,8 +4,9 @@
 #' to an existing nested hierarchy.
 #'
 #' @inherit hier_create
-#' @param tree a (nested) hierarchy created using \code{\link{hier_create}} or modified
-#' using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.
+#' @param tree a (nested) hierarchy created using \code{\link{hier_create}}
+#' or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+#' or \code{\link{hier_rename}}.
 #' @param node (character) an existing node in the input \code{h}
 #' @param leaves names of the new nodes/levels that should be added
 #' @export

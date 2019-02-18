@@ -10,7 +10,6 @@
 #' @examples
 #' ## for examples, see hier_vignette()
 hier_rename <- function(tree, leaves) {
-  root <- NULL
   .is_valid(tree)
   stopifnot(is.character(leaves))
   stopifnot(is_named(leaves))

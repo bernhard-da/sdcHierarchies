@@ -61,7 +61,7 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     tree
   }
   .from_dt <- function(dt, tot_lab=NULL) {
-    labs <- index <- level <- NULL
+    index <- level <- NULL
     stopifnot(is.data.table(dt))
     stopifnot(ncol(dt) == 2)
     setnames(dt, c("levels", "labs"))

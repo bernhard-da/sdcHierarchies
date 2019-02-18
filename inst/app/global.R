@@ -20,13 +20,10 @@ if (res == TRUE) {
 
 # converts input$tree to a sdc_hierarchy object
 shinytree_to_tree <- function(tree, tot_lab = NULL) {
-  #saveRDS(tree, "tree.rds")
-
   if (is.null(tot_lab)) {
     tot_lab <- "Total"
   }
 
-  #tree <- readRDS("inst/app/tree.rds")
   json <- toJSON(tree)
 
   ul <- names(unlist(fromJSON(json), recursive = TRUE))

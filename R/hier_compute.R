@@ -5,25 +5,29 @@
 #'
 #' @param inp a character vector (for methods \code{len} and \code{endpos}
 #' containing codes of a hierarchical variables or a list for
-#' method \code{list}. In the latter case, the input is expected to be a named list
-#' where each list-element contains the codes belonging to the node that has the
-#' name of this specific list element. In the examples below, the required input
-#' formats are further explained.
+#' method \code{list}. In the latter case, the input is expected to be a
+#' named list where each list-element contains the codes belonging to the
+#' node that has the name of this specific list element. In the examples
+#' below, the required input formats are further explained.
 #' @param dim_spec an (integerish) vector containing either the length
-#' (in terms of characters) for each level or the end-positions of these levels.
-#' In the latter-case, one needs to set argument \code{method} to \code{"endpos"}.
-#' This argument is ignored in case the hierarchy should be created from a
-#' named list.
-#' @param tot_lev \code{NULL} or a scalar characer specifying the name of the overall
-#' total in case it is not encoded at the first positions of \code{dim}
+#' (in terms of characters) for each level or the end-positions of
+#' these levels. In the latter-case, one needs to set argument
+#' \code{method} to \code{"endpos"}. This argument is ignored in case the
+#' hierarchy should be created from a named list.
+#' @param tot_lev \code{NULL} or a scalar characer specifying the name
+#' of the overall total in case it is not encoded at the first
+#' positions of \code{dim}
 #' @param method either \code{len} (the default) or \code{endpos}
 #' \itemize{
-#' \item \code{len}: the number of characters for each of the levels needs to be specified
+#' \item \code{len}: the number of characters for each of the levels
+#' needs to be specified
 #' \item \code{endpos}: the end-positions for each levels need to be fixed
 #' \item \code{list}: the end-positions for each levels need to be fixed
 #' }
-#' @param as_df (logical) if \code{FALSE}, a data.tree is returned, else a data.frame suitable as input for tau-argus
-#' @return a hierarchical data structure depending on choice of argument \code{as_df}
+#' @param as_df (logical) if \code{FALSE}, a data.tree is returned, else
+#' a data.frame suitable as input for tau-argus
+#' @return a hierarchical data structure depending on choice of
+#' argument \code{as_df}
 #' @export
 #' @examples
 #' ## Example Regional Codes (NUTS)
@@ -217,7 +221,6 @@ hier_compute <- function(inp,
     all_codes <- as.character(unlist(dim))
     if (tot_lev %in% all_codes) {
       t <- shQuote(tot_lev)
-      d <- shQuote("dim")
       err <- paste("The overall total", t, "was found in", dim_q)
       stop(err, call. = FALSE)
     }
@@ -340,7 +343,10 @@ hier_compute <- function(inp,
 
     if (length(ii) > 0) {
       if (i == 2) {
-        new[[i - 1]] <- data.table(root = .rootnode(tree), leaf = unique(substr(inp, 1, to)[ii]))
+        new[[i - 1]] <- data.table(
+          root = .rootnode(tree),
+          leaf = unique(substr(inp, 1, to)[ii])
+        )
       } else {
         to_prev <- cs[i - 1]
         new[[i - 1]] <- unique(data.table(

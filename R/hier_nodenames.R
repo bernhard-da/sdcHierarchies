@@ -4,7 +4,8 @@
 #' nodes including all (sub)-nodes and leaves in the given
 #' hierarchy.
 #' @inherit hier_add
-#' @param node_lab (character) name of start node from which all lower level-names should be returned
+#' @param node_lab (character) name of start node from which all lower
+#' level-names should be returned
 #' @export
 #' @examples
 #' ## for examples, see hier_vignette()

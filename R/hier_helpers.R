@@ -33,7 +33,6 @@
 
 # checks if a given leaf is valid in the tree
 .is_valid_leaf <- function(tree, leaf) {
-  #.is_valid(tree)
   stopifnot(is_scalar_character(leaf))
   if (!.exists(tree = tree, leaf = leaf)) {
     stop(paste("leaf", shQuote(leaf), "does not exist!\n"), call. = FALSE)
@@ -91,7 +90,6 @@
 
 # computes all siblings for each node
 .siblings <- function(tree, leaf) {
-  root <- NULL
   ii <- which(leaf == tree$leaf)
   if (length(ii) == 0) {
     return(NA)
@@ -334,8 +332,6 @@
     tree <- .sort(tree)
   }
 
-  #dt <- .tree_to_cols(tree)
-
   dt <- copy(tree)
   dt$leaf[1] <- .rootnode(tree)
   cc <- paste(rep("0", sum(req_digits)), collapse = "")
@@ -361,7 +357,10 @@
     ss <- rep(codes_default[parent], length(code))
 
     old_val <- as.integer(substring(text = ss, first = first, last = last))
-    new_val <- sprintf(paste("%0", req_digits[lev], "d", sep = ""), old_val + 1:length(code))
+    new_val <- sprintf(
+      paste("%0", req_digits[lev], "d", sep = ""),
+      old_val + 1:length(code)
+    )
     substring(ss, first = first, last = last) <- new_val
 
     codes_default[ids] <- ss

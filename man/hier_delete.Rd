@@ -7,8 +7,9 @@
 hier_delete(tree, nodes)
 }
 \arguments{
-\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
-using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
+or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+or \code{\link{hier_rename}}.}
 
 \item{nodes}{character vector of nodes that should be deleted}
 }
