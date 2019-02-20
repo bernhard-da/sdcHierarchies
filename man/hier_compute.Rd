@@ -5,7 +5,7 @@
 \title{compute a nested hierarchy}
 \usage{
 hier_compute(inp, dim_spec = NULL, tot_lev = NULL, method = "len",
-  as_df = FALSE)
+  as = "network")
 }
 \arguments{
 \item{inp}{a character vector (for methods \code{len} and \code{endpos}
@@ -33,12 +33,25 @@ needs to be specified
 \item \code{list}: the end-positions for each levels need to be fixed
 }}
 
-\item{as_df}{(logical) if \code{FALSE}, a data.tree is returned, else
-a data.frame suitable as input for tau-argus}
+\item{as}{(character) specifies the type of the return object. Possible
+choices are:
+\itemize{
+\item{\code{"network"}: }{the default; a \code{data.table} as network. The
+table consists of two columns where the \code{"root"} column defines the
+name of parent node to the label in the \code{"leaf"} column.}
+\item{\code{"df"}: }{a \code{data.frame} in \code{"@; label"}-format.}
+\item{\code{"dt"}: }{a \code{data.table} in \code{"@; label"}-format.}
+\item{\code{"code"}: }{returns the R-code that is required to build
+the tree}
+\item{\code{"sdc"}: }{the tree is structured as a list}
+\item{\code{"argus"}: }{suitable input for \code{\link{hier_export}} to
+write \code{"hrc"}-files for tau argus.}
+\item{\code{"json"}: }{a character-vector encoded as json-string.}
+}}
 }
 \value{
 a hierarchical data structure depending on choice of
-argument \code{as_df}
+argument \code{as}
 }
 \description{
 This function allows to compute a nested hierarchy from an character
@@ -86,14 +99,12 @@ geo_m_with_tot <- paste0("Tot", geo_m)
 a <- hier_compute(
   inp = geo_m_with_tot,
   dim_spec = c(3, 2, 1, 2),
-  method = "len",
-  as_df = TRUE
+  method = "len"
 )
 b <- hier_compute(
   inp = geo_m_with_tot,
   dim_spec = c(3, 5, 6, 8),
-  method = "endpos",
-  as_df=TRUE
+  method = "endpos"
 )
 identical(a, b)
 
@@ -130,13 +141,11 @@ a <- hier_compute(
   inp = yae_h_with_tot,
   dim_spec = c(3, 2, 2, 2),
   method = "len",
-  as_df = TRUE
 )
 b <- hier_compute(
   inp = yae_h_with_tot,
   dim_spec = c(3, 5, 7, 9),
-  method = "endpos",
-  as_df = TRUE
+  method = "endpos"
 )
 identical(a, b)
 
@@ -178,8 +187,7 @@ geo_ll[["101"]]   <- "10155"
 d <- hier_compute(
   inp = geo_ll,
   tot_lev = "Total",
-  method = "list",
-  as_df = FALSE
+  method = "list"
 ); d
 
 ## Reproduce example from above with input defined as named list
@@ -190,10 +198,12 @@ yae_ll[["1.1."]] <- paste0("1.1.", 1:2, ".")
 yae_ll[["1.2."]] <- paste0("1.2.", 1:5, ".")
 yae_ll[["1.3."]] <- paste0("1.3.", 1:5, ".")
 yae_ll[["1.4."]] <- paste0("1.4.", 1:6, ".")
+
+# return result as data.frame
 d <- hier_compute(
   inp = yae_ll,
   tot_lev = "Total",
   method = "list",
-  as_df = FALSE
+  as = "df"
 ); d
 }

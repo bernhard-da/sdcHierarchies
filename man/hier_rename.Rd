@@ -12,7 +12,8 @@ or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
 or \code{\link{hier_rename}}.}
 
 \item{leaves}{(character) new names of nodes/levels that should be changed as
-a named vector: names refer to new names, values to existing names}
+a named vector: names refer to old, existing names, the values to the
+new labels}
 }
 \value{
 a (nested) sdc hierarchy tree

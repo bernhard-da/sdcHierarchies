@@ -24,10 +24,23 @@
 #' \item \code{endpos}: the end-positions for each levels need to be fixed
 #' \item \code{list}: the end-positions for each levels need to be fixed
 #' }
-#' @param as_df (logical) if \code{FALSE}, a data.tree is returned, else
-#' a data.frame suitable as input for tau-argus
+#' @param as (character) specifies the type of the return object. Possible
+#' choices are:
+#' \itemize{
+#' \item{\code{"network"}: }{the default; a \code{data.table} as network. The
+#' table consists of two columns where the \code{"root"} column defines the
+#' name of parent node to the label in the \code{"leaf"} column.}
+#' \item{\code{"df"}: }{a \code{data.frame} in \code{"@@; label"}-format.}
+#' \item{\code{"dt"}: }{a \code{data.table} in \code{"@@; label"}-format.}
+#' \item{\code{"code"}: }{returns the R-code that is required to build
+#' the tree}
+#' \item{\code{"sdc"}: }{the tree is structured as a list}
+#' \item{\code{"argus"}: }{suitable input for \code{\link{hier_export}} to
+#' write \code{"hrc"}-files for tau argus.}
+#' \item{\code{"json"}: }{a character-vector encoded as json-string.}
+#' }
 #' @return a hierarchical data structure depending on choice of
-#' argument \code{as_df}
+#' argument \code{as}
 #' @export
 #' @examples
 #' ## Example Regional Codes (NUTS)
@@ -71,14 +84,12 @@
 #' a <- hier_compute(
 #'   inp = geo_m_with_tot,
 #'   dim_spec = c(3, 2, 1, 2),
-#'   method = "len",
-#'   as_df = TRUE
+#'   method = "len"
 #' )
 #' b <- hier_compute(
 #'   inp = geo_m_with_tot,
 #'   dim_spec = c(3, 5, 6, 8),
-#'   method = "endpos",
-#'   as_df=TRUE
+#'   method = "endpos"
 #' )
 #' identical(a, b)
 #'
@@ -115,13 +126,11 @@
 #'   inp = yae_h_with_tot,
 #'   dim_spec = c(3, 2, 2, 2),
 #'   method = "len",
-#'   as_df = TRUE
 #' )
 #' b <- hier_compute(
 #'   inp = yae_h_with_tot,
 #'   dim_spec = c(3, 5, 7, 9),
-#'   method = "endpos",
-#'   as_df = TRUE
+#'   method = "endpos"
 #' )
 #' identical(a, b)
 #'
@@ -163,8 +172,7 @@
 #' d <- hier_compute(
 #'   inp = geo_ll,
 #'   tot_lev = "Total",
-#'   method = "list",
-#'   as_df = FALSE
+#'   method = "list"
 #' ); d
 #'
 #' ## Reproduce example from above with input defined as named list
@@ -175,25 +183,28 @@
 #' yae_ll[["1.2."]] <- paste0("1.2.", 1:5, ".")
 #' yae_ll[["1.3."]] <- paste0("1.3.", 1:5, ".")
 #' yae_ll[["1.4."]] <- paste0("1.4.", 1:6, ".")
+#'
+#' # return result as data.frame
 #' d <- hier_compute(
 #'   inp = yae_ll,
 #'   tot_lev = "Total",
 #'   method = "list",
-#'   as_df = FALSE
+#'   as = "df"
 #' ); d
 hier_compute <- function(inp,
                          dim_spec = NULL,
                          tot_lev = NULL,
                          method = "len",
-                         as_df = FALSE) {
+                         as = "network") {
 
-  # convert endpos to length
-  .endpos_to_len <- function(end_pos) {
-    diff(c(0, end_pos))
-  }
+  stopifnot(is_scalar_character(as))
+  stopifnot(as %in% c("network", "df", "code", "argus", "sdc", "json"))
+
+  stopifnot(is_scalar_character(method))
+  stopifnot(method %in% c("len", "endpos", "list"))
 
   # compute from a nested (named) list
-  .from_list <- function(dim, tot_lev, as_df=FALSE) {
+  .from_list <- function(dim, tot_lev) {
     stopifnot(is_scalar_character(tot_lev))
     nn <- names(dim)
     dim_q <- shQuote(substitute(dim))
@@ -242,17 +253,106 @@ hier_compute <- function(inp,
       )
     })
     tree <- .add_nodes(tree = tree, new = rbindlist(dt))
-
-    if (as_df == TRUE) {
-      return(hier_convert(tree, format = "df"))
-    }
     tree <- .sort(tree)
     tree <- .add_class(tree)
     return(tree)
   }
 
-  stopifnot(is_scalar_character(method))
-  stopifnot(method %in% c("len", "endpos", "list"))
+  # compute from a vector and the positions of the levels are
+  # specified by their required length
+  .from_len <- function(inp, dim_len, tot_lev) {
+    stopifnot(is.character(inp))
+    if (!is_integerish(dim_len)) {
+      e <- c(
+        "Argument", shQuote("dim_spec"), "must be",
+        "a numeric vector specifying the required number of characters",
+        "for each hierarchical level."
+      )
+      stop(paste(e, collapse = " "), call. = FALSE)
+    }
+
+    stopifnot(all(dim_len > 0))
+    if (!is.null(tot_lev)) {
+      stopifnot(is_scalar_character(tot_lev))
+    }
+    stopifnot(sum(dim_len) >= max(nchar(inp)))
+    if (sum(any(duplicated(inp))) > 0) {
+      err <- paste("duplicated values detected in argument", shQuote("inp"), "!")
+      stop(err, call. = FALSE)
+    }
+
+    tree_depth <- length(inp)
+    only_total <- FALSE
+    if (is.null(tot_lev)) {
+      if (length(dim_len) == 1) {
+        only_total <- TRUE
+      }
+      df <- data.frame(
+        path = substr(inp, 1, dim_len[1]),
+        stringsAsFactors = FALSE
+      )
+      if (length(unique(df$path)) > 1) {
+        err <- paste("Top-Level should be included in first", dim_len[1])
+        err <- paste(err, "characters, but > 1 values were detected!")
+        stop(err, call. = FALSE)
+      }
+
+      inp <- substr(inp, dim_len[1] + 1, nchar(inp))
+      dim_len <- dim_len[-c(1)]
+    } else {
+      df <- data.frame(path = rep(tot_lev, tree_depth), stringsAsFactors = FALSE)
+      only_total <- FALSE
+    }
+
+    # only total specified
+    if (only_total == TRUE) {
+      nn <- hier_create(rootnode = as.character(df[1, 1]))
+      return(nn)
+    }
+
+    cs <- c(0, cumsum(dim_len))
+    tree <- hier_create(rootnode = as.character(df[1, 1]))
+
+    new <- list()
+    length(new) <- length(cs) - 1
+
+    for (i in 2:length(cs)) {
+      from <- cs[i - 1] + 1
+      to <- cs[i]
+
+      levs <- substr(inp, from, to)
+      ii <- which(levs != "")
+
+      if (length(ii) > 0) {
+        if (i == 2) {
+          new[[i - 1]] <- data.table(
+            root = .rootnode(tree),
+            leaf = unique(substr(inp, 1, to)[ii])
+          )
+        } else {
+          to_prev <- cs[i - 1]
+          new[[i - 1]] <- unique(data.table(
+            root = substr(inp, start = 1, stop = to_prev)[ii],
+            leaf = substr(inp, start = 1, stop = to)[ii]
+          ))
+        }
+      }
+    }
+    tree <- .add_nodes(tree = tree, new = rbindlist(new))
+    tree <- .sort(tree)
+    .is_valid(tree)
+    tree
+  }
+
+  # compute from a vector and the positions of the levels are
+  # specified by their end positions
+  .from_endpos <- function(inp, dim_endpos, tot_lev) {
+    .from_len(
+      inp = inp,
+      dim_len = .endpos_to_len(dim_endpos),
+      tot_lev = tot_lev
+    )
+  }
 
   if (method == "list") {
     m <- c(
@@ -260,108 +360,35 @@ hier_compute <- function(inp,
       "is ignored when constructing a hierarchy from a nested list."
     )
     message(paste(m, collapse = " "))
-    return(.from_list(dim = inp, tot_lev = tot_lev, as_df = as_df))
+    tree <- .from_list(dim = inp, tot_lev = tot_lev)
   }
-
-  if (is.null(dim_spec)) {
-    e <- c(
-      "Argument", shQuote("dim_spec"), "must be",
-      "a numeric vector specifying"
+  if (method == "len") {
+    tree <- .from_len(
+      inp = inp,
+      dim_len = dim_spec,
+      tot_lev = tot_lev
     )
-    if (method == "len") {
-      e <- c(e, "end-positions of each hierarchical level within the input.")
-    } else {
-      e <- c(e, "the required number of characters for each level.")
-    }
-    stop(paste(e, collapse = " "), call. = FALSE)
   }
-
   if (method == "endpos") {
-    dim_len <- .endpos_to_len(dim_spec)
-  } else {
-    dim_len <- dim_spec
-  }
-
-  stopifnot(is.character(inp))
-  stopifnot(is_integerish(dim_len))
-  stopifnot(all(dim_len > 0))
-
-  if (!is.null(tot_lev)) {
-    stopifnot(is_scalar_character(tot_lev))
-  }
-
-  stopifnot(sum(dim_len) >= max(nchar(inp)))
-  if (sum(any(duplicated(inp))) > 0) {
-    err <- paste("duplicated values detected in argument", shQuote("inp"), "!")
-    stop(err, call. = FALSE)
-  }
-
-  tree_depth <- length(inp)
-  only_total <- FALSE
-  if (is.null(tot_lev)) {
-    if (length(dim_len) == 1) {
-      only_total <- TRUE
-    }
-    df <- data.frame(
-      path = substr(inp, 1, dim_len[1]),
-      stringsAsFactors = FALSE
-    )
-    if (length(unique(df$path)) > 1) {
-      err <- paste("Top-Level should be included in first", dim_len[1])
-      err <- paste(err, "characters, but > 1 values were detected!")
-      stop(err, call. = FALSE)
-    }
-
-    inp <- substr(inp, dim_len[1] + 1, nchar(inp))
-    dim_len <- dim_len[-c(1)]
-  } else {
-    df <- data.frame(path = rep(tot_lev, tree_depth), stringsAsFactors = FALSE)
-    only_total <- FALSE
-  }
-
-  # only total specified
-  if (only_total == TRUE) {
-    nn <- hier_create(rootnode = as.character(df[1, 1]))
-    if (as_df == TRUE) {
-      return(hier_convert(nn, format = "df"))
-    }
-    return(nn)
-  }
-
-  cs <- c(0, cumsum(dim_len))
-  tree <- hier_create(rootnode = as.character(df[1, 1]))
-
-  new <- list()
-  length(new) <- length(cs) - 1
-
-  for (i in 2:length(cs)) {
-    from <- cs[i - 1] + 1
-    to <- cs[i]
-
-    levs <- substr(inp, from, to)
-    ii <- which(levs != "")
-
-    if (length(ii) > 0) {
-      if (i == 2) {
-        new[[i - 1]] <- data.table(
-          root = .rootnode(tree),
-          leaf = unique(substr(inp, 1, to)[ii])
-        )
-      } else {
-        to_prev <- cs[i - 1]
-        new[[i - 1]] <- unique(data.table(
-          root = substr(inp, start = 1, stop = to_prev)[ii],
-          leaf = substr(inp, start = 1, stop = to)[ii]
-        ))
+    # convert endpos to length
+    .endpos_to_len <- function(end_pos) {
+      if (!is_integerish(end_pos)) {
+        e <- "end positions provided in `dim_spec` must be numbers!\n"
+        stop(e, call. = FALSE)
       }
+      diff(c(0, end_pos))
     }
+    tree <- .from_endpos(
+      inp = inp,
+      dim_endpos = dim_spec,
+      tot_lev = tot_lev
+    )
   }
-  tree <- .add_nodes(tree = tree, new = rbindlist(new))
-  tree <- .sort(tree)
-  .is_valid(tree)
 
-  if (as_df == TRUE) {
-    return(hier_convert(tree, format = "df"))
+  if (as == "network") {
+    return(tree)
   }
-  return(tree)
+
+  out <- hier_convert(tree, format = as)
+  return(out)
 }

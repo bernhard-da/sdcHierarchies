@@ -31,6 +31,7 @@ hier_display <- function(x, root = NULL) {
   cli::tree(df, root = from)
 }
 
-summary.sdc_hierarchy <- function(tree) {
-  cat("nrHierarchies:", .nr_levels(tree))
-}
+#summary.sdc_hierarchy <- function(tree) {
+#  cat("nrHierarchies:", .nr_levels(tree))
+#}
+#hier_convert(tree, format = "json", verbose = FALSE)

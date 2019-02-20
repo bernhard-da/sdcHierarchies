@@ -24,9 +24,6 @@
     if (sum(duplicated(tree$leaf)) > 0) {
       stop("non-unique leaf nodes detected!\n")
     }
-    if (sum(tree$leaf == tree$root) != 1) {
-      stop("not exactly one root-node specified!")
-    }
   }
   TRUE
 }
@@ -52,9 +49,6 @@
 
 # adds multiple rows to an existing tree
 .add_nodes <- function(tree, new) {
-  if (nrow(tree) == 0) {
-    stop("nodes can only be added to an existing tree.", call. = FALSE)
-  }
   tree <- rbind(tree, new)
   tree <- .add_class(tree)
   tree
@@ -65,7 +59,7 @@
   ii <- tree$root == leaf
   res <- as.character(tree$leaf[ii])
   if (length(res) == 0) {
-    return(NA)
+    return(character())
   }
   rootnode <- .rootnode(tree)
   if (leaf == rootnode) {
@@ -76,11 +70,7 @@
 
 # returns number of children for a given leaf in the tree
 .nr_children <- function(tree, leaf) {
-  r <- .children(tree = tree, leaf = leaf)
-  if (is.na(r)[1]) {
-    return(0)
-  }
-  length(r)
+  length(.children(tree = tree, leaf = leaf))
 }
 
 # returns TRUE if the given leaf has no children
@@ -92,41 +82,31 @@
 .siblings <- function(tree, leaf) {
   ii <- which(leaf == tree$leaf)
   if (length(ii) == 0) {
-    return(NA)
+    stop(paste("leaf", shQuote(leaf), "not found!"), call. = FALSE)
   }
   parent <- tree$root[ii]
 
   res <- tree$leaf[tree$root == parent]
   res <- setdiff(res, c(leaf, NA))
   if (length(res) == 0) {
-    return(NA)
+    return(character())
   }
   return(res)
 }
 
 # returns number of sibligns for a given leaf in the tree
 .nr_siblings <- function(tree, leaf) {
-  r <- .siblings(tree = tree, leaf = leaf)
-  if (is.na(r)[1]) {
-    return(0)
-  }
-  length(r)
+  length(.siblings(tree = tree, leaf = leaf))
 }
 
 # returns TRUE, if a given leaf exists in the tree
 .exists <- function(tree, leaf) {
-  if (leaf %in% .all_nodes(tree)) {
-    return(TRUE)
-  }
-  return(FALSE)
+  leaf %in% .all_nodes(tree)
 }
 
 # returns TRUE if given leaf is the rootnode
 .is_rootnode <- function(tree, leaf) {
-  if (leaf == .rootnode(tree)) {
-    return(TRUE)
-  }
-  return(FALSE)
+  leaf == .rootnode(tree)
 }
 
 # returns path from rootnode to given leaf
@@ -177,6 +157,9 @@
 
 # returns all bogus_codes
 .bogus_codes <- function(tree) {
+  if (nrow(tree) == 1) {
+    return(character(0))
+  }
   sort(names(which(sapply(.all_nodes(tree), function(x) {
     .is_bogus(tree = tree, leaf = x)
   }))))
@@ -315,10 +298,15 @@
 .required_digits <- function(tree) {
   dt <- .tree_to_cols(tree)
 
+  # only rootnode
+  if (ncol(dt) == 1) {
+    return(c(1))
+  }
+
   req_digits <- rep(NA, .nr_levels(tree))
   req_digits[1] <- 1
   for (i in 2:ncol(dt)) {
-    key_vars <- paste0("V", c((i - 1), i))
+    key_vars <- paste0("V", c(i - 1, i))
     setkeyv(dt, key_vars)
     agg <- dt[, .N, by = key(dt)]
     req_digits[i] <- nchar(max(agg[!is.na(agg[[2]])]$N))

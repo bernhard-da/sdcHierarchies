@@ -198,5 +198,4 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
   if (from == "sdc") {
     return(.from_sdc(inp = inp))
   }
-  stop("uncaught error in hier_import()", call. = FALSE)
 }

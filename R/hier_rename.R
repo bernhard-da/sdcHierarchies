@@ -5,7 +5,8 @@
 #'
 #' @inherit hier_add
 #' @param leaves (character) new names of nodes/levels that should be changed as
-#' a named vector: names refer to new names, values to existing names
+#' a named vector: names refer to old, existing names, the values to the
+#' new labels
 #' @export
 #' @examples
 #' ## for examples, see hier_vignette()
@@ -27,8 +28,8 @@ hier_rename <- function(tree, leaves) {
 
   if (sum(new %in% .all_nodes(tree)) > 0) {
     e <- c(
-      "this tree already contains leaves with names specified in",
-      "argument", shQuote(labels)
+      "It is not possible to rename nodes to names that already",
+      "exist in the tree."
     )
     stop(paste(e, collapse = " "), call. = FALSE)
   }

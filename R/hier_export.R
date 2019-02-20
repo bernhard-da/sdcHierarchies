@@ -27,7 +27,7 @@ hier_export <- function(tree, format="df", path, verbose=FALSE) {
 
   stopifnot(is_scalar_character(path))
   .check_path(path)
-  res <- hier_convert(tree, format = format, verbose = verbose)
+  res <- hier_convert(tree, format = format)
 
   if (verbose) {
     cat(paste("Output is written to", shQuote(path), "\n"))

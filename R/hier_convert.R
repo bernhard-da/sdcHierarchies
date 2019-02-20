@@ -20,12 +20,10 @@
 #' \item \strong{"sdc"}: a \code{list} which is a suitable input
 #' for \code{sdcTable}
 #' }
-#' @param verbose (logical) if true, the result of the conversion will not only
-#' be (invisibly) returned but also printed in the prompt.
 #' @export
 #' @examples
 #' ## for examples, see hier_vignette()
-hier_convert <- function(tree, format="df", verbose=FALSE) {
+hier_convert <- function(tree, format="df") {
   # returns a quoted vector of input codes
   .qvec <- function(codes) {
     q <- shQuote(codes)
@@ -37,7 +35,7 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
   }
 
   # to data.frame
-  .to_df <- function(tree, dt = TRUE, verbose) {
+  .to_df <- function(tree, dt = TRUE) {
     out <- data.table(
       level = NA,
       name = tree$leaf
@@ -49,15 +47,11 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
     if (isFALSE(dt)) {
       out <- as.data.frame(out)
     }
-
-    if (verbose) {
-      print(out)
-    }
     return(out)
   }
 
   # node to json
-  .to_json <- function(tree, verbose) {
+  .to_json <- function(tree) {
     .write_js_row <- function(id,
                               parent,
                               text,
@@ -118,16 +112,12 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
     }
     js <- paste0(js, "]")
     js <- sub(",\\]", "\\]", js)
-
-    if (verbose) {
-      cat(js, sep = "\n")
-    }
     attr(js, "totlev") <- rootnode
     return(js)
   }
 
   # node to code
-  .to_code <- function(tree, verbose) {
+  .to_code <- function(tree) {
     all_names <- .all_nodes(tree)
     code <- "library(sdcHierarchies)"
 
@@ -136,7 +126,7 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
     code_tot <- paste0("tree <- hier_create(rootnode = ", t)
 
     childs <- .children(tree, root)
-    if (!is.na(childs)[1]) {
+    if (length(childs) > 0) {
       code_tot <- paste0(code_tot, ", leaves = ", .qvec(childs), ")")
       all_names <- setdiff(all_names, c(root, childs))
     } else {
@@ -163,14 +153,11 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
       }
     }
     code <- c(code, "print(tree)")
-    if (verbose) {
-      cat(code, sep = "\n")
-    }
     return(code)
   }
 
   # node to argus
-  .to_argus <- function(tree, verbose) {
+  .to_argus <- function(tree) {
     dforig <- df <- hier_convert(tree, format = "df")
     df <- df[-1, ]
     df$level <- substr(df$level, 3, nchar(df$level))
@@ -183,15 +170,12 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
     sname <- sprintf(paste0("%", m2, "s"), df$name[ind_levs])
 
     sout[ind_levs] <- paste(slev, sname)
-    if (verbose) {
-      print(dforig)
-    }
     attr(dforig, "sout") <- sout
     return(dforig)
   }
 
   # to list-format suitable for sdcTable(2)
-  .to_sdc <- function(tree, verbose) {
+  .to_sdc <- function(tree) {
     all_info <- hier_info(tree, leaves = NULL)
 
     ## compute and remove bogus-codes
@@ -240,14 +224,18 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
 
     ## compute all dimensions (additivity!)
     sub_totals <- .subtotals(tree)
-
     dims <- list()
-    for (i in 1:length(sub_totals)) {
-      ch <- all_info[[sub_totals[i]]]$children
-      v_tot <- codes_default[sub_totals[i]]
-      v_contr <- codes_default[ch]
-      dims <- append(dims, list(c(v_tot, v_contr)))
+
+    # only the case if we do not have a root-only tree
+    if (length(sub_totals) > 0) {
+      for (i in 1:length(sub_totals)) {
+        ch <- all_info[[sub_totals[i]]]$children
+        v_tot <- codes_default[sub_totals[i]]
+        v_contr <- codes_default[ch]
+        dims <- append(dims, list(c(v_tot, v_contr)))
+      }
     }
+
     out <- list(
       codes = list(
         orig = names(codes_default),
@@ -264,7 +252,6 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
 
   stopifnot(is_scalar_character(format))
   stopifnot(format %in% c("df", "dt", "json", "argus", "code", "sdc"))
-  stopifnot(is_scalar_logical(verbose))
   .is_valid(tree)
 
   if (!.is_sorted(tree)) {
@@ -274,21 +261,20 @@ hier_convert <- function(tree, format="df", verbose=FALSE) {
   if (format %in% c("df", "dt")) {
     res <- .to_df(
       tree = tree,
-      dt = ifelse(format == "dt", TRUE, FALSE),
-      verbose = verbose
+      dt = ifelse(format == "dt", TRUE, FALSE)
     )
   }
   if (format == "json") {
-    res <- .to_json(tree, verbose = verbose)
+    res <- .to_json(tree)
   }
   if (format == "code") {
-    res <- .to_code(tree, verbose = verbose)
+    res <- .to_code(tree)
   }
   if (format == "argus") {
-    res <- .to_argus(tree, verbose = verbose)
+    res <- .to_argus(tree)
   }
   if (format == "sdc") {
-    res <- .to_sdc(tree, verbose = verbose)
+    res <- .to_sdc(tree)
   }
   attr(res, "hier_convert") <- TRUE
   attr(res, "hier_format") <- format

@@ -4,7 +4,7 @@
 \alias{hier_convert}
 \title{Converts hierarchies into different formats}
 \usage{
-hier_convert(tree, format = "df", verbose = FALSE)
+hier_convert(tree, format = "df")
 }
 \arguments{
 \item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
@@ -27,9 +27,6 @@ the shinyTree package.
 \item \strong{"sdc"}: a \code{list} which is a suitable input
 for \code{sdcTable}
 }}
-
-\item{verbose}{(logical) if true, the result of the conversion will not only
-be (invisibly) returned but also printed in the prompt.}
 }
 \value{
 a (nested) sdc hierarchy tree
