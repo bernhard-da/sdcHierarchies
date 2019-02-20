@@ -2,11 +2,11 @@
 ## sdcHierarchies
 
 [![Travis build
-status](https://travis-ci.org/bernhard-da/sdcHierarchies.svg?branch=master)](https://travis-ci.org/bernhard-da/sdcHierarchies)
+status](https://travis-ci.org/bernhard-da/sdcHierarchies.svg?branch=next)](https://travis-ci.org/bernhard-da/sdcHierarchies)
 [![Coverage
-status](https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/master/graph/badge.svg)](https://codecov.io/github/bernhard-da/sdcHierarchies?branch=master)
+status](https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/next/graph/badge.svg)](https://codecov.io/github/bernhard-da/sdcHierarchies?branch=next)
 [![GitHub last
-commit](https://img.shields.io/github/last-commit/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies/commits/master)
+commit](https://img.shields.io/github/last-commit/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies/commits/next)
 [![GitHub code size in
 bytes](https://img.shields.io/github/languages/code-size/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies)
 
