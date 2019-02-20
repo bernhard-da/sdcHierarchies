@@ -92,7 +92,11 @@
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
-<pre><code>install_github("bernhard-da/sdcHierarchies", build_vignette=TRUE, dependencies=TRUE)</code></pre>
+<pre><code><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">remotes::install_github(
+  repo = "bernhard-da/sdcHierarchies",
+  dependencies = TRUE,
+  build_opts = c("--no-resave-data", "--no-manual")
+)</a></code></pre>
 </div>
 <div id="usage" class="section level3">
 <h3 class="hasAnchor">
@@ -134,7 +138,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/bernhard-da/sdcHierarchies"><img src="https://travis-ci.org/bernhard-da/sdcHierarchies.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://codecov.io/github/bernhard-da/sdcHierarchies?branch=master"><img src="https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/master"><img src="https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://github.com/bernhard-da/sdcHierarchies/commits/master"><img src="https://img.shields.io/github/last-commit/bernhard-da/sdcHierarchies.svg?logo=github" alt="GitHub last commit"></a></li>
 <li><a href="https://github.com/bernhard-da/sdcHierarchies"><img src="https://img.shields.io/github/languages/code-size/bernhard-da/sdcHierarchies.svg?logo=github" alt="GitHub code size in bytes"></a></li>
 </ul>
