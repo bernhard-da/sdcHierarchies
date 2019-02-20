@@ -25,9 +25,8 @@ expect_identical(.rootnode(dim2), "top")
 
 expect_error(
   hier_rename(
-    dim1,
-    node_labs = "Totalx",
-    node_labs_new = "newCode"
+    tree = dim1,
+    leaves = c("Totalx" = "new_code")
   )
 )
 
@@ -38,12 +37,22 @@ dim1 <- hier_rename(
 
 expect_identical(.rootnode(dim1), "tot")
 
+# new name already exists
 expect_error(
   hier_rename(
     tree = dim2,
-    leaves = c("a" = "A", "C" = "C")
+    leaves = c("a" = "b")
   )
 )
+
+# duplicated values
+expect_error(
+  hier_rename(
+    tree = dim2,
+    leaves = c("Totalx" = "new_code", "Total" = "new_code")
+  )
+)
+
 dim2 <- hier_rename(
   tree = dim2,
   leaves = c("a" = "A", "c" = "C")
@@ -105,12 +114,26 @@ expect_identical(sdc$codes$orig, exp_names)
 expect_equal(sdc$codes$level, nchar(exp_levs))
 
 info <- hier_info(dim2)
+
+# not all leaves exist in the tree
+expect_error(
+  hier_info(
+    tree = dim2,
+    leaves = c("a", "a1")
+  )
+)
+
 expect_is(info, "list")
 expect_equal(
   as.character(sapply(info, function(x) {
     x$name
   })),
   .all_nodes(dim2)
+)
+
+# we can't delete the rootnode
+expect_error(
+  hier_delete(tree = dim2, nodes = "top")
 )
 
 expect_warning(dim2 <- hier_delete(tree = dim2, nodes = "X"))
@@ -144,7 +167,7 @@ expect_error(
     inp = ll,
     tot_lev = "Total",
     method = "list",
-    as_df = FALSE
+    as = "network"
   )
 )
 
@@ -153,7 +176,7 @@ d <- hier_compute(
   inp = ll,
   tot_lev = "Total",
   method = "list",
-  as_df = FALSE
+  as = "network"
 )
 
 expect_true(.is_valid(d))
