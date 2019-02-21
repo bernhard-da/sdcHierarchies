@@ -36,7 +36,7 @@ library(sdcHierarchies)
 `hier_create()` allows to create a hierarchy. Argument `tot_lab` specifies the name of the root node. Optionally, it is possible to add some nodes to the top-level by listing their names in argument `node_labs`. Also, `hier_display()` shows the hierarchical structure of the current tree as shown below:
 
 ```{r}
-h <- hier_create(rootnode = "Total", leaves = LETTERS[1:5])
+h <- hier_create(root = "Total", nodes = LETTERS[1:5])
 hier_display(h)
 ```
 
@@ -50,16 +50,16 @@ These functions can be applied as shown below:
 
 ```{r}
 ## adding nodes below the node specified in argument `node`
-h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
-h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
-h <- hier_add(h, node = "b1", leaves = c("b1_a", "b1_b"))
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = c("b1_a", "b1_b"))
 
 # deleting one or more nodes from the hierarchy
 h <- hier_delete(h, nodes = c("a1", "b2"))
 h <- hier_delete(h, nodes = c("a2"))
 
 # rename nodes
-h <- hier_rename(h, leaves = c("C" = "X", "D" = "Y"))
+h <- hier_rename(h, nodes = c("C" = "X", "D" = "Y"))
 hier_display(h)
 ```
 
@@ -70,7 +70,7 @@ We note that the underlying [**data.tree**](https://cran.r-project.org/package=d
 Function `hier_info()` returns information about the nodes that are specified in argument `leaves`. 
 ```{r}
 # about a specific node
-info <- hier_info(h, leaves = c("b1", "E"))
+info <- hier_info(h, nodes = c("b1", "E"))
 ```
 
 `info` is a named list where each list element refers to a queried node. The results for level `b1` could be extracted as shown below:
@@ -93,19 +93,19 @@ Function `hier_convert()` takes a hierarchy and allows to convert the network ba
 
 ```{r, eval=TRUE}
 # conversion to a "@;label"-based format
-res_df <- hier_convert(h, format = "df")
+res_df <- hier_convert(h, as = "df")
 print(res_df)
 ```
 
 The required code to create this hierarchy could be computed using:
 ```{r}
-code <- hier_convert(h, format = "code"); cat(code, sep = "\n")
+code <- hier_convert(h, as = "code"); cat(code, sep = "\n")
 ```
 
 Using `hier_export()` one can write the results to a file. This is for example useful if one wants to create `hrc`-files that could be used as input for [$\tau$-argus](https://github.com/sdcTools/tauargus/) which can be achieved as follows:
 
 ```{r, eval=FALSE}
-hier_export(h, format = "argus", path = "hierarchy.hrc")
+hier_export(h, as = "argus", path = "hierarchy.hrc")
 ```
 
 ## Create a hierarchy from data.frames, code or json
@@ -137,27 +137,26 @@ Function `hier_compute()` takes a character vector and creates a hierarchy from 
 - `endpos`: an integerish-vector must be specified in argument `dim_spec` holding the end-position at each level
 - `len`: an integerish-vector must be specified in argument `dim_spec` containing for each level how many digits are required
 
-In case the overal total is not encoded in the input, specifying argument `tot_lev` allows to give a name to the overall total. The two methods on how to define the positions of the levels are interchangable and lead to the same hierarchy as shown below:
+In case the overal total is not encoded in the input, specifying argument `tot_lev` allows to give a name to the overall total. Additionally, it is possible to set the desired output format in parameter `as`. In the example below setting `as = "df"` returns the result as a `data.frame` in `@; key`-format. The two methods on how to define the positions of the levels are interchangable and lead to the same hierarchy as shown below:
 
 ```{r}
 v1 <- hier_compute(
   inp = geo_m, 
   dim_spec = c(2, 3, 5), 
   tot_lev = "Tot", 
-  method = "endpos"
+  method = "endpos", 
+  as = "df"
 )
 
 v2 <- hier_compute(
   inp = geo_m, 
   dim_spec = c(2, 1, 2), 
   tot_lev = "Tot", 
-  method = "len"
+  method = "len",
+  as = "df"
 )
 
-identical(
-  hier_convert(v1, format = "df"), 
-  hier_convert(v2, format = "df")
-)
+identical(v1, v2)
 hier_display(v1)
 ```
 
