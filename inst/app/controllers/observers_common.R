@@ -55,6 +55,6 @@ output$btn_export_dl <- shiny::downloadHandler(
   },
   content = function(con) {
     dd <- hier_import(inp = js, tot_lab = overall_level_name())
-    dd <- hier_export(dd, format = input$export_format, path = con)
+    dd <- hier_export(dd, as = input$export_format, path = con)
   }
 )

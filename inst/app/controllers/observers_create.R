@@ -66,14 +66,12 @@ shiny::observeEvent(input$create_hier, {
     tot_lev <- input$tot_level
   }
 
-  as_df <- FALSE
   res <- try(
     hier_compute(
       inp = data(),
       dim_spec = specs(),
       tot_lev = tot_lev,
-      method = input$method,
-      as_df = as_df
+      method = input$method
     )
   )
   if (!"try-error" %in% class(res)) {
@@ -81,8 +79,7 @@ shiny::observeEvent(input$create_hier, {
       inp = data(),
       dim_spec = specs(),
       tot_lev = tot_lev,
-      method = input$method,
-      as_df = FALSE
+      method = input$method
     )
 
     code <- c("library(sdcHierarchies)")
@@ -100,11 +97,11 @@ shiny::observeEvent(input$create_hier, {
       cc <- paste0(cc, shQuote(tot_lev))
     }
     cc <- paste0(cc, ", method = ", shQuote(input$method))
-    cc <- paste0(cc, ", as_df = FALSE)")
+    cc <- paste0(cc, ", as = ", shQuote("network"), ")")
     code <- c(code, cc)
 
     code_import(code)
-    json(hier_convert(nn, format = "json"))
+    json(hier_convert(nn, as = "json"))
     shinyjs::hide("txt_error_created")
     shinyjs::show("col_hierarchy")
     shinyjs::show("btn_switch")

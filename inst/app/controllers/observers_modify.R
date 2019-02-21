@@ -4,7 +4,7 @@ observe({
     js <- json()
     updateTree(session, "mytree", data = js)
     dd <- hier_import(inp = js, tot_lab = overall_level_name())
-    code_modify(hier_convert(dd, format = "code"))
+    code_modify(hier_convert(dd, as = "code"))
   }
 })
 
@@ -22,7 +22,7 @@ shiny::observeEvent(input$mytree, {
         tree = input$mytree,
         tot_lab = overall_level_name()
       ),
-      format = "json"
+      as = "json"
     )
   )
 })
@@ -73,11 +73,11 @@ shiny::observeEvent(input$btn_add, {
   dd <- hierarchy()
   dd <- hier_add(
     dd,
-    node = input$sel_addnode_ref,
-    leaves = input$name_add_node
+    root = input$sel_addnode_ref,
+    nodes = input$name_add_node
   )
   json_prev(js)
-  json(hier_convert(dd, format = "json"))
+  json(hier_convert(dd, as = "json"))
   shiny::updateTextInput(session, inputId = "name_add_node", value = "")
 })
 
@@ -88,10 +88,10 @@ shiny::observeEvent(input$btn_delete, {
     return(NULL)
   }
   dd <- hierarchy()
-  res <- hier_info(tree = dd, leaves = input$sel_delnode)$parent
+  res <- hier_info(tree = dd, nodes = input$sel_delnode)$parent
   dd <- hier_delete(dd, nodes = input$sel_delnode)
   json_prev(js)
-  json(hier_convert(dd, format = "json"))
+  json(hier_convert(dd, as = "json"))
 })
 
 ## rename a node
@@ -118,10 +118,10 @@ shiny::observeEvent(input$btn_rename, {
   names(leaves) <- input$sel_rename_node
   dd <- hier_rename(
     tree = dd,
-    leaves = leaves
+    nodes = leaves
   )
   json_prev(js)
-  json(hier_convert(dd, format = "json"))
+  json(hier_convert(dd, as = "json"))
   shiny::updateTextInput(session, inputId = "name_rename_node", value = "")
 })
 
@@ -161,13 +161,13 @@ shiny::observeEvent(input$btn_export, {
 
   dd <- hier_import(inp = js, tot_lab = overall_level_name())
   if (input$export_format == "data.frame") {
-    dd <- hier_convert(dd, format = "df")
+    dd <- hier_convert(dd, as = "df")
   }
   if (input$export_format == "argus") {
-    dd <- hier_convert(dd, format = "argus")
+    dd <- hier_convert(dd, as = "argus")
   }
   if (input$export_format == "code") {
-    dd <- hier_convert(dd, format = "code")
+    dd <- hier_convert(dd, as = "code")
   }
   shiny::stopApp(dd)
 })
