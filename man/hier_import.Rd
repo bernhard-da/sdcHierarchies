@@ -37,5 +37,15 @@ This function creates a nested sdc hierarchy from various
 input structures.
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
+h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
+h <- hier_add(h, node = "b1", leaves = "b1a")
+hier_display(h)
+
+df <- hier_convert(h, format = "df")
+print(df)
+
+h2 <- hier_import(df, from = "df")
+hier_display(h2)
 }

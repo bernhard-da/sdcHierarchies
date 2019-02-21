@@ -25,7 +25,17 @@
 #' @return a (nested) hierarchy
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
+#' h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+#' h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
+#' h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
+#' h <- hier_add(h, node = "b1", leaves = "b1a")
+#' hier_display(h)
+#'
+#' df <- hier_convert(h, format = "df")
+#' print(df)
+#'
+#' h2 <- hier_import(df, from = "df")
+#' hier_display(h2)
 hier_import <- function(inp, from="json", tot_lab=NULL) {
   .from_json <- function(json, tot_lab=NULL) {
     .lab_from_attr <- function(json, tot_lab) {

@@ -21,7 +21,13 @@ as \href{https://github.com/sdcTools/cellKey}{cellKey}
 or \href{https://github.com/sdcTools/sdcTable}{sdcTable}.
 }
 \examples{
-## for examples, see hier_vignette()
+# without leaves
+h <- hier_create(rootnode = "tot")
+hier_display(h)
+
+# with leaves
+h <- hier_create(rootnode = "tot", leaves = LETTERS[1:5])
+hier_display(h)
 }
 \seealso{
 hier_add hier_delete hier_rename hier_export

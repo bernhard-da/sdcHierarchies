@@ -21,7 +21,14 @@ This function allows to delete nodes (levels)
 from an existing nested hierarchy.
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
+h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
+h <- hier_add(h, node = "b1", leaves = "b1a")
+hier_display(h)
+
+h <- hier_delete(h, nodes = c("a1", "b1a"))
+hier_display(h)
 }
 \seealso{
 hier_add hier_delete hier_rename hier_export

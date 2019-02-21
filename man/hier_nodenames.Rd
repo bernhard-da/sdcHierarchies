@@ -23,7 +23,9 @@ nodes including all (sub)-nodes and leaves in the given
 hierarchy.
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
+h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+hier_nodenames(h)
 }
 \seealso{
 hier_add hier_delete hier_rename hier_export

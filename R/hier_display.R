@@ -6,7 +6,8 @@
 #' @return \code{NULL}; the tree is printed to the prompt
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
+#' h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+#' hier_display(h)
 hier_display <- function(x, root = NULL) {
   .is_valid(x)
   if (!.is_sorted(x)) {

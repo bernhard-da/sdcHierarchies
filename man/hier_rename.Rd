@@ -23,7 +23,12 @@ This function allows to rename one or more node(s) (levels)
 in an existing nested hierarchy.
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
+h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+hier_display(h)
+
+h <- hier_rename(h, leaves = c("a1" = "x1", "A" = "X"))
+hier_display(h)
 }
 \seealso{
 hier_add hier_delete hier_rename hier_export

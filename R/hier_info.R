@@ -22,7 +22,15 @@
 #' children of a leaf?)}
 #' }
 #' @examples
-#' ## for examples, see hier_vignette()
+#' h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
+#' h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+#' hier_display(h)
+#'
+#' # about a specific node
+#' hier_info(h, "a1")
+#'
+#' # about all nodes
+#' hier_info(h)
 hier_info <- function(tree, leaves=NULL) {
   nn <- .all_nodes(tree)
   if (is.null(leaves)) {

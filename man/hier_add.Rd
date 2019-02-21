@@ -23,7 +23,9 @@ This function allows to add nodes (levels)
 to an existing nested hierarchy.
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
+h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+hier_display(h)
 }
 \seealso{
 hier_add hier_delete hier_rename hier_export

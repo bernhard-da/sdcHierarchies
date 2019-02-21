@@ -9,7 +9,14 @@
 #' @param verbose (logical) additional results
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
+#' h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+#' h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
+#' h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
+#' h <- hier_add(h, node = "b1", leaves = "b1a")
+#' hier_display(h)
+#'
+#' # export as input for tauArgus
+#' hier_export(h, format = "argus", path = "h.hrc")
 hier_export <- function(tree, format="df", path, verbose=FALSE) {
   .check_path  <- function(path) {
     if (file.exists(path)) {

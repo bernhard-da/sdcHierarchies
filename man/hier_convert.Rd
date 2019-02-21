@@ -36,7 +36,17 @@ This functions allows to convert nested hierarchies into
 other data structures.
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
+h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
+h <- hier_add(h, node = "b1", leaves = "b1a")
+hier_display(h)
+
+# required code to build the hierarchy
+hier_convert(h, format = "code")
+
+# data.frame
+hier_convert(h, format = "df")
 }
 \seealso{
 hier_add hier_delete hier_rename hier_export

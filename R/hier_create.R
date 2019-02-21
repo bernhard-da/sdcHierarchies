@@ -12,7 +12,13 @@
 #' hier_convert hier_app hier_info
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
+#' # without leaves
+#' h <- hier_create(rootnode = "tot")
+#' hier_display(h)
+#'
+#' # with leaves
+#' h <- hier_create(rootnode = "tot", leaves = LETTERS[1:5])
+#' hier_display(h)
 hier_create <- function(rootnode = "Total", leaves = NULL) {
   tree <- .init(rootnode = rootnode)
   if (!is.null(leaves)) {

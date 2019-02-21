@@ -19,5 +19,6 @@ a node which is used as temporary root-node for printing}
 Displays the hierarchy
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+hier_display(h)
 }

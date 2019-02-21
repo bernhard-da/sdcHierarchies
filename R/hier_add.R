@@ -11,7 +11,9 @@
 #' @param leaves names of the new nodes/levels that should be added
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
+#' h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
+#' h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+#' hier_display(h)
 hier_add <- function(tree, node, leaves) {
   .is_valid(tree)
   stopifnot(is_scalar_character(node))
