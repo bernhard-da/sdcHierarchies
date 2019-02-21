@@ -97,11 +97,11 @@ shinyServer(function(input, output, session) {
   output$treeprint <- renderPrint({
     js <- json()
     if (!is.null(js)) {
-      tot_lev <- overall_level_name()
-      if (tot_lev == "") {
-        tot_lev <- "Total"
+      root <- overall_level_name()
+      if (root == "") {
+        root <- "Total"
       }
-      h <- hier_import(inp = js, tot_lab = tot_lev)
+      h <- hier_import(inp = js, root = root)
       hier_display(h)
     }
   })

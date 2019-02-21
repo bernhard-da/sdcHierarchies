@@ -21,7 +21,7 @@
 #' \item \strong{"sdc"}: an object exported using \code{\link{hier_convert}}
 #' using \code{as = "sdc"}
 #' }
-#' @param tot_lab optional name of overall total
+#' @param root optional name of overall total
 #' @return a (nested) hierarchy
 #' @export
 #' @examples
@@ -36,31 +36,31 @@
 #'
 #' h2 <- hier_import(df, from = "df")
 #' hier_display(h2)
-hier_import <- function(inp, from="json", tot_lab=NULL) {
-  .from_json <- function(json, tot_lab=NULL) {
-    .lab_from_attr <- function(json, tot_lab) {
-      if (!is.null(tot_lab)) {
-        return(tot_lab)
+hier_import <- function(inp, from="json", root=NULL) {
+  .from_json <- function(json, root=NULL) {
+    .lab_from_attr <- function(json, root) {
+      if (!is.null(root)) {
+        return(root)
       }
-      tot_lab <- attributes(json)$totlev
-      if (is.null(tot_lab) || tot_lab == "") {
-        tot_lab <- "rootnode"
+      root <- attributes(json)$totlev
+      if (is.null(root) || root == "") {
+        root <- "rootnode"
       }
-      tot_lab
+      root
     }
     tab <- fromJSON(json)
     if (length(tab) == 0) {
-      return(hier_create(root = .lab_from_attr(json, tot_lab)))
+      return(hier_create(root = .lab_from_attr(json, root)))
     }
     tab <- tab[, c(2, 1)]
     colnames(tab) <- c("from", "to")
-    if (!is.null(tot_lab)) {
-      tab$from[tab$from == "#"] <- tot_lab
+    if (!is.null(root)) {
+      tab$from[tab$from == "#"] <- root
     } else {
-      tab$from[tab$from == "#"] <- .lab_from_attr(json, tot_lab)
+      tab$from[tab$from == "#"] <- .lab_from_attr(json, root)
     }
 
-    tree <- hier_create(root = .lab_from_attr(json, tot_lab))
+    tree <- hier_create(root = .lab_from_attr(json, root))
     new <- data.table(
       root = tab$from,
       leaf = tab$to
@@ -70,7 +70,7 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     tree <- .add_class(tree)
     tree
   }
-  .from_dt <- function(dt, tot_lab=NULL) {
+  .from_dt <- function(dt, root=NULL) {
     index <- level <- NULL
     stopifnot(is.data.table(dt))
     stopifnot(ncol(dt) == 2)
@@ -108,12 +108,12 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     tree <- .add_class(tree)
     tree
   }
-  .from_argus <- function(df, tot_lab=NULL) {
+  .from_argus <- function(df, root=NULL) {
     stopifnot(is.data.frame(df))
     stopifnot(attributes(df)$hier_format == "argus")
-    return(.from_dt(data.table(df), tot_lab = tot_lab))
+    return(.from_dt(data.table(df), root = root))
   }
-  .from_code <- function(code, tot_lab=NULL) {
+  .from_code <- function(code, root=NULL) {
     tree <- NULL
     stopifnot(is.character(code))
     stopifnot(attributes(code)$hier_convert == TRUE)
@@ -124,7 +124,7 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     tree <- .add_class(tree)
     return(tree)
   }
-  .from_hrc <- function(hrc, tot_lab=NULL) {
+  .from_hrc <- function(hrc, root=NULL) {
     stopifnot(file.exists(hrc))
     dt <- data.table(inp = readLines(hrc))
     dt$inp <- paste0("@", dt$inp)
@@ -140,17 +140,17 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
 
     dt$inp <- NULL
 
-    if (is.null(tot_lab)) {
-      tot_lab <- "Total"
+    if (is.null(root)) {
+      root <- "Total"
     }
     dt <- rbind(
       data.table(
         level = "@",
-        names = tot_lab
+        names = root
       ),
       dt
     )
-    return(.from_dt(dt, tot_lab = NULL))
+    return(.from_dt(dt, root = NULL))
   }
   .from_sdc <- function(inp) {
     stopifnot(is.list(inp))
@@ -183,12 +183,12 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
 
   stopifnot(is_scalar_character(from))
   stopifnot(from %in% c("json", "df", "dt", "argus", "hrc", "code", "sdc"))
-  if (!is.null(tot_lab)) {
-    stopifnot(is_scalar_character(tot_lab))
+  if (!is.null(root)) {
+    stopifnot(is_scalar_character(root))
   }
 
   if (from == "json") {
-    return(.from_json(json = inp, tot_lab = tot_lab))
+    return(.from_json(json = inp, root = root))
   }
   if (from %in% c("df", "dt")) {
     if (from == "df") {
@@ -203,7 +203,7 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     return(.from_code(code = inp))
   }
   if (from == "hrc") {
-    return(.from_hrc(hrc = inp, tot_lab = tot_lab))
+    return(.from_hrc(hrc = inp, root = root))
   }
   if (from == "sdc") {
     return(.from_sdc(inp = inp))

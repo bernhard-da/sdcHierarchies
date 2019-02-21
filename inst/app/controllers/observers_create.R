@@ -61,16 +61,16 @@ shiny::observe({
 
 shiny::observeEvent(input$create_hier, {
   if (input$tot_is_included == "yes") {
-    tot_lev <- NULL
+    root <- NULL
   } else {
-    tot_lev <- input$tot_level
+    root <- input$tot_level
   }
 
   res <- try(
     hier_compute(
       inp = data(),
       dim_spec = specs(),
-      tot_lev = tot_lev,
+      root = root,
       method = input$method
     )
   )
@@ -78,7 +78,7 @@ shiny::observeEvent(input$create_hier, {
     nn <- hier_compute(
       inp = data(),
       dim_spec = specs(),
-      tot_lev = tot_lev,
+      root = root,
       method = input$method
     )
 
@@ -90,11 +90,11 @@ shiny::observeEvent(input$create_hier, {
 
     spec <- paste(specs(), collapse = ", ")
     cc <- paste0("d <- hier_compute(inp = inp, dim_spec = c(", spec, ")")
-    cc <- paste0(cc, ", tot_lev = ")
-    if (is.null(tot_lev)) {
+    cc <- paste0(cc, ", root = ")
+    if (is.null(root)) {
       cc <- paste0(cc, "NULL")
     } else {
-      cc <- paste0(cc, shQuote(tot_lev))
+      cc <- paste0(cc, shQuote(root))
     }
     cc <- paste0(cc, ", method = ", shQuote(input$method))
     cc <- paste0(cc, ", as = ", shQuote("network"), ")")
@@ -114,9 +114,9 @@ shiny::observeEvent(input$create_hier, {
 
 shiny::observeEvent(input$btn_switch, {
   if (input$tot_is_included == "yes") {
-    tot_lev <- NULL
+    root <- NULL
   } else {
-    tot_lev <- input$tot_level
+    root <- input$tot_level
   }
   modify_mode(TRUE)
 })

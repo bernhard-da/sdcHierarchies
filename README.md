@@ -6,7 +6,7 @@ sdcHierarchies
 
 R-Package to (interactively) generate or modify (nested) hierarchies that are required as input for packages such as [**sdcTable**](https://CRAN.R-project.org/package=sdcTable) or [**cellKey**](https://github.com/sdcTools/cellKey).
 
-The package is in its early stages and will likely change a lot in future versions. Still, any feedback/pull requests are very much welcome!
+The package is in its early stages and may change in future versions. Still, any feedback/pull requests are very much welcome!
 
 ### Installation
 

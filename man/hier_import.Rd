@@ -4,7 +4,7 @@
 \alias{hier_import}
 \title{Imports a nested data structure}
 \usage{
-hier_import(inp, from = "json", tot_lab = NULL)
+hier_import(inp, from = "json", root = NULL)
 }
 \arguments{
 \item{inp}{an import from which should be converted. This could either
@@ -27,7 +27,7 @@ using \code{as = "code"}
 using \code{as = "sdc"}
 }}
 
-\item{tot_lab}{optional name of overall total}
+\item{root}{optional name of overall total}
 }
 \value{
 a (nested) hierarchy

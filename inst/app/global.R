@@ -19,9 +19,9 @@ if (res == TRUE) {
 }
 
 # converts input$tree to a sdc_hierarchy object
-shinytree_to_tree <- function(tree, tot_lab = NULL) {
-  if (is.null(tot_lab)) {
-    tot_lab <- "Total"
+shinytree_to_tree <- function(tree, root = NULL) {
+  if (is.null(root)) {
+    root <- "Total"
   }
 
   json <- toJSON(tree)
@@ -45,7 +45,7 @@ shinytree_to_tree <- function(tree, tot_lab = NULL) {
       ul <- gsub(wrong, corr, ul)
     }
   }
-  ul <- paste0(tot_lab, "/", ul)
+  ul <- paste0(root, "/", ul)
 
 
   # create the tree

@@ -4,7 +4,7 @@
 \alias{hier_compute}
 \title{compute a nested hierarchy}
 \usage{
-hier_compute(inp, dim_spec = NULL, tot_lev = NULL, method = "len",
+hier_compute(inp, dim_spec = NULL, root = NULL, method = "len",
   as = "network")
 }
 \arguments{
@@ -21,7 +21,7 @@ these levels. In the latter-case, one needs to set argument
 \code{method} to \code{"endpos"}. This argument is ignored in case the
 hierarchy should be created from a named list.}
 
-\item{tot_lev}{\code{NULL} or a scalar characer specifying the name
+\item{root}{\code{NULL} or a scalar characer specifying the name
 of the overall total in case it is not encoded at the first
 positions of \code{dim}}
 
@@ -62,7 +62,8 @@ vector or a (named) list.
 # digits 1-2 (len=2, endpos=2) --> level 1
 # digit 3 (len=1, endpos=3) --> level 2
 # digits 4-5 (len=2, endpos=5) -> level 3
-## all strings have equal length but total is not encoded in these values
+
+# all strings have equal length but total is not encoded in these values
 geo_m <- c(
   "01051", "01053", "01054", "01055",
   "01056", "01057", "01058", "01059", "01060",
@@ -79,13 +80,13 @@ geo_m <- c(
 a <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 3, 5),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "endpos"
 )
 b <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 1, 2),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "len"
 )
 identical(
@@ -93,8 +94,9 @@ identical(
   hier_convert(b, as = "df")
 )
 
-## total is contained in the first 3 positions of the input values
-## --> we need to set tot_level to NULL (the default)
+# total is contained in the first 3 positions of the input values
+# --> we need to set name of the overall total (argument "root")
+# to NULL (the default)
 geo_m_with_tot <- paste0("Tot", geo_m)
 a <- hier_compute(
   inp = geo_m_with_tot,
@@ -108,8 +110,8 @@ b <- hier_compute(
 )
 identical(a, b)
 
-## example where inputs have unequal length
-## the overall total is not included in input vector
+# example where inputs have unequal length
+# the overall total is not included in input vector
 yae_h <- c(
   "1.1.1.", "1.1.2.",
   "1.2.1.", "1.2.2.", "1.2.3.", "1.2.4.", "1.2.5.", "1.3.1.",
@@ -120,13 +122,13 @@ yae_h <- c(
 a <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 4, 6),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "endpos"
 )
 b <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 2, 2),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "len"
 )
 identical(
@@ -134,8 +136,9 @@ identical(
   hier_convert(b, as = "df")
 )
 
-## Same example, but overall total is contained in the first 3 positions
-## of the input values --> tot_level needs to be set to NULL (the default)
+# Same example, but overall total is contained in the first 3 positions
+# of the input values --> argument "root" needs to be
+# set to NULL (the default)
 yae_h_with_tot <- paste0("Tot", yae_h)
 a <- hier_compute(
   inp = yae_h_with_tot,
@@ -149,10 +152,10 @@ b <- hier_compute(
 )
 identical(a, b)
 
-## An example using a list as input (same as above)
-## Hierarchy: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)
-## The order of the list-elements is not important but the
-## names of input-list correspond to (subtotal/level) names
+# An example using a list as input (same as above)
+# Hierarchy: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)
+# The order of the list-elements is not important but the
+# names of input-list correspond to (subtotal/level) names
 geo_ll <- list()
 geo_ll[["Total"]] <- c("01", "02", "03", "10")
 geo_ll[["010"]]   <- c(
@@ -186,7 +189,7 @@ geo_ll[["101"]]   <- "10155"
 
 d <- hier_compute(
   inp = geo_ll,
-  tot_lev = "Total",
+  root = "Total",
   method = "list"
 ); d
 
@@ -202,7 +205,7 @@ yae_ll[["1.4."]] <- paste0("1.4.", 1:6, ".")
 # return result as data.frame
 d <- hier_compute(
   inp = yae_ll,
-  tot_lev = "Total",
+  root = "Total",
   method = "list",
   as = "df"
 ); d

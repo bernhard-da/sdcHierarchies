@@ -3,7 +3,7 @@ observe({
   if (modify_mode() == TRUE) {
     js <- json()
     updateTree(session, "mytree", data = js)
-    dd <- hier_import(inp = js, tot_lab = overall_level_name())
+    dd <- hier_import(inp = js, root = overall_level_name())
     code_modify(hier_convert(dd, as = "code"))
   }
 })
@@ -20,7 +20,7 @@ shiny::observeEvent(input$mytree, {
     hier_convert(
       shinytree_to_tree(
         tree = input$mytree,
-        tot_lab = overall_level_name()
+        root = overall_level_name()
       ),
       as = "json"
     )
@@ -159,7 +159,7 @@ shiny::observeEvent(input$btn_export, {
     shiny::stopApp(NULL)
   }
 
-  dd <- hier_import(inp = js, tot_lab = overall_level_name())
+  dd <- hier_import(inp = js, root = overall_level_name())
   if (input$export_format == "data.frame") {
     dd <- hier_convert(dd, as = "df")
   }

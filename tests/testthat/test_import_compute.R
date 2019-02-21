@@ -165,7 +165,7 @@ ll[["1.4."]] <- paste0("1.4.", 1:6, ".")
 expect_error(
   d <- hier_compute(
     inp = ll,
-    tot_lev = "Total",
+    root = "Total",
     method = "list",
     as = "network"
   )
@@ -174,7 +174,7 @@ expect_error(
 names(ll)[1] <- "Total"
 d <- hier_compute(
   inp = ll,
-  tot_lev = "Total",
+  root = "Total",
   method = "list",
   as = "network"
 )
@@ -187,7 +187,7 @@ expect_error(
   hier_import(
     inp = "asdf",
     from = "hrc",
-    tot_lab = "Total"
+    root = "Total"
   )
 )
 
@@ -203,7 +203,7 @@ expect_equal(df_hrc$name[27], "FI200")
 d_hrc <- hier_import(
   inp = "hrc/hrc2.hrc",
   from = "hrc",
-  tot_lab = "TT"
+  root = "TT"
 )
 df_hrc <- hier_convert(d_hrc, as = "df")
 expect_equal(nrow(df_hrc), 30)
@@ -217,7 +217,7 @@ out_argus <- hier_convert(d, as = "argus")
 out_code <- hier_convert(d, as = "code")
 out_sdc <- hier_convert(d, as = "sdc")
 
-d_from_json1 <- hier_import(inp = out_json, from = "json", tot_lab = "Total")
+d_from_json1 <- hier_import(inp = out_json, from = "json", root = "Total")
 d_from_json2 <- hier_import(inp = out_json, from = "json")
 d_from_code <- hier_import(inp = out_code, from = "code")
 d_from_sdc <- hier_import(inp = out_sdc, from = "sdc")

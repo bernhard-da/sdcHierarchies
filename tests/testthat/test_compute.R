@@ -18,14 +18,14 @@ geo_m <- c(
 expect_error(
   hier_compute(
     inp = geo_m,
-    tot_lev = "Tot",
+    root = "Tot",
     method = "endpos")
 )
 
 dim_endpos <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 3, 5),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "endpos"
 )
 
@@ -33,7 +33,7 @@ dim_endpos <- hier_compute(
 expect_error(
   hier_compute(
     inp = geo_m,
-    tot_lev = "Tot",
+    root = "Tot",
     method = "len"
   )
 )
@@ -41,7 +41,7 @@ expect_error(
 dim_len <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 1, 2),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "len"
 )
 
@@ -61,14 +61,14 @@ yae_h <- c(
 dim_endpos <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 4, 6),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "endpos"
 )
 
 dim_len <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 2, 2),
-  tot_lev = "Tot",
+  root = "Tot",
   method = "len"
 )
 
@@ -104,24 +104,24 @@ ll <- list()
 ll[["Tot"]] <- letters[1:3]
 ll[["a"]] <- "a1"
 
-# tot_lev must be given
+# root must be given
 expect_error(
   hier_compute(inp = ll, method = "list")
 )
 
 # non-existing name for overall total
 expect_error(
-  hier_compute(inp = ll, tot_lev = "x", method = "list")
+  hier_compute(inp = ll, root = "x", method = "list")
 )
 
 expect_error(
-  hier_compute(inp = ll, tot_lev = "a1", method = "list")
+  hier_compute(inp = ll, root = "a1", method = "list")
 )
 
 ll <- append(ll, list("b1", "b2"))
 # some elements are not named
 expect_error(
-  hier_compute(inp = ll, tot_lev = "Tot", method = "list")
+  hier_compute(inp = ll, root = "Tot", method = "list")
 )
 
 ll <- ll[1:2]
@@ -129,7 +129,7 @@ ll$b <- paste0("b", 1:3)
 ll$b1 <- "b1a"
 ll$c <- "c1a"
 ll$c1a <- "c1a_1"
-d <- hier_compute(inp = ll, tot_lev = "Tot", method = "list")
+d <- hier_compute(inp = ll, root = "Tot", method = "list")
 
 expect_identical(
   hier_info(d, "c1a_1")$is_bogus,
@@ -174,7 +174,7 @@ expect_error(
   hier_compute(
     inp = inp,
     dim_spec = c(3, 1),
-    tot_lev = NULL,
+    root = NULL,
     method = "len")
 )
 
@@ -182,7 +182,7 @@ expect_error(
 expect_error(
   hier_compute(
     inp = list(),
-    tot_lev = "Tot",
+    root = "Tot",
     method = "list"
   )
 )
@@ -194,7 +194,7 @@ ll$a <- c("Tot", "x")
 expect_error(
   hier_compute(
     inp = ll,
-    tot_lev = "Tot",
+    root = "Tot",
     method = "list"
   )
 )
@@ -206,7 +206,7 @@ ll$A <- c("a1")
 expect_error(
   hier_compute(
     inp = ll,
-    tot_lev = "Tot",
+    root = "Tot",
     method = "list"
   )
 )

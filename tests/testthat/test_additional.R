@@ -56,7 +56,7 @@ ll[["a"]] <- paste0("a", 1:5)
 ll[["a5"]] <- "a5a"
 tree <- hier_compute(
   inp = ll,
-  tot_lev = "Tot",
+  root = "Tot",
   method = "list",
   as = "df"
 )
@@ -66,7 +66,7 @@ expect_identical(attr(tree, "hier_format"), "df")
 
 tree <- hier_compute(
   inp = ll,
-  tot_lev = "Tot",
+  root = "Tot",
   method = "list",
   as = "network"
 )
@@ -92,6 +92,8 @@ expect_null(erg_sdc$bogus$bogus_codes)
 expect_null(erg_sdc$bogus$bogus_parents)
 
 erg_code <- hier_convert(tree, as = "code")
+expect_is(hier_display(erg_code), "tree")
+
 expect_is(erg_code, "character")
 expect_identical(length(erg_code), 3L)
 expect_identical(length(erg_code), 3L)
@@ -103,7 +105,7 @@ expect_equivalent(erg_json, "[]")
 expect_true(attr(erg_json, "hier_convert"))
 expect_identical(attr(erg_json, "hier_format"), "json")
 
-# non-existing tot_lev attribute in json (perhaps shiny?)
+# non-existing root attribute in json (perhaps shiny?)
 attr(erg_json, "totlev") <- ""
 expect_identical(
   hier_import(erg_json, from = "json")$root,
@@ -122,7 +124,7 @@ tree2 <- .prune(tree, "x")
 expect_identical(tree, tree2)
 
 # imports
-rr <- hier_import(erg_json, tot_lab = "x")
+rr <- hier_import(erg_json, root = "x")
 expect_identical(rr$root, rr$leaf)
 expect_identical(rr$root, "x")
 
@@ -139,7 +141,7 @@ ll[["b"]] <- paste0("b", 1:5)
 names(ll) <- c("Total", "a", "a")
 # duplicated list-names found
 expect_error(
-  hier_compute(inp = ll, method = "list", tot_lev = "Total")
+  hier_compute(inp = ll, method = "list", root = "Total")
 )
 
 # non-valid dim_spec specification
@@ -148,7 +150,7 @@ expect_error(
   hier_compute(
     inp = v,
     method = "len",
-    tot_lev = NULL,
+    root = NULL,
     dim_spec = NULL
   )
 )
@@ -156,7 +158,7 @@ expect_error(
   hier_compute(
     inp = v,
     method = "endpos",
-    tot_lev = NULL,
+    root = NULL,
     dim_spec = c("1", "1")
   )
 )
@@ -167,7 +169,7 @@ expect_error(
   hier_compute(
     inp = v,
     method = "len",
-    tot_lev = NULL,
+    root = NULL,
     dim_spec = c(1, 1)
   )
 )
@@ -176,7 +178,7 @@ expect_error(
 tree <- hier_compute(
   inp = "Tot",
   method = "len",
-  tot_lev = NULL,
+  root = NULL,
   dim_spec = c(3)
 )
 expect_identical(tree$root, "Tot")

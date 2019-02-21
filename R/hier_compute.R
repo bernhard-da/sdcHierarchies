@@ -14,7 +14,7 @@
 #' these levels. In the latter-case, one needs to set argument
 #' \code{method} to \code{"endpos"}. This argument is ignored in case the
 #' hierarchy should be created from a named list.
-#' @param tot_lev \code{NULL} or a scalar characer specifying the name
+#' @param root \code{NULL} or a scalar characer specifying the name
 #' of the overall total in case it is not encoded at the first
 #' positions of \code{dim}
 #' @param method either \code{len} (the default) or \code{endpos}
@@ -47,7 +47,8 @@
 #' # digits 1-2 (len=2, endpos=2) --> level 1
 #' # digit 3 (len=1, endpos=3) --> level 2
 #' # digits 4-5 (len=2, endpos=5) -> level 3
-#' ## all strings have equal length but total is not encoded in these values
+#'
+#' # all strings have equal length but total is not encoded in these values
 #' geo_m <- c(
 #'   "01051", "01053", "01054", "01055",
 #'   "01056", "01057", "01058", "01059", "01060",
@@ -64,13 +65,13 @@
 #' a <- hier_compute(
 #'   inp = geo_m,
 #'   dim_spec = c(2, 3, 5),
-#'   tot_lev = "Tot",
+#'   root = "Tot",
 #'   method = "endpos"
 #' )
 #' b <- hier_compute(
 #'   inp = geo_m,
 #'   dim_spec = c(2, 1, 2),
-#'   tot_lev = "Tot",
+#'   root = "Tot",
 #'   method = "len"
 #' )
 #' identical(
@@ -78,8 +79,9 @@
 #'   hier_convert(b, as = "df")
 #' )
 #'
-#' ## total is contained in the first 3 positions of the input values
-#' ## --> we need to set tot_level to NULL (the default)
+#' # total is contained in the first 3 positions of the input values
+#' # --> we need to set name of the overall total (argument "root")
+#' # to NULL (the default)
 #' geo_m_with_tot <- paste0("Tot", geo_m)
 #' a <- hier_compute(
 #'   inp = geo_m_with_tot,
@@ -93,8 +95,8 @@
 #' )
 #' identical(a, b)
 #'
-#' ## example where inputs have unequal length
-#' ## the overall total is not included in input vector
+#' # example where inputs have unequal length
+#' # the overall total is not included in input vector
 #' yae_h <- c(
 #'   "1.1.1.", "1.1.2.",
 #'   "1.2.1.", "1.2.2.", "1.2.3.", "1.2.4.", "1.2.5.", "1.3.1.",
@@ -105,13 +107,13 @@
 #' a <- hier_compute(
 #'   inp = yae_h,
 #'   dim_spec = c(2, 4, 6),
-#'   tot_lev = "Tot",
+#'   root = "Tot",
 #'   method = "endpos"
 #' )
 #' b <- hier_compute(
 #'   inp = yae_h,
 #'   dim_spec = c(2, 2, 2),
-#'   tot_lev = "Tot",
+#'   root = "Tot",
 #'   method = "len"
 #' )
 #' identical(
@@ -119,8 +121,9 @@
 #'   hier_convert(b, as = "df")
 #' )
 #'
-#' ## Same example, but overall total is contained in the first 3 positions
-#' ## of the input values --> tot_level needs to be set to NULL (the default)
+#' # Same example, but overall total is contained in the first 3 positions
+#' # of the input values --> argument "root" needs to be
+#' # set to NULL (the default)
 #' yae_h_with_tot <- paste0("Tot", yae_h)
 #' a <- hier_compute(
 #'   inp = yae_h_with_tot,
@@ -134,10 +137,10 @@
 #' )
 #' identical(a, b)
 #'
-#' ## An example using a list as input (same as above)
-#' ## Hierarchy: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)
-#' ## The order of the list-elements is not important but the
-#' ## names of input-list correspond to (subtotal/level) names
+#' # An example using a list as input (same as above)
+#' # Hierarchy: digits 1-2 (nuts1), digit 3 (nut2), digits 4-5 (nuts3)
+#' # The order of the list-elements is not important but the
+#' # names of input-list correspond to (subtotal/level) names
 #' geo_ll <- list()
 #' geo_ll[["Total"]] <- c("01", "02", "03", "10")
 #' geo_ll[["010"]]   <- c(
@@ -171,7 +174,7 @@
 #'
 #' d <- hier_compute(
 #'   inp = geo_ll,
-#'   tot_lev = "Total",
+#'   root = "Total",
 #'   method = "list"
 #' ); d
 #'
@@ -187,13 +190,13 @@
 #' # return result as data.frame
 #' d <- hier_compute(
 #'   inp = yae_ll,
-#'   tot_lev = "Total",
+#'   root = "Total",
 #'   method = "list",
 #'   as = "df"
 #' ); d
 hier_compute <- function(inp,
                          dim_spec = NULL,
-                         tot_lev = NULL,
+                         root = NULL,
                          method = "len",
                          as = "network") {
 
@@ -204,8 +207,8 @@ hier_compute <- function(inp,
   stopifnot(method %in% c("len", "endpos", "list"))
 
   # compute from a nested (named) list
-  .from_list <- function(dim, tot_lev) {
-    stopifnot(is_scalar_character(tot_lev))
+  .from_list <- function(dim, root) {
+    stopifnot(is_scalar_character(root))
     nn <- names(dim)
     dim_q <- shQuote(substitute(dim))
     if (is.null(nn)) {
@@ -216,10 +219,10 @@ hier_compute <- function(inp,
       stop(e, call. = FALSE)
     }
 
-    if (!tot_lev %in% nn) {
+    if (!root %in% nn) {
       e <- c(
         "The given name for the overall total",
-        shQuote(tot_lev),
+        shQuote(root),
         "was not found in the given input list."
       )
       stop(paste(e, collapse = " "), call. = FALSE)
@@ -230,13 +233,13 @@ hier_compute <- function(inp,
     }
 
     all_codes <- as.character(unlist(dim))
-    if (tot_lev %in% all_codes) {
-      t <- shQuote(tot_lev)
+    if (root %in% all_codes) {
+      t <- shQuote(root)
       err <- paste("The overall total", t, "was found in", dim_q)
       stop(err, call. = FALSE)
     }
 
-    nodes <- setdiff(nn, tot_lev)
+    nodes <- setdiff(nn, root)
     ind <- which(!nodes %in% all_codes)
     if (length(ind) > 0) {
       nn <- paste0("- ", nodes[ind], collapse = "\n")
@@ -245,7 +248,7 @@ hier_compute <- function(inp,
     }
 
     # generate hierarchy
-    tree <- hier_create(root = tot_lev)
+    tree <- hier_create(root = root)
     dt <- lapply(1:length(dim), function(x) {
       data.table(
         root = names(dim)[x],
@@ -260,7 +263,7 @@ hier_compute <- function(inp,
 
   # compute from a vector and the positions of the levels are
   # specified by their required length
-  .from_len <- function(inp, dim_len, tot_lev) {
+  .from_len <- function(inp, dim_len, root) {
     stopifnot(is.character(inp))
     if (!is_integerish(dim_len)) {
       e <- c(
@@ -272,8 +275,8 @@ hier_compute <- function(inp,
     }
 
     stopifnot(all(dim_len > 0))
-    if (!is.null(tot_lev)) {
-      stopifnot(is_scalar_character(tot_lev))
+    if (!is.null(root)) {
+      stopifnot(is_scalar_character(root))
     }
     stopifnot(sum(dim_len) >= max(nchar(inp)))
     if (sum(any(duplicated(inp))) > 0) {
@@ -283,7 +286,7 @@ hier_compute <- function(inp,
 
     tree_depth <- length(inp)
     only_total <- FALSE
-    if (is.null(tot_lev)) {
+    if (is.null(root)) {
       if (length(dim_len) == 1) {
         only_total <- TRUE
       }
@@ -300,7 +303,7 @@ hier_compute <- function(inp,
       inp <- substr(inp, dim_len[1] + 1, nchar(inp))
       dim_len <- dim_len[-c(1)]
     } else {
-      df <- data.frame(path = rep(tot_lev, tree_depth), stringsAsFactors = FALSE)
+      df <- data.frame(path = rep(root, tree_depth), stringsAsFactors = FALSE)
       only_total <- FALSE
     }
 
@@ -346,11 +349,11 @@ hier_compute <- function(inp,
 
   # compute from a vector and the positions of the levels are
   # specified by their end positions
-  .from_endpos <- function(inp, dim_endpos, tot_lev) {
+  .from_endpos <- function(inp, dim_endpos, root) {
     .from_len(
       inp = inp,
       dim_len = .endpos_to_len(dim_endpos),
-      tot_lev = tot_lev
+      root = root
     )
   }
 
@@ -360,13 +363,13 @@ hier_compute <- function(inp,
       "is ignored when constructing a hierarchy from a nested list."
     )
     message(paste(m, collapse = " "))
-    tree <- .from_list(dim = inp, tot_lev = tot_lev)
+    tree <- .from_list(dim = inp, root = root)
   }
   if (method == "len") {
     tree <- .from_len(
       inp = inp,
       dim_len = dim_spec,
-      tot_lev = tot_lev
+      root = root
     )
   }
   if (method == "endpos") {
@@ -381,7 +384,7 @@ hier_compute <- function(inp,
     tree <- .from_endpos(
       inp = inp,
       dim_endpos = dim_spec,
-      tot_lev = tot_lev
+      root = root
     )
   }
 
