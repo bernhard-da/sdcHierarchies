@@ -29,7 +29,7 @@ Please have a look at the package vignette `sdcHierarchies::hier_vignette()` or 
 Updates/Changes are listed [**here**](https://bernhard-da.github.io/sdcHierarchies/news/index.html).
 
 ### Future development
-- [ ] Harmonize input names of exported functions (tree, root, leaf)
+- [x] Harmonize input names of exported functions (tree, root, nodes)
 - [ ] check where documentation can be re-used
 - [ ] Allow to create and import in the following format: `Tot/A/a1/x`
 - [ ] Implement a summary method containing information such as the number of nodes, the depth of the tree, some balancing measures, ...
