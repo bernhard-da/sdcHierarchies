@@ -74,8 +74,8 @@
 #'   method = "len"
 #' )
 #' identical(
-#'   hier_convert(a, format = "df"),
-#'   hier_convert(b, format = "df")
+#'   hier_convert(a, as = "df"),
+#'   hier_convert(b, as = "df")
 #' )
 #'
 #' ## total is contained in the first 3 positions of the input values
@@ -115,8 +115,8 @@
 #'   method = "len"
 #' )
 #' identical(
-#'   hier_convert(a, format = "df"),
-#'   hier_convert(b, format = "df")
+#'   hier_convert(a, as = "df"),
+#'   hier_convert(b, as = "df")
 #' )
 #'
 #' ## Same example, but overall total is contained in the first 3 positions
@@ -245,7 +245,7 @@ hier_compute <- function(inp,
     }
 
     # generate hierarchy
-    tree <- hier_create(rootnode = tot_lev)
+    tree <- hier_create(root = tot_lev)
     dt <- lapply(1:length(dim), function(x) {
       data.table(
         root = names(dim)[x],
@@ -306,12 +306,12 @@ hier_compute <- function(inp,
 
     # only total specified
     if (only_total == TRUE) {
-      nn <- hier_create(rootnode = as.character(df[1, 1]))
+      nn <- hier_create(root = as.character(df[1, 1]))
       return(nn)
     }
 
     cs <- c(0, cumsum(dim_len))
-    tree <- hier_create(rootnode = as.character(df[1, 1]))
+    tree <- hier_create(root = as.character(df[1, 1]))
 
     new <- list()
     length(new) <- length(cs) - 1
@@ -389,6 +389,6 @@ hier_compute <- function(inp,
     return(tree)
   }
 
-  out <- hier_convert(tree, format = as)
+  out <- hier_convert(tree, as = as)
   return(out)
 }

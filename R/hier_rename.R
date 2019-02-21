@@ -3,25 +3,25 @@
 #' This function allows to rename one or more node(s) (levels)
 #' in an existing nested hierarchy.
 #'
-#' @inherit hier_add
-#' @param leaves (character) new names of nodes/levels that should be changed as
+#' @inheritParams hier_add
+#' @param nodes (character) new names of nodes/levels that should be changed as
 #' a named vector: names refer to old, existing names, the values to the
 #' new labels
 #' @export
 #' @examples
-#' h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
-#' h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+#' h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
 #' hier_display(h)
 #'
-#' h <- hier_rename(h, leaves = c("a1" = "x1", "A" = "X"))
+#' h <- hier_rename(h, nodes = c("a1" = "x1", "A" = "X"))
 #' hier_display(h)
-hier_rename <- function(tree, leaves) {
+hier_rename <- function(tree, nodes) {
   .is_valid(tree)
-  stopifnot(is.character(leaves))
-  stopifnot(is_named(leaves))
+  stopifnot(is.character(nodes))
+  stopifnot(is_named(nodes))
 
-  old <- names(leaves)
-  new <- as.character(leaves)
+  old <- names(nodes)
+  new <- as.character(nodes)
 
   if (any(duplicated(new))) {
     e <- c(
@@ -43,7 +43,7 @@ hier_rename <- function(tree, leaves) {
     .exists(tree = tree, leaf = x)
   })
   if (!all(ex)) {
-    stop("Some leaves you want to rename do not exist!\n", call. = FALSE)
+    stop("Some nodes you want to rename do not exist!\n", call. = FALSE)
   }
 
   for (i in seq_along(old)) {

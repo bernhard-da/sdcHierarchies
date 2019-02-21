@@ -7,7 +7,10 @@
 hier_display(x, root = NULL)
 }
 \arguments{
-\item{x}{a hierarchy object}
+\item{x}{a hierarchy object, either directly generated and modified using
+\code{\link{hier_create}}, \code{\link{hier_add}}, \code{\link{hier_delete}}
+and/or \code{\link{hier_rename}} or objects converted using
+\code{\link{hier_convert}}}
 
 \item{root}{\code{NULL} if the entire tree should be printed or a name of
 a node which is used as temporary root-node for printing}
@@ -19,6 +22,12 @@ a node which is used as temporary root-node for printing}
 Displays the hierarchy
 }
 \examples{
-h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
+h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+
+# display the entire tree
 hier_display(h)
+
+# display only a subtree
+hier_display(h, root = "A")
 }

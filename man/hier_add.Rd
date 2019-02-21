@@ -4,30 +4,24 @@
 \alias{hier_add}
 \title{Add nodes to an existing hierarchy}
 \usage{
-hier_add(tree, node, leaves)
+hier_add(tree, root, nodes)
 }
 \arguments{
 \item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
 or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
 or \code{\link{hier_rename}}.}
 
-\item{node}{(character) an existing node in the input \code{h}}
+\item{root}{(character) a name of an existing node in the hierarchy}
 
-\item{leaves}{names of the new nodes/levels that should be added}
-}
-\value{
-a (nested) sdc hierarchy tree
+\item{nodes}{(character) names of new nodes that should be added below
+\code{"root"}}
 }
 \description{
 This function allows to add nodes (levels)
 to an existing nested hierarchy.
 }
 \examples{
-h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
-h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
 hier_display(h)
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
 }

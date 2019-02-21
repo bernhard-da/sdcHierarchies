@@ -14,25 +14,25 @@
 #' \item \strong{"dt"}: a \code{data.table} in \code{@;level}-format will
 #' be converted
 #' \item \strong{"argus"}: an object exported using \code{\link{hier_convert}}
-#' using \code{format = "argus"}
+#' using \code{as = "argus"}
 #' \item \strong{"code"}: an object exported using \code{\link{hier_convert}}
-#' using \code{format = "code"}
+#' using \code{as = "code"}
 #' \item \strong{"hrc"}: text-files in tau-argus hrc-format
 #' \item \strong{"sdc"}: an object exported using \code{\link{hier_convert}}
-#' using \code{format = "sdc"}
+#' using \code{as = "sdc"}
 #' }
 #' @param tot_lab optional name of overall total
 #' @return a (nested) hierarchy
 #' @export
 #' @examples
-#' h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
-#' h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
-#' h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
-#' h <- hier_add(h, node = "b1", leaves = "b1a")
+#' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+#' h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+#' h <- hier_add(h, root = "b1", nodes = "b1a")
 #' hier_display(h)
 #'
-#' df <- hier_convert(h, format = "df")
-#' print(df)
+#' df <- hier_convert(h, as = "df")
+#' hier_display(df)
 #'
 #' h2 <- hier_import(df, from = "df")
 #' hier_display(h2)
@@ -50,7 +50,7 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     }
     tab <- fromJSON(json)
     if (length(tab) == 0) {
-      return(hier_create(rootnode = .lab_from_attr(json, tot_lab)))
+      return(hier_create(root = .lab_from_attr(json, tot_lab)))
     }
     tab <- tab[, c(2, 1)]
     colnames(tab) <- c("from", "to")
@@ -60,7 +60,7 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
       tab$from[tab$from == "#"] <- .lab_from_attr(json, tot_lab)
     }
 
-    tree <- hier_create(rootnode = .lab_from_attr(json, tot_lab))
+    tree <- hier_create(root = .lab_from_attr(json, tot_lab))
     new <- data.table(
       root = tab$from,
       leaf = tab$to
@@ -81,7 +81,7 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     stopifnot(sum(dt$levels[1] == "@") == 1)
     dt$labs <- as.character(dt$labs)
 
-    tree <- hier_create(rootnode = dt$labs[1])
+    tree <- hier_create(root = dt$labs[1])
     if (nrow(dt) == 1) {
       tree <- .add_class(tree)
       return(tree)

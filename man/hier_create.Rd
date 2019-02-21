@@ -2,14 +2,14 @@
 % Please edit documentation in R/hier_create.R
 \name{hier_create}
 \alias{hier_create}
-\title{creates a nested hierarchy object}
+\title{Create a hierarchy}
 \usage{
-hier_create(rootnode = "Total", leaves = NULL)
+hier_create(root = "Total", nodes = NULL)
 }
 \arguments{
-\item{rootnode}{(character) name of the overall total}
+\item{root}{(character) name of the overall total}
 
-\item{leaves}{(character) name of leaves (nodes) in the hierarchy}
+\item{nodes}{(character) name of leaves (nodes) in the hierarchy}
 }
 \value{
 a (nested) sdc hierarchy tree
@@ -21,12 +21,12 @@ as \href{https://github.com/sdcTools/cellKey}{cellKey}
 or \href{https://github.com/sdcTools/sdcTable}{sdcTable}.
 }
 \examples{
-# without leaves
-h <- hier_create(rootnode = "tot")
+# without nodes
+h <- hier_create(root = "tot")
 hier_display(h)
 
-# with leaves
-h <- hier_create(rootnode = "tot", leaves = LETTERS[1:5])
+# with nodes
+h <- hier_create(root = "tot", nodes = LETTERS[1:5])
 hier_display(h)
 }
 \seealso{

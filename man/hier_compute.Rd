@@ -89,8 +89,8 @@ b <- hier_compute(
   method = "len"
 )
 identical(
-  hier_convert(a, format = "df"),
-  hier_convert(b, format = "df")
+  hier_convert(a, as = "df"),
+  hier_convert(b, as = "df")
 )
 
 ## total is contained in the first 3 positions of the input values
@@ -130,8 +130,8 @@ b <- hier_compute(
   method = "len"
 )
 identical(
-  hier_convert(a, format = "df"),
-  hier_convert(b, format = "df")
+  hier_convert(a, as = "df"),
+  hier_convert(b, as = "df")
 )
 
 ## Same example, but overall total is contained in the first 3 positions

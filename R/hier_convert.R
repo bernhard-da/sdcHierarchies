@@ -4,7 +4,7 @@
 #' other data structures.
 #'
 #' @inherit hier_add
-#' @param format (character) specifying the export format. Possible choices are:
+#' @param as (character) specifying the export format. Possible choices are:
 #' \itemize{
 #' \item \strong{"df"}: a \code{data.frame} with two columns. The first
 #' columns contains a string containing as many \code{@} as the level of the
@@ -22,18 +22,18 @@
 #' }
 #' @export
 #' @examples
-#' h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
-#' h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
-#' h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
-#' h <- hier_add(h, node = "b1", leaves = "b1a")
+#' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+#' h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+#' h <- hier_add(h, root = "b1", nodes = "b1a")
 #' hier_display(h)
 #'
 #' # required code to build the hierarchy
-#' hier_convert(h, format = "code")
+#' hier_convert(h, as = "code")
 #'
 #' # data.frame
-#' hier_convert(h, format = "df")
-hier_convert <- function(tree, format="df") {
+#' hier_convert(h, as = "df")
+hier_convert <- function(tree, as="df") {
   # returns a quoted vector of input codes
   .qvec <- function(codes) {
     q <- shQuote(codes)
@@ -133,11 +133,11 @@ hier_convert <- function(tree, format="df") {
 
     root <- .rootnode(tree)
     t <- shQuote(root)
-    code_tot <- paste0("tree <- hier_create(rootnode = ", t)
+    code_tot <- paste0("tree <- hier_create(root = ", t)
 
     childs <- .children(tree, root)
     if (length(childs) > 0) {
-      code_tot <- paste0(code_tot, ", leaves = ", .qvec(childs), ")")
+      code_tot <- paste0(code_tot, ", nodes = ", .qvec(childs), ")")
       all_names <- setdiff(all_names, c(root, childs))
     } else {
       code_tot <- paste0(code_tot, ")")
@@ -146,7 +146,7 @@ hier_convert <- function(tree, format="df") {
     code <- c(code, code_tot)
 
     if (length(all_names) > 0) {
-      info <- hier_info(tree = tree, leaves = all_names)
+      info <- hier_info(tree = tree, nodes = all_names)
       while (length(all_names) > 0) {
         lev <- all_names[1]
         cur_info <- info[[lev]]
@@ -156,8 +156,8 @@ hier_convert <- function(tree, format="df") {
         s1 <- .qvec(cur_info$parent)
         s2 <- .qvec(nn)
         s3 <- paste0(
-          "tree <- hier_add(tree = tree, node = ",
-          s1, ", leaves = ", s2, ")"
+          "tree <- hier_add(tree = tree, root = ",
+          s1, ", nodes = ", s2, ")"
         )
         code <- c(code, s3)
       }
@@ -168,7 +168,7 @@ hier_convert <- function(tree, format="df") {
 
   # node to argus
   .to_argus <- function(tree) {
-    dforig <- df <- hier_convert(tree, format = "df")
+    dforig <- df <- hier_convert(tree, as = "df")
     df <- df[-1, ]
     df$level <- substr(df$level, 3, nchar(df$level))
     sout <-  df$name
@@ -186,7 +186,7 @@ hier_convert <- function(tree, format="df") {
 
   # to list-format suitable for sdcTable(2)
   .to_sdc <- function(tree) {
-    all_info <- hier_info(tree, leaves = NULL)
+    all_info <- hier_info(tree, nodes = NULL)
 
     ## compute and remove bogus-codes
     bogus_codes <- .bogus_codes(tree)
@@ -210,7 +210,7 @@ hier_convert <- function(tree, format="df") {
         tree <- tree[ind]
       }
       # compute information about nodes again after dups have been removed
-      all_info <- hier_info(tree, leaves = NULL)
+      all_info <- hier_info(tree, nodes = NULL)
     } else {
       bogus <- list(
         bogus_codes = NULL,
@@ -260,33 +260,33 @@ hier_convert <- function(tree, format="df") {
     out
   }
 
-  stopifnot(is_scalar_character(format))
-  stopifnot(format %in% c("df", "dt", "json", "argus", "code", "sdc"))
+  stopifnot(is_scalar_character(as))
+  stopifnot(as %in% c("df", "dt", "json", "argus", "code", "sdc"))
   .is_valid(tree)
 
   if (!.is_sorted(tree)) {
     tree <- .sort(tree)
   }
 
-  if (format %in% c("df", "dt")) {
+  if (as %in% c("df", "dt")) {
     res <- .to_df(
       tree = tree,
-      dt = ifelse(format == "dt", TRUE, FALSE)
+      dt = ifelse(as == "dt", TRUE, FALSE)
     )
   }
-  if (format == "json") {
+  if (as == "json") {
     res <- .to_json(tree)
   }
-  if (format == "code") {
+  if (as == "code") {
     res <- .to_code(tree)
   }
-  if (format == "argus") {
+  if (as == "argus") {
     res <- .to_argus(tree)
   }
-  if (format == "sdc") {
+  if (as == "sdc") {
     res <- .to_sdc(tree)
   }
   attr(res, "hier_convert") <- TRUE
-  attr(res, "hier_format") <- format
+  attr(res, "hier_format") <- as
   return(res)
 }

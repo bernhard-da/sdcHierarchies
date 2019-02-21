@@ -13,24 +13,17 @@ or \code{\link{hier_rename}}.}
 
 \item{nodes}{character vector of nodes that should be deleted}
 }
-\value{
-a (nested) sdc hierarchy tree
-}
 \description{
 This function allows to delete nodes (levels)
 from an existing nested hierarchy.
 }
 \examples{
-h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
-h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
-h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
-h <- hier_add(h, node = "b1", leaves = "b1a")
+h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = "b1a")
 hier_display(h)
 
 h <- hier_delete(h, nodes = c("a1", "b1a"))
 hier_display(h)
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
 }

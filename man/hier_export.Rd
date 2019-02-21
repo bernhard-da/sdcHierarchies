@@ -4,14 +4,14 @@
 \alias{hier_export}
 \title{Export a hierarchy into a file}
 \usage{
-hier_export(tree, format = "df", path, verbose = FALSE)
+hier_export(tree, as = "df", path, verbose = FALSE)
 }
 \arguments{
 \item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
 or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
 or \code{\link{hier_rename}}.}
 
-\item{format}{(character) specifying the export format. Possible choices are:
+\item{as}{(character) specifying the export format. Possible choices are:
 \itemize{
 \item \strong{"df"}: a \code{data.frame} with two columns. The first
 columns contains a string containing as many \code{@} as the level of the
@@ -33,24 +33,17 @@ be written to}
 
 \item{verbose}{(logical) additional results}
 }
-\value{
-a (nested) sdc hierarchy tree
-}
 \description{
 This function allows to write nested hierarchies into files
 on your disk.
 }
 \examples{
-h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
-h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
-h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
-h <- hier_add(h, node = "b1", leaves = "b1a")
+h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = "b1a")
 hier_display(h)
 
 # export as input for tauArgus
-hier_export(h, format = "argus", path = "h.hrc")
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
+hier_export(h, as = "argus", path = "h.hrc")
 }

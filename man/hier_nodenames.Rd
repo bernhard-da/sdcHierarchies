@@ -4,18 +4,15 @@
 \alias{hier_nodenames}
 \title{Extract name of nodes (levels)}
 \usage{
-hier_nodenames(tree, node_lab = NULL)
+hier_nodenames(tree, root = NULL)
 }
 \arguments{
 \item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
 or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
 or \code{\link{hier_rename}}.}
 
-\item{node_lab}{(character) name of start node from which all lower
+\item{root}{(character) name of start node from which all lower
 level-names should be returned}
-}
-\value{
-a (nested) sdc hierarchy tree
 }
 \description{
 This function allows to extract the all the names of the
@@ -23,11 +20,7 @@ nodes including all (sub)-nodes and leaves in the given
 hierarchy.
 }
 \examples{
-h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
-h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
 hier_nodenames(h)
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
 }

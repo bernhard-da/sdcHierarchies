@@ -7,10 +7,10 @@
 #' @param nodes character vector of nodes that should be deleted
 #' @export
 #' @examples
-#' h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
-#' h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
-#' h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
-#' h <- hier_add(h, node = "b1", leaves = "b1a")
+#' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+#' h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+#' h <- hier_add(h, root = "b1", nodes = "b1a")
 #' hier_display(h)
 #'
 #' h <- hier_delete(h, nodes = c("a1", "b1a"))

@@ -4,18 +4,19 @@
 \alias{hier_info}
 \title{hier_info}
 \usage{
-hier_info(tree, leaves = NULL)
+hier_info(tree, nodes = NULL)
 }
 \arguments{
 \item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
 or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
 or \code{\link{hier_rename}}.}
 
-\item{leaves}{names of the new nodes/levels that should be added}
+\item{nodes}{(character) names of new nodes that should be added below
+\code{"root"}}
 }
 \value{
 a \code{list} with information about the required nodes.
-If \code{node_labs} is \code{NULL} (the default), the information is
+If \code{nodes} is \code{NULL} (the default), the information is
 computed for all available nodes of the hierarchy. The following
 properties are computed:
 \itemize{
@@ -37,17 +38,13 @@ children of a leaf?)}
 get information about all or specific nodes in a nested hierarchy
 }
 \examples{
-h <- hier_create(rootnode = "Total",  leaves = LETTERS[1:3])
-h <- hier_add(h, node = "A", leaves = c("a1", "a5"))
+h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
 hier_display(h)
 
 # about a specific node
-hier_info(h, "a1")
+hier_info(h, nodes = "a1")
 
 # about all nodes
 hier_info(h)
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
 }

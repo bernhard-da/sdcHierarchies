@@ -4,14 +4,14 @@
 \alias{hier_convert}
 \title{Converts hierarchies into different formats}
 \usage{
-hier_convert(tree, format = "df")
+hier_convert(tree, as = "df")
 }
 \arguments{
 \item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
 or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
 or \code{\link{hier_rename}}.}
 
-\item{format}{(character) specifying the export format. Possible choices are:
+\item{as}{(character) specifying the export format. Possible choices are:
 \itemize{
 \item \strong{"df"}: a \code{data.frame} with two columns. The first
 columns contains a string containing as many \code{@} as the level of the
@@ -28,27 +28,20 @@ the shinyTree package.
 for \code{sdcTable}
 }}
 }
-\value{
-a (nested) sdc hierarchy tree
-}
 \description{
 This functions allows to convert nested hierarchies into
 other data structures.
 }
 \examples{
-h <- hier_create(rootnode = "Total", leaves = LETTERS[1:2])
-h <- hier_add(h, node = "A", leaves = c("a1", "a2"))
-h <- hier_add(h, node = "B", leaves = c("b1", "b2"))
-h <- hier_add(h, node = "b1", leaves = "b1a")
+h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = "b1a")
 hier_display(h)
 
 # required code to build the hierarchy
-hier_convert(h, format = "code")
+hier_convert(h, as = "code")
 
 # data.frame
-hier_convert(h, format = "df")
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
+hier_convert(h, as = "df")
 }
