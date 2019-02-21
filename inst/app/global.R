@@ -11,7 +11,7 @@ res <- try(.is_valid(dim), silent = TRUE)
 
 # start_with_hier: did we start with an existing hierarchy
 if (res == TRUE) {
-  js <- hier_convert(dim, format = "json")
+  js <- hier_convert(dim, as = "json")
   start_with_hier <- TRUE
 } else {
   js <- NULL
@@ -44,15 +44,16 @@ shinytree_to_tree <- function(tree, tot_lab = NULL) {
       wrong <- sub("[.]", "/", corr)
       ul <- gsub(wrong, corr, ul)
     }
-    ul <- paste0(tot_lab, "/", ul)
   }
+  ul <- paste0(tot_lab, "/", ul)
+
 
   # create the tree
   ll <- strsplit(ul, "/")
   dt <- lapply(ll, function(x) data.table(t(x)))
   dt <- rbindlist(dt, fill = TRUE)
 
-  tree <- hier_create(rootnode = dt$V1[1])
+  tree <- hier_create(root = dt$V1[1])
 
   if (ncol(dt) == 1) {
     return(tree)
