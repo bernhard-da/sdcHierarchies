@@ -4,27 +4,26 @@
 \alias{hier_rename}
 \title{Rename nodes in an existing hierarchy}
 \usage{
-hier_rename(h, node_labs, node_labs_new)
+hier_rename(tree, nodes)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
-using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
+or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+or \code{\link{hier_rename}}.}
 
-\item{node_labs}{names of the new nodes/levels that should be added}
-
-\item{node_labs_new}{(character) new names of nodes/levels that should be changed}
-}
-\value{
-a (nested) sdc hierarchy tree
+\item{nodes}{(character) new names of nodes/levels that should be changed as
+a named vector: names refer to old, existing names, the values to the
+new labels}
 }
 \description{
 This function allows to rename one or more node(s) (levels)
 in an existing nested hierarchy.
 }
 \examples{
-## for examples, see hier_vignette()
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
+h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
+hier_display(h)
+
+h <- hier_rename(h, nodes = c("a1" = "x1", "A" = "X"))
+hier_display(h)
 }

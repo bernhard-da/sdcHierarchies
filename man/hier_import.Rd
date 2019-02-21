@@ -16,13 +16,15 @@ Possible choices are:
 \item \strong{"json"}: json-encoded string should be converted
 \item \strong{"df"}: a \code{data.frame} in \code{@;level}-format will
 be converted
+\item \strong{"dt"}: a \code{data.table} in \code{@;level}-format will
+be converted
 \item \strong{"argus"}: an object exported using \code{\link{hier_convert}}
-using \code{format = "argus"}
+using \code{as = "argus"}
 \item \strong{"code"}: an object exported using \code{\link{hier_convert}}
-using \code{format = "code"}
+using \code{as = "code"}
 \item \strong{"hrc"}: text-files in tau-argus hrc-format
 \item \strong{"sdc"}: an object exported using \code{\link{hier_convert}}
-using \code{format = "sdc"}
+using \code{as = "sdc"}
 }}
 
 \item{tot_lab}{optional name of overall total}
@@ -35,5 +37,15 @@ This function creates a nested sdc hierarchy from various
 input structures.
 }
 \examples{
-## for examples, see hier_vignette()
+h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = "b1a")
+hier_display(h)
+
+df <- hier_convert(h, as = "df")
+hier_display(df)
+
+h2 <- hier_import(df, from = "df")
+hier_display(h2)
 }

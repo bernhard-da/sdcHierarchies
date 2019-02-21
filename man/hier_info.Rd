@@ -4,18 +4,21 @@
 \alias{hier_info}
 \title{hier_info}
 \usage{
-hier_info(h, node_labs = NULL)
+hier_info(tree, nodes = NULL)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
-using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
+or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+or \code{\link{hier_rename}}.}
 
-\item{node_labs}{(character) name(s) of nodes for which information should be extracted.}
+\item{nodes}{(character) names of new nodes that should be added below
+\code{"root"}}
 }
 \value{
-a \code{list} with information about the required nodes. If \code{node_labs} is
-\code{NULL} (the default), the information is computed for all available nodes of
-the hierarchy. The following properties are computed:
+a \code{list} with information about the required nodes.
+If \code{nodes} is \code{NULL} (the default), the information is
+computed for all available nodes of the hierarchy. The following
+properties are computed:
 \itemize{
 \item{exists: }{(logical) does the node exist}
 \item{name: }{(character) node name}
@@ -23,18 +26,25 @@ the hierarchy. The following properties are computed:
 \item{level: }{(numeric) what is the level of the nod}
 \item{is_leaf: }{(logical) is the node a leaf?}
 \item{siblings: }{(character) what are siblings of this node?}
-\item{contributing_codes: }{(character) which codes are contributing to this node? If none (it is a leaf), \code{NA} is returned}
-\item{children: }{(character) the names of the children of the node. If it has none (it is a leaf), \code{NA} is returned}
-\item{is_bogus: }{(logical) is it a bogus code (i. e the only children of a leaf?)}
+\item{contributing_codes: }{(character) which codes are contributing
+to this node? If none (it is a leaf), \code{NA} is returned}
+\item{children: }{(character) the names of the children of the node.
+If it has none (it is a leaf), \code{NA} is returned}
+\item{is_bogus: }{(logical) is it a bogus code (i. e the only
+children of a leaf?)}
 }
 }
 \description{
 get information about all or specific nodes in a nested hierarchy
 }
 \examples{
-## for examples, see hier_vignette()
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
+h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
+hier_display(h)
+
+# about a specific node
+hier_info(h, nodes = "a1")
+
+# about all nodes
+hier_info(h)
 }

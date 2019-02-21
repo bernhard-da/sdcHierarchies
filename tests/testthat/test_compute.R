@@ -26,25 +26,28 @@ dim_endpos <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 3, 5),
   tot_lev = "Tot",
-  method = "endpos")
+  method = "endpos"
+)
 
 # no dim_spec given
 expect_error(
   hier_compute(
     inp = geo_m,
     tot_lev = "Tot",
-    method = "len")
+    method = "len"
+  )
 )
 
 dim_len <- hier_compute(
   inp = geo_m,
   dim_spec = c(2, 1, 2),
   tot_lev = "Tot",
-  method = "len")
+  method = "len"
+)
 
 expect_identical(
-  hier_convert(dim_endpos, format = "df"),
-  hier_convert(dim_len, format = "df")
+  hier_convert(dim_endpos, as = "df"),
+  hier_convert(dim_len, as = "df")
 )
 
 # Total not contained
@@ -59,37 +62,39 @@ dim_endpos <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 4, 6),
   tot_lev = "Tot",
-  method = "endpos")
+  method = "endpos"
+)
 
 dim_len <- hier_compute(
   inp = yae_h,
   dim_spec = c(2, 2, 2),
   tot_lev = "Tot",
-  method = "len")
+  method = "len"
+)
 
 expect_identical(
-  hier_convert(dim_endpos, format = "df"),
-  hier_convert(dim_len, format = "df")
+  hier_convert(dim_endpos, as = "df"),
+  hier_convert(dim_len, as = "df")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "json"),
-  hier_convert(dim_len, format = "json")
+  hier_convert(dim_endpos, as = "json"),
+  hier_convert(dim_len, as = "json")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "dt"),
-  hier_convert(dim_len, format = "dt")
+  hier_convert(dim_endpos, as = "dt"),
+  hier_convert(dim_len, as = "dt")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "argus"),
-  hier_convert(dim_len, format = "argus")
+  hier_convert(dim_endpos, as = "argus"),
+  hier_convert(dim_len, as = "argus")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "code"),
-  hier_convert(dim_len, format = "code")
+  hier_convert(dim_endpos, as = "code"),
+  hier_convert(dim_len, as = "code")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "sdc"),
-  hier_convert(dim_len, format = "sdc")
+  hier_convert(dim_endpos, as = "sdc"),
+  hier_convert(dim_len, as = "sdc")
 )
 
 
@@ -137,28 +142,30 @@ expect_identical(
 )
 expect_identical(
   hier_info(d, "c1a_1")$contributing_codes,
-  NA
-)
-expect_identical(
-  hier_info(d, "b")$contributing_codes,
-  c("b2", "b3", "b1a")
+  "c1a_1"
 )
 
-df <- hier_convert(d, format = "df")
+# b1a is a bugus-code (the only one contributing to b1)
+expect_identical(
+  hier_info(d, "b")$contributing_codes,
+  c("b1", "b2", "b3")
+)
+
+df <- hier_convert(d, as = "df")
 expect_is(df, "data.frame")
 expect_equal(nrow(df), 11)
 
 context("Testing edge-cases")
 expect_error(
-  sdcHierarchies::h_min_contributing_codes(h = d, node_name = "x")
+  .contributing_codes(h = d, node_name = "x")
 )
 
 # not valid hierarchies
 expect_error(
-  sdcHierarchies::h_is_valid(h = NULL)
+  .is_valid(tree = NULL)
 )
 expect_error(
-  sdcHierarchies::h_is_valid(h = data.frame())
+  .is_valid(tree = data.frame())
 )
 
 # different values for encoded overall total

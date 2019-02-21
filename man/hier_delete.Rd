@@ -4,25 +4,26 @@
 \alias{hier_delete}
 \title{Delete nodes from an existing hierarchy}
 \usage{
-hier_delete(h, node_labs)
+hier_delete(tree, nodes)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
-using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
+or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+or \code{\link{hier_rename}}.}
 
-\item{node_labs}{names of the new nodes/levels that should be added}
-}
-\value{
-a (nested) sdc hierarchy tree
+\item{nodes}{character vector of nodes that should be deleted}
 }
 \description{
 This function allows to delete nodes (levels)
 from an existing nested hierarchy.
 }
 \examples{
-## for examples, see hier_vignette()
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
+h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = "b1a")
+hier_display(h)
+
+h <- hier_delete(h, nodes = c("a1", "b1a"))
+hier_display(h)
 }

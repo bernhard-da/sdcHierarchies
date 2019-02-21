@@ -3,41 +3,45 @@
 #' This function allows to add nodes (levels)
 #' to an existing nested hierarchy.
 #'
-#' @inherit hier_create
-#' @param h a (nested) hierarchy created using \code{\link{hier_create}} or modified
-#' using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.
-#' @param refnode (character) an existing node in the input \code{h}
-#' @param node_labs names of the new nodes/levels that should be added
+#' @param tree a (nested) hierarchy created using \code{\link{hier_create}}
+#' or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+#' or \code{\link{hier_rename}}.
+#' @param root (character) a name of an existing node in the hierarchy
+#' @param nodes (character) names of new nodes that should be added below
+#' \code{"root"}
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
-hier_add <- function(h, refnode, node_labs) {
-  h_is_valid(h)
+#' h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
+#' hier_display(h)
+hier_add <- function(tree, root, nodes) {
+  .is_valid(tree)
+  stopifnot(is_scalar_character(root))
 
-  stopifnot(is_scalar_character(refnode))
-  stopifnot(is.character(node_labs))
+  # rootnode needs to exist in the tree
+  ex_nodes <- .all_nodes(tree)
 
-  if (is.null(FindNode(h, refnode))) {
-    stop("The reference node does not exist!\n", call. = FALSE)
+  if (!root %in% ex_nodes) {
+    stop("The root node does not exist!")
   }
-  if (refnode %in% node_labs) {
-    err <- paste("at least one leaf-name equals", shQuote(refnode))
-    stop(err, call. = FALSE)
-  }
+  stopifnot(is.character(nodes))
 
-  res <- sapply(node_labs, function(x) {
-    hier_info(h, node_labs = x)$exists
-  })
-
-  nn <- node_labs
-  for (i in 1:length(nn)) {
-    if (res[i] == TRUE) {
-      n <- shQuote(nn[i])
-      w <- paste("Node", n, "already exists and won't be added --> skipping")
-      warning(w, call. = FALSE)
-    } else {
-      data.tree::FindNode(h, refnode)$AddChild(node_labs[i])
+  ii <- which(nodes %in% ex_nodes)
+  if (sum(ii) > 0) {
+    warning("Some of the provided nodes already exist and are not added.")
+    nodes <- nodes[!ii]
+    if (length(nodes) == 0) {
+      return(tree)
     }
   }
-  return(invisible(h))
+  tree <- .add_nodes(
+    tree = tree,
+    new = data.table(
+      root = root,
+      leaf = nodes
+    )
+  )
+  tree <- .add_class(tree)
+  .is_valid(tree)
+  tree
 }

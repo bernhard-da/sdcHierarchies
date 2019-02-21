@@ -11,22 +11,34 @@
 #' \item \strong{"json"}: json-encoded string should be converted
 #' \item \strong{"df"}: a \code{data.frame} in \code{@;level}-format will
 #' be converted
+#' \item \strong{"dt"}: a \code{data.table} in \code{@;level}-format will
+#' be converted
 #' \item \strong{"argus"}: an object exported using \code{\link{hier_convert}}
-#' using \code{format = "argus"}
+#' using \code{as = "argus"}
 #' \item \strong{"code"}: an object exported using \code{\link{hier_convert}}
-#' using \code{format = "code"}
+#' using \code{as = "code"}
 #' \item \strong{"hrc"}: text-files in tau-argus hrc-format
 #' \item \strong{"sdc"}: an object exported using \code{\link{hier_convert}}
-#' using \code{format = "sdc"}
+#' using \code{as = "sdc"}
 #' }
 #' @param tot_lab optional name of overall total
 #' @return a (nested) hierarchy
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
+#' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+#' h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+#' h <- hier_add(h, root = "b1", nodes = "b1a")
+#' hier_display(h)
+#'
+#' df <- hier_convert(h, as = "df")
+#' hier_display(df)
+#'
+#' h2 <- hier_import(df, from = "df")
+#' hier_display(h2)
 hier_import <- function(inp, from="json", tot_lab=NULL) {
-  h_from_json <- function(json, tot_lab=NULL) {
-    totlab_from_attr <- function(json, tot_lab) {
+  .from_json <- function(json, tot_lab=NULL) {
+    .lab_from_attr <- function(json, tot_lab) {
       if (!is.null(tot_lab)) {
         return(tot_lab)
       }
@@ -38,143 +50,162 @@ hier_import <- function(inp, from="json", tot_lab=NULL) {
     }
     tab <- fromJSON(json)
     if (length(tab) == 0) {
-      return(hier_create(tot_lab = totlab_from_attr(json, tot_lab)))
+      return(hier_create(root = .lab_from_attr(json, tot_lab)))
     }
     tab <- tab[, c(2, 1)]
     colnames(tab) <- c("from", "to")
     if (!is.null(tot_lab)) {
       tab$from[tab$from == "#"] <- tot_lab
     } else {
-      tab$from[tab$from == "#"] <- totlab_from_attr(json, tot_lab)
+      tab$from[tab$from == "#"] <- .lab_from_attr(json, tot_lab)
     }
-    tt <- FromDataFrameNetwork(tab)
-    class(tt) <- c(class(tt), "sdc_hierarchy")
-    tt
-  }
-  h_from_df <- function(df, tot_lab=NULL) {
-    stopifnot(is.data.frame(df))
-    stopifnot(ncol(df) == 2)
-    colnames(df) <- c("levels", "labs")
-    rr <- unique(unlist(strsplit(df$levels, "")))
-    stopifnot(length(rr) == 1, rr == "@")
-    stopifnot(df$levels[1] == "@")
-    stopifnot(sum(df$levels[1] == "@") == 1)
-    df$labs <- as.character(df$labs)
 
-    dd <- hier_create(tot_lab = df$labs[1])
-    if (nrow(df) == 1) {
-      return(dd)
-    }
-    df$hier <- nchar(df$levels)
-    df$index <- 1:nrow(df)
-    for (i in 2:nrow(df)) {
-      cur_hier <- df[i, "hier"]
-      prev_hier <- df[(i - 1), "hier"]
-      if (cur_hier == prev_hier) {
-        # sibling
-        nn <- FindNode(dd, df$labs[i - 1])
-        nn$AddSibling(df$labs[i])
-      } else {
-        if (cur_hier > prev_hier) {
-          nn <- FindNode(dd, df$labs[i - 1])
-          nn$AddChild(df$labs[i])
-        } else {
-          ii <- max(which(df$hier[1:i] == (cur_hier - 1)))
-          nn <- FindNode(dd, df$labs[ii])
-          nn$AddChild(df$labs[i])
-        }
-      }
-    }
-    return(dd)
+    tree <- hier_create(root = .lab_from_attr(json, tot_lab))
+    new <- data.table(
+      root = tab$from,
+      leaf = tab$to
+    )
+    tree <- .add_nodes(tree = tree, new = new)
+    tree <- .sort(tree)
+    tree <- .add_class(tree)
+    tree
   }
-  h_from_argus <- function(df, tot_lab=NULL) {
+  .from_dt <- function(dt, tot_lab=NULL) {
+    index <- level <- NULL
+    stopifnot(is.data.table(dt))
+    stopifnot(ncol(dt) == 2)
+    setnames(dt, c("levels", "labs"))
+    rr <- unique(unlist(strsplit(dt$levels, "")))
+    stopifnot(length(rr) == 1, rr == "@")
+    stopifnot(dt$levels[1] == "@")
+    stopifnot(sum(dt$levels[1] == "@") == 1)
+    dt$labs <- as.character(dt$labs)
+
+    tree <- hier_create(root = dt$labs[1])
+    if (nrow(dt) == 1) {
+      tree <- .add_class(tree)
+      return(tree)
+    }
+    dt$level <- nchar(dt$levels)
+    dt$index <- 1:nrow(dt)
+
+    dt$todo <- TRUE
+    dt$todo[1] <- FALSE
+
+    while (sum(dt$todo) > 0) {
+      row <- which(dt$todo)[1]
+      code <- dt$labs[row]
+      tmp <- dt[1:(row - 1)]
+      index_parent <- tmp[level == dt$level[row] - 1, max(index)]
+      parent <- dt$labs[index_parent]
+      tree <- .add_nodes(
+        tree = tree,
+        new = data.table(root = parent, leaf = code)
+      )
+      dt$todo[row] <- FALSE
+    }
+    tree <- .sort(tree)
+    tree <- .add_class(tree)
+    tree
+  }
+  .from_argus <- function(df, tot_lab=NULL) {
     stopifnot(is.data.frame(df))
     stopifnot(attributes(df)$hier_format == "argus")
-    return(h_from_df(df, tot_lab = tot_lab))
+    return(.from_dt(data.table(df), tot_lab = tot_lab))
   }
-  h_from_code <- function(code, tot_lab=NULL) {
+  .from_code <- function(code, tot_lab=NULL) {
+    tree <- NULL
     stopifnot(is.character(code))
     stopifnot(attributes(code)$hier_convert == TRUE)
     stopifnot(attributes(code)$hier_format == "code")
     code <- paste(code[-c(1, length(code))], collapse = ";")
-    return(eval(parse(text = code)))
+    eval(parse(text = code))
+    tree <- .sort(tree)
+    tree <- .add_class(tree)
+    return(tree)
   }
-  h_from_hrc <- function(hrc, tot_lab=NULL) {
+  .from_hrc <- function(hrc, tot_lab=NULL) {
     stopifnot(file.exists(hrc))
-    df <- data.frame(inp = readLines(hrc), stringsAsFactors = FALSE)
-    df$inp <- paste0("@", df$inp)
+    dt <- data.table(inp = readLines(hrc))
+    dt$inp <- paste0("@", dt$inp)
 
     # compute levels and names
-    rr <- strsplit(df$inp, "@")
-    df$level <- sapply(rr, function(x) {
+    rr <- strsplit(dt$inp, "@")
+    dt$level <- sapply(rr, function(x) {
       paste(rep("@", times = length(x)), collapse = "")
     })
-    df$names <- sapply(rr, function(x) {
+    dt$names <- sapply(rr, function(x) {
       trimws(x = tail(x, 1), which = "both")
     })
 
-    df$inp <- NULL
+    dt$inp <- NULL
 
     if (is.null(tot_lab)) {
       tot_lab <- "Total"
     }
-    df <- rbind(
-      data.frame(
+    dt <- rbind(
+      data.table(
         level = "@",
-        names = tot_lab,
-        stringsAsFactors = FALSE),
-      df
+        names = tot_lab
+      ),
+      dt
     )
-    return(h_from_df(df))
+    return(.from_dt(dt, tot_lab = NULL))
   }
-  h_from_sdc <- function(inp) {
+  .from_sdc <- function(inp) {
     stopifnot(is.list(inp))
     stopifnot(attributes(inp)$hier_format == "sdc")
 
-    df <- data.frame(
+    dt <- data.table(
       levels = inp$codes$level,
-      labs = inp$codes$orig,
-      stringsAsFactors = FALSE)
-    df$levels <- sapply(1:nrow(df), function(x) {
-      paste(rep("@", df$levels[x]), collapse = "")
+      labs = inp$codes$orig
+    )
+    dt$levels <- sapply(1:nrow(dt), function(x) {
+      paste(rep("@", dt$levels[x]), collapse = "")
     })
 
-    h <- h_from_df(df)
+    tree <- .from_dt(dt)
 
     bogus <- inp$bogus
     if (!is.null(bogus$bogus_codes)) {
-      for (i in 1:length(bogus$bogus_codes)) {
-        hier_add(h,
-          refnode = bogus$bogus_parents[i],
-          node_labs = bogus$bogus_codes[i])
-      }
+      tree <- .add_nodes(
+        tree = tree,
+        new = data.table(
+          root = bogus$bogus_parents,
+          leaf = bogus$bogus_codes
+        )
+      )
     }
-    return(h)
+    tree <- .sort(tree)
+    tree <- .add_class(tree)
+    return(tree)
   }
 
   stopifnot(is_scalar_character(from))
-  stopifnot(from %in% c("json", "df", "argus", "hrc", "code", "sdc"))
+  stopifnot(from %in% c("json", "df", "dt", "argus", "hrc", "code", "sdc"))
   if (!is.null(tot_lab)) {
     stopifnot(is_scalar_character(tot_lab))
   }
 
   if (from == "json") {
-    return(h_from_json(json = inp, tot_lab = tot_lab))
+    return(.from_json(json = inp, tot_lab = tot_lab))
   }
-  if (from == "df") {
-    return(h_from_df(df = inp))
+  if (from %in% c("df", "dt")) {
+    if (from == "df") {
+      inp <- as.data.table(inp)
+    }
+    return(.from_dt(dt = inp))
   }
   if (from == "argus") {
-    return(h_from_argus(df = inp))
+    return(.from_argus(df = inp))
   }
   if (from == "code") {
-    return(h_from_code(code = inp))
+    return(.from_code(code = inp))
   }
   if (from == "hrc") {
-    return(h_from_hrc(hrc = inp, tot_lab = tot_lab))
+    return(.from_hrc(hrc = inp, tot_lab = tot_lab))
   }
   if (from == "sdc") {
-    return(h_from_sdc(inp = inp))
+    return(.from_sdc(inp = inp))
   }
-  stop("uncaught error in hier_import()", call. = FALSE)
 }

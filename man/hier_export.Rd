@@ -4,23 +4,28 @@
 \alias{hier_export}
 \title{Export a hierarchy into a file}
 \usage{
-hier_export(h, format = "df", path, verbose = FALSE)
+hier_export(tree, as = "df", path, verbose = FALSE)
 }
 \arguments{
-\item{h}{a (nested) hierarchy created using \code{\link{hier_create}} or modified
-using \code{\link{hier_add}}, \code{\link{hier_delete}} or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
+or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
+or \code{\link{hier_rename}}.}
 
-\item{format}{(character) specifying the export format. Possible choices are:
+\item{as}{(character) specifying the export format. Possible choices are:
 \itemize{
-\item \strong{"df"}: a \code{data.frame} with two columns. The first columns contains a string
-containing as many \code{@} as the level of the node in the string (e.g \code{@} corresponds to the overall
-total while \code{@} would be all codes contributing to the total. The second column contains the names
-of the levels.
-\item \strong{"dt"}: like the \code{df}-version but this result is converted to a \code{data.table}
+\item \strong{"df"}: a \code{data.frame} with two columns. The first
+columns contains a string containing as many \code{@} as the level of the
+node in the string (e.g \code{@} corresponds to the overall
+total while \code{@} would be all codes contributing to the total.
+The second column contains the names of the levels.
+\item \strong{"dt"}: like the \code{df}-version but this result is
+converted to a \code{data.table}
 \item \strong{"argus"}: used to create hrc-files suitable for tau-argus
-\item \strong{"json"}: json format suitable e.g. as input for the shinyTree package.
+\item \strong{"json"}: json format suitable e.g. as input for
+the shinyTree package.
 \item \strong{"code"}: code required to generate the hierarchy
-\item \strong{"sdc"}: a \code{list} which is a suitable input for \code{sdcTable}
+\item \strong{"sdc"}: a \code{list} which is a suitable input
+for \code{sdcTable}
 }}
 
 \item{path}{(character) relative or absolute path where results should
@@ -28,17 +33,17 @@ be written to}
 
 \item{verbose}{(logical) additional results}
 }
-\value{
-a (nested) sdc hierarchy tree
-}
 \description{
 This function allows to write nested hierarchies into files
 on your disk.
 }
 \examples{
-## for examples, see hier_vignette()
-}
-\seealso{
-hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info
+h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = "b1a")
+hier_display(h)
+
+# export as input for tauArgus
+hier_export(h, as = "argus", path = "h.hrc")
 }

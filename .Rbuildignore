@@ -8,3 +8,4 @@
 debug
 README.Rmd
 pkgdown
+^\.covrignore$

@@ -1,5 +1,12 @@
-# sdcHierarchies 0.15
+# sdcHierarchies 0.16
+- do not relay on `data.tree`
+- examples for all exported function
+- new function `hier_display()`
+- harmonize function arguments
 - first CRAN version
+
+# sdcHierarchies 0.15
+- preps for CRAN
 
 # sdcHierarchies 0.14
 - rename functions/methods to `hier_xxx()`

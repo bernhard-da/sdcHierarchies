@@ -13,8 +13,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 library(rmarkdown)
+library(sdcHierarchies)
 ```
 
 # Introduction
@@ -25,18 +26,18 @@ The `sdcHierarchies` packages allows to create, modify and export nested hierarc
 
 Before using, the package needs to be loaded:
 
-```{r}
+```{r, eval = FALSE}
 library(sdcHierarchies)
 ```
 
 
 ## Create and modify a hierarchy from scratch
 
-`hier_create()` allows to create a hierarchy. Argument `tot_lab` specifies the name of the root node. Optionally, it is possible to add some nodes to the top-level by listing their names in argument `node_labs`.
+`hier_create()` allows to create a hierarchy. Argument `tot_lab` specifies the name of the root node. Optionally, it is possible to add some nodes to the top-level by listing their names in argument `node_labs`. Also, `hier_display()` shows the hierarchical structure of the current tree as shown below:
 
 ```{r}
-h <- hier_create(tot_lab = "Total", node_labs = LETTERS[1:5])
-print(h)
+h <- hier_create(root = "Total", nodes = LETTERS[1:5])
+hier_display(h)
 ```
 
 Once such an object is created, it can be modified by the following functions:
@@ -48,28 +49,28 @@ Once such an object is created, it can be modified by the following functions:
 These functions can be applied as shown below:
 
 ```{r}
-# adding nodes below the node specified in argument 'refnode'
-hier_add(h, refnode = "A", node_labs = c("a1", "a2"))
-hier_add(h, refnode = "B", node_labs = c("b1", "b2"))
-hier_add(h, refnode = "b1", node_labs = c("b1_a", "b1_b"))
+## adding nodes below the node specified in argument `node`
+h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+h <- hier_add(h, root = "b1", nodes = c("b1_a", "b1_b"))
 
 # deleting one or more nodes from the hierarchy
-hier_delete(h, node_labs = c("a1", "b2"))
-hier_delete(h, node_labs = c("a2"))
+h <- hier_delete(h, nodes = c("a1", "b2"))
+h <- hier_delete(h, nodes = c("a2"))
 
 # rename nodes
-hier_rename(h, node_labs = c("C", "D"), node_labs_new = c("X", "Y"))
-print(h)
+h <- hier_rename(h, nodes = c("C" = "X", "D" = "Y"))
+hier_display(h)
 ```
 
 We note that the underlying [**data.tree**](https://cran.r-project.org/package=data.tree) package allows to modify the objects on reference so no explicit assignment of the form is required.
 
 
 ## Information about nodes
-Function `hier_info()` returns information about the nodes that are specified in argument `node_labs`. 
+Function `hier_info()` returns information about the nodes that are specified in argument `leaves`. 
 ```{r}
 # about a specific node
-info <- hier_info(h, node_labs = c("b1", "E"))
+info <- hier_info(h, nodes = c("b1", "E"))
 ```
 
 `info` is a named list where each list element refers to a queried node. The results for level `b1` could be extracted as shown below:
@@ -78,11 +79,10 @@ info <- hier_info(h, node_labs = c("b1", "E"))
 info$b1
 ```
 
-
-Information about all nodes can be extracted by not specifying argument `node_labs`.
+Information about all nodes can be extracted by not specifying argument `leaves`.
 
 ## Convert to other formats
-Function `hier_convert()` takes a sdc hierarchy and allows to convert the tree-based structure to different formats while `hier_export()` does the conversion and writes the results to a file on the disk. The following formats are currently supported:
+Function `hier_convert()` takes a hierarchy and allows to convert the network based structure to different formats while `hier_export()` does the conversion and writes the results to a file on the disk. The following formats are currently supported:
 
 - `df`: a "@;label"-based format that can be used in [**sdcTable**](https://cran.r-project.org/package=sdcTable)
 - `dt`: the same as `df`, but the result is returned as a \code{data.table}
@@ -93,34 +93,34 @@ Function `hier_convert()` takes a sdc hierarchy and allows to convert the tree-b
 
 ```{r, eval=TRUE}
 # conversion to a "@;label"-based format
-res_df <- hier_convert(h, format = "df")
+res_df <- hier_convert(h, as = "df")
 print(res_df)
 ```
 
 The required code to create this hierarchy could be computed using:
 ```{r}
-res_code <- hier_convert(h, format = "code"); cat(res_code, sep = "\n")
+code <- hier_convert(h, as = "code"); cat(code, sep = "\n")
 ```
 
 Using `hier_export()` one can write the results to a file. This is for example useful if one wants to create `hrc`-files that could be used as input for [$\tau$-argus](https://github.com/sdcTools/tauargus/) which can be achieved as follows:
 
 ```{r, eval=FALSE}
-hier_export(h, format = "argus", path = "hierarchy.hrc")
+hier_export(h, as = "argus", path = "hierarchy.hrc")
 ```
 
 ## Create a hierarchy from data.frames, code or json
 
-`hier_import()` returns a sdc hierarchy given either a data.frame (in `@;labs`-format), json format, code or from a tau-argus compatible `hrc-file`. For example if we want to create a hierarchy based of `res_df` which was previously created using `hier_convert()`, the code is as simple as:
+`hier_import()` returns a network-based hierarchy given either a data.frame (in `@;labs`-format), json format, code or from a tau-argus compatible `hrc-file`. For example if we want to create a hierarchy based of `res_df` which was previously created using `hier_convert()`, the code is as simple as:
 
 ```{r, eval=TRUE}
 n_df <- hier_import(inp = res_df, from = "df")
-print(n_df)
+hier_display(n_df)
 ```
 
 Using `hier_import(inp = "hierarchy.hrc", from = "argus")` one could create a sdc hierarchy object directly from a `hrc`-file.
 
 ## Create/Compute hierarchies from a string
-Often it is the case, the the nested hierarchy information in encoded in a string. Function `hier_compute()` allows to transform such strings into sdc hierarchy objects. One can distinguish two cases: The first case is where all input codes have the same length while in the latter case the length of the codes differs. Let's assume we have a geographic code given in `geo_m` where digits 1-2 refer to the first level, digit 3 to the second and digits 4-5 to the third level of the hierarchy.
+Often it is the case, the the nested hierarchy information in encoded in a string. Function `hier_compute()` allows to transform such strings into hierarchy objects. One can distinguish two cases: The first case is where all input codes have the same length while in the latter case the length of the codes differs. Let's assume we have a geographic code given in `geo_m` where digits 1-2 refer to the first level, digit 3 to the second and digits 4-5 to the third level of the hierarchy.
 
 ```{r}
 geo_m <- c(
@@ -137,26 +137,27 @@ Function `hier_compute()` takes a character vector and creates a hierarchy from 
 - `endpos`: an integerish-vector must be specified in argument `dim_spec` holding the end-position at each level
 - `len`: an integerish-vector must be specified in argument `dim_spec` containing for each level how many digits are required
 
-In case the overal total is not encoded in the input, specifying argument `tot_lev` allows to give a name to the overall total. The two methods on how to define the positions of the levels are interchangable and lead to the same hierarchy as shown below:
+In case the overal total is not encoded in the input, specifying argument `tot_lev` allows to give a name to the overall total. Additionally, it is possible to set the desired output format in parameter `as`. In the example below setting `as = "df"` returns the result as a `data.frame` in `@; key`-format. The two methods on how to define the positions of the levels are interchangable and lead to the same hierarchy as shown below:
 
 ```{r}
 v1 <- hier_compute(
   inp = geo_m, 
   dim_spec = c(2, 3, 5), 
   tot_lev = "Tot", 
-  method = "endpos")
+  method = "endpos", 
+  as = "df"
+)
 
 v2 <- hier_compute(
   inp = geo_m, 
   dim_spec = c(2, 1, 2), 
   tot_lev = "Tot", 
-  method = "len")
-
-identical(
-  hier_convert(v1, format = "df"), 
-  hier_convert(v2, format = "df")
+  method = "len",
+  as = "df"
 )
-print(v1)
+
+identical(v1, v2)
+hier_display(v1)
 ```
 
 If the total is contained in the string, let's say in the first 3 positions of the input values, the hierarchy can be computed as follows:
@@ -169,7 +170,7 @@ v3 <- hier_compute(
   inp = geo_m_with_tot, 
   dim_spec = c(3, 2, 1, 2), 
   method = "len"
-); v3
+); hier_display(v3)
 ```
 
 The result is the same as `v1` and `v2` previously generated.
@@ -189,10 +190,10 @@ v1 <- hier_compute(
   dim_spec = c(2,2,2), 
   tot_lev = "Tot", 
   method = "len"
-); v1
+); hier_display(v1)
 ```
 
-We also note that there is another way to specify the inputs in `hier_compute()`. Setting argument `method = "list"` allows to create a hierarchy from a given named list. In such a list, the name of a list element is interpreted as parent to all codes or labels listed for this element. A simple example is shown below:
+We also note that there is another way to specify the inputs in `hier_compute()`. Setting argument `method = "list"` allows to create a hierarchy from a given named list. In such a list, the name of a list element is interpreted as the name of the parent node of all codes of the specific list element. An example is shown below:
 
 ```{r}
 yae_ll <- list()
@@ -202,11 +203,12 @@ yae_ll[["1.1."]] <- paste0("1.1.", 1:2, ".")
 yae_ll[["1.2."]] <- paste0("1.2.", 1:5, ".")
 yae_ll[["1.3."]] <- paste0("1.3.", 1:5, ".")
 yae_ll[["1.4."]] <- paste0("1.4.", 1:6, ".")
-d <- hier_compute(inp = yae_ll, tot_lev = "Total", method = "list"); d
+d <- hier_compute(inp = yae_ll, tot_lev = "Total", method = "list") 
+hier_display(d)
 ```
 
 ## Interactively create or modify hierarchies
-The package also contains a shiny-app that can be started using `sdcHier()`. The app allows to pass as input either a character vector (that should be converted into a hierarchy) or an existing hierarchy and can be started as follows given the hierarchy previously generated using `hier_compute_fromList()`:
+The package also contains a shiny-based interactive app that can be started using `hier_app()`. The app allows to pass as input either a character vector (that should be converted into a hierarchy) or an existing hierarchy and can be started as follows given the hierarchy previously generated using `hier_compute()`:
 
 ```{r, eval=FALSE}
 d <- sdcHier(d)

@@ -9,9 +9,16 @@
 #' @param verbose (logical) additional results
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
-hier_export <- function(h, format="df", path, verbose=FALSE) {
-  check_file  <- function(path) {
+#' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
+#' h <- hier_add(h, root = "B", nodes = c("b1", "b2"))
+#' h <- hier_add(h, root = "b1", nodes = "b1a")
+#' hier_display(h)
+#'
+#' # export as input for tauArgus
+#' hier_export(h, as = "argus", path = "h.hrc")
+hier_export <- function(tree, as="df", path, verbose=FALSE) {
+  .check_path  <- function(path) {
     if (file.exists(path)) {
       stop(paste("File", shQuote(path), "already exists!"), call. = FALSE)
     }
@@ -26,22 +33,22 @@ hier_export <- function(h, format="df", path, verbose=FALSE) {
   }
 
   stopifnot(is_scalar_character(path))
-  check_file(path)
-  res <- hier_convert(h, format = format, verbose = verbose)
+  .check_path(path)
+  res <- hier_convert(tree, as = as)
 
   if (verbose) {
     cat(paste("Output is written to", shQuote(path), "\n"))
   }
-  if (format %in% c("df", "dt")) {
-    write.table(df, file = path, sep = ";", row.names = FALSE)
+  if (as %in% c("df", "dt")) {
+    write.table(res, file = path, sep = ";", row.names = FALSE)
   }
-  if (format == "json") {
+  if (as == "json") {
     cat(res, sep = "\n", file = path)
   }
-  if (format == "code") {
+  if (as == "code") {
     cat(res, sep = "\n", file = path)
   }
-  if (format == "argus") {
+  if (as == "argus") {
     df <- data.frame(
       inp = attributes(res)$sout,
       stringsAsFactors = FALSE
@@ -56,7 +63,7 @@ hier_export <- function(h, format="df", path, verbose=FALSE) {
       eol = "\r\n"
     )
   }
-  if (format == "sdc") {
+  if (as == "sdc") {
     saveRDS(res, file = path)
   }
   return(invisible(res))

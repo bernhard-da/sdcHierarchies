@@ -4,22 +4,37 @@
 #' nodes including all (sub)-nodes and leaves in the given
 #' hierarchy.
 #' @inherit hier_add
-#' @param node_lab (character) name of start node from which all lower level-names should be returned
+#' @param root (character) name of start node from which all lower
+#' level-names should be returned
 #' @export
 #' @examples
-#' ## for examples, see hier_vignette()
-hier_nodenames <- function(h, node_lab=NULL) {
-  h_is_valid(h)
+#' h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+#' h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
+#' hier_nodenames(h)
+hier_nodenames <- function(tree, root=NULL) {
+  .is_valid(tree)
 
-  if (is.null(node_lab)) {
-    return(as.character(h$Get("name")))
+
+  if (is.null(root)) {
+    return(.all_nodes(tree))
   }
 
-  stopifnot(is_scalar_character(node_lab))
-  if (!h_node_exists(h, node_lab)) {
-    ll <- shQuote(node_lab)
-    stop(paste(ll, "is not a node in the given hierachy"), call. = FALSE)
+  stopifnot(is_scalar_character(root))
+  if (!.exists(tree, root)) {
+    e <- paste(
+      "The given root", shQuote(root),
+      "is not a node in the hierarchy!"
+    )
+    stop(paste(e, collapse = " "), call. = FALSE)
   }
-  nn <- FindNode(h, node_lab)
-  return(as.character(nn$Get("name")))
+
+  todo <- root
+  res <- c()
+  while (length(todo) > 0) {
+    cc <- todo[1]
+    todo <- setdiff(c(todo, .children(tree, cc)), NA)
+    res <- c(res, todo[1])
+    todo <- todo[-1]
+  }
+  res
 }

@@ -27,7 +27,7 @@ observe({
 # write code to file
 output$btn_dl_code <- shiny::downloadHandler(
   filename = function() {
-    paste0("code_generate_hier_", format(Sys.Date(), "%d%m%Y"), ".R")
+    paste0("rcode_hier_", format(Sys.Date(), "%d%m%Y"), ".R")
   },
   content = function(con) {
     cat(code_complete(), sep = "\n", file = con)
@@ -45,8 +45,8 @@ output$btn_export_dl <- shiny::downloadHandler(
       ext <- ".R"
     } else if (ff == "json") {
       ext <- ".json"
-    } else {
-      ext <- ".txt"
+    } else if (ff == "sdc") {
+      ext <- ".rds"
     }
     paste0(
       "hier_", input$export_format, "_",
@@ -54,7 +54,7 @@ output$btn_export_dl <- shiny::downloadHandler(
     )
   },
   content = function(con) {
-    dd <- hier_import(inp = js, tot_lab = overall_level_name())
-    dd <- hier_export(dd, format = input$export_format, path = con)
+    dd <- hier_import(inp = json(), tot_lab = overall_level_name())
+    dd <- hier_export(dd, as = input$export_format, path = con)
   }
 )

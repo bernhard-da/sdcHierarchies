@@ -101,7 +101,8 @@ shinyServer(function(input, output, session) {
       if (tot_lev == "") {
         tot_lev <- "Total"
       }
-      hier_import(inp = js, tot_lab = tot_lev)
+      h <- hier_import(inp = js, tot_lab = tot_lev)
+      hier_display(h)
     }
   })
 

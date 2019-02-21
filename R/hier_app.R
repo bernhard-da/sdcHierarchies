@@ -39,7 +39,7 @@ hier_app <- function(x=hier_create(), ...) {
   shinyOptions(.startdir = getwd())
   shinyOptions(.appDir = app_dir)
 
-  res <- try(h_is_valid(x), silent = TRUE)
+  res <- try(.is_valid(x), silent = TRUE)
   if ("error" %in% class(res) && !is.character(x)) {
     e <- c(
       "Argument", shQuote("x"),
