@@ -198,7 +198,7 @@ hier_compute <- function(inp,
                          as = "network") {
 
   stopifnot(is_scalar_character(as))
-  stopifnot(as %in% c("network", "df", "code", "argus", "sdc", "json"))
+  stopifnot(as %in% c("network", "df", "dt", "code", "argus", "sdc", "json"))
 
   stopifnot(is_scalar_character(method))
   stopifnot(method %in% c("len", "endpos", "list"))
