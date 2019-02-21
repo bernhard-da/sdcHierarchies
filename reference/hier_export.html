@@ -64,7 +64,7 @@ on your disk." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16</span>
       </span>
     </div>
 
@@ -127,28 +127,33 @@ on your disk.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>hier_export</span>(<span class='no'>h</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"df"</span>, <span class='no'>path</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>hier_export</span>(<span class='no'>tree</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"df"</span>, <span class='no'>path</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>h</th>
-      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create</a></code> or modified
-using <code><a href='hier_add.html'>hier_add</a></code>, <code><a href='hier_delete.html'>hier_delete</a></code> or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
+      <th>tree</th>
+      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create</a></code>
+or modified using <code><a href='hier_add.html'>hier_add</a></code>, <code><a href='hier_delete.html'>hier_delete</a></code>
+or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
     </tr>
     <tr>
-      <th>format</th>
+      <th>as</th>
       <td><p>(character) specifying the export format. Possible choices are:</p><ul>
-<li><p><strong>"df"</strong>: a <code>data.frame</code> with two columns. The first columns contains a string
-containing as many <code>@</code> as the level of the node in the string (e.g <code>@</code> corresponds to the overall
-total while <code>@</code> would be all codes contributing to the total. The second column contains the names
-of the levels.</p></li>
-<li><p><strong>"dt"</strong>: like the <code>df</code>-version but this result is converted to a <code>data.table</code></p></li>
+<li><p><strong>"df"</strong>: a <code>data.frame</code> with two columns. The first
+columns contains a string containing as many <code>@</code> as the level of the
+node in the string (e.g <code>@</code> corresponds to the overall
+total while <code>@</code> would be all codes contributing to the total.
+The second column contains the names of the levels.</p></li>
+<li><p><strong>"dt"</strong>: like the <code>df</code>-version but this result is
+converted to a <code>data.table</code></p></li>
 <li><p><strong>"argus"</strong>: used to create hrc-files suitable for tau-argus</p></li>
-<li><p><strong>"json"</strong>: json format suitable e.g. as input for the shinyTree package.</p></li>
+<li><p><strong>"json"</strong>: json format suitable e.g. as input for
+the shinyTree package.</p></li>
 <li><p><strong>"code"</strong>: code required to generate the hierarchy</p></li>
-<li><p><strong>"sdc"</strong>: a <code>list</code> which is a suitable input for <code>sdcTable</code></p></li>
+<li><p><strong>"sdc"</strong>: a <code>list</code> which is a suitable input
+for <code>sdcTable</code></p></li>
 </ul></td>
     </tr>
     <tr>
@@ -162,29 +167,28 @@ be written to</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a (nested) sdc hierarchy tree</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>## for examples, see hier_vignette()
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>])
+<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"A"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a2"</span>))
+<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"b1"</span>, <span class='st'>"b2"</span>))
+<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"b1"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='st'>"b1a"</span>)
+<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; Total
+#&gt; ├─A
+#&gt; │ ├─a1
+#&gt; │ └─a2
+#&gt; └─B
+#&gt;   ├─b1
+#&gt;   │ └─b1a
+#&gt;   └─b2</div><div class='input'>
+<span class='co'># export as input for tauArgus</span>
+<span class='fu'>hier_export</span>(<span class='no'>h</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"argus"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"h.hrc"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 

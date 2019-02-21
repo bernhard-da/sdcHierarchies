@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.16</span>
       </span>
     </div>
 
@@ -125,48 +125,258 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>hier_info</span>(<span class='no'>h</span>, <span class='kw'>node_labs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>hier_info</span>(<span class='no'>tree</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>h</th>
-      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create</a></code> or modified
-using <code><a href='hier_add.html'>hier_add</a></code>, <code><a href='hier_delete.html'>hier_delete</a></code> or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
+      <th>tree</th>
+      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create</a></code>
+or modified using <code><a href='hier_add.html'>hier_add</a></code>, <code><a href='hier_delete.html'>hier_delete</a></code>
+or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
     </tr>
     <tr>
-      <th>node_labs</th>
-      <td><p>(character) name(s) of nodes for which information should be extracted.</p></td>
+      <th>nodes</th>
+      <td><p>(character) names of new nodes that should be added below
+<code>"root"</code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a <code>list</code> with information about the required nodes. If <code>node_labs</code> is
-<code>NULL</code> (the default), the information is computed for all available nodes of
-the hierarchy. The following properties are computed:</p><ul>
+    <p>a <code>list</code> with information about the required nodes.
+If <code>nodes</code> is <code>NULL</code> (the default), the information is
+computed for all available nodes of the hierarchy. The following
+properties are computed:</p><ul>
 <li><p>exists: (logical) does the node exist</p></li>
 <li><p>name: (character) node name</p></li>
 <li><p>is_rootnode: (logical) is the node the overall root of the tree?</p></li>
 <li><p>level: (numeric) what is the level of the nod</p></li>
 <li><p>is_leaf: (logical) is the node a leaf?</p></li>
 <li><p>siblings: (character) what are siblings of this node?</p></li>
-<li><p>contributing_codes: (character) which codes are contributing to this node? If none (it is a leaf), <code>NA</code> is returned</p></li>
-<li><p>children: (character) the names of the children of the node. If it has none (it is a leaf), <code>NA</code> is returned</p></li>
-<li><p>is_bogus: (logical) is it a bogus code (i. e the only children of a leaf?)</p></li>
+<li><p>contributing_codes: (character) which codes are contributing
+to this node? If none (it is a leaf), <code>NA</code> is returned</p></li>
+<li><p>children: (character) the names of the children of the node.
+If it has none (it is a leaf), <code>NA</code> is returned</p></li>
+<li><p>is_bogus: (logical) is it a bogus code (i. e the only
+children of a leaf?)</p></li>
 </ul>
 
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>hier_add hier_delete hier_rename hier_export
-hier_convert hier_app hier_info</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>## for examples, see hier_vignette()
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,  <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
+<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"A"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a5"</span>))
+<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; Total
+#&gt; ├─A
+#&gt; │ ├─a1
+#&gt; │ └─a5
+#&gt; ├─B
+#&gt; └─C</div><div class='input'>
+<span class='co'># about a specific node</span>
+<span class='fu'>hier_info</span>(<span class='no'>h</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='st'>"a1"</span>)</div><div class='output co'>#&gt; $name
+#&gt; [1] "a1"
+#&gt; 
+#&gt; $is_rootnode
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $level
+#&gt; [1] 3
+#&gt; 
+#&gt; $is_leaf
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $siblings
+#&gt; [1] "a5"
+#&gt; 
+#&gt; $contributing_codes
+#&gt; [1] "a1"
+#&gt; 
+#&gt; $children
+#&gt; character(0)
+#&gt; 
+#&gt; $parent
+#&gt; [1] "A"
+#&gt; 
+#&gt; $is_bogus
+#&gt; [1] FALSE
+#&gt; </div><div class='input'>
+<span class='co'># about all nodes</span>
+<span class='fu'>hier_info</span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; $Total
+#&gt; $Total$name
+#&gt; [1] "Total"
+#&gt; 
+#&gt; $Total$is_rootnode
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $Total$level
+#&gt; [1] 1
+#&gt; 
+#&gt; $Total$is_leaf
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $Total$siblings
+#&gt; [1] "A" "B" "C"
+#&gt; 
+#&gt; $Total$contributing_codes
+#&gt; [1] "a1" "a5" "B"  "C" 
+#&gt; 
+#&gt; $Total$children
+#&gt; [1] "A" "B" "C"
+#&gt; 
+#&gt; $Total$parent
+#&gt; [1] NA
+#&gt; 
+#&gt; $Total$is_bogus
+#&gt; [1] FALSE
+#&gt; 
+#&gt; 
+#&gt; $A
+#&gt; $A$name
+#&gt; [1] "A"
+#&gt; 
+#&gt; $A$is_rootnode
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $A$level
+#&gt; [1] 2
+#&gt; 
+#&gt; $A$is_leaf
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $A$siblings
+#&gt; [1] "Total" "B"     "C"    
+#&gt; 
+#&gt; $A$contributing_codes
+#&gt; [1] "a1" "a5"
+#&gt; 
+#&gt; $A$children
+#&gt; [1] "a1" "a5"
+#&gt; 
+#&gt; $A$parent
+#&gt; [1] "Total"
+#&gt; 
+#&gt; $A$is_bogus
+#&gt; [1] FALSE
+#&gt; 
+#&gt; 
+#&gt; $B
+#&gt; $B$name
+#&gt; [1] "B"
+#&gt; 
+#&gt; $B$is_rootnode
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $B$level
+#&gt; [1] 2
+#&gt; 
+#&gt; $B$is_leaf
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $B$siblings
+#&gt; [1] "Total" "A"     "C"    
+#&gt; 
+#&gt; $B$contributing_codes
+#&gt; [1] "B"
+#&gt; 
+#&gt; $B$children
+#&gt; character(0)
+#&gt; 
+#&gt; $B$parent
+#&gt; [1] "Total"
+#&gt; 
+#&gt; $B$is_bogus
+#&gt; [1] FALSE
+#&gt; 
+#&gt; 
+#&gt; $C
+#&gt; $C$name
+#&gt; [1] "C"
+#&gt; 
+#&gt; $C$is_rootnode
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $C$level
+#&gt; [1] 2
+#&gt; 
+#&gt; $C$is_leaf
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $C$siblings
+#&gt; [1] "Total" "A"     "B"    
+#&gt; 
+#&gt; $C$contributing_codes
+#&gt; [1] "C"
+#&gt; 
+#&gt; $C$children
+#&gt; character(0)
+#&gt; 
+#&gt; $C$parent
+#&gt; [1] "Total"
+#&gt; 
+#&gt; $C$is_bogus
+#&gt; [1] FALSE
+#&gt; 
+#&gt; 
+#&gt; $a1
+#&gt; $a1$name
+#&gt; [1] "a1"
+#&gt; 
+#&gt; $a1$is_rootnode
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $a1$level
+#&gt; [1] 3
+#&gt; 
+#&gt; $a1$is_leaf
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $a1$siblings
+#&gt; [1] "a5"
+#&gt; 
+#&gt; $a1$contributing_codes
+#&gt; [1] "a1"
+#&gt; 
+#&gt; $a1$children
+#&gt; character(0)
+#&gt; 
+#&gt; $a1$parent
+#&gt; [1] "A"
+#&gt; 
+#&gt; $a1$is_bogus
+#&gt; [1] FALSE
+#&gt; 
+#&gt; 
+#&gt; $a5
+#&gt; $a5$name
+#&gt; [1] "a5"
+#&gt; 
+#&gt; $a5$is_rootnode
+#&gt; [1] FALSE
+#&gt; 
+#&gt; $a5$level
+#&gt; [1] 3
+#&gt; 
+#&gt; $a5$is_leaf
+#&gt; [1] TRUE
+#&gt; 
+#&gt; $a5$siblings
+#&gt; [1] "a1"
+#&gt; 
+#&gt; $a5$contributing_codes
+#&gt; [1] "a5"
+#&gt; 
+#&gt; $a5$children
+#&gt; character(0)
+#&gt; 
+#&gt; $a5$parent
+#&gt; [1] "A"
+#&gt; 
+#&gt; $a5$is_bogus
+#&gt; [1] FALSE
+#&gt; 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -174,8 +384,6 @@ hier_convert hier_app hier_info</p></div>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
