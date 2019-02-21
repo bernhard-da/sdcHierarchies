@@ -1,17 +1,17 @@
 context("Additional tests")
 
-tree <- hier_create(rootnode = "Tot", leaves = letters[1:5])
+tree <- hier_create(root = "Tot", nodes = letters[1:5])
 
 # test for hier_nodenames
 expect_identical(
-  hier_nodenames(tree, node_lab = NULL),
+  hier_nodenames(tree, root = NULL),
   c("Tot", letters[1:5])
 )
 
 tree <- hier_add(
   tree = tree,
-  node = "b",
-  leaves = c("b1", "b2")
+  root = "b",
+  nodes = c("b1", "b2")
 )
 
 expect_true(.is_valid_leaf(tree = tree, leaf = "a"))
@@ -30,14 +30,14 @@ expect_is(
 # export
 tf <- tempfile()
 
-x <- hier_export(tree, format = "df", path = tf, verbose = TRUE)
+x <- hier_export(tree, as = "df", path = tf, verbose = TRUE)
 expect_is(x, "data.frame")
 expect_equal(attr(x, "hier_format"), "df")
 expect_equal(attr(x, "hier_convert"), TRUE)
 
 # file already exists
 expect_error(
-  hier_export(tree, format = "df", path = tf)
+  hier_export(tree, as = "df", path = tf)
 )
 
 # tempdir; no permissions
@@ -45,7 +45,7 @@ expect_error(
 td <- tempdir()
 system(paste("chmod 600", td))
 expect_error(
-  hier_export(tree, format = "df", path = tf, verbose = TRUE)
+  hier_export(tree, as = "df", path = tf, verbose = TRUE)
 )
 system(paste("chmod 755", td))
 
@@ -70,20 +70,20 @@ tree <- hier_compute(
   method = "list",
   as = "network"
 )
-hier_convert(tree, format = "code")
+hier_convert(tree, as = "code")
 
 # convert from dt with bogus codes
-sdc <- hier_convert(tree, format = "sdc")
+sdc <- hier_convert(tree, as = "sdc")
 tree <- hier_import(inp = sdc, from = "sdc")
 expect_equal(.bogus_codes(tree), "a5a")
 
-erg_sdc <- hier_convert(tree, format = "sdc")
+erg_sdc <- hier_convert(tree, as = "sdc")
 expect_equal(erg_sdc$bogus$bogus_codes, "a5a")
 expect_equal(erg_sdc$bogus$bogus_parents, "a5")
 
 # tests with rootnode only tree
-tree <- hier_create(rootnode = "Total")
-erg_sdc <- hier_convert(tree, format = "sdc")
+tree <- hier_create(root = "Total")
+erg_sdc <- hier_convert(tree, as = "sdc")
 expect_identical(erg_sdc$codes$orig, "Total")
 expect_identical(erg_sdc$codes$default, "0")
 expect_true(erg_sdc$codes$minimal)
@@ -91,14 +91,14 @@ expect_identical(length(erg_sdc$dims), 0L)
 expect_null(erg_sdc$bogus$bogus_codes)
 expect_null(erg_sdc$bogus$bogus_parents)
 
-erg_code <- hier_convert(tree, format = "code")
+erg_code <- hier_convert(tree, as = "code")
 expect_is(erg_code, "character")
 expect_identical(length(erg_code), 3L)
 expect_identical(length(erg_code), 3L)
 expect_true(attr(erg_code, "hier_convert"))
 expect_identical(attr(erg_code, "hier_format"), "code")
 
-erg_json <- hier_convert(tree, format = "json")
+erg_json <- hier_convert(tree, as = "json")
 expect_equivalent(erg_json, "[]")
 expect_true(attr(erg_json, "hier_convert"))
 expect_identical(attr(erg_json, "hier_format"), "json")
@@ -126,7 +126,7 @@ rr <- hier_import(erg_json, tot_lab = "x")
 expect_identical(rr$root, rr$leaf)
 expect_identical(rr$root, "x")
 
-dt <- hier_convert(rr, format = "dt")
+dt <- hier_convert(rr, as = "dt")
 rr <- hier_import(dt, from = "dt")
 expect_identical(rr$root, rr$leaf)
 expect_identical(rr$root, "x")

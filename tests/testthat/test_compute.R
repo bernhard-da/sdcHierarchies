@@ -46,8 +46,8 @@ dim_len <- hier_compute(
 )
 
 expect_identical(
-  hier_convert(dim_endpos, format = "df"),
-  hier_convert(dim_len, format = "df")
+  hier_convert(dim_endpos, as = "df"),
+  hier_convert(dim_len, as = "df")
 )
 
 # Total not contained
@@ -73,28 +73,28 @@ dim_len <- hier_compute(
 )
 
 expect_identical(
-  hier_convert(dim_endpos, format = "df"),
-  hier_convert(dim_len, format = "df")
+  hier_convert(dim_endpos, as = "df"),
+  hier_convert(dim_len, as = "df")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "json"),
-  hier_convert(dim_len, format = "json")
+  hier_convert(dim_endpos, as = "json"),
+  hier_convert(dim_len, as = "json")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "dt"),
-  hier_convert(dim_len, format = "dt")
+  hier_convert(dim_endpos, as = "dt"),
+  hier_convert(dim_len, as = "dt")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "argus"),
-  hier_convert(dim_len, format = "argus")
+  hier_convert(dim_endpos, as = "argus"),
+  hier_convert(dim_len, as = "argus")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "code"),
-  hier_convert(dim_len, format = "code")
+  hier_convert(dim_endpos, as = "code"),
+  hier_convert(dim_len, as = "code")
 )
 expect_identical(
-  hier_convert(dim_endpos, format = "sdc"),
-  hier_convert(dim_len, format = "sdc")
+  hier_convert(dim_endpos, as = "sdc"),
+  hier_convert(dim_len, as = "sdc")
 )
 
 
@@ -151,7 +151,7 @@ expect_identical(
   c("b1", "b2", "b3")
 )
 
-df <- hier_convert(d, format = "df")
+df <- hier_convert(d, as = "df")
 expect_is(df, "data.frame")
 expect_equal(nrow(df), 11)
 
