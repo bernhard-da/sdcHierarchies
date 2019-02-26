@@ -83,7 +83,7 @@
       <h1>Usage of the sdcHierarchies-Package</h1>
                         <h4 class="author">Bernhard Meindl</h4>
             
-            <h4 class="date">2019-02-21</h4>
+            <h4 class="date">2019-02-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bernhard-da/sdcHierarchies/blob/master/vignettes/usage.Rmd"><code>vignettes/usage.Rmd</code></a></small>
       <div class="hidden name"><code>usage.Rmd</code></div>
@@ -225,7 +225,7 @@
 ## tree &lt;- hier_add(tree = tree, root = 'b1', nodes = c('b1_a', 'b1_b'))
 ## print(tree)</code></pre>
 <p>Using <code><a href="../reference/hier_export.html">hier_export()</a></code> one can write the results to a file. This is for example useful if one wants to create <code>hrc</code>-files that could be used as input for <a href="https://github.com/sdcTools/tauargus/"><span class="math inline">\(\tau\)</span>-argus</a> which can be achieved as follows:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/hier_export.html">hier_export</a></span>(h, <span class="dt">as =</span> <span class="st">"argus"</span>, <span class="dt">path =</span> <span class="st">"hierarchy.hrc"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/hier_export.html">hier_export</a></span>(h, <span class="dt">as =</span> <span class="st">"argus"</span>, <span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(), <span class="st">"hierarchy.hrc"</span>))</a></code></pre></div>
 </div>
 <div id="create-a-hierarchy-from-data-frames-code-or-json" class="section level2">
 <h2 class="hasAnchor">
