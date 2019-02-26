@@ -45,5 +45,5 @@ h <- hier_add(h, root = "b1", nodes = "b1a")
 hier_display(h)
 
 # export as input for tauArgus
-hier_export(h, as = "argus", path = "h.hrc")
+hier_export(h, as = "argus", path = file.path(tempdir(), "h.hrc"))
 }

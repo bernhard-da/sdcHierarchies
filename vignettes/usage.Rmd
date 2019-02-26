@@ -105,7 +105,7 @@ code <- hier_convert(h, as = "code"); cat(code, sep = "\n")
 Using `hier_export()` one can write the results to a file. This is for example useful if one wants to create `hrc`-files that could be used as input for [$\tau$-argus](https://github.com/sdcTools/tauargus/) which can be achieved as follows:
 
 ```{r, eval=FALSE}
-hier_export(h, as = "argus", path = "hierarchy.hrc")
+hier_export(h, as = "argus", path = file.path(tempfile(), "hierarchy.hrc"))
 ```
 
 ## Create a hierarchy from data.frames, code or json

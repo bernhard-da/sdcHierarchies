@@ -16,7 +16,7 @@
 #' hier_display(h)
 #'
 #' # export as input for tauArgus
-#' hier_export(h, as = "argus", path = "h.hrc")
+#' hier_export(h, as = "argus", path = file.path(tempdir(), "h.hrc"))
 hier_export <- function(tree, as="df", path, verbose=FALSE) {
   .check_path  <- function(path) {
     if (file.exists(path)) {
