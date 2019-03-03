@@ -87,7 +87,7 @@
   parent <- tree$root[ii]
 
   res <- tree$leaf[tree$root == parent]
-  res <- setdiff(res, c(leaf, NA))
+  res <- setdiff(res, c(leaf, parent))
   if (length(res) == 0) {
     return(character())
   }
