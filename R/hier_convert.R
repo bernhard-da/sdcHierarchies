@@ -146,14 +146,13 @@ hier_convert <- function(tree, as="df") {
     code <- c(code, code_tot)
 
     if (length(all_names) > 0) {
-      info <- hier_info(tree = tree, nodes = all_names)
       while (length(all_names) > 0) {
         lev <- all_names[1]
-        cur_info <- info[[lev]]
-        nn <- setdiff(c(lev, cur_info$siblings), NA)
+        info <- hier_info(tree = tree, nodes = lev)
+        nn <- setdiff(c(lev, info$siblings), NA)
         all_names <- setdiff(all_names, nn)
 
-        s1 <- .qvec(cur_info$parent)
+        s1 <- .qvec(info$parent)
         s2 <- .qvec(nn)
         s3 <- paste0(
           "tree <- hier_add(tree = tree, root = ",
