@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports a nested data structure — hier_import • sdcHierarchies</title>
+<title>Convert a nested hierarchy into the default format — hier_to_tree • sdcHierarchies</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Imports a nested data structure — hier_import" />
+<meta property="og:title" content="Convert a nested hierarchy into the default format — hier_to_tree" />
 
-<meta property="og:description" content="This function creates a nested sdc hierarchy from various
-input structures." />
+<meta property="og:description" content="This function returns a tree in default format (as for
+example created using hier_create()) for objects created using
+hier_convert()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,93 +116,56 @@ input structures." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports a nested data structure</h1>
-    <small class="dont-index">Source: <a href='https://github.com/bernhard-da/sdcHierarchies/blob/master/R/hier_import.R'><code>R/hier_import.R</code></a></small>
-    <div class="hidden name"><code>hier_import.Rd</code></div>
+    <h1>Convert a nested hierarchy into the default format</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bernhard-da/sdcHierarchies/blob/master/R/hier_to_tree.R'><code>R/hier_to_tree.R</code></a></small>
+    <div class="hidden name"><code>hier_to_tree.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function creates a nested sdc hierarchy from various
-input structures.</p>
+    <p>This function returns a tree in default format (as for
+example created using <code><a href='hier_create.html'>hier_create()</a></code>) for objects created using
+<code><a href='hier_convert.html'>hier_convert()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>hier_import</span>(<span class='no'>inp</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"json"</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>hier_to_tree</span>(<span class='no'>inp</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>inp</th>
-      <td><p>an object that should be imported. Argument <code>from</code> specifies
-the input format.</p></td>
-    </tr>
-    <tr>
-      <th>from</th>
-      <td><p>(character) from which format should be imported.
-Possible choices are:</p><ul>
-<li><p><code>"json"</code>: a json-encoded string as created using
-<code><a href='hier_convert.html'>hier_convert()</a></code> with argument <code>as = "json")</code></p></li>
-<li><p><code>"df"</code>: a <code>data.frame</code> in <code>@;level</code>-format or an input created
-with <code><a href='hier_convert.html'>hier_convert()</a></code> with argument <code>as = "df")</code></p></li>
-<li><p><code>"dt"</code>: a <code>data.frame</code> in <code>@;level</code>-format or an input created
-with <code><a href='hier_convert.html'>hier_convert()</a></code> with argument <code>as = "dt")</code></p></li>
-<li><p><code>"argus"</code>: a json-encoded string as created using
-<code><a href='hier_convert.html'>hier_convert()</a></code> with argument <code>as = "argus")</code></p></li>
-<li><p><code>"code"</code>: a json-encoded string as created using
-<code><a href='hier_convert.html'>hier_convert()</a></code> with argument <code>as = "code")</code></p></li>
-<li><p><code>"hrc"</code>: text-files in tau-argus hrc-format</p></li>
-<li><p><code>"sdc"</code>: a json-encoded string as created using
-<code><a href='hier_convert.html'>hier_convert()</a></code> with argument <code>as = "sdc")</code></p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>root</th>
-      <td><p>optional name of overall total</p></td>
+      <td><p>a nested tree object created using <code><a href='hier_create.html'>hier_create()</a></code>
+or an object converted with <code><a href='hier_convert.html'>hier_convert()</a></code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a (nested) hierarchy</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='hier_to_tree.html'>hier_to_tree()</a></code></p></div>
+    <p>a nested hierarchy with default format</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>])
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"A"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a2"</span>))
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"b1"</span>, <span class='st'>"b2"</span>))
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"b1"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='st'>"b1a"</span>)
+    <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,  <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
+<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"A"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a5"</span>))
+<span class='no'>sdc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>h</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"sdc"</span>)
 <span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; Total
 #&gt; ├─A
 #&gt; │ ├─a1
-#&gt; │ └─a2
-#&gt; └─B
-#&gt;   ├─b1
-#&gt;   │ └─b1a
-#&gt;   └─b2</div><div class='input'>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='no'>h</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"df"</span>)
-<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; Total
+#&gt; │ └─a5
+#&gt; ├─B
+#&gt; └─C</div><div class='input'><span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='fu'>hier_to_tree</span>(<span class='no'>h</span>))</div><div class='output co'>#&gt; Total
 #&gt; ├─A
 #&gt; │ ├─a1
-#&gt; │ └─a2
-#&gt; └─B
-#&gt;   ├─b1
-#&gt;   │ └─b1a
-#&gt;   └─b2</div><div class='input'>
-<span class='no'>h2</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_import</span>(<span class='no'>df</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"df"</span>)
-<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h2</span>)</div><div class='output co'>#&gt; Total
+#&gt; │ └─a5
+#&gt; ├─B
+#&gt; └─C</div><div class='input'><span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='fu'>hier_to_tree</span>(<span class='no'>sdc</span>))</div><div class='output co'>#&gt; Total
 #&gt; ├─A
 #&gt; │ ├─a1
-#&gt; │ └─a2
-#&gt; └─B
-#&gt;   ├─b1
-#&gt;   │ └─b1a
-#&gt;   └─b2</div></pre>
+#&gt; │ └─a5
+#&gt; ├─B
+#&gt; └─C</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -209,8 +173,6 @@ with <code><a href='hier_convert.html'>hier_convert()</a></code> with argument <
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
