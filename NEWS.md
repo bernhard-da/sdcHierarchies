@@ -1,8 +1,12 @@
 # sdcHierarchies 0.17
-- bugfix in computing default codes, fixing [~~issue #7~~](https://github.com/bernhard-da/sdcHierarchies/issues/7)
 
-- bugfix in conversion to `R`-code, fixing [~~issue #8~~](https://github.com/bernhard-da/sdcHierarchies/issues/8)
+### Features
+- `hier_match()` returns a mapping between original and default codes, fixing [~~issue #9~~](https://github.com/bernhard-da/sdcHierarchies/issues/9)
+- `hier_to_tree()` returns a hierarchy in default format for any object created for example with `hier_convert()`, fixing [~~issue #10~~](https://github.com/bernhard-da/sdcHierarchies/issues/10)
 
+### Bugfixes
+- correctly compute default codes, fixing [~~issue #7~~](https://github.com/bernhard-da/sdcHierarchies/issues/7)
+- correctly convert to `R` code, fixing [~~issue #8~~](https://github.com/bernhard-da/sdcHierarchies/issues/8)
 
 # sdcHierarchies 0.16
 - do not relay on `data.tree`
