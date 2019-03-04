@@ -7,24 +7,25 @@
 hier_import(inp, from = "json", root = NULL)
 }
 \arguments{
-\item{inp}{an import from which should be converted. This could either
-be a character-string (json) or a \code{data.frame}.}
+\item{inp}{an object that should be imported. Argument \code{from} specifies
+the input format.}
 
 \item{from}{(character) from which format should be imported.
 Possible choices are:
 \itemize{
-\item \strong{"json"}: json-encoded string should be converted
-\item \strong{"df"}: a \code{data.frame} in \code{@;level}-format will
-be converted
-\item \strong{"dt"}: a \code{data.table} in \code{@;level}-format will
-be converted
-\item \strong{"argus"}: an object exported using \code{\link{hier_convert}}
-using \code{as = "argus"}
-\item \strong{"code"}: an object exported using \code{\link{hier_convert}}
-using \code{as = "code"}
-\item \strong{"hrc"}: text-files in tau-argus hrc-format
-\item \strong{"sdc"}: an object exported using \code{\link{hier_convert}}
-using \code{as = "sdc"}
+\item \code{"json"}: a json-encoded string as created using
+\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "json")}
+\item \code{"df"}: a \code{data.frame} in \code{@;level}-format or an input created
+with \code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "df")}
+\item \code{"dt"}: a \code{data.frame} in \code{@;level}-format or an input created
+with \code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "dt")}
+\item \code{"argus"}: a json-encoded string as created using
+\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "argus")}
+\item \code{"code"}: a json-encoded string as created using
+\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "code")}
+\item \code{"hrc"}: text-files in tau-argus hrc-format
+\item \code{"sdc"}: a json-encoded string as created using
+\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "sdc")}
 }}
 
 \item{root}{optional name of overall total}
@@ -48,4 +49,7 @@ hier_display(df)
 
 h2 <- hier_import(df, from = "df")
 hier_display(h2)
+}
+\seealso{
+\code{\link[=hier_to_tree]{hier_to_tree()}}
 }

@@ -3,27 +3,28 @@
 #' This function creates a nested sdc hierarchy from various
 #' input structures.
 #'
-#' @param inp an import from which should be converted. This could either
-#' be a character-string (json) or a \code{data.frame}.
+#' @param inp an object that should be imported. Argument `from` specifies
+#' the input format.
 #' @param from (character) from which format should be imported.
 #' Possible choices are:
-#' \itemize{
-#' \item \strong{"json"}: json-encoded string should be converted
-#' \item \strong{"df"}: a \code{data.frame} in \code{@;level}-format will
-#' be converted
-#' \item \strong{"dt"}: a \code{data.table} in \code{@;level}-format will
-#' be converted
-#' \item \strong{"argus"}: an object exported using \code{\link{hier_convert}}
-#' using \code{as = "argus"}
-#' \item \strong{"code"}: an object exported using \code{\link{hier_convert}}
-#' using \code{as = "code"}
-#' \item \strong{"hrc"}: text-files in tau-argus hrc-format
-#' \item \strong{"sdc"}: an object exported using \code{\link{hier_convert}}
-#' using \code{as = "sdc"}
-#' }
+#' - `"json"`: a json-encoded string as created using
+#' [hier_convert()] with argument `as = "json")`
+#' - `"df"`: a `data.frame` in `@;level`-format or an input created
+#' with [hier_convert()] with argument `as = "df")`
+#' - `"dt"`: a `data.frame` in `@;level`-format or an input created
+#' with [hier_convert()] with argument `as = "dt")`
+#' - `"argus"`: a json-encoded string as created using
+#' [hier_convert()] with argument `as = "argus")`
+#' - `"code"`: a json-encoded string as created using
+#' [hier_convert()] with argument `as = "code")`
+#' - `"hrc"`: text-files in tau-argus hrc-format
+#' - `"sdc"`: a json-encoded string as created using
+#' [hier_convert()] with argument `as = "sdc")`
 #' @param root optional name of overall total
 #' @return a (nested) hierarchy
 #' @export
+#' @seealso [hier_to_tree()]
+#' @md
 #' @examples
 #' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
 #' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))
