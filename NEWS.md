@@ -1,6 +1,9 @@
 # sdcHierarchies 0.17
 - bugfix in computing default codes, fixing [~~issue #7~~](https://github.com/bernhard-da/sdcHierarchies/issues/7)
 
+- bugfix in conversion to `R`-code, fixing [~~issue #8~~](https://github.com/bernhard-da/sdcHierarchies/issues/8)
+
+
 # sdcHierarchies 0.16
 - do not relay on `data.tree`
 - examples for all exported function
