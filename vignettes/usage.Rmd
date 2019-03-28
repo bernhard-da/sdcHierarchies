@@ -211,10 +211,10 @@ hier_display(d)
 The package also contains a shiny-based interactive app that can be started using `hier_app()`. The app allows to pass as input either a character vector (that should be converted into a hierarchy) or an existing hierarchy and can be started as follows given the hierarchy previously generated using `hier_compute()`:
 
 ```{r, eval=FALSE}
-d <- sdcHier(d)
+d <- hier_app(d)
 ```
 
-If a character vector is passed to `sdcHier()`, the interface allows to specify the arguments for `hier_compute()`. Once a hierarchy is created, the interface changes and the tree can be dynamically changed by dragging nodes around. Futhermore, it is possible to add, remove or rename nodes. The required code to construct the current hierarchy is displayed and can be saved to disk. Furthermore, there is functionality to *undo* the last step as well as to export results to either the **R**-session or write results to a file. This is especially helpful if one wants to create for example an `hrc`-file as input for $\tau$-argus. Please note that `sdcHier()` is able to return the modified hierarchy and not only save results to disk. In order to continue working, one may assign the result to a new object as shown in the code above.
+If a character vector is passed to `hier_app()`, the interface allows to specify the arguments for `hier_compute()`. Once a hierarchy is created, the interface changes and the tree can be dynamically changed by dragging nodes around. Futhermore, it is possible to add, remove or rename nodes. The required code to construct the current hierarchy is displayed and can be saved to disk. Furthermore, there is functionality to *undo* the last step as well as to export results to either the **R**-session or write results to a file. This is especially helpful if one wants to create for example an `hrc`-file as input for $\tau$-argus. Please note that `hier_app()` is able to return the modified hierarchy and not only save results to disk. In order to continue working, one may assign the result to a new object as shown in the code above.
 
 ## Summary
 In case you have any suggestions or improvements, please feel free to file an issue at [**our issue tracker**](https://github.com/bernhard-da/sdcHierarchies/issues) or contribute to the package by filing a [**pull request**](https://github.com/bernhard-da/sdcHierarchies/pulls) against the master branch.

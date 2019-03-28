@@ -1,3 +1,7 @@
+# sdcHierarchies 0.18
+### Bugfixes
+- fix references to `hier_app()` in vignette
+
 # sdcHierarchies 0.17
 
 ### Features
