@@ -65,7 +65,7 @@ and default codes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18</span>
       </span>
     </div>
 
@@ -170,9 +170,9 @@ node.</p></li>
     <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Tot"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>5</span>])
 <span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='st'>"a0"</span>)
 <span class='no'>h2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"dt"</span>)
-<span class='fu'>hier_match</span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>), <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='st'>"orig"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
+<span class='fu'>hier_match</span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>), <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='st'>"orig"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
 #&gt; 1:    a      01    FALSE
-#&gt; 2:    b      02    FALSE</div><div class='input'><span class='fu'>hier_match</span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h2</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"01"</span>, <span class='st'>"02"</span>), <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='st'>"default"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
+#&gt; 2:    b      02    FALSE</div><div class='input'><span class='fu'>hier_match</span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h2</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"01"</span>, <span class='st'>"02"</span>), <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='st'>"default"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
 #&gt; 1:    a      01    FALSE
 #&gt; 2:    b      02    FALSE</div></pre>
   </div>
