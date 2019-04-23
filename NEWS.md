@@ -2,6 +2,9 @@
 ### Features
 - new function `hier_grid()` that returns all combinations of levels (and optionally levels) of some hierarchies
 
+### Bugfixes
+- fix references to `hier_app()` in vignette
+
 # sdcHierarchies 0.17
 
 ### Features
