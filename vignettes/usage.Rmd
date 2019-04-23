@@ -207,6 +207,32 @@ d <- hier_compute(inp = yae_ll, root = "Total", method = "list")
 hier_display(d)
 ```
 
+
+## Grids
+Using `hier_grid()` it is possible to compute all combinations of codes given several hierarchies. This is useful to build a complete table (e.g for merging purposes). The functionality of `hier_grid` is shown below. First, we need to specify some hierarchies. 
+
+```{r}
+h1 <- hier_create("Total", nodes = LETTERS[1:3])
+h1 <- hier_add(h1, root = "A", node = "a1")
+h1 <- hier_add(h1, root = "a1", node = "aa1")
+
+h2 <- hier_create("Total", letters[1:5])
+h2 <- hier_add(h2, root = "b", node = "b1")
+h2 <- hier_add(h2, root = "d", node = "d1")
+```
+
+Note that we - on purpose - added some *"bogus"* codes to each `h1` and `h2` as codes `a1` and `aa1` in `h1` and `b1` and `d1` in `h2` are just identical to their respective parent categories. Applying `hier_grid` is as simple as
+
+```{r}
+hier_grid(h1, h2)
+```
+
+separating all target hierarchies with a `,`. `hier_grid` then computes all combinations of codes from hierarchies `h1` and `h2`. Using the default options, these bogus codes are included in the output `data.table`. Setting argument `add_dups = FALSE` removes all rows containing such bogus codes. Setting option `add_levs = TRUE` adds some columns labeled `levs_v{n}` to the output data set. Each of this colum contains values which define the hierarchy level of the corresponding code given in variable v{n} in the same row in the table as shown below.
+
+```{r}
+hier_grid(h1, h2, add_dups = FALSE, add_levs = TRUE)
+```
+
 ## Interactively create or modify hierarchies
 The package also contains a shiny-based interactive app that can be started using `hier_app()`. The app allows to pass as input either a character vector (that should be converted into a hierarchy) or an existing hierarchy and can be started as follows given the hierarchy previously generated using `hier_compute()`:
 
