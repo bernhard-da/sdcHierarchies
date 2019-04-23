@@ -34,4 +34,3 @@ expect_identical(ncol(r3), 4L)
 expect_identical(r3[.N, v2], "e")
 expect_identical(r3[.N, levs_v1], 2L)
 expect_identical(r3[.N, levs_v2], 2L)
-
