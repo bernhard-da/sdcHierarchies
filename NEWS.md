@@ -1,3 +1,7 @@
+# sdcHierarchies 0.18
+### Features
+- new function `hier_grid()` that returns all combinations of levels (and optionally levels) of some hierarchies
+
 # sdcHierarchies 0.17
 
 ### Features
@@ -9,7 +13,7 @@
 - correctly convert to `R` code, fixing [~~issue #8~~](https://github.com/bernhard-da/sdcHierarchies/issues/8)
 
 # sdcHierarchies 0.16
-- do not relay on `data.tree`
+- do not rely on `data.tree`
 - examples for all exported function
 - new function `hier_display()`
 - harmonize function arguments
