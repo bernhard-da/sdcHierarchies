@@ -5,6 +5,7 @@ library(jsonlite)
 library(rlang)
 library(shinyBS)
 library(sdcHierarchies)
+library(data.table)
 
 dim <- getShinyOption(".data")
 res <- try(sdcHierarchies:::.is_valid(dim), silent = TRUE)
@@ -64,7 +65,7 @@ shinytree_to_tree <- function(tree, root = NULL) {
     new <- unique(dt[, vars, with = FALSE])
     new <- new[!is.na(new[[2]])]
     setnames(new, c("root", "leaf"))
-    tree <- .add_nodes(tree = tree, new = new)
+    tree <- sdcHierarchies:::.add_nodes(tree = tree, new = new)
   }
   tree
 }
