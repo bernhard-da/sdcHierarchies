@@ -1,3 +1,8 @@
+# sdcHierarchies 0.19
+### Bugfixes
+- remove `data.tree` from shiny app;
+- other small fixes in the shiny-app
+
 # sdcHierarchies 0.18
 ### Features
 - new function `hier_grid()` that returns all combinations of levels (and optionally levels) of some hierarchies

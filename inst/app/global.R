@@ -1,12 +1,13 @@
-library("shiny")
-library("shinyTree")
-library("shinyjs")
-library("jsonlite")
-library("rlang")
-library("shinyBS")
+library(shiny)
+library(shinyTree)
+library(shinyjs)
+library(jsonlite)
+library(rlang)
+library(shinyBS)
+library(sdcHierarchies)
 
 dim <- getShinyOption(".data")
-res <- try(.is_valid(dim), silent = TRUE)
+res <- try(sdcHierarchies:::.is_valid(dim), silent = TRUE)
 
 # start_with_hier: did we start with an existing hierarchy
 if (res == TRUE) {
