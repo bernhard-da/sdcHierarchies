@@ -2,8 +2,8 @@
 #'
 #' This functions allows to generate a hierarchical
 #' data structure that can be used in other packages such
-#' as \href{https://github.com/sdcTools/cellKey}{cellKey}
-#' or \href{https://github.com/sdcTools/sdcTable}{sdcTable}.
+#' as [`cellKey`](https://github.com/sdcTools/cellKey)
+#' or [`sdcTable`](https://github.com/sdcTools/sdcTable).
 #'
 #' @param root (character) name of the overall total
 #' @param nodes (character) name of leaves (nodes) in the hierarchy
@@ -11,6 +11,7 @@
 #' @seealso hier_add hier_delete hier_rename hier_export
 #' hier_convert hier_app hier_info
 #' @export
+#' @md
 #' @examples
 #' # without nodes
 #' h <- hier_create(root = "tot")

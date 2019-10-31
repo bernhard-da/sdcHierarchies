@@ -2,14 +2,13 @@
 % Please edit documentation in R/hier_info.R
 \name{hier_info}
 \alias{hier_info}
-\title{hier_info}
+\title{Information about hierarchy-codes}
 \usage{
 hier_info(tree, nodes = NULL)
 }
 \arguments{
-\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
-or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
-or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link[=hier_create]{hier_create()}}
+or modified using \code{\link[=hier_add]{hier_add()}}, \code{\link[=hier_delete]{hier_delete()}} or \code{\link[=hier_rename]{hier_rename()}}.}
 
 \item{nodes}{(character) names of new nodes that should be added below
 \code{"root"}}
@@ -20,22 +19,23 @@ If \code{nodes} is \code{NULL} (the default), the information is
 computed for all available nodes of the hierarchy. The following
 properties are computed:
 \itemize{
-\item{exists: }{(logical) does the node exist}
-\item{name: }{(character) node name}
-\item{is_rootnode: }{(logical) is the node the overall root of the tree?}
-\item{level: }{(numeric) what is the level of the nod}
-\item{is_leaf: }{(logical) is the node a leaf?}
-\item{siblings: }{(character) what are siblings of this node?}
-\item{contributing_codes: }{(character) which codes are contributing
-to this node? If none (it is a leaf), \code{NA} is returned}
-\item{children: }{(character) the names of the children of the node.
-If it has none (it is a leaf), \code{NA} is returned}
-\item{is_bogus: }{(logical) is it a bogus code (i. e the only
-children of a leaf?)}
+\item \code{exists}: (logical) does the node exist
+\item \code{name}: (character) node name
+\item \code{is_rootnode}: (logical) is the node the overall root of the tree?
+\item \code{level}: (numeric) what is the level of the node
+\item \code{is_leaf}: (logical) is the node a leaf?
+\item \code{siblings}: (character) what are siblings of this node?
+\item \code{contributing_codes}: (character) which codes are contributing
+to this node? If none (it is a leaf), \code{NA} is returned
+\item \code{children}: (character) the names of the children of the node.
+If it has none (it is a leaf), \code{NA} is returned
+\item \code{is_bogus}: (logical) is it a bogus code (i. e the only
+children of a leaf?)
 }
 }
 \description{
-get information about all or specific nodes in a nested hierarchy
+\code{\link[=hier_info]{hier_info()}} computes various information about hierarchy codes
+or the (nested) hierarchy.
 }
 \examples{
 h <- hier_create(root = "Total",  nodes = LETTERS[1:3])

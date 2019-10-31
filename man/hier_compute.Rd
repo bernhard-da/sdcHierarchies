@@ -2,12 +2,12 @@
 % Please edit documentation in R/hier_compute.R
 \name{hier_compute}
 \alias{hier_compute}
-\title{compute a nested hierarchy}
+\title{Compute a nested hierarchy}
 \usage{
 hier_compute(inp, dim_spec = NULL, root = NULL, method = "len", as = "network")
 }
 \arguments{
-\item{inp}{a character vector (for methods \code{len} and \code{endpos}
+\item{inp}{a character vector (for methods \code{"len"} and \code{"endpos"}
 containing codes of a hierarchical variables or a list for
 method \code{list}. In the latter case, the input is expected to be a
 named list where each list-element contains the codes belonging to the
@@ -22,30 +22,30 @@ hierarchy should be created from a named list.}
 
 \item{root}{\code{NULL} or a scalar characer specifying the name
 of the overall total in case it is not encoded at the first
-positions of \code{dim}}
+positions of \code{dim}.}
 
-\item{method}{either \code{len} (the default) or \code{endpos}
+\item{method}{either \code{"len"} (the default) or \code{"endpos"}
 \itemize{
-\item \code{len}: the number of characters for each of the levels
+\item \code{"len"}: the number of characters for each of the levels
 needs to be specified
-\item \code{endpos}: the end-positions for each levels need to be fixed
-\item \code{list}: the end-positions for each levels need to be fixed
+\item \code{"endpos"}: the end-positions for each levels need to be fixed
+\item \code{"list"}: the end-positions for each levels need to be fixed
 }}
 
 \item{as}{(character) specifies the type of the return object. Possible
 choices are:
 \itemize{
-\item{\code{"network"}: }{the default; a \code{data.table} as network. The
+\item \code{"network"}: the default; a \code{data.table} as network. The
 table consists of two columns where the \code{"root"} column defines the
-name of parent node to the label in the \code{"leaf"} column.}
-\item{\code{"df"}: }{a \code{data.frame} in \code{"@; label"}-format.}
-\item{\code{"dt"}: }{a \code{data.table} in \code{"@; label"}-format.}
-\item{\code{"code"}: }{returns the R-code that is required to build
-the tree}
-\item{\code{"sdc"}: }{the tree is structured as a list}
-\item{\code{"argus"}: }{suitable input for \code{\link{hier_export}} to
-write \code{"hrc"}-files for tau argus.}
-\item{\code{"json"}: }{a character-vector encoded as json-string.}
+name of parent node to the label in the \code{"leaf"} column.
+\item \code{"df"}: a \code{data.frame} in \code{"@; label"}-format.
+\item \code{"dt"}: a \code{data.table} in \code{"@; label"}-format.
+\item \code{"code"}: returns the R-code that is required to build
+the tree
+\item \code{"sdc"}: the tree is structured as a list
+\item \code{"argus"}: suitable input for \code{\link[=hier_export]{hier_export()}} to
+write \code{"hrc"}-files for tau argus.
+\item \code{"json"}: a character-vector encoded as json-string.
 }}
 }
 \value{

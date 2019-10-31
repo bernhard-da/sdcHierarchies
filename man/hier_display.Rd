@@ -8,9 +8,8 @@ hier_display(x, root = NULL)
 }
 \arguments{
 \item{x}{a hierarchy object, either directly generated and modified using
-\code{\link{hier_create}}, \code{\link{hier_add}}, \code{\link{hier_delete}}
-and/or \code{\link{hier_rename}} or objects converted using
-\code{\link{hier_convert}}}
+\code{\link[=hier_create]{hier_create()}}, \code{\link[=hier_add]{hier_add()}}, \code{\link[=hier_delete]{hier_delete()}} and/or \code{\link[=hier_rename]{hier_rename()}} or
+objects converted using \code{\link[=hier_convert]{hier_convert()}}}
 
 \item{root}{\code{NULL} if the entire tree should be printed or a name of
 a node which is used as temporary root-node for printing}
@@ -19,7 +18,7 @@ a node which is used as temporary root-node for printing}
 \code{NULL}; the tree is printed to the prompt
 }
 \description{
-Displays the hierarchy
+This function shows the entire hierarchy in a nice way.
 }
 \examples{
 h <- hier_create(root = "Total", nodes = LETTERS[1:2])

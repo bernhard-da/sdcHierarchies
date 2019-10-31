@@ -1,13 +1,15 @@
 #' Displays the hierarchy
 #'
+#' This function shows the entire hierarchy in a nice way.
+#'
 #' @param x a hierarchy object, either directly generated and modified using
-#' \code{\link{hier_create}}, \code{\link{hier_add}}, \code{\link{hier_delete}}
-#' and/or \code{\link{hier_rename}} or objects converted using
-#' \code{\link{hier_convert}}
-#' @param root \code{NULL} if the entire tree should be printed or a name of
+#' [hier_create()], [hier_add()], [hier_delete()] and/or [hier_rename()] or
+#' objects converted using [hier_convert()]
+#' @param root `NULL` if the entire tree should be printed or a name of
 #' a node which is used as temporary root-node for printing
-#' @return \code{NULL}; the tree is printed to the prompt
+#' @return `NULL`; the tree is printed to the prompt
 #' @export
+#' @md
 #' @examples
 #' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
 #' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))

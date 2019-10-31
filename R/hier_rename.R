@@ -8,6 +8,7 @@
 #' a named vector: names refer to old, existing names, the values to the
 #' new labels
 #' @export
+#' @md
 #' @examples
 #' h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
 #' h <- hier_add(h, root = "A", nodes = c("a1", "a5"))

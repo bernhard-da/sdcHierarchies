@@ -1,6 +1,6 @@
 #' Create/Modify hierarchies interactively
 #'
-#' This function starts the interactive \emph{shiny}-app
+#' This function starts the interactive `shiny`-app
 #' to (optionally) create and/or modify a nested hierarchy.
 #' It is possible to supply a character vector from which the
 #' hierarchy can be interactively built. Once this has been done,
@@ -11,13 +11,14 @@
 #' the app.
 #'
 #' @return The app can return a hierarchy object (either
-#' a \code{data.frame} or a tree-based object)
+#' a `data.frame` or a tree-based object)
 #' @param x a character vector containing nested levels or
-#' an object generated with \code{hier_create()}
-#' @param ... arguments (e.g \code{host}) that are passed
-#' through \code{\link[shiny]{runApp}} when
+#' an object generated with [hier_create()]
+#' @param ... arguments (e.g `host`) that are passed
+#' through [shiny::runApp()] when
 #' starting the shiny application
 #' @export
+#' @md
 #' @examples
 #' \dontrun{
 #' # start with an empty hierarchy

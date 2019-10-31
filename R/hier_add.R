@@ -3,13 +3,13 @@
 #' This function allows to add nodes (levels)
 #' to an existing nested hierarchy.
 #'
-#' @param tree a (nested) hierarchy created using \code{\link{hier_create}}
-#' or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
-#' or \code{\link{hier_rename}}.
+#' @param tree a (nested) hierarchy created using [hier_create()]
+#' or modified using [hier_add()], [hier_delete()] or [hier_rename()].
 #' @param root (character) a name of an existing node in the hierarchy
 #' @param nodes (character) names of new nodes that should be added below
-#' \code{"root"}
+#' `"root"`
 #' @export
+#' @md
 #' @examples
 #' h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
 #' h <- hier_add(h, root = "A", nodes = c("a1", "a5"))

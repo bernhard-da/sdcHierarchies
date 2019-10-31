@@ -8,6 +8,7 @@
 #' be written to
 #' @param verbose (logical) additional results
 #' @export
+#' @md
 #' @examples
 #' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
 #' h <- hier_add(h, root = "A", nodes = c("a1", "a2"))

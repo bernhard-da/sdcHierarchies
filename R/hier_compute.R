@@ -1,47 +1,44 @@
-#' compute a nested hierarchy
+#' Compute a nested hierarchy
 #'
 #' This function allows to compute a nested hierarchy from an character
 #' vector or a (named) list.
 #'
-#' @param inp a character vector (for methods \code{len} and \code{endpos}
+#' @param inp a character vector (for methods `"len"` and `"endpos"`
 #' containing codes of a hierarchical variables or a list for
-#' method \code{list}. In the latter case, the input is expected to be a
+#' method `list`. In the latter case, the input is expected to be a
 #' named list where each list-element contains the codes belonging to the
 #' node that has the name of this specific list element. In the examples
 #' below, the required input formats are further explained.
 #' @param dim_spec an (integerish) vector containing either the length
 #' (in terms of characters) for each level or the end-positions of
 #' these levels. In the latter-case, one needs to set argument
-#' \code{method} to \code{"endpos"}. This argument is ignored in case the
+#' `method` to `"endpos"`. This argument is ignored in case the
 #' hierarchy should be created from a named list.
-#' @param root \code{NULL} or a scalar characer specifying the name
+#' @param root `NULL` or a scalar characer specifying the name
 #' of the overall total in case it is not encoded at the first
-#' positions of \code{dim}
-#' @param method either \code{len} (the default) or \code{endpos}
-#' \itemize{
-#' \item \code{len}: the number of characters for each of the levels
+#' positions of `dim`.
+#' @param method either `"len"` (the default) or `"endpos"`
+#' - `"len"`: the number of characters for each of the levels
 #' needs to be specified
-#' \item \code{endpos}: the end-positions for each levels need to be fixed
-#' \item \code{list}: the end-positions for each levels need to be fixed
-#' }
+#' - `"endpos"`: the end-positions for each levels need to be fixed
+#' - `"list"`: the end-positions for each levels need to be fixed
 #' @param as (character) specifies the type of the return object. Possible
 #' choices are:
-#' \itemize{
-#' \item{\code{"network"}: }{the default; a \code{data.table} as network. The
-#' table consists of two columns where the \code{"root"} column defines the
-#' name of parent node to the label in the \code{"leaf"} column.}
-#' \item{\code{"df"}: }{a \code{data.frame} in \code{"@@; label"}-format.}
-#' \item{\code{"dt"}: }{a \code{data.table} in \code{"@@; label"}-format.}
-#' \item{\code{"code"}: }{returns the R-code that is required to build
-#' the tree}
-#' \item{\code{"sdc"}: }{the tree is structured as a list}
-#' \item{\code{"argus"}: }{suitable input for \code{\link{hier_export}} to
-#' write \code{"hrc"}-files for tau argus.}
-#' \item{\code{"json"}: }{a character-vector encoded as json-string.}
-#' }
+#' - `"network"`: the default; a `data.table` as network. The
+#' table consists of two columns where the `"root"` column defines the
+#' name of parent node to the label in the `"leaf"` column.
+#' - `"df"`: a `data.frame` in `"@@; label"`-format.
+#' - `"dt"`: a `data.table` in `"@@; label"`-format.
+#' - `"code"`: returns the R-code that is required to build
+#' the tree
+#' - `"sdc"`: the tree is structured as a list
+#' - `"argus"`: suitable input for [hier_export()] to
+#' write `"hrc"`-files for tau argus.
+#' - `"json"`: a character-vector encoded as json-string.
 #' @return a hierarchical data structure depending on choice of
-#' argument \code{as}
+#' argument `as`
 #' @export
+#' @md
 #' @examples
 #' ## Example Regional Codes (NUTS)
 #' # digits 1-2 (len=2, endpos=2) --> level 1

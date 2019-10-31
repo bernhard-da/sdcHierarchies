@@ -8,10 +8,10 @@ hier_app(x = hier_create(), ...)
 }
 \arguments{
 \item{x}{a character vector containing nested levels or
-an object generated with \code{hier_create()}}
+an object generated with \code{\link[=hier_create]{hier_create()}}}
 
 \item{...}{arguments (e.g \code{host}) that are passed
-through \code{\link[shiny]{runApp}} when
+through \code{\link[shiny:runApp]{shiny::runApp()}} when
 starting the shiny application}
 }
 \value{
@@ -19,7 +19,7 @@ The app can return a hierarchy object (either
 a \code{data.frame} or a tree-based object)
 }
 \description{
-This function starts the interactive \emph{shiny}-app
+This function starts the interactive \code{shiny}-app
 to (optionally) create and/or modify a nested hierarchy.
 It is possible to supply a character vector from which the
 hierarchy can be interactively built. Once this has been done,

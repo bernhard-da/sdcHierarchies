@@ -7,9 +7,8 @@
 hier_rename(tree, nodes)
 }
 \arguments{
-\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
-or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
-or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link[=hier_create]{hier_create()}}
+or modified using \code{\link[=hier_add]{hier_add()}}, \code{\link[=hier_delete]{hier_delete()}} or \code{\link[=hier_rename]{hier_rename()}}.}
 
 \item{nodes}{(character) new names of nodes/levels that should be changed as
 a named vector: names refer to old, existing names, the values to the

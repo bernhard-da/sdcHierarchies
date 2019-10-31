@@ -7,9 +7,8 @@
 hier_nodenames(tree, root = NULL)
 }
 \arguments{
-\item{tree}{a (nested) hierarchy created using \code{\link{hier_create}}
-or modified using \code{\link{hier_add}}, \code{\link{hier_delete}}
-or \code{\link{hier_rename}}.}
+\item{tree}{a (nested) hierarchy created using \code{\link[=hier_create]{hier_create()}}
+or modified using \code{\link[=hier_add]{hier_add()}}, \code{\link[=hier_delete]{hier_delete()}} or \code{\link[=hier_rename]{hier_rename()}}.}
 
 \item{root}{(character) name of start node from which all lower
 level-names should be returned}

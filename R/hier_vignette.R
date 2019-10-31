@@ -5,6 +5,7 @@
 #'
 #' @return a browser windows/tab with showing the vignette
 #' @export
+#' @md
 #' @examples
 #' \dontrun{
 #' hier_vignette()
