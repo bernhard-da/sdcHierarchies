@@ -6,18 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>hier_info — hier_info • sdcHierarchies</title>
+<title>Information about hierarchy-codes — hier_info • sdcHierarchies</title>
+
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -32,10 +34,12 @@
 
 
 
-<meta property="og:title" content="hier_info — hier_info" />
 
-<meta property="og:description" content="get information about all or specific nodes in a nested hierarchy" />
+<meta property="og:title" content="Information about hierarchy-codes — hier_info" />
+<meta property="og:description" content="hier_info() computes various information about hierarchy codes
+or the (nested) hierarchy." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -66,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.2</span>
       </span>
     </div>
 
@@ -97,7 +101,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/bernhard-da/sdcHierarchies">
@@ -118,27 +121,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>hier_info</h1>
+    <h1>Information about hierarchy-codes</h1>
     <small class="dont-index">Source: <a href='https://github.com/bernhard-da/sdcHierarchies/blob/master/R/hier_info.R'><code>R/hier_info.R</code></a></small>
     <div class="hidden name"><code>hier_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>get information about all or specific nodes in a nested hierarchy</p>
-    
+    <p><code>hier_info()</code> computes various information about hierarchy codes
+or the (nested) hierarchy.</p>
     </div>
 
     <pre class="usage"><span class='fu'>hier_info</span>(<span class='no'>tree</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tree</th>
-      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create</a></code>
-or modified using <code><a href='hier_add.html'>hier_add</a></code>, <code><a href='hier_delete.html'>hier_delete</a></code>
-or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
+      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create()</a></code>
+or modified using <code><a href='hier_add.html'>hier_add()</a></code>, <code><a href='hier_delete.html'>hier_delete()</a></code> or <code><a href='hier_rename.html'>hier_rename()</a></code>.</p></td>
     </tr>
     <tr>
       <th>nodes</th>
@@ -146,28 +147,27 @@ or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
 <code>"root"</code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a <code>list</code> with information about the required nodes.
 If <code>nodes</code> is <code>NULL</code> (the default), the information is
 computed for all available nodes of the hierarchy. The following
 properties are computed:</p><ul>
-<li><p>exists: (logical) does the node exist</p></li>
-<li><p>name: (character) node name</p></li>
-<li><p>is_rootnode: (logical) is the node the overall root of the tree?</p></li>
-<li><p>level: (numeric) what is the level of the nod</p></li>
-<li><p>is_leaf: (logical) is the node a leaf?</p></li>
-<li><p>siblings: (character) what are siblings of this node?</p></li>
-<li><p>contributing_codes: (character) which codes are contributing
+<li><p><code>exists</code>: (logical) does the node exist</p></li>
+<li><p><code>name</code>: (character) node name</p></li>
+<li><p><code>is_rootnode</code>: (logical) is the node the overall root of the tree?</p></li>
+<li><p><code>level</code>: (numeric) what is the level of the node</p></li>
+<li><p><code>is_leaf</code>: (logical) is the node a leaf?</p></li>
+<li><p><code>siblings</code>: (character) what are siblings of this node?</p></li>
+<li><p><code>contributing_codes</code>: (character) which codes are contributing
 to this node? If none (it is a leaf), <code>NA</code> is returned</p></li>
-<li><p>children: (character) the names of the children of the node.
+<li><p><code>children</code>: (character) the names of the children of the node.
 If it has none (it is a leaf), <code>NA</code> is returned</p></li>
-<li><p>is_bogus: (logical) is it a bogus code (i. e the only
+<li><p><code>is_bogus</code>: (logical) is it a bogus code (i. e the only
 children of a leaf?)</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,  <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
@@ -386,9 +386,7 @@ children of a leaf?)</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -402,7 +400,7 @@ children of a leaf?)</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

@@ -8,16 +8,18 @@
 
 <title>Create/Modify hierarchies interactively — hier_app • sdcHierarchies</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -32,14 +34,15 @@
 
 
 
-<meta property="og:title" content="Create/Modify hierarchies interactively — hier_app" />
 
+<meta property="og:title" content="Create/Modify hierarchies interactively — hier_app" />
 <meta property="og:description" content="This function starts the interactive shiny-app
 to (optionally) create and/or modify a nested hierarchy.
 It is possible to supply a character vector from which the
 hierarchy can be interactively built. Once this has been done,
 it is possible to modify and export the resulting hierarchy." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -70,7 +73,7 @@ it is possible to modify and export the resulting hierarchy." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.2</span>
       </span>
     </div>
 
@@ -101,7 +104,6 @@ it is possible to modify and export the resulting hierarchy." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/bernhard-da/sdcHierarchies">
@@ -128,17 +130,15 @@ it is possible to modify and export the resulting hierarchy." />
     </div>
 
     <div class="ref-description">
-    
-    <p>This function starts the interactive <em>shiny</em>-app
+    <p>This function starts the interactive <code>shiny</code>-app
 to (optionally) create and/or modify a nested hierarchy.
 It is possible to supply a character vector from which the
 hierarchy can be interactively built. Once this has been done,
 it is possible to modify and export the resulting hierarchy.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>hier_app</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(), <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -150,44 +150,30 @@ an object generated with <code><a href='hier_create.html'>hier_create()</a></cod
     <tr>
       <th>...</th>
       <td><p>arguments (e.g <code>host</code>) that are passed
-through <code><a href='https://rdrr.io/pkg/shiny/man/runApp.html'>runApp</a></code> when
+through <code><a href='https://rdrr.io/pkg/shiny/man/runApp.html'>shiny::runApp()</a></code> when
 starting the shiny application</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The app can return a hierarchy object (either
 a <code>data.frame</code> or a tree-based object)</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Another option is to supply an already existing hierarchy object.
 In this case, it is possible to modify the existing object in
 the app.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-# start with an empty hierarchy
-res <- hier_app()
-
-# start with a character vector that is used to
-build the hierarchy
-codes <- c("11", "12", "21", "22", "23", "31", "32")
-res <- hier_app(codes); print(res)
-# }
-</pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -201,7 +187,7 @@ res <- hier_app(codes); print(res)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

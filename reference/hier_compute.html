@@ -6,18 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>compute a nested hierarchy — hier_compute • sdcHierarchies</title>
+<title>Compute a nested hierarchy — hier_compute • sdcHierarchies</title>
+
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -32,11 +34,12 @@
 
 
 
-<meta property="og:title" content="compute a nested hierarchy — hier_compute" />
 
+<meta property="og:title" content="Compute a nested hierarchy — hier_compute" />
 <meta property="og:description" content="This function allows to compute a nested hierarchy from an character
 vector or a (named) list." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,7 +70,7 @@ vector or a (named) list." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.2</span>
       </span>
     </div>
 
@@ -98,7 +101,6 @@ vector or a (named) list." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/bernhard-da/sdcHierarchies">
@@ -119,27 +121,25 @@ vector or a (named) list." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>compute a nested hierarchy</h1>
+    <h1>Compute a nested hierarchy</h1>
     <small class="dont-index">Source: <a href='https://github.com/bernhard-da/sdcHierarchies/blob/master/R/hier_compute.R'><code>R/hier_compute.R</code></a></small>
     <div class="hidden name"><code>hier_compute.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>This function allows to compute a nested hierarchy from an character
 vector or a (named) list.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>hier_compute</span>(<span class='no'>inp</span>, <span class='kw'>dim_spec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"len"</span>,
   <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"network"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>inp</th>
-      <td><p>a character vector (for methods <code>len</code> and <code>endpos</code>
+      <td><p>a character vector (for methods <code>"len"</code> and <code>"endpos"</code>
 containing codes of a hierarchical variables or a list for
 method <code>list</code>. In the latter case, the input is expected to be a
 named list where each list-element contains the codes belonging to the
@@ -158,15 +158,15 @@ hierarchy should be created from a named list.</p></td>
       <th>root</th>
       <td><p><code>NULL</code> or a scalar characer specifying the name
 of the overall total in case it is not encoded at the first
-positions of <code>dim</code></p></td>
+positions of <code>dim</code>.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>either <code>len</code> (the default) or <code>endpos</code></p><ul>
-<li><p><code>len</code>: the number of characters for each of the levels
+      <td><p>either <code>"len"</code> (the default) or <code>"endpos"</code></p><ul>
+<li><p><code>"len"</code>: the number of characters for each of the levels
 needs to be specified</p></li>
-<li><p><code>endpos</code>: the end-positions for each levels need to be fixed</p></li>
-<li><p><code>list</code>: the end-positions for each levels need to be fixed</p></li>
+<li><p><code>"endpos"</code>: the end-positions for each levels need to be fixed</p></li>
+<li><p><code>"list"</code>: the end-positions for each levels need to be fixed</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -181,18 +181,17 @@ name of parent node to the label in the <code>"leaf"</code> column.</p></li>
 <li><p><code>"code"</code>: returns the R-code that is required to build
 the tree</p></li>
 <li><p><code>"sdc"</code>: the tree is structured as a list</p></li>
-<li><p><code>"argus"</code>: suitable input for <code><a href='hier_export.html'>hier_export</a></code> to
+<li><p><code>"argus"</code>: suitable input for <code><a href='hier_export.html'>hier_export()</a></code> to
 write <code>"hrc"</code>-files for tau argus.</p></li>
 <li><p><code>"json"</code>: a character-vector encoded as json-string.</p></li>
 </ul></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a hierarchical data structure depending on choice of
 argument <code>as</code></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Example Regional Codes (NUTS)</span>
@@ -434,9 +433,7 @@ argument <code>as</code></p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -450,7 +447,7 @@ argument <code>as</code></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

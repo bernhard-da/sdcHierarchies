@@ -8,16 +8,18 @@
 
 <title>Converts hierarchies into different formats — hier_convert • sdcHierarchies</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -32,11 +34,12 @@
 
 
 
-<meta property="og:title" content="Converts hierarchies into different formats — hier_convert" />
 
+<meta property="og:title" content="Converts hierarchies into different formats — hier_convert" />
 <meta property="og:description" content="This functions allows to convert nested hierarchies into
 other data structures." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -67,7 +70,7 @@ other data structures." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.2</span>
       </span>
     </div>
 
@@ -98,7 +101,6 @@ other data structures." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/bernhard-da/sdcHierarchies">
@@ -125,43 +127,39 @@ other data structures." />
     </div>
 
     <div class="ref-description">
-    
     <p>This functions allows to convert nested hierarchies into
 other data structures.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>hier_convert</span>(<span class='no'>tree</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"df"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tree</th>
-      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create</a></code>
-or modified using <code><a href='hier_add.html'>hier_add</a></code>, <code><a href='hier_delete.html'>hier_delete</a></code>
-or <code><a href='hier_rename.html'>hier_rename</a></code>.</p></td>
+      <td><p>a (nested) hierarchy created using <code><a href='hier_create.html'>hier_create()</a></code>
+or modified using <code><a href='hier_add.html'>hier_add()</a></code>, <code><a href='hier_delete.html'>hier_delete()</a></code> or <code><a href='hier_rename.html'>hier_rename()</a></code>.</p></td>
     </tr>
     <tr>
       <th>as</th>
       <td><p>(character) specifying the export format. Possible choices are:</p><ul>
-<li><p><strong>"df"</strong>: a <code>data.frame</code> with two columns. The first
+<li><p><code>"df"</code>: a <code>data.frame</code> with two columns. The first
 columns contains a string containing as many <code>@</code> as the level of the
 node in the string (e.g <code>@</code> corresponds to the overall
 total while <code>@</code> would be all codes contributing to the total.
 The second column contains the names of the levels.</p></li>
-<li><p><strong>"dt"</strong>: like the <code>df</code>-version but this result is
+<li><p><code>"dt"</code>: like the <code>df</code>-version but this result is
 converted to a <code>data.table</code></p></li>
-<li><p><strong>"argus"</strong>: used to create hrc-files suitable for tau-argus</p></li>
-<li><p><strong>"json"</strong>: json format suitable e.g. as input for
+<li><p><code>"argus"</code>: used to create hrc-files suitable for tau-argus</p></li>
+<li><p><code>"json"</code>: json format suitable e.g. as input for
 the shinyTree package.</p></li>
-<li><p><strong>"code"</strong>: code required to generate the hierarchy</p></li>
-<li><p><strong>"sdc"</strong>: a <code>list</code> which is a suitable input
-for <code>sdcTable</code></p></li>
+<li><p><code>"code"</code>: code required to generate the hierarchy</p></li>
+<li><p><code>"sdc"</code>: a <code>list</code> which is a suitable input for <code>sdcTable</code></p></li>
 </ul></td>
     </tr>
     </table>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>])
@@ -202,7 +200,6 @@ for <code>sdcTable</code></p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -216,7 +213,7 @@ for <code>sdcTable</code></p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>
