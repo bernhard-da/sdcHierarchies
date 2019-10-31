@@ -13,19 +13,18 @@ or \code{\link{hier_rename}}.}
 
 \item{as}{(character) specifying the export format. Possible choices are:
 \itemize{
-\item \strong{"df"}: a \code{data.frame} with two columns. The first
-columns contains a string containing as many \code{@} as the level of the
-node in the string (e.g \code{@} corresponds to the overall
-total while \code{@} would be all codes contributing to the total.
+\item \code{"df"}: a \code{data.frame} with two columns. The first
+columns contains a string containing as many \verb{@} as the level of the
+node in the string (e.g \verb{@} corresponds to the overall
+total while \verb{@} would be all codes contributing to the total.
 The second column contains the names of the levels.
-\item \strong{"dt"}: like the \code{df}-version but this result is
+\item \code{"dt"}: like the \code{df}-version but this result is
 converted to a \code{data.table}
-\item \strong{"argus"}: used to create hrc-files suitable for tau-argus
-\item \strong{"json"}: json format suitable e.g. as input for
+\item \code{"argus"}: used to create hrc-files suitable for tau-argus
+\item \code{"json"}: json format suitable e.g. as input for
 the shinyTree package.
-\item \strong{"code"}: code required to generate the hierarchy
-\item \strong{"sdc"}: a \code{list} which is a suitable input
-for \code{sdcTable}
+\item \code{"code"}: code required to generate the hierarchy
+\item \code{"sdc"}: a \code{list} which is a suitable input for \code{sdcTable}
 }}
 
 \item{path}{(character) relative or absolute path where results should

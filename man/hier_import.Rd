@@ -14,18 +14,18 @@ the input format.}
 Possible choices are:
 \itemize{
 \item \code{"json"}: a json-encoded string as created using
-\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "json")}
-\item \code{"df"}: a \code{data.frame} in \code{@;level}-format or an input created
-with \code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "df")}
-\item \code{"dt"}: a \code{data.frame} in \code{@;level}-format or an input created
-with \code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "dt")}
+\code{\link[=hier_convert]{hier_convert()}} with argument \verb{as = "json")}
+\item \code{"df"}: a \code{data.frame} in \verb{@;level}-format or an input created
+with \code{\link[=hier_convert]{hier_convert()}} with argument \verb{as = "df")}
+\item \code{"dt"}: a \code{data.frame} in \verb{@;level}-format or an input created
+with \code{\link[=hier_convert]{hier_convert()}} with argument \verb{as = "dt")}
 \item \code{"argus"}: a json-encoded string as created using
-\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "argus")}
+\code{\link[=hier_convert]{hier_convert()}} with argument \verb{as = "argus")}
 \item \code{"code"}: a json-encoded string as created using
-\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "code")}
+\code{\link[=hier_convert]{hier_convert()}} with argument \verb{as = "code")}
 \item \code{"hrc"}: text-files in tau-argus hrc-format
 \item \code{"sdc"}: a json-encoded string as created using
-\code{\link[=hier_convert]{hier_convert()}} with argument \code{as = "sdc")}
+\code{\link[=hier_convert]{hier_convert()}} with argument \verb{as = "sdc")}
 }}
 
 \item{root}{optional name of overall total}

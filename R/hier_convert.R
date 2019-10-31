@@ -5,21 +5,19 @@
 #'
 #' @inherit hier_add
 #' @param as (character) specifying the export format. Possible choices are:
-#' \itemize{
-#' \item \strong{"df"}: a \code{data.frame} with two columns. The first
-#' columns contains a string containing as many \code{@} as the level of the
-#' node in the string (e.g \code{@} corresponds to the overall
-#' total while \code{@@} would be all codes contributing to the total.
+#' - `"df"`: a `data.frame` with two columns. The first
+#' columns contains a string containing as many `@` as the level of the
+#' node in the string (e.g `@` corresponds to the overall
+#' total while `@@` would be all codes contributing to the total.
 #' The second column contains the names of the levels.
-#' \item \strong{"dt"}: like the \code{df}-version but this result is
-#' converted to a \code{data.table}
-#' \item \strong{"argus"}: used to create hrc-files suitable for tau-argus
-#' \item \strong{"json"}: json format suitable e.g. as input for
+#' - `"dt"`: like the `df`-version but this result is
+#' converted to a `data.table`
+#' - `"argus"`: used to create hrc-files suitable for tau-argus
+#' - `"json"`: json format suitable e.g. as input for
 #' the shinyTree package.
-#' \item \strong{"code"}: code required to generate the hierarchy
-#' \item \strong{"sdc"}: a \code{list} which is a suitable input
-#' for \code{sdcTable}
-#' }
+#' - `"code"`: code required to generate the hierarchy
+#' - `"sdc"`: a `list` which is a suitable input for `sdcTable`
+#' @md
 #' @export
 #' @examples
 #' h <- hier_create(root = "Total", nodes = LETTERS[1:2])
@@ -172,13 +170,17 @@ hier_convert <- function(tree, as="df") {
     df$level <- substr(df$level, 3, nchar(df$level))
     sout <-  df$name
     ind_levs <-  df$level != ""
-    m1 <- max(nchar(df$level[ind_levs]))
-    slev <- sprintf(paste0("%-", m1, "s"), df$level[ind_levs])
 
-    m2 <- max(nchar(df$name[ind_levs]))
-    sname <- sprintf(paste0("%", m2, "s"), df$name[ind_levs])
+    if (sum(ind_levs) > 0) {
+      m1 <- max(nchar(df$level[ind_levs]))
+      slev <- sprintf(paste0("%-", m1, "s"), df$level[ind_levs])
 
-    sout[ind_levs] <- paste(slev, sname)
+      m2 <- max(nchar(df$name[ind_levs]))
+      sname <- sprintf(paste0("%", m2, "s"), df$name[ind_levs])
+
+      sout[ind_levs] <- paste(slev, sname)
+    }
+
     attr(dforig, "sout") <- sout
     return(dforig)
   }
