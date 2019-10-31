@@ -1,4 +1,8 @@
-# sdcHierarchies 0.19
+# sdcHierarchies 0.18.2
+- fix warning when converting hierarchies to argus
+- improve documentation
+
+# sdcHierarchies 0.18.1
 ### Bugfixes
 - remove `data.tree` from shiny app;
 - other small fixes in the shiny-app
