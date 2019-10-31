@@ -13,9 +13,9 @@ or modified using \code{\link[=hier_add]{hier_add()}}, \code{\link[=hier_delete]
 \item{as}{(character) specifying the export format. Possible choices are:
 \itemize{
 \item \code{"df"}: a \code{data.frame} with two columns. The first
-columns contains a string containing as many \verb{@} as the level of the
-node in the string (e.g \verb{@} corresponds to the overall
-total while \verb{@} would be all codes contributing to the total.
+columns contains a string containing as many \code{@} as the level of the
+node in the string (e.g \code{@} corresponds to the overall
+total while \code{@} would be all codes contributing to the total.
 The second column contains the names of the levels.
 \item \code{"dt"}: like the \code{df}-version but this result is
 converted to a \code{data.table}
