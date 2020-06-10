@@ -4,8 +4,7 @@
 \alias{hier_compute}
 \title{Compute a nested hierarchy}
 \usage{
-hier_compute(inp, dim_spec = NULL, root = NULL, method = "len",
-  as = "network")
+hier_compute(inp, dim_spec = NULL, root = NULL, method = "len", as = "network")
 }
 \arguments{
 \item{inp}{a character vector (for methods \code{"len"} and \code{"endpos"}

@@ -17,8 +17,8 @@ a (nested) sdc hierarchy tree
 \description{
 This functions allows to generate a hierarchical
 data structure that can be used in other packages such
-as \href{https://github.com/sdcTools/cellKey}{cellKey}
-or \href{https://github.com/sdcTools/sdcTable}{sdcTable}.
+as \href{https://github.com/sdcTools/cellKey}{\code{cellKey}}
+or \href{https://github.com/sdcTools/sdcTable}{\code{sdcTable}}.
 }
 \examples{
 # without nodes

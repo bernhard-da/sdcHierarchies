@@ -18,10 +18,10 @@ be appended to the output \code{data.table}.}
 }
 \value{
 a \code{data.table} featuring a column for each hierarchy object specified in
-argument \code{...}. These columns are labeled \code{v{n}}. If \code{add_levs} is \code{TRUE},
-for each hierarchy provided, an additional column labeled \code{levs_v{n}} is appended
+argument \code{...}. These columns are labeled \verb{v\{n\}}. If \code{add_levs} is \code{TRUE},
+for each hierarchy provided, an additional column labeled \verb{levs_v\{n\}} is appended
 to the output. Its values define the hierarchy level of the corresponding code
-given in \code{v{n}} in the same row.
+given in \verb{v\{n\}} in the same row.
 }
 \description{
 This function returns a \code{data.table} containing all possible combinations of
