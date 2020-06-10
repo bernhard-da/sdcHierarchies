@@ -184,3 +184,20 @@ tree <- hier_compute(
 expect_identical(tree$root, "Tot")
 expect_identical(tree$leaf, "Tot")
 expect_is(tree, "sdc_hierarchy")
+
+context("Check computation of required digits")
+
+h1 <- hier_create(root = "total", nodes = letters[1:9])
+expect_identical(hier_convert(h1, as = "sdc")$structure, c(1, 1))
+
+h1 <- hier_add(h1, root = "total", nodes = letters[10])
+expect_identical(hier_convert(h1, as = "sdc")$structure, c(1, 2))
+
+h1 <- hier_add(h1, root = "a", nodes = paste0("a", 1:9))
+expect_identical(hier_convert(h1, as = "sdc")$structure, c(1, 2, 1))
+
+h1 <- hier_add(h1, root = "b", nodes = paste0("b", 1:9))
+expect_identical(hier_convert(h1, as = "sdc")$structure, c(1, 2, 1))
+
+h1 <- hier_add(h1, root = "b", nodes = paste0("b", 10))
+expect_identical(hier_convert(h1, as = "sdc")$structure, c(1, 2, 2))

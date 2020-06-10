@@ -1,3 +1,6 @@
+# sdcHierarchies 0.18.3
+- bugfix when converting hierarchies to sdc-objects.
+
 # sdcHierarchies 0.18.2
 - fix warning when converting hierarchies to argus
 - improve documentation

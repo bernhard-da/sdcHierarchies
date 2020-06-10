@@ -308,10 +308,9 @@
   req_digits <- rep(NA, .nr_levels(tree))
   req_digits[1] <- 1
   for (i in 2:ncol(dt)) {
-    key_vars <- paste0("V", c(i - 1, i))
-    setkeyv(dt, key_vars)
-    agg <- dt[, .N, by = key(dt)]
-    req_digits[i] <- nchar(max(agg[!is.na(agg[[2]])]$N))
+    tmp <- na.omit(unique(dt[, c(i - 1, i), with = FALSE]))
+    s <- split(tmp, tmp[[1]])
+    req_digits[i] <- max(nchar(sapply(s, nrow)))
   }
   req_digits
 }
