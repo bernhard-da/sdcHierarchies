@@ -134,7 +134,7 @@ and default codes." />
 and default codes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hier_match</span>(<span class='no'>tree</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='st'>"orig"</span>)</pre>
+    <pre class="usage"><span class='fu'>hier_match</span>(<span class='kw'>tree</span>, nodes = <span class='kw'>NULL</span>, inputs = <span class='st'>"orig"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,12 +172,12 @@ node.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Tot"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>5</span>])
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"a"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='st'>"a0"</span>)
-<span class='no'>h2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"dt"</span>)
-<span class='fu'>hier_match</span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>), <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='st'>"orig"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
+    <pre class="examples"><div class='input'><span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(root = <span class='st'>"Tot"</span>, nodes = <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>])
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='kw'>h</span>, root = <span class='st'>"a"</span>, nodes = <span class='st'>"a0"</span>)
+<span class='kw'>h2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_convert.html'>hier_convert</a></span>(tree = <span class='kw'>h</span>, as = <span class='st'>"dt"</span>)
+<span class='fu'>hier_match</span>(tree = <span class='kw'>h</span>, nodes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>), inputs = <span class='st'>"orig"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
 #&gt; 1:    a      01    FALSE
-#&gt; 2:    b      02    FALSE</div><div class='input'><span class='fu'>hier_match</span>(<span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>h2</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"01"</span>, <span class='st'>"02"</span>), <span class='kw'>inputs</span> <span class='kw'>=</span> <span class='st'>"default"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
+#&gt; 2:    b      02    FALSE</div><div class='input'><span class='fu'>hier_match</span>(tree = <span class='kw'>h2</span>, nodes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"01"</span>, <span class='st'>"02"</span>), inputs = <span class='st'>"default"</span>)</div><div class='output co'>#&gt;    orig default is_bogus
 #&gt; 1:    a      01    FALSE
 #&gt; 2:    b      02    FALSE</div></pre>
   </div>

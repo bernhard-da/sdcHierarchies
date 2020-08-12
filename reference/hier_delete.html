@@ -134,7 +134,7 @@ from an existing nested hierarchy." />
 from an existing nested hierarchy.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hier_delete</span>(<span class='no'>tree</span>, <span class='no'>nodes</span>)</pre>
+    <pre class="usage"><span class='fu'>hier_delete</span>(<span class='kw'>tree</span>, <span class='kw'>nodes</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,11 +152,11 @@ or modified using <code><a href='hier_add.html'>hier_add()</a></code>, <code>hie
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>])
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"A"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a2"</span>))
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"b1"</span>, <span class='st'>"b2"</span>))
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"b1"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='st'>"b1a"</span>)
-<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; Total
+    <pre class="examples"><div class='input'><span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(root = <span class='st'>"Total"</span>, nodes = <span class='kw'>LETTERS</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>])
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='kw'>h</span>, root = <span class='st'>"A"</span>, nodes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a2"</span>))
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='kw'>h</span>, root = <span class='st'>"B"</span>, nodes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"b1"</span>, <span class='st'>"b2"</span>))
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='kw'>h</span>, root = <span class='st'>"b1"</span>, nodes = <span class='st'>"b1a"</span>)
+<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='kw'>h</span>)</div><div class='output co'>#&gt; Total
 #&gt; ├─A
 #&gt; │ ├─a1
 #&gt; │ └─a2
@@ -164,8 +164,8 @@ or modified using <code><a href='hier_add.html'>hier_add()</a></code>, <code>hie
 #&gt;   ├─b1
 #&gt;   │ └─b1a
 #&gt;   └─b2</div><div class='input'>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_delete</span>(<span class='no'>h</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"b1a"</span>))
-<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; Total
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'>hier_delete</span>(<span class='kw'>h</span>, nodes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"b1a"</span>))
+<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='kw'>h</span>)</div><div class='output co'>#&gt; Total
 #&gt; ├─A
 #&gt; │ └─a2
 #&gt; └─B

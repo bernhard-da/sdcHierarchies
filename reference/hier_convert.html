@@ -134,7 +134,7 @@ other data structures." />
 other data structures.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hier_convert</span>(<span class='no'>tree</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"df"</span>)</pre>
+    <pre class="usage"><span class='fu'>hier_convert</span>(<span class='kw'>tree</span>, as = <span class='st'>"df"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,9 +148,9 @@ or modified using <code><a href='hier_add.html'>hier_add()</a></code>, <code><a 
       <th>as</th>
       <td><p>(character) specifying the export format. Possible choices are:</p><ul>
 <li><p><code>"df"</code>: a <code>data.frame</code> with two columns. The first
-columns contains a string containing as many <code>@</code> as the level of the
-node in the string (e.g <code>@</code> corresponds to the overall
-total while <code>@</code> would be all codes contributing to the total.
+columns contains a string containing as many <code><a href='https://rdrr.io/r/base/slotOp.html'>@</a></code> as the level of the
+node in the string (e.g <code><a href='https://rdrr.io/r/base/slotOp.html'>@</a></code> corresponds to the overall
+total while <code><a href='https://rdrr.io/r/base/slotOp.html'>@</a></code> would be all codes contributing to the total.
 The second column contains the names of the levels.</p></li>
 <li><p><code>"dt"</code>: like the <code>df</code>-version but this result is
 converted to a <code>data.table</code></p></li>
@@ -165,11 +165,11 @@ the shinyTree package.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>])
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"A"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a2"</span>))
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"b1"</span>, <span class='st'>"b2"</span>))
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='no'>h</span>, <span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"b1"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='st'>"b1a"</span>)
-<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; Total
+    <pre class="examples"><div class='input'><span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_create.html'>hier_create</a></span>(root = <span class='st'>"Total"</span>, nodes = <span class='kw'>LETTERS</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>])
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='kw'>h</span>, root = <span class='st'>"A"</span>, nodes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a1"</span>, <span class='st'>"a2"</span>))
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='kw'>h</span>, root = <span class='st'>"B"</span>, nodes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"b1"</span>, <span class='st'>"b2"</span>))
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'><a href='hier_add.html'>hier_add</a></span>(<span class='kw'>h</span>, root = <span class='st'>"b1"</span>, nodes = <span class='st'>"b1a"</span>)
+<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='kw'>h</span>)</div><div class='output co'>#&gt; Total
 #&gt; ├─A
 #&gt; │ ├─a1
 #&gt; │ └─a2
@@ -178,7 +178,7 @@ the shinyTree package.</p></li>
 #&gt;   │ └─b1a
 #&gt;   └─b2</div><div class='input'>
 <span class='co'># required code to build the hierarchy</span>
-<span class='fu'>hier_convert</span>(<span class='no'>h</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"code"</span>)</div><div class='output co'>#&gt; [1] "library(sdcHierarchies)"                                         
+<span class='fu'>hier_convert</span>(<span class='kw'>h</span>, as = <span class='st'>"code"</span>)</div><div class='output co'>#&gt; [1] "library(sdcHierarchies)"                                         
 #&gt; [2] "tree &lt;- hier_create(root = 'Total', nodes = c('A', 'B'))"        
 #&gt; [3] "tree &lt;- hier_add(tree = tree, root = 'A', nodes = c('a1', 'a2'))"
 #&gt; [4] "tree &lt;- hier_add(tree = tree, root = 'B', nodes = c('b1', 'b2'))"
@@ -189,7 +189,7 @@ the shinyTree package.</p></li>
 #&gt; attr(,"hier_format")
 #&gt; [1] "code"</div><div class='input'>
 <span class='co'># data.frame</span>
-<span class='fu'>hier_convert</span>(<span class='no'>h</span>, <span class='kw'>as</span> <span class='kw'>=</span> <span class='st'>"df"</span>)</div><div class='output co'>#&gt;   level  name
+<span class='fu'>hier_convert</span>(<span class='kw'>h</span>, as = <span class='st'>"df"</span>)</div><div class='output co'>#&gt;   level  name
 #&gt; 1     @ Total
 #&gt; 2    @@     A
 #&gt; 3   @@@    a1

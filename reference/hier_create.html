@@ -138,7 +138,7 @@ as <a href='https://github.com/sdcTools/cellKey'><code>cellKey</code></a>
 or <a href='https://github.com/sdcTools/sdcTable'><code>sdcTable</code></a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hier_create</span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>hier_create</span>(root = <span class='st'>"Total"</span>, nodes = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,11 +163,11 @@ hier_convert hier_app hier_info</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># without nodes</span>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_create</span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"tot"</span>)
-<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; tot</div><div class='input'>
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'>hier_create</span>(root = <span class='st'>"tot"</span>)
+<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='kw'>h</span>)</div><div class='output co'>#&gt; tot</div><div class='input'>
 <span class='co'># with nodes</span>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fu'>hier_create</span>(<span class='kw'>root</span> <span class='kw'>=</span> <span class='st'>"tot"</span>, <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>5</span>])
-<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='no'>h</span>)</div><div class='output co'>#&gt; tot
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fu'>hier_create</span>(root = <span class='st'>"tot"</span>, nodes = <span class='kw'>LETTERS</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>])
+<span class='fu'><a href='hier_display.html'>hier_display</a></span>(<span class='kw'>h</span>)</div><div class='output co'>#&gt; tot
 #&gt; ├─A
 #&gt; ├─B
 #&gt; ├─C
