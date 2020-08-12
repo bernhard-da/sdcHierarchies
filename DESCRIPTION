@@ -2,7 +2,7 @@ Package: sdcHierarchies
 Type: Package
 Title: Create and (Interactively) Modify Nested Hierarchies
 Version: 0.18.3
-Date: 2020-06-09
+Date: 2020-08-12
 Authors@R: c(person("Bernhard", "Meindl", email = "Bernhard.Meindl@statistik.gv.at", role = c("aut", "cre")))
 Description: Provides functionality to generate, (interactively) modify (by adding, removing and renaming nodes) and convert nested hierarchies between different formats.
   These tree like structures can be used to define for example complex hierarchical tables used for statistical disclosure control.
@@ -18,4 +18,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/bernhard-da/sdcHierarchies
 BugReports: https://github.com/bernhard-da/sdcHierarchies/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

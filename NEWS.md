@@ -60,7 +60,7 @@
 # sdcHierarchies 0.12.0
 - continuous integration using travis
 - check code is linted correctly
-- building docs using pkgsdown, site is [**here**](https://bernhard-da.github.io/sdcHierarchies)
+- building docs using pkgdown, site is [**here**](https://bernhard-da.github.io/sdcHierarchies/)
 
 # sdcHierarchies 0.11.0
 - `sdcHier_convert()` can now convert a hierarchy to the format tau-argus understands using `format='argus'`
