@@ -75,7 +75,8 @@ hier_convert(tree, as = "code")
 # convert from dt with bogus codes
 sdc <- hier_convert(tree, as = "sdc")
 tree <- hier_import(inp = sdc, from = "sdc")
-expect_equal(.bogus_codes(tree), "a5a")
+expect_equal(.bogus_codes(tree)$bogus, "a5a")
+expect_equal(.bogus_codes(tree)$bogus_parent, "a5")
 
 erg_sdc <- hier_convert(tree, as = "sdc")
 expect_equal(erg_sdc$bogus$bogus_codes, "a5a")

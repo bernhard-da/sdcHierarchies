@@ -192,15 +192,10 @@ hier_convert <- function(tree, as="df") {
     ## compute and remove bogus-codes
     bogus_codes <- .bogus_codes(tree)
 
-    if (length(bogus_codes) > 0) {
-      # remove these codes; they do not contribute to the problem
-      bogus_parents <- sapply(bogus_codes, function(x) {
-        .parent(tree = tree, leaf = x)
-      })
-      bogus_parents <- as.character(bogus_parents)
+    if (length(bogus_codes$bogus) > 0) {
       bogus <- list(
-        bogus_codes = bogus_codes,
-        bogus_parents = bogus_parents
+        bogus_codes = bogus_codes$bogus,
+        bogus_parents = bogus_codes$bogus_parent
       )
 
       # remove these codes from the hierarchy
