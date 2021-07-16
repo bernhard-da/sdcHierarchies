@@ -1,7 +1,7 @@
 # sdcHierarchies 0.19.0
 - [todo] allow non-nested hierarchies
-- performance improvements by rewriting utility-functions with Rcpp
-- [todo] improve shiny
+- major performance improvements by rewriting utility-functions in Rcpp
+- bugfix in `hier_app()` when exporting; 
 
 # sdcHierarchies 0.18.3
 - bugfix when converting hierarchies to sdc-objects.
