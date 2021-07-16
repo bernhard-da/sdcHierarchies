@@ -45,7 +45,7 @@ output$btn_export_dl <- shiny::downloadHandler(
       ext <- ".R"
     } else if (ff == "json") {
       ext <- ".json"
-    } else if (ff == "sdc") {
+    } else if (ff %in% c("node", "sdc")) {
       ext <- ".rds"
     }
     paste0(
@@ -55,6 +55,11 @@ output$btn_export_dl <- shiny::downloadHandler(
   },
   content = function(con) {
     dd <- hier_import(inp = json(), root = overall_level_name())
-    dd <- hier_export(dd, as = input$export_format, path = con)
+    if (input$export_format == "node") {
+      dd <- saveRDS(object = dd, file = con)
+    } else {
+      dd <- hier_export(dd, as = input$export_format, path = con)
+    }
+
   }
 )
