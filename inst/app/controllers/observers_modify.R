@@ -16,6 +16,7 @@ shiny::observe({
 # update JSON in case hierarchies have been moved/dragged around
 shiny::observeEvent(input$mytree, {
   req(input$mytree)
+  print(input$mytree)
   json(
     hier_convert(
       shinytree_to_tree(

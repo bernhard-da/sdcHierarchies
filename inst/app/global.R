@@ -64,7 +64,8 @@ shinytree_to_tree <- function(tree, root = NULL) {
     vars <- paste0("V", c(i - 1):i)
     new <- unique(dt[, vars, with = FALSE])
     new <- new[!is.na(new[[2]])]
-    setnames(new, c("root", "leaf"))
+    new$level <- tree$level[tree$leaf == new$root[1]] + 1
+    setnames(new, c("root", "leaf", "level"))
     tree <- sdcHierarchies:::.add_nodes(tree = tree, new = new)
   }
   tree

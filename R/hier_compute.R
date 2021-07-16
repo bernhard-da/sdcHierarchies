@@ -252,7 +252,16 @@ hier_compute <- function(inp,
         leaf = dim[[x]]
       )
     })
-    tree <- .add_nodes(tree = tree, new = rbindlist(dt))
+
+    for (i in seq_len(length(dt))) {
+      toadd <- dt[[i]]
+      if (i == 1) {
+        toadd$level <- 2
+      } else {
+        toadd$level <- tree$level[tree$leaf == toadd$root[1]] + 1
+      }
+      tree <- .add_nodes(tree = tree, new = toadd)
+    }
     tree <- .sort(tree)
     tree <- .add_class(tree)
     return(tree)
@@ -327,17 +336,20 @@ hier_compute <- function(inp,
         if (i == 2) {
           new[[i - 1]] <- data.table(
             root = .rootnode(tree),
-            leaf = unique(substr(inp, 1, to)[ii])
+            leaf = unique(substr(inp, 1, to)[ii]),
+            level = i
           )
         } else {
           to_prev <- cs[i - 1]
           new[[i - 1]] <- unique(data.table(
             root = substr(inp, start = 1, stop = to_prev)[ii],
-            leaf = substr(inp, start = 1, stop = to)[ii]
+            leaf = substr(inp, start = 1, stop = to)[ii],
+            level = i
           ))
         }
       }
     }
+
     tree <- .add_nodes(tree = tree, new = rbindlist(new))
     tree <- .sort(tree)
     .is_valid(tree)

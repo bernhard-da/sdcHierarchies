@@ -27,7 +27,8 @@ hier_create <- function(root = "Total", nodes = NULL) {
       tree = tree,
       new = data.table(
         root = root,
-        leaf  = nodes
+        leaf  = nodes,
+        level = 2
       )
     )
   }

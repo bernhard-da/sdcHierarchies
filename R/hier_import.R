@@ -62,11 +62,22 @@ hier_import <- function(inp, from="json", root=NULL) {
     }
 
     tree <- hier_create(root = .lab_from_attr(json, root))
-    new <- data.table(
-      root = tab$from,
-      leaf = tab$to
-    )
-    tree <- .add_nodes(tree = tree, new = new)
+    if (nrow(tab) > 0) {
+      subtots <- unique(tab$from)
+      new <- vector("list", length(subtots))
+      names(new) <- subtots
+      for (v in subtots) {
+        new[[v]] <-
+        tree <- .add_nodes(
+          tree = tree,
+          new = data.table(
+            root = v,
+            leaf = tab$to[tab$from == v],
+            level = tree$level[tree$leaf == v] + 1
+          )
+        )
+      }
+    }
     tree <- .sort(tree)
     tree <- .add_class(tree)
     tree
@@ -101,7 +112,7 @@ hier_import <- function(inp, from="json", root=NULL) {
       parent <- dt$labs[index_parent]
       tree <- .add_nodes(
         tree = tree,
-        new = data.table(root = parent, leaf = code)
+        new = data.table(root = parent, leaf = code, level = dt$level[row])
       )
       dt$todo[row] <- FALSE
     }
@@ -166,16 +177,18 @@ hier_import <- function(inp, from="json", root=NULL) {
     })
 
     tree <- .from_dt(dt)
-
     bogus <- inp$bogus
     if (!is.null(bogus$bogus_codes)) {
-      tree <- .add_nodes(
-        tree = tree,
-        new = data.table(
-          root = bogus$bogus_parents,
-          leaf = bogus$bogus_codes
+      for (i in seq_len(length(bogus$bogus_codes))) {
+        tree <- .add_nodes(
+          tree = tree,
+          new = data.table(
+            root = bogus$bogus_parents[i],
+            leaf = bogus$bogus_codes[i],
+            level = tree$level[tree$leaf == bogus$bogus_parents[i]] + 1
+          )
         )
-      )
+      }
     }
     tree <- .sort(tree)
     tree <- .add_class(tree)

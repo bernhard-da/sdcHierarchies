@@ -8,7 +8,8 @@
 .init <- function(rootnode) {
   tree <- data.table(
     root = rootnode,
-    leaf = rootnode
+    leaf = rootnode,
+    level = 1
   )
   class(tree) <- unique(c("sdc_hierarchy", class(tree)))
   tree
@@ -24,7 +25,7 @@
   # check only one rootnode
   if (nrow(tree) > 0) {
     if (sum(duplicated(tree$leaf)) > 0) {
-      stop("non-unique leaf nodes detected!\n")
+      stop("non-unique leaf nodes detected!", call. = FALSE)
     }
   }
   TRUE
@@ -41,12 +42,12 @@
 
 # returns the names of all nodes
 .all_nodes <- function(tree) {
-  tree$leaf
+  rcpp_all_nodes(tree = tree)
 }
 
 # returns the name of the rootnode
 .rootnode <- function(tree) {
-  tree$root[tree$leaf == tree$root]
+  rcpp_rootnode(tree = tree)
 }
 
 # adds multiple rows to an existing tree
@@ -58,168 +59,90 @@
 
 # all direct children of a given leaf in the tree
 .children <- function(tree, leaf) {
-  ii <- tree$root == leaf
-  res <- as.character(tree$leaf[ii])
-  if (length(res) == 0) {
-    return(character())
-  }
-  rootnode <- .rootnode(tree)
-  if (leaf == rootnode) {
-    res <- setdiff(res, rootnode)
-  }
-  res
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_children(tree = tree, leaf = leaf)
 }
 
 # returns number of children for a given leaf in the tree
 .nr_children <- function(tree, leaf) {
-  length(.children(tree = tree, leaf = leaf))
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_nr_children(tree = tree, leaf = leaf)
 }
 
 # returns TRUE if the given leaf has no children
 .is_leaf <- function(tree, leaf) {
-  .nr_children(tree = tree, leaf = leaf) == 0
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_is_leaf(tree = tree, leaf = leaf)
 }
 
 # computes all siblings for each node
 .siblings <- function(tree, leaf) {
-  ii <- which(leaf == tree$leaf)
-  if (length(ii) == 0) {
-    stop(paste("leaf", shQuote(leaf), "not found!"), call. = FALSE)
-  }
-  parent <- tree$root[ii]
-
-  res <- tree$leaf[tree$root == parent]
-  res <- setdiff(res, c(leaf, parent))
-  if (length(res) == 0) {
-    return(character())
-  }
-  return(res)
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_siblings(tree = tree, leaf = leaf)
 }
 
 # returns number of sibligns for a given leaf in the tree
 .nr_siblings <- function(tree, leaf) {
-  length(.siblings(tree = tree, leaf = leaf))
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_nr_siblings(tree = tree, leaf = leaf)
 }
 
 # returns TRUE, if a given leaf exists in the tree
 .exists <- function(tree, leaf) {
-  leaf %in% .all_nodes(tree)
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_exists(tree = tree, leaf = leaf)
 }
 
 # returns TRUE if given leaf is the rootnode
 .is_rootnode <- function(tree, leaf) {
-  leaf == .rootnode(tree)
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_is_rootnode(tree = tree, leaf = leaf)
 }
 
 # returns path from rootnode to given leaf
 .path <- function(tree, leaf) {
-  rootn <- .rootnode(tree)
-  if (leaf == rootn) {
-    return(leaf)
-  }
-
-  pathout <- leaf
-  ind <- which(tree$leaf == leaf)
-  res <- tree$root[ind]
-
-  pathout <- c(res, pathout)
-  while (res != rootn) {
-    ind <- which(tree$leaf == res)
-    res <- tree$root[ind]
-    pathout <- c(res, pathout)
-  }
-  pathout
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_path(tree = tree, leaf = leaf)
 }
 
 # numeric level of given leaf in the tree
 .level <- function(tree, leaf) {
-  length(.path(tree = tree, leaf = leaf))
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_level(tree = tree, leaf = leaf)
 }
 
 # all levels (numeric of the given tree)
 .levels <- function(tree) {
-  sapply(.all_nodes(tree), function(x) {
-    .level(tree = tree, leaf = x)
-  })
+  rcpp_levels(tree = tree)
 }
 
 # number of levels
 .nr_levels <- function(tree) {
-  max(.levels(tree))
+  rcpp_nr_levels(tree = tree)
 }
-
 
 # returns TRUE if it is a bogus (duplicated) leaf
 # this is the case if it has no siblings and is a leaf-node
 .is_bogus <- function(tree, leaf) {
-  cond1 <- .nr_children(tree = tree, leaf = leaf) < 2
-  cond2 <- .nr_siblings(tree = tree, leaf = leaf) == 0
-  cond1 & cond2
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_is_bogus(tree = tree, leaf = leaf)
 }
 
 # returns all bogus_codes
 .bogus_codes <- function(tree) {
-  if (nrow(tree) == 1) {
-    return(character(0))
-  }
-  sort(names(which(sapply(.all_nodes(tree), function(x) {
-    .is_bogus(tree = tree, leaf = x)
-  }))))
+  rcpp_bogus_codes(tree = tree)
 }
 
 # returns name of parent node
 .parent <- function(tree, leaf) {
-  if (leaf == .rootnode(tree)) {
-    return(NA)
-  }
-  ii <- which(tree$leaf == leaf)
-  return(tree$root[ii])
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_parent(tree = tree, leaf = leaf)
 }
 
 # returns all codes contributing to a specific leaf
 .contributing_leaves <- function(tree, leaf) {
-  # no nodes contribute to a leaf node
-  if (.is_leaf(tree = tree, leaf = leaf)) {
-    return(leaf)
-  }
-
-  # idea: compute for all nodes if they are leaf-nodes
-  # for all these codes compute the path to the top and select those
-  # where the given "leaf" is part of the path
-
-  nn <- .all_nodes(tree = tree)
-  ind <- sapply(nn, function(x) {
-    .is_leaf(tree = tree, leaf = x)
-  })
-
-  poss <- nn[ind]
-
-  # if some of the possibles are bogus-codes, we need
-  # to use their parents
-  ind <- which(sapply(poss, function(x) {
-    .is_bogus(tree, leaf = x)
-  }))
-  while (length(ind) > 0) {
-    res <- sapply(names(ind), function(x) {
-      .parent(tree = tree, leaf = x)
-    })
-    poss[ind] <- res
-
-    ind <- which(sapply(poss, function(x) {
-      .is_bogus(tree, leaf = x)
-    }))
-  }
-
-  res <- lapply(poss, function(x) {
-    .path(tree = tree, leaf = x)
-  })
-  names(res) <- poss
-
-  # find those paths in which the given leaf occurs
-  ind <- sapply(res, function(x) {
-    leaf %in% x
-  })
-  sort(poss[ind])
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_contributing_leaves(tree = tree, leaf = leaf)
 }
 
 # sort the tree, top to bottom
@@ -265,17 +188,8 @@
 
 # info about a single leaf in the tree
 .info <- function(tree, leaf) {
-  out <- list()
-  out$name <- leaf
-  out$is_rootnode <- .is_rootnode(tree = tree, leaf = leaf)
-  out$level <- .level(tree = tree, leaf = leaf)
-  out$is_leaf <- .is_leaf(tree = tree, leaf = leaf)
-  out$siblings <- .siblings(tree = tree, leaf = leaf)
-  out$contributing_codes <- .contributing_leaves(tree = tree, leaf = leaf)
-  out$children <- .children(tree = tree, leaf = leaf)
-  out$parent <- .parent(tree = tree, leaf = leaf)
-  out$is_bogus <- .is_bogus(tree = tree, leaf = leaf)
-  out
+  stopifnot(rlang::is_scalar_character(leaf))
+  rcpp_info(tree = tree, leaf = leaf)
 }
 
 # is the tree sorted?
@@ -292,8 +206,7 @@
   dt <- lapply(.all_nodes(tree), function(x) {
     data.table(t(.path(tree, x)))
   })
-  dt <- rbindlist(dt, fill = TRUE)
-  dt
+  rbindlist(dt, fill = TRUE)
 }
 
 # compute the number of required digits for each level of the tree
@@ -361,40 +274,28 @@
 
 # returns TRUE if the code is a minimal code (eg. is required to build the hierarchy)
 .is_minimal_code <- function(tree) {
-  sapply(.all_nodes(tree), function(x) {
-    .is_leaf(tree, leaf = x)
-  })
+  rcpp_is_minimal_code(tree = tree)
 }
 
 # returns names of minimal codes
 .minimal_codes <- function(tree) {
-  r <- .is_minimal_code(tree)
-  names(r[which(r == TRUE)])
+  rcpp_minimal_codes(tree = tree)
 }
 
 # returns TRUE if the code is a subtotal (not required to build the hierarchy)
 .is_subtotal <- function(tree) {
-  !.is_minimal_code(tree)
+  rcpp_is_subtotal(tree = tree)
 }
 
 # returns names of subtotals
 .subtotals <- function(tree) {
-  s <- .is_subtotal(tree)
-  names(s[which(s == TRUE)])
+  rcpp_subtotals(tree = tree)
 }
 
 # remove a leaf and all sub-leaves from a tree
 .prune <- function(tree, leaf) {
-  if (!.exists(tree, leaf)) {
-    return(tree)
-  }
-  todos <- leaf
-  while (length(todos) > 0) {
-    cc <- todos[1]
-    todos <- setdiff(c(todos, .children(tree, cc)), NA)
-    keep <- !(cc == tree$root | cc == tree$leaf)
-    tree <- tree[keep]
-    todos <- todos[-1]
-  }
-  tree
+  stopifnot(rlang::is_scalar_character(leaf))
+  tree <- rcpp_prune(tree = tree, leaf = leaf)
+  tree <- data.table::setalloccol(tree)
+  return(tree)
 }

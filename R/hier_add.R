@@ -19,14 +19,12 @@ hier_add <- function(tree, root, nodes) {
   stopifnot(is_scalar_character(root))
 
   # rootnode needs to exist in the tree
-  ex_nodes <- .all_nodes(tree)
-
-  if (!root %in% ex_nodes) {
-    stop("The root node does not exist!")
+  if (!.exists(tree = tree, leaf = root)) {
+    stop("The root node does not exist!", call. = FALSE)
   }
   stopifnot(is.character(nodes))
 
-  ii <- which(nodes %in% ex_nodes)
+  ii <- which(nodes %in% .all_nodes(tree))
   if (sum(ii) > 0) {
     warning("Some of the provided nodes already exist and are not added.")
     nodes <- nodes[!ii]
@@ -38,7 +36,8 @@ hier_add <- function(tree, root, nodes) {
     tree = tree,
     new = data.table(
       root = root,
-      leaf = nodes
+      leaf = nodes,
+      level = tree$level[tree$leaf == root] + 1
     )
   )
   tree <- .add_class(tree)
