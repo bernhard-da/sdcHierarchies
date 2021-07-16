@@ -17,32 +17,28 @@ rcpp_children <- function(tree, leaf) {
     .Call(`_sdcHierarchies_rcpp_children`, tree, leaf)
 }
 
-rcpp_nr_children <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_nr_children`, tree, leaf)
-}
-
-rcpp_is_leaf <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_is_leaf`, tree, leaf)
+rcpp_parent <- function(tree, leaf) {
+    .Call(`_sdcHierarchies_rcpp_parent`, tree, leaf)
 }
 
 rcpp_siblings <- function(tree, leaf) {
     .Call(`_sdcHierarchies_rcpp_siblings`, tree, leaf)
 }
 
-rcpp_nr_siblings <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_nr_siblings`, tree, leaf)
-}
-
 rcpp_exists <- function(tree, leaf) {
     .Call(`_sdcHierarchies_rcpp_exists`, tree, leaf)
 }
 
-rcpp_rowinfo <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_rowinfo`, tree, leaf)
+rcpp_bogus_codes <- function(tree) {
+    .Call(`_sdcHierarchies_rcpp_bogus_codes`, tree)
 }
 
-rcpp_parent <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_parent`, tree, leaf)
+rcpp_replace_with_bogusparent <- function(bogus_info, leaf) {
+    .Call(`_sdcHierarchies_rcpp_replace_with_bogusparent`, bogus_info, leaf)
+}
+
+rcpp_leafinfo <- function(tree, leaf) {
+    .Call(`_sdcHierarchies_rcpp_leafinfo`, tree, leaf)
 }
 
 rcpp_level <- function(tree, leaf) {
@@ -57,10 +53,6 @@ rcpp_nr_levels <- function(tree) {
     .Call(`_sdcHierarchies_rcpp_nr_levels`, tree)
 }
 
-rcpp_path_new <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_path_new`, tree, leaf)
-}
-
 rcpp_path <- function(tree, leaf) {
     .Call(`_sdcHierarchies_rcpp_path`, tree, leaf)
 }
@@ -69,8 +61,12 @@ rcpp_is_bogus <- function(tree, leaf) {
     .Call(`_sdcHierarchies_rcpp_is_bogus`, tree, leaf)
 }
 
-rcpp_bogus_codes <- function(tree) {
-    .Call(`_sdcHierarchies_rcpp_bogus_codes`, tree)
+rcpp_all_leaves <- function(tree) {
+    .Call(`_sdcHierarchies_rcpp_all_leaves`, tree)
+}
+
+rcpp_contains_hier <- function(tree, leaf, upper) {
+    .Call(`_sdcHierarchies_rcpp_contains_hier`, tree, leaf, upper)
 }
 
 rcpp_contributing_leaves <- function(tree, leaf) {

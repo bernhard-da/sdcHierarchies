@@ -31,15 +31,6 @@
   TRUE
 }
 
-# checks if a given leaf is valid in the tree
-.is_valid_leaf <- function(tree, leaf) {
-  stopifnot(is_scalar_character(leaf))
-  if (!.exists(tree = tree, leaf = leaf)) {
-    stop(paste("leaf", shQuote(leaf), "does not exist!\n"), call. = FALSE)
-  }
-  return(TRUE)
-}
-
 # returns the names of all nodes
 .all_nodes <- function(tree) {
   rcpp_all_nodes(tree = tree)
@@ -65,49 +56,55 @@
 
 # returns number of children for a given leaf in the tree
 .nr_children <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
-  rcpp_nr_children(tree = tree, leaf = leaf)
+  length(.children(tree = tree, leaf = leaf))
 }
 
 # returns TRUE if the given leaf has no children
 .is_leaf <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
-  rcpp_is_leaf(tree = tree, leaf = leaf)
+  .nr_children(tree = tree, leaf = leaf) == 0
 }
 
 # computes all siblings for each node
 .siblings <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
+  .is_valid_leaf(tree, leaf)
   rcpp_siblings(tree = tree, leaf = leaf)
 }
 
 # returns number of sibligns for a given leaf in the tree
 .nr_siblings <- function(tree, leaf) {
+  length(.siblings(tree = tree, leaf = leaf))
+}
+
+# checks if a given leaf is valid in the tree
+.is_valid_leaf <- function(tree, leaf) {
   stopifnot(rlang::is_scalar_character(leaf))
-  rcpp_nr_siblings(tree = tree, leaf = leaf)
+  if (!rcpp_exists(tree, leaf)) {
+    stop("leaf", shQuote(leaf), "does not exist", call. = FALSE)
+  }
+  invisible(TRUE)
 }
 
 # returns TRUE, if a given leaf exists in the tree
 .exists <- function(tree, leaf) {
   stopifnot(rlang::is_scalar_character(leaf))
-  rcpp_exists(tree = tree, leaf = leaf)
+  rcpp_exists(tree, leaf)
 }
 
 # returns TRUE if given leaf is the rootnode
 .is_rootnode <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
+  .is_valid_leaf(tree, leaf)
   rcpp_is_rootnode(tree = tree, leaf = leaf)
 }
 
 # returns path from rootnode to given leaf
 .path <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
+  .is_valid_leaf(tree, leaf)
   rcpp_path(tree = tree, leaf = leaf)
 }
 
 # numeric level of given leaf in the tree
 .level <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
+  .is_valid_leaf(tree, leaf)
   rcpp_level(tree = tree, leaf = leaf)
 }
 
@@ -124,7 +121,7 @@
 # returns TRUE if it is a bogus (duplicated) leaf
 # this is the case if it has no siblings and is a leaf-node
 .is_bogus <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
+  .is_valid_leaf(tree, leaf)
   rcpp_is_bogus(tree = tree, leaf = leaf)
 }
 
@@ -135,13 +132,13 @@
 
 # returns name of parent node
 .parent <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
+  .is_valid_leaf(tree, leaf)
   rcpp_parent(tree = tree, leaf = leaf)
 }
 
 # returns all codes contributing to a specific leaf
 .contributing_leaves <- function(tree, leaf) {
-  stopifnot(rlang::is_scalar_character(leaf))
+  .is_valid_leaf(tree, leaf)
   rcpp_contributing_leaves(tree = tree, leaf = leaf)
 }
 
