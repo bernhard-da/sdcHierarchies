@@ -4,7 +4,7 @@
 \alias{hier_grid}
 \title{Compute a grid given different hierarchies}
 \usage{
-hier_grid(..., add_dups = TRUE, add_levs = FALSE)
+hier_grid(..., add_dups = TRUE, add_levs = FALSE, add_default_codes = FALSE)
 }
 \arguments{
 \item{...}{one or more hierarchy objects created with \code{\link[=hier_create]{hier_create()}} or
@@ -15,6 +15,9 @@ leaf contributing to a parent that also has no siblings) should be included.}
 
 \item{add_levs}{scalar logical defining if numerical levels for each codes should
 be appended to the output \code{data.table}.}
+
+\item{add_default_codes}{scalar logical definining if standardized level codes
+should be additionally returned}
 }
 \value{
 a \code{data.table} featuring a column for each hierarchy object specified in
@@ -22,6 +25,8 @@ argument \code{...}. These columns are labeled \verb{v\{n\}}. If \code{add_levs}
 for each hierarchy provided, an additional column labeled \verb{levs_v\{n\}} is appended
 to the output. Its values define the hierarchy level of the corresponding code
 given in \verb{v\{n\}} in the same row.
+If \code{add_default_codes} is \code{TRUE}, for each hierarchy provided an additional
+column \verb{default_v\{n\}} is provided
 }
 \description{
 This function returns a \code{data.table} containing all possible combinations of

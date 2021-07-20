@@ -10,11 +10,15 @@
 #' leaf contributing to a parent that also has no siblings) should be included.
 #' @param add_levs scalar logical defining if numerical levels for each codes should
 #' be appended to the output `data.table`.
+#' @param add_default_codes scalar logical definining if standardized level codes
+#' should be additionally returned
 #' @return a `data.table` featuring a column for each hierarchy object specified in
 #' argument `...`. These columns are labeled `v{n}`. If `add_levs` is `TRUE`,
 #' for each hierarchy provided, an additional column labeled `levs_v{n}` is appended
 #' to the output. Its values define the hierarchy level of the corresponding code
 #' given in `v{n}` in the same row.
+#' If `add_default_codes` is `TRUE`, for each hierarchy provided an additional
+#' column `default_v{n}` is provided
 #' @md
 #' @export
 #' @examples
@@ -35,7 +39,7 @@
 #'
 #' # also contain columns specifying the hierarchy level
 #' hier_grid(h1, h2, add_dups = FALSE, add_levs = TRUE)
-hier_grid <- function(..., add_dups = TRUE, add_levs = FALSE) {
+hier_grid <- function(..., add_dups = TRUE, add_levs = FALSE, add_default_codes = FALSE) {
   args <- list(...)
   if (length(args) == 0) {
     stop("No arguments were provided", call. = FALSE)
@@ -47,7 +51,9 @@ hier_grid <- function(..., add_dups = TRUE, add_levs = FALSE) {
   if (!is_scalar_logical(add_levs)) {
     stop("Argument `add_levs` needs to be a scalar logical.", call. = FALSE)
   }
-
+  if (!is_scalar_logical(add_default_codes)) {
+    stop("Argument `add_default_codes` needs to be a scalar logical.", call. = FALSE)
+  }
   out <- lapply(args, function(x) {
     if (!inherits(x, "sdc_hierarchy")) {
       stop("Invalid input detected.", call. = FALSE)
@@ -77,6 +83,18 @@ hier_grid <- function(..., add_dups = TRUE, add_levs = FALSE) {
     levs <- as.data.table(expand.grid(levs))
     setnames(levs, paste0("levs_v", 1:length(codes)))
     codes <- cbind(codes, levs)
+  }
+
+  if (add_default_codes) {
+    def_codes <- lapply(seq_len(length(args)), function(i) {
+      curtree <- args[[i]]
+      dd <- .required_digits(curtree)
+      .default_codes(curtree, dd)
+    })
+    for (i in seq_len(length(def_codes))) {
+      mm <- match(codes[[paste0("v", i)]], names(def_codes[[i]]))
+      codes[[paste0("default_v", i)]] <- def_codes[[i]][mm]
+    }
   }
   codes
 }
