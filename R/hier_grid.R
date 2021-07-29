@@ -88,8 +88,7 @@ hier_grid <- function(..., add_dups = TRUE, add_levs = FALSE, add_default_codes 
   if (add_default_codes) {
     def_codes <- lapply(seq_len(length(args)), function(i) {
       curtree <- args[[i]]
-      dd <- .required_digits(curtree)
-      .default_codes(curtree, dd)
+      hier_codes(tree = curtree)
     })
     for (i in seq_len(length(def_codes))) {
       mm <- match(codes[[paste0("v", i)]], names(def_codes[[i]]))

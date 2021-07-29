@@ -44,19 +44,62 @@ hier_convert <- function(tree, as="df") {
 
   # to data.frame
   .to_df <- function(tree, dt = TRUE) {
-    out <- data.table(
-      level = NA,
-      name = tree$leaf
-    )
-    out$level <- sapply(out$name, function(x) {
-      paste(rep("@", .level(tree, leaf = x)), collapse = "")
-    })
+    stopifnot(inherits(tree, "sdc_hierarchy"))
 
-    if (isFALSE(dt)) {
-      out <- as.data.frame(out)
+    curnode <- .rootnode(tree)
+    dt <- data.table(level = 1, name = curnode)
+    pool <- setdiff(tree$leaf, curnode)
+    finished <- length(pool) == 0
+    while (!finished) {
+      ii <- rcpp_info(tree, curnode)
+      idx <- which(dt$name == curnode)
+      if (length(ii$children) > 0) {
+        cc <- ii$children
+      } else {
+        cc <- ii$name
+      }
+      add_after <- idx < nrow(dt)
+      if (add_after) {
+        dt_after <- dt[(idx + 1):nrow(dt)]
+      }
+      tmp <- data.table(
+        level = ii$level + 1,
+        name = ii$children
+      )
+      dt <- rbind(dt[1:idx], tmp)
+      if (add_after) {
+        dt <- rbind(dt, dt_after)
+      }
+
+      pool <- setdiff(pool, cc)
+      if (length(pool) == 0) {
+        finished <- TRUE
+      } else {
+        curnode <- rcpp_info(tree, pool[1])$parent
+      }
     }
-    return(out)
+    dt$level <- sapply(1:nrow(dt), function(x) paste(rep("@", dt$level[x]), collapse = ""))
+    if (isFALSE(dt)) {
+      dt <- as.data.frame(dt)
+    }
+    dt
   }
+
+
+  # .to_df <- function(tree, dt = TRUE) {
+  #   out <- data.table(
+  #     level = NA,
+  #     name = tree$leaf
+  #   )
+  #   out$level <- sapply(out$name, function(x) {
+  #     paste(rep("@", .level(tree, leaf = x)), collapse = "")
+  #   })
+  #
+  #   if (isFALSE(dt)) {
+  #     out <- as.data.frame(out)
+  #   }
+  #   return(out)
+  # }
 
   # node to json
   .to_json <- function(tree) {
@@ -195,7 +238,7 @@ hier_convert <- function(tree, as="df") {
     if (length(bogus_codes$bogus) > 0) {
       bogus <- list(
         bogus_codes = bogus_codes$bogus,
-        bogus_parents = bogus_codes$bogus_parent
+        bogus_parents = as.character(sapply(bogus_codes$bogus, function(x) all_info[[x]]$parent))
       )
 
       # remove these codes from the hierarchy
@@ -218,11 +261,17 @@ hier_convert <- function(tree, as="df") {
     req_digits <- .required_digits(tree)
 
     # compute codes_default
-    codes_default <- .default_codes(tree = tree, req_digits = req_digits)
+    codes_default <- hier_codes(tree = tree)
 
     ## which nodes are minimal (eg. no subtotals)
     ## these are those that are leaves in the tree
     codes_minimal <- .is_minimal_code(tree = tree)
+    codes_minimal <- codes_minimal[match(names(codes_default), names(codes_minimal))]
+
+
+    # levels
+    levels <- .levels(tree)
+    levels <- levels[match(names(codes_default), names(levels))]
 
     ## in sdcHierarchies, we do not add artificial categories
     ## only those specified will/can be used;
@@ -247,7 +296,7 @@ hier_convert <- function(tree, as="df") {
         orig = names(codes_default),
         default = as.character(codes_default),
         minimal = as.logical(codes_minimal),
-        level = as.numeric(.levels(tree))
+        level = as.numeric(levels)
       ),
       structure = req_digits,
       dims = dims,
@@ -260,27 +309,27 @@ hier_convert <- function(tree, as="df") {
   stopifnot(as %in% c("df", "dt", "json", "argus", "code", "sdc"))
   .is_valid(tree)
 
-  if (!.is_sorted(tree)) {
-    tree <- .sort(tree)
-  }
-
   if (as %in% c("df", "dt")) {
     res <- .to_df(
       tree = tree,
       dt = ifelse(as == "dt", TRUE, FALSE)
     )
-  }
-  if (as == "json") {
-    res <- .to_json(tree)
-  }
-  if (as == "code") {
-    res <- .to_code(tree)
-  }
-  if (as == "argus") {
-    res <- .to_argus(tree)
-  }
-  if (as == "sdc") {
-    res <- .to_sdc(tree)
+  } else {
+    #if (!.is_sorted(tree)) {
+    #  tree <- .sort(tree)
+    #}
+    if (as == "json") {
+      res <- .to_json(tree)
+    }
+    if (as == "code") {
+      res <- .to_code(tree)
+    }
+    if (as == "argus") {
+      res <- .to_argus(tree)
+    }
+    if (as == "sdc") {
+      res <- .to_sdc(tree)
+    }
   }
   attr(res, "hier_convert") <- TRUE
   attr(res, "hier_format") <- as

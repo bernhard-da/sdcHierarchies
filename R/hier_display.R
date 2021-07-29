@@ -25,9 +25,9 @@ hier_display <- function(x, root = NULL) {
   }
 
   .is_valid(x)
-  if (!.is_sorted(x)) {
-    x <- .sort(x)
-  }
+  #if (!.is_sorted(x)) {
+  #  x <- .sort(x)
+  #}
 
   if (is.null(root)) {
     from <- .rootnode(x)

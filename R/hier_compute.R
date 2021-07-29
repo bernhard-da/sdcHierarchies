@@ -246,23 +246,29 @@ hier_compute <- function(inp,
 
     # generate hierarchy
     tree <- hier_create(root = root)
+
+    if (length(nodes) == 0) {
+      return(tree)
+    }
     dt <- lapply(1:length(dim), function(x) {
       data.table(
         root = names(dim)[x],
         leaf = dim[[x]]
       )
     })
+    names(dt) <- sapply(dt, function(x) x$root[1])
 
-    for (i in seq_len(length(dt))) {
-      toadd <- dt[[i]]
-      if (i == 1) {
-        toadd$level <- 2
-      } else {
-        toadd$level <- tree$level[tree$leaf == toadd$root[1]] + 1
+    finished <- FALSE
+    while (!finished) {
+      idx <- which(!is.na(match(names(dt), tree$leaf)))[1]
+      tmp <- dt[[idx]]
+
+      tree <- hier_add(tree, root = tmp$root[1], nodes = tmp$leaf)
+      dt[[idx]] <- NULL
+      if (length(dt) == 0) {
+        finished = TRUE
       }
-      tree <- .add_nodes(tree = tree, new = toadd)
     }
-    tree <- .sort(tree)
     tree <- .add_class(tree)
     return(tree)
   }
