@@ -31,9 +31,10 @@
   TRUE
 }
 
-# returns the names of all nodes
+# returns the names of all nodes in the correct order
 .all_nodes <- function(tree) {
-  rcpp_all_nodes(tree = tree)
+  .is_valid(tree)
+  hier_convert(tree, "dt")$name
 }
 
 # returns the name of the rootnode
@@ -223,50 +224,6 @@
     req_digits[i] <- max(nchar(sapply(s, nrow)))
   }
   req_digits
-}
-
-# computes default codes for a given tree
-.default_codes <- function(tree, req_digits) {
-  if (!.is_sorted(tree)) {
-    tree <- .sort(tree)
-  }
-
-  dt <- copy(tree)
-  dt$leaf[1] <- .rootnode(tree)
-  cc <- paste(rep("0", sum(req_digits)), collapse = "")
-  codes_default <- rep(cc, nrow(tree))
-  names(codes_default) <- dt$leaf
-
-  dt$levs <- .levels(tree)
-  dt$id <- 1:nrow(dt)
-  dt <- dt[-1]
-  cs <- cumsum(req_digits)
-  while (nrow(dt) > 0) {
-    code <- dt$leaf[1]
-    parent <- .parent(tree, leaf = code)
-    code <- setdiff(c(code, .siblings(tree, leaf = code)), NA)
-    lev <- dt$levs[1]
-
-    ids <- match(code, names(codes_default))
-
-    first <- cs[lev - 1] + 1
-    last <- cs[lev]
-
-    # parent string
-    ss <- rep(codes_default[parent], length(code))
-
-    old_val <- as.integer(substring(text = ss, first = first, last = last))
-    new_val <- sprintf(
-      paste("%0", req_digits[lev], "d", sep = ""),
-      old_val + 1:length(code)
-    )
-    substring(ss, first = first, last = last) <- new_val
-
-    codes_default[ids] <- ss
-    dt[setdiff(1:nrow(dt), ids)]
-    dt <- dt[!dt$id %in% ids]
-  }
-  codes_default
 }
 
 # returns TRUE if the code is a minimal code (eg. is required to build the hierarchy)
