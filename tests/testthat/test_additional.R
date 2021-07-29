@@ -202,3 +202,17 @@ expect_identical(hier_convert(h1, as = "sdc")$structure, c(1, 2, 1))
 
 h1 <- hier_add(h1, root = "b", nodes = paste0("b", 10))
 expect_identical(hier_convert(h1, as = "sdc")$structure, c(1, 2, 2))
+
+
+
+context("Test order when converting to df")
+nn <- c("B", "C", "A")
+h <- hier_create(root = "total", nodes = nn)
+
+res <- hier_convert(h, as = "df")
+expect_equal(res$name, c("total", nn))
+
+nnb <- c("b2", "b3", "b0")
+h <- hier_add(h, root = "B", nodes = nnb)
+res <- hier_convert(h, as = "df")
+expect_equal(res$name, c("total", "B", nnb, "C", "A"))

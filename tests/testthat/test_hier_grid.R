@@ -19,7 +19,7 @@ expect_error(hier_grid(h1, 5, add_levs = TRUE))
 r1 <- hier_grid(h1, h2)
 expect_identical(nrow(r1), 48L)
 expect_identical(ncol(r1), 2L)
-expect_identical(r1[.N, v1], "aa1")
+expect_identical(r1[.N, v1], "C")
 
 # only the required codes to build the complete hierarchy (no bogus codes)
 r2 <- hier_grid(h1, h2, add_dups = FALSE)
@@ -51,3 +51,4 @@ expect_identical(r4[.N, levs_v1], 2L)
 expect_identical(r4[.N, levs_v2], 2L)
 expect_identical(r4[.N, default_v1], "0300")
 expect_identical(r4[.N, default_v2], "050")
+

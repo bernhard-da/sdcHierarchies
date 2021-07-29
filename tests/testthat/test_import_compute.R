@@ -99,7 +99,7 @@ expect_error(
 df <- hier_convert(dim2, as = "df")
 expect_is(df, "data.frame")
 
-exp_names <- c("top", "A", "a1", "a2", "C", "b", "d")
+exp_names <- c("top", "A", "a1", "a2", "b", "C", "d")
 exp_levs <- c("@", "@@", rep("@@@", 2), rep("@@", 3))
 expect_identical(df$name, exp_names)
 expect_identical(df$level, exp_levs)
@@ -141,7 +141,7 @@ expect_warning(dim2 <- hier_delete(tree = dim2, nodes = "X"))
 dim2 <- hier_delete(tree = dim2, nodes = c("a1", "d"))
 df <- hier_convert(dim2, as = "df")
 
-exp_names <- c("top", "A", "a2", "C", "b")
+exp_names <- c("top", "A", "a2", "b", "C")
 exp_levs <- c("@", "@@", "@@@", rep("@@", 2))
 expect_identical(df$name, exp_names)
 expect_identical(df$level, exp_levs)
