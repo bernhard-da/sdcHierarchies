@@ -2,6 +2,7 @@
 
 export(hier_add)
 export(hier_app)
+export(hier_codes)
 export(hier_compute)
 export(hier_convert)
 export(hier_create)
