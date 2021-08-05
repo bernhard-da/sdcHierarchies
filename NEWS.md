@@ -1,5 +1,4 @@
-# sdcHierarchies next
-- [todo] nested hierarchies?
+# sdcHierarchies 0.19.1
 - fix: use original order in `hier_display()` and `hier_convert()`
 - feature: new function `hier_codes()` returning a named vector of node-named and its standardized codes
 - fix: correctly computing hierarchies from nested lists
