@@ -19,12 +19,12 @@ expect_error(.is_valid_leaf(tree = tree, leaf = "a1"))
 
 # print/display method
 expect_is(
-  hier_display(tree), "tree"
+  hier_display(tree), c("cli_tree", "tree")
 )
 
 # print, but start from a subnode
 expect_is(
-  hier_display(tree, root = "b"), "tree"
+  hier_display(tree, root = "b"), c("cli_tree", "tree")
 )
 
 # export
@@ -93,7 +93,7 @@ expect_null(erg_sdc$bogus$bogus_codes)
 expect_null(erg_sdc$bogus$bogus_parents)
 
 erg_code <- hier_convert(tree, as = "code")
-expect_is(hier_display(erg_code), "tree")
+expect_is(hier_display(erg_code), c("cli_tree", "tree"))
 
 expect_is(erg_code, "character")
 expect_identical(length(erg_code), 3L)
