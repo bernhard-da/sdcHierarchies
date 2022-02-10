@@ -26,7 +26,7 @@ Still, any feedback/pull requests are very much welcome\!
 
 The latest version from CRAN can be installed via
 
-    install.pacakges("sdcHierarchies")
+    install.packages("sdcHierarchies")
 
 #### Github
 
