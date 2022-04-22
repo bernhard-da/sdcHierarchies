@@ -112,7 +112,17 @@ List rcpp_bogus_codes(DataFrame tree) {
   IntegerVector res = table(v_root);
   CharacterVector parent = res.names();
 
-  LogicalVector idx = res == 1;
+  int pos_of_rootcode = -1;
+  for (int i = 0; i < parent.size(); i++) {
+    if (parent[i] == v_root[0]) {
+      pos_of_rootcode = i;
+    }
+  }
+  LogicalVector idx = (res == 1);
+  // if rootnode only occurs twice, we need to include it
+  if (res[pos_of_rootcode] == 2) {
+    idx[pos_of_rootcode] = 1;
+  }
   parent = parent[idx];
 
   IntegerVector ii;
@@ -123,7 +133,11 @@ List rcpp_bogus_codes(DataFrame tree) {
     CharacterVector bogus(n);
     for (int i = 0; i < n; i++) {
       code = parent[i];
-      IntegerVector ii = match(code, v_root) - 1;
+      IntegerVector ii = match(code, v_root);
+      // we need to adjust the index only if we do not target the root node
+      if (code[0] != v_leaf[0]) {
+        ii = ii - 1;
+      }
       up = v_leaf[ii[0]];
       v_bogus[i] = up[0];
     }
