@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.18.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.19.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,8 +60,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/bernhard-da/sdcHierarchies/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/bernhard-da/sdcHierarchies/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -83,43 +79,41 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Usage of the sdcHierarchies-Package</h1>
-                        <h4 class="author">Bernhard Meindl</h4>
+                        <h4 data-toc-skip class="author">Bernhard Meindl</h4>
             
-            <h4 class="date">2020-08-12</h4>
+            <h4 data-toc-skip class="date">2022-07-19</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/bernhard-da/sdcHierarchies/blob/master/vignettes/usage.Rmd"><code>vignettes/usage.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/bernhard-da/sdcHierarchies/blob/HEAD/vignettes/usage.Rmd" class="external-link"><code>vignettes/usage.Rmd</code></a></small>
       <div class="hidden name"><code>usage.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>The <code>sdcHierarchies</code> packages allows to create, modify and export nested hierarchies that are used for example to define tables in statistical disclosure control software such as in <a href="https://cran.r-project.org/package=sdcTable"><strong>sdcTable</strong></a></p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The <code>sdcHierarchies</code> packages allows to create, modify and export nested hierarchies that are used for example to define tables in statistical disclosure control software such as in <a href="https://cran.r-project.org/package=sdcTable" class="external-link"><strong>sdcTable</strong></a></p>
 </div>
-<div id="usage" class="section level1">
-<h1 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h1>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>Before using, the package needs to be loaded:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/bernhard-da/sdcHierarchies">sdcHierarchies</a></span>)
-</pre></div>
-<div id="create-and-modify-a-hierarchy-from-scratch" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-and-modify-a-hierarchy-from-scratch" class="anchor"></a>Create and modify a hierarchy from scratch</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bernhard-da/sdcHierarchies" class="external-link">sdcHierarchies</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="create-and-modify-a-hierarchy-from-scratch">Create and modify a hierarchy from scratch<a class="anchor" aria-label="anchor" href="#create-and-modify-a-hierarchy-from-scratch"></a>
+</h3>
 <p><code><a href="../reference/hier_create.html">hier_create()</a></code> allows to create a hierarchy. Argument <code>root</code> specifies the name of the root node. Optionally, it is possible to add some nodes to the top-level by listing their names in argument <code>node_labs</code>. Also, <code><a href="../reference/hier_display.html">hier_display()</a></code> shows the hierarchical structure of the current tree as shown below:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_create.html">hier_create</a></span>(root = <span class="st">"Total"</span>, nodes = <span class="kw">LETTERS</span>[<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>])
-<span class="fu"><a href="../reference/hier_display.html">hier_display</a></span>(<span class="kw">h</span>)
-</pre></div>
-<pre><code>## Total
-## ├─A
-## ├─B
-## ├─C
-## ├─D
-## └─E</code></pre>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_create.html">hier_create</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"Total"</span>, nodes <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/hier_display.html">hier_display</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Total</span></span>
+<span><span class="co">## ├─A</span></span>
+<span><span class="co">## ├─B</span></span>
+<span><span class="co">## ├─C</span></span>
+<span><span class="co">## ├─D</span></span>
+<span><span class="co">## └─E</span></span></code></pre>
 <p>Once such an object is created, it can be modified by the following functions:</p>
 <ul>
 <li>
@@ -130,153 +124,148 @@
 <code><a href="../reference/hier_rename.html">hier_rename()</a></code>: allows to rename nodes</li>
 </ul>
 <p>These functions can be applied as shown below:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co">## adding nodes below the node specified in argument `node`</span>
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span>(<span class="kw">h</span>, root = <span class="st">"A"</span>, nodes = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a1"</span>, <span class="st">"a2"</span>))
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span>(<span class="kw">h</span>, root = <span class="st">"B"</span>, nodes = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>))
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span>(<span class="kw">h</span>, root = <span class="st">"b1"</span>, nodes = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"b1_a"</span>, <span class="st">"b1_b"</span>))
-
-<span class="co"># deleting one or more nodes from the hierarchy</span>
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_delete.html">hier_delete</a></span>(<span class="kw">h</span>, nodes = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a1"</span>, <span class="st">"b2"</span>))
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_delete.html">hier_delete</a></span>(<span class="kw">h</span>, nodes = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a2"</span>))
-
-<span class="co"># rename nodes</span>
-<span class="kw">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_rename.html">hier_rename</a></span>(<span class="kw">h</span>, nodes = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"C"</span> = <span class="st">"X"</span>, <span class="st">"D"</span> = <span class="st">"Y"</span>))
-<span class="fu"><a href="../reference/hier_display.html">hier_display</a></span>(<span class="kw">h</span>)
-</pre></div>
-<pre><code>## Total
-## ├─A
-## ├─B
-## │ └─b1
-## │   ├─b1_a
-## │   └─b1_b
-## ├─E
-## ├─X
-## └─Y</code></pre>
-<p>We note that the underlying <a href="https://cran.r-project.org/package=data.tree"><strong>data.tree</strong></a> package allows to modify the objects on reference so no explicit assignment of the form is required.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## adding nodes below the node specified in argument `node`</span></span>
+<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h</span>, root <span class="op">=</span> <span class="st">"A"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a1"</span>, <span class="st">"a2"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h</span>, root <span class="op">=</span> <span class="st">"B"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b1"</span>, <span class="st">"b2"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h</span>, root <span class="op">=</span> <span class="st">"b1"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b1_a"</span>, <span class="st">"b1_b"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># deleting one or more nodes from the hierarchy</span></span>
+<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_delete.html">hier_delete</a></span><span class="op">(</span><span class="va">h</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a1"</span>, <span class="st">"b2"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_delete.html">hier_delete</a></span><span class="op">(</span><span class="va">h</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a2"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># rename nodes</span></span>
+<span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_rename.html">hier_rename</a></span><span class="op">(</span><span class="va">h</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span> <span class="op">=</span> <span class="st">"X"</span>, <span class="st">"D"</span> <span class="op">=</span> <span class="st">"Y"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/hier_display.html">hier_display</a></span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Total</span></span>
+<span><span class="co">## ├─A</span></span>
+<span><span class="co">## ├─B</span></span>
+<span><span class="co">## │ └─b1</span></span>
+<span><span class="co">## │   ├─b1_a</span></span>
+<span><span class="co">## │   └─b1_b</span></span>
+<span><span class="co">## ├─X</span></span>
+<span><span class="co">## ├─Y</span></span>
+<span><span class="co">## └─E</span></span></code></pre>
+<p>We note that the underlying <a href="https://cran.r-project.org/package=data.tree" class="external-link"><strong>data.tree</strong></a> package allows to modify the objects on reference so no explicit assignment of the form is required.</p>
 </div>
-<div id="information-about-nodes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#information-about-nodes" class="anchor"></a>Information about nodes</h2>
+<div class="section level3">
+<h3 id="information-about-nodes">Information about nodes<a class="anchor" aria-label="anchor" href="#information-about-nodes"></a>
+</h3>
 <p>Function <code><a href="../reference/hier_info.html">hier_info()</a></code> returns information about the nodes that are specified in argument <code>leaves</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="co"># about a specific node</span>
-<span class="kw">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_info.html">hier_info</a></span>(<span class="kw">h</span>, nodes = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"b1"</span>, <span class="st">"E"</span>))
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># about a specific node</span></span>
+<span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_info.html">hier_info</a></span><span class="op">(</span><span class="va">h</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b1"</span>, <span class="st">"E"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><code>info</code> is a named list where each list element refers to a queried node. The results for level <code>b1</code> could be extracted as shown below:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">info</span><span class="op">$</span><span class="kw">b1</span>
-</pre></div>
-<pre><code>## $name
-## [1] "b1"
-## 
-## $is_rootnode
-## [1] FALSE
-## 
-## $level
-## [1] 3
-## 
-## $is_leaf
-## [1] FALSE
-## 
-## $siblings
-## character(0)
-## 
-## $contributing_codes
-## [1] "b1_a" "b1_b"
-## 
-## $children
-## [1] "b1_a" "b1_b"
-## 
-## $parent
-## [1] "B"
-## 
-## $is_bogus
-## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">info</span><span class="op">$</span><span class="va">b1</span></span></code></pre></div>
+<pre><code><span><span class="co">## $name</span></span>
+<span><span class="co">## [1] "b1"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $is_rootnode</span></span>
+<span><span class="co">## [1] FALSE</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $level</span></span>
+<span><span class="co">## [1] 3</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $is_leaf</span></span>
+<span><span class="co">## [1] FALSE</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $siblings</span></span>
+<span><span class="co">## character(0)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $contributing_codes</span></span>
+<span><span class="co">## [1] "b1_a" "b1_b"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $children</span></span>
+<span><span class="co">## [1] "b1_a" "b1_b"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $parent</span></span>
+<span><span class="co">## [1] "B"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $is_bogus</span></span>
+<span><span class="co">## [1] FALSE</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $parent_bogus</span></span>
+<span><span class="co">## character(0)</span></span></code></pre>
 <p>Information about all nodes can be extracted by not specifying argument <code>leaves</code>.</p>
 </div>
-<div id="convert-to-other-formats" class="section level2">
-<h2 class="hasAnchor">
-<a href="#convert-to-other-formats" class="anchor"></a>Convert to other formats</h2>
+<div class="section level3">
+<h3 id="convert-to-other-formats">Convert to other formats<a class="anchor" aria-label="anchor" href="#convert-to-other-formats"></a>
+</h3>
 <p>Function <code><a href="../reference/hier_convert.html">hier_convert()</a></code> takes a hierarchy and allows to convert the network based structure to different formats while <code><a href="../reference/hier_export.html">hier_export()</a></code> does the conversion and writes the results to a file on the disk. The following formats are currently supported:</p>
 <ul>
 <li>
-<code>df</code>: a “@;label”-based format that can be used in <a href="https://cran.r-project.org/package=sdcTable"><strong>sdcTable</strong></a>
+<code>df</code>: a “@;label”-based format that can be used in <a href="https://cran.r-project.org/package=sdcTable" class="external-link"><strong>sdcTable</strong></a>
 </li>
 <li>
 <code>dt</code>: the same as <code>df</code>, but the result is returned as a </li>
 <li>
-<code>argus</code>: also a “@;label”-based format that used to create hrc-files suitable for <a href="https://github.com/sdcTools/tauargus/"><span class="math inline">\(\tau\)</span>-argus</a>
+<code>argus</code>: also a “@;label”-based format that used to create hrc-files suitable for <a href="https://github.com/sdcTools/tauargus/" class="external-link"><span class="math inline">\(\tau\)</span>-argus</a>
 </li>
 <li>
 <code>json</code>: a json-encoded string</li>
 <li>
 <code>code</code>: the required code to re-build the current hierarchy</li>
 <li>
-<code>sdc</code>: a <code>list</code> which is a suitable input for <a href="https://cran.r-project.org/package=sdcTable"><strong>sdcTable</strong></a>
+<code>sdc</code>: a <code>list</code> which is a suitable input for <a href="https://cran.r-project.org/package=sdcTable" class="external-link"><strong>sdcTable</strong></a>
 </li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="co"># conversion to a "@;label"-based format</span>
-<span class="kw">res_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_convert.html">hier_convert</a></span>(<span class="kw">h</span>, as = <span class="st">"df"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">res_df</span>)
-</pre></div>
-<pre><code>##   level  name
-## 1     @ Total
-## 2    @@     A
-## 3    @@     B
-## 4   @@@    b1
-## 5  @@@@  b1_a
-## 6  @@@@  b1_b
-## 7    @@     E
-## 8    @@     X
-## 9    @@     Y</code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># conversion to a "@;label"-based format</span></span>
+<span><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_convert.html">hier_convert</a></span><span class="op">(</span><span class="va">h</span>, as <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    level  name</span></span>
+<span><span class="co">## 1:     @ Total</span></span>
+<span><span class="co">## 2:    @@     A</span></span>
+<span><span class="co">## 3:    @@     B</span></span>
+<span><span class="co">## 4:   @@@    b1</span></span>
+<span><span class="co">## 5:  @@@@  b1_a</span></span>
+<span><span class="co">## 6:  @@@@  b1_b</span></span>
+<span><span class="co">## 7:    @@     X</span></span>
+<span><span class="co">## 8:    @@     Y</span></span>
+<span><span class="co">## 9:    @@     E</span></span></code></pre>
 <p>The required code to create this hierarchy could be computed using:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_convert.html">hier_convert</a></span>(<span class="kw">h</span>, as = <span class="st">"code"</span>); <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw">code</span>, sep = <span class="st">"\n"</span>)
-</pre></div>
-<pre><code>## library(sdcHierarchies)
-## tree &lt;- hier_create(root = 'Total', nodes = c('A', 'B', 'E', 'X', 'Y'))
-## tree &lt;- hier_add(tree = tree, root = 'B', nodes = 'b1')
-## tree &lt;- hier_add(tree = tree, root = 'b1', nodes = c('b1_a', 'b1_b'))
-## print(tree)</code></pre>
-<p>Using <code><a href="../reference/hier_export.html">hier_export()</a></code> one can write the results to a file. This is for example useful if one wants to create <code>hrc</code>-files that could be used as input for <a href="https://github.com/sdcTools/tauargus/"><span class="math inline">\(\tau\)</span>-argus</a> which can be achieved as follows:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="../reference/hier_export.html">hier_export</a></span>(<span class="kw">h</span>, as = <span class="st">"argus"</span>, path = <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(), <span class="st">"hierarchy.hrc"</span>))
-</pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_convert.html">hier_convert</a></span><span class="op">(</span><span class="va">h</span>, as <span class="op">=</span> <span class="st">"code"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">code</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## library(sdcHierarchies)</span></span>
+<span><span class="co">## tree &lt;- hier_create(root = 'Total', nodes = c('A', 'B', 'X', 'Y', 'E'))</span></span>
+<span><span class="co">## tree &lt;- hier_add(tree = tree, root = 'B', nodes = 'b1')</span></span>
+<span><span class="co">## tree &lt;- hier_add(tree = tree, root = 'b1', nodes = c('b1_a', 'b1_b'))</span></span>
+<span><span class="co">## print(tree)</span></span></code></pre>
+<p>Using <code><a href="../reference/hier_export.html">hier_export()</a></code> one can write the results to a file. This is for example useful if one wants to create <code>hrc</code>-files that could be used as input for <a href="https://github.com/sdcTools/tauargus/" class="external-link"><span class="math inline">\(\tau\)</span>-argus</a> which can be achieved as follows:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hier_export.html">hier_export</a></span><span class="op">(</span><span class="va">h</span>, as <span class="op">=</span> <span class="st">"argus"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"hierarchy.hrc"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="create-a-hierarchy-from-data-frames-code-or-json" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-a-hierarchy-from-data-frames-code-or-json" class="anchor"></a>Create a hierarchy from data.frames, code or json</h2>
+<div class="section level3">
+<h3 id="create-a-hierarchy-from-data-frames-code-or-json">Create a hierarchy from data.frames, code or json<a class="anchor" aria-label="anchor" href="#create-a-hierarchy-from-data-frames-code-or-json"></a>
+</h3>
 <p><code><a href="../reference/hier_import.html">hier_import()</a></code> returns a network-based hierarchy given either a data.frame (in <code>@;labs</code>-format), json format, code or from a tau-argus compatible <code>hrc-file</code>. For example if we want to create a hierarchy based of <code>res_df</code> which was previously created using <code><a href="../reference/hier_convert.html">hier_convert()</a></code>, the code is as simple as:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">n_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_import.html">hier_import</a></span>(inp = <span class="kw">res_df</span>, from = <span class="st">"df"</span>)
-<span class="fu"><a href="../reference/hier_display.html">hier_display</a></span>(<span class="kw">n_df</span>)
-</pre></div>
-<pre><code>## Total
-## ├─A
-## ├─B
-## │ └─b1
-## │   ├─b1_a
-## │   └─b1_b
-## ├─E
-## ├─X
-## └─Y</code></pre>
-<p>Using <code><a href="../reference/hier_import.html">hier_import(inp = "hierarchy.hrc", from = "argus")</a></code> one could create a sdc hierarchy object directly from a <code>hrc</code>-file.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_import.html">hier_import</a></span><span class="op">(</span>inp <span class="op">=</span> <span class="va">res_df</span>, from <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/hier_display.html">hier_display</a></span><span class="op">(</span><span class="va">n_df</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Total</span></span>
+<span><span class="co">## ├─A</span></span>
+<span><span class="co">## ├─B</span></span>
+<span><span class="co">## │ └─b1</span></span>
+<span><span class="co">## │   ├─b1_a</span></span>
+<span><span class="co">## │   └─b1_b</span></span>
+<span><span class="co">## ├─E</span></span>
+<span><span class="co">## ├─X</span></span>
+<span><span class="co">## └─Y</span></span></code></pre>
+<p>Using <code>hier_import(inp = "hierarchy.hrc", from = "argus")</code> one could create a sdc hierarchy object directly from a <code>hrc</code>-file.</p>
 </div>
-<div id="createcompute-hierarchies-from-a-string" class="section level2">
-<h2 class="hasAnchor">
-<a href="#createcompute-hierarchies-from-a-string" class="anchor"></a>Create/Compute hierarchies from a string</h2>
+<div class="section level3">
+<h3 id="createcompute-hierarchies-from-a-string">Create/Compute hierarchies from a string<a class="anchor" aria-label="anchor" href="#createcompute-hierarchies-from-a-string"></a>
+</h3>
 <p>Often it is the case, the the nested hierarchy information in encoded in a string. Function <code><a href="../reference/hier_compute.html">hier_compute()</a></code> allows to transform such strings into hierarchy objects. One can distinguish two cases: The first case is where all input codes have the same length while in the latter case the length of the codes differs. Let’s assume we have a geographic code given in <code>geo_m</code> where digits 1-2 refer to the first level, digit 3 to the second and digits 4-5 to the third level of the hierarchy.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">geo_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
-  <span class="st">"01051"</span>, <span class="st">"01053"</span>, <span class="st">"01054"</span>, <span class="st">"01055"</span>, <span class="st">"01056"</span>, <span class="st">"01057"</span>, <span class="st">"01058"</span>, <span class="st">"01059"</span>, <span class="st">"01060"</span>, <span class="st">"01061"</span>, <span class="st">"01062"</span>,
-  <span class="st">"02000"</span>,
-  <span class="st">"03151"</span>, <span class="st">"03152"</span>, <span class="st">"03153"</span>, <span class="st">"03154"</span>, <span class="st">"03155"</span>, <span class="st">"03156"</span>, <span class="st">"03157"</span>, <span class="st">"03158"</span>, <span class="st">"03251"</span>, <span class="st">"03252"</span>, <span class="st">"03254"</span>, <span class="st">"03255"</span>,
-  <span class="st">"03256"</span>, <span class="st">"03257"</span>, <span class="st">"03351"</span>, <span class="st">"03352"</span>, <span class="st">"03353"</span>, <span class="st">"03354"</span>, <span class="st">"03355"</span>, <span class="st">"03356"</span>, <span class="st">"03357"</span>, <span class="st">"03358"</span>, <span class="st">"03359"</span>, <span class="st">"03360"</span>,
-  <span class="st">"03361"</span>, <span class="st">"03451"</span>, <span class="st">"03452"</span>, <span class="st">"03453"</span>, <span class="st">"03454"</span>, <span class="st">"03455"</span>, <span class="st">"03456"</span>,
-  <span class="st">"10155"</span>)
-</pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">geo_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"01051"</span>, <span class="st">"01053"</span>, <span class="st">"01054"</span>, <span class="st">"01055"</span>, <span class="st">"01056"</span>, <span class="st">"01057"</span>, <span class="st">"01058"</span>, <span class="st">"01059"</span>, <span class="st">"01060"</span>, <span class="st">"01061"</span>, <span class="st">"01062"</span>,</span>
+<span>  <span class="st">"02000"</span>,</span>
+<span>  <span class="st">"03151"</span>, <span class="st">"03152"</span>, <span class="st">"03153"</span>, <span class="st">"03154"</span>, <span class="st">"03155"</span>, <span class="st">"03156"</span>, <span class="st">"03157"</span>, <span class="st">"03158"</span>, <span class="st">"03251"</span>, <span class="st">"03252"</span>, <span class="st">"03254"</span>, <span class="st">"03255"</span>,</span>
+<span>  <span class="st">"03256"</span>, <span class="st">"03257"</span>, <span class="st">"03351"</span>, <span class="st">"03352"</span>, <span class="st">"03353"</span>, <span class="st">"03354"</span>, <span class="st">"03355"</span>, <span class="st">"03356"</span>, <span class="st">"03357"</span>, <span class="st">"03358"</span>, <span class="st">"03359"</span>, <span class="st">"03360"</span>,</span>
+<span>  <span class="st">"03361"</span>, <span class="st">"03451"</span>, <span class="st">"03452"</span>, <span class="st">"03453"</span>, <span class="st">"03454"</span>, <span class="st">"03455"</span>, <span class="st">"03456"</span>,</span>
+<span>  <span class="st">"10155"</span><span class="op">)</span></span></code></pre></div>
 <p>Function <code><a href="../reference/hier_compute.html">hier_compute()</a></code> takes a character vector and creates a hierarchy from it. In argument <code>method</code>, two ways of specifying the encoded levels can be chosen.</p>
 <ul>
 <li>
@@ -285,359 +274,348 @@
 <code>len</code>: an integerish-vector must be specified in argument <code>dim_spec</code> containing for each level how many digits are required</li>
 </ul>
 <p>In case the overal total is not encoded in the input, specifying argument <code>root</code> allows to give a name to the overall total. Additionally, it is possible to set the desired output format in parameter <code>as</code>. In the example below setting <code>as = "df"</code> returns the result as a <code>data.frame</code> in <code>@; key</code>-format. The two methods on how to define the positions of the levels are interchangable and lead to the same hierarchy as shown below:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="kw">v1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span>(
-  inp = <span class="kw">geo_m</span>, 
-  dim_spec = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">5</span>), 
-  root = <span class="st">"Tot"</span>, 
-  method = <span class="st">"endpos"</span>, 
-  as = <span class="st">"df"</span>
-)
-
-<span class="kw">v2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span>(
-  inp = <span class="kw">geo_m</span>, 
-  dim_spec = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span>), 
-  root = <span class="st">"Tot"</span>, 
-  method = <span class="st">"len"</span>,
-  as = <span class="st">"df"</span>
-)
-
-<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(<span class="kw">v1</span>, <span class="kw">v2</span>)
-</pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="fu"><a href="../reference/hier_display.html">hier_display</a></span>(<span class="kw">v1</span>)
-</pre></div>
-<pre><code>## Tot
-## ├─01
-## │ └─010
-## │   ├─01051
-## │   ├─01053
-## │   ├─01054
-## │   ├─01055
-## │   ├─01056
-## │   ├─01057
-## │   ├─01058
-## │   ├─01059
-## │   ├─01060
-## │   ├─01061
-## │   └─01062
-## ├─02
-## │ └─020
-## │   └─02000
-## ├─03
-## │ ├─031
-## │ │ ├─03151
-## │ │ ├─03152
-## │ │ ├─03153
-## │ │ ├─03154
-## │ │ ├─03155
-## │ │ ├─03156
-## │ │ ├─03157
-## │ │ └─03158
-## │ ├─032
-## │ │ ├─03251
-## │ │ ├─03252
-## │ │ ├─03254
-## │ │ ├─03255
-## │ │ ├─03256
-## │ │ └─03257
-## │ ├─033
-## │ │ ├─03351
-## │ │ ├─03352
-## │ │ ├─03353
-## │ │ ├─03354
-## │ │ ├─03355
-## │ │ ├─03356
-## │ │ ├─03357
-## │ │ ├─03358
-## │ │ ├─03359
-## │ │ ├─03360
-## │ │ └─03361
-## │ └─034
-## │   ├─03451
-## │   ├─03452
-## │   ├─03453
-## │   ├─03454
-## │   ├─03455
-## │   └─03456
-## └─10
-##   └─101
-##     └─10155</code></pre>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">v1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span><span class="op">(</span></span>
+<span>  inp <span class="op">=</span> <span class="va">geo_m</span>, </span>
+<span>  dim_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>, </span>
+<span>  root <span class="op">=</span> <span class="st">"Tot"</span>, </span>
+<span>  method <span class="op">=</span> <span class="st">"endpos"</span>, </span>
+<span>  as <span class="op">=</span> <span class="st">"df"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">v2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span><span class="op">(</span></span>
+<span>  inp <span class="op">=</span> <span class="va">geo_m</span>, </span>
+<span>  dim_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>  root <span class="op">=</span> <span class="st">"Tot"</span>, </span>
+<span>  method <span class="op">=</span> <span class="st">"len"</span>,</span>
+<span>  as <span class="op">=</span> <span class="st">"df"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">v1</span>, <span class="va">v2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hier_display.html">hier_display</a></span><span class="op">(</span><span class="va">v1</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Tot</span></span>
+<span><span class="co">## ├─01</span></span>
+<span><span class="co">## │ └─010</span></span>
+<span><span class="co">## │   ├─01051</span></span>
+<span><span class="co">## │   ├─01053</span></span>
+<span><span class="co">## │   ├─01054</span></span>
+<span><span class="co">## │   ├─01055</span></span>
+<span><span class="co">## │   ├─01056</span></span>
+<span><span class="co">## │   ├─01057</span></span>
+<span><span class="co">## │   ├─01058</span></span>
+<span><span class="co">## │   ├─01059</span></span>
+<span><span class="co">## │   ├─01060</span></span>
+<span><span class="co">## │   ├─01061</span></span>
+<span><span class="co">## │   └─01062</span></span>
+<span><span class="co">## ├─02</span></span>
+<span><span class="co">## │ └─020</span></span>
+<span><span class="co">## │   └─02000</span></span>
+<span><span class="co">## ├─03</span></span>
+<span><span class="co">## │ ├─031</span></span>
+<span><span class="co">## │ │ ├─03151</span></span>
+<span><span class="co">## │ │ ├─03152</span></span>
+<span><span class="co">## │ │ ├─03153</span></span>
+<span><span class="co">## │ │ ├─03154</span></span>
+<span><span class="co">## │ │ ├─03155</span></span>
+<span><span class="co">## │ │ ├─03156</span></span>
+<span><span class="co">## │ │ ├─03157</span></span>
+<span><span class="co">## │ │ └─03158</span></span>
+<span><span class="co">## │ ├─032</span></span>
+<span><span class="co">## │ │ ├─03251</span></span>
+<span><span class="co">## │ │ ├─03252</span></span>
+<span><span class="co">## │ │ ├─03254</span></span>
+<span><span class="co">## │ │ ├─03255</span></span>
+<span><span class="co">## │ │ ├─03256</span></span>
+<span><span class="co">## │ │ └─03257</span></span>
+<span><span class="co">## │ ├─033</span></span>
+<span><span class="co">## │ │ ├─03351</span></span>
+<span><span class="co">## │ │ ├─03352</span></span>
+<span><span class="co">## │ │ ├─03353</span></span>
+<span><span class="co">## │ │ ├─03354</span></span>
+<span><span class="co">## │ │ ├─03355</span></span>
+<span><span class="co">## │ │ ├─03356</span></span>
+<span><span class="co">## │ │ ├─03357</span></span>
+<span><span class="co">## │ │ ├─03358</span></span>
+<span><span class="co">## │ │ ├─03359</span></span>
+<span><span class="co">## │ │ ├─03360</span></span>
+<span><span class="co">## │ │ └─03361</span></span>
+<span><span class="co">## │ └─034</span></span>
+<span><span class="co">## │   ├─03451</span></span>
+<span><span class="co">## │   ├─03452</span></span>
+<span><span class="co">## │   ├─03453</span></span>
+<span><span class="co">## │   ├─03454</span></span>
+<span><span class="co">## │   ├─03455</span></span>
+<span><span class="co">## │   └─03456</span></span>
+<span><span class="co">## └─10</span></span>
+<span><span class="co">##   └─101</span></span>
+<span><span class="co">##     └─10155</span></span></code></pre>
 <p>If the total is contained in the string, let’s say in the first 3 positions of the input values, the hierarchy can be computed as follows:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">geo_m_with_tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Tot"</span>, <span class="kw">geo_m</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">geo_m_with_tot</span>)
-</pre></div>
-<pre><code>## [1] "Tot01051" "Tot01053" "Tot01054" "Tot01055" "Tot01056" "Tot01057"</code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="kw">v3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span>(
-  inp = <span class="kw">geo_m_with_tot</span>, 
-  dim_spec = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span>), 
-  method = <span class="st">"len"</span>
-); <span class="fu"><a href="../reference/hier_display.html">hier_display</a></span>(<span class="kw">v3</span>)
-</pre></div>
-<pre><code>## Tot
-## ├─01
-## │ └─010
-## │   ├─01051
-## │   ├─01053
-## │   ├─01054
-## │   ├─01055
-## │   ├─01056
-## │   ├─01057
-## │   ├─01058
-## │   ├─01059
-## │   ├─01060
-## │   ├─01061
-## │   └─01062
-## ├─02
-## │ └─020
-## │   └─02000
-## ├─03
-## │ ├─031
-## │ │ ├─03151
-## │ │ ├─03152
-## │ │ ├─03153
-## │ │ ├─03154
-## │ │ ├─03155
-## │ │ ├─03156
-## │ │ ├─03157
-## │ │ └─03158
-## │ ├─032
-## │ │ ├─03251
-## │ │ ├─03252
-## │ │ ├─03254
-## │ │ ├─03255
-## │ │ ├─03256
-## │ │ └─03257
-## │ ├─033
-## │ │ ├─03351
-## │ │ ├─03352
-## │ │ ├─03353
-## │ │ ├─03354
-## │ │ ├─03355
-## │ │ ├─03356
-## │ │ ├─03357
-## │ │ ├─03358
-## │ │ ├─03359
-## │ │ ├─03360
-## │ │ └─03361
-## │ └─034
-## │   ├─03451
-## │   ├─03452
-## │   ├─03453
-## │   ├─03454
-## │   ├─03455
-## │   └─03456
-## └─10
-##   └─101
-##     └─10155</code></pre>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">geo_m_with_tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tot"</span>, <span class="va">geo_m</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">geo_m_with_tot</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Tot01051" "Tot01053" "Tot01054" "Tot01055" "Tot01056" "Tot01057"</span></span></code></pre>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">v3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span><span class="op">(</span></span>
+<span>  inp <span class="op">=</span> <span class="va">geo_m_with_tot</span>, </span>
+<span>  dim_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>  method <span class="op">=</span> <span class="st">"len"</span></span>
+<span><span class="op">)</span>; <span class="fu"><a href="../reference/hier_display.html">hier_display</a></span><span class="op">(</span><span class="va">v3</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Tot</span></span>
+<span><span class="co">## ├─01</span></span>
+<span><span class="co">## │ └─010</span></span>
+<span><span class="co">## │   ├─01051</span></span>
+<span><span class="co">## │   ├─01053</span></span>
+<span><span class="co">## │   ├─01054</span></span>
+<span><span class="co">## │   ├─01055</span></span>
+<span><span class="co">## │   ├─01056</span></span>
+<span><span class="co">## │   ├─01057</span></span>
+<span><span class="co">## │   ├─01058</span></span>
+<span><span class="co">## │   ├─01059</span></span>
+<span><span class="co">## │   ├─01060</span></span>
+<span><span class="co">## │   ├─01061</span></span>
+<span><span class="co">## │   └─01062</span></span>
+<span><span class="co">## ├─02</span></span>
+<span><span class="co">## │ └─020</span></span>
+<span><span class="co">## │   └─02000</span></span>
+<span><span class="co">## ├─03</span></span>
+<span><span class="co">## │ ├─031</span></span>
+<span><span class="co">## │ │ ├─03151</span></span>
+<span><span class="co">## │ │ ├─03152</span></span>
+<span><span class="co">## │ │ ├─03153</span></span>
+<span><span class="co">## │ │ ├─03154</span></span>
+<span><span class="co">## │ │ ├─03155</span></span>
+<span><span class="co">## │ │ ├─03156</span></span>
+<span><span class="co">## │ │ ├─03157</span></span>
+<span><span class="co">## │ │ └─03158</span></span>
+<span><span class="co">## │ ├─032</span></span>
+<span><span class="co">## │ │ ├─03251</span></span>
+<span><span class="co">## │ │ ├─03252</span></span>
+<span><span class="co">## │ │ ├─03254</span></span>
+<span><span class="co">## │ │ ├─03255</span></span>
+<span><span class="co">## │ │ ├─03256</span></span>
+<span><span class="co">## │ │ └─03257</span></span>
+<span><span class="co">## │ ├─033</span></span>
+<span><span class="co">## │ │ ├─03351</span></span>
+<span><span class="co">## │ │ ├─03352</span></span>
+<span><span class="co">## │ │ ├─03353</span></span>
+<span><span class="co">## │ │ ├─03354</span></span>
+<span><span class="co">## │ │ ├─03355</span></span>
+<span><span class="co">## │ │ ├─03356</span></span>
+<span><span class="co">## │ │ ├─03357</span></span>
+<span><span class="co">## │ │ ├─03358</span></span>
+<span><span class="co">## │ │ ├─03359</span></span>
+<span><span class="co">## │ │ ├─03360</span></span>
+<span><span class="co">## │ │ └─03361</span></span>
+<span><span class="co">## │ └─034</span></span>
+<span><span class="co">## │   ├─03451</span></span>
+<span><span class="co">## │   ├─03452</span></span>
+<span><span class="co">## │   ├─03453</span></span>
+<span><span class="co">## │   ├─03454</span></span>
+<span><span class="co">## │   ├─03455</span></span>
+<span><span class="co">## │   └─03456</span></span>
+<span><span class="co">## └─10</span></span>
+<span><span class="co">##   └─101</span></span>
+<span><span class="co">##     └─10155</span></span></code></pre>
 <p>The result is the same as <code>v1</code> and <code>v2</code> previously generated.</p>
 <p><code><a href="../reference/hier_compute.html">hier_compute()</a></code> can also deal with inputs that are of different length as shown in the next example.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
-<span class="co">## second example, unequal strings; overall total not included in input</span>
-<span class="kw">yae_h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
-  <span class="st">"1.1.1."</span>, <span class="st">"1.1.2."</span>,
-  <span class="st">"1.2.1."</span>, <span class="st">"1.2.2."</span>, <span class="st">"1.2.3."</span>, <span class="st">"1.2.4."</span>, <span class="st">"1.2.5."</span>, <span class="st">"1.3.1."</span>,
-  <span class="st">"1.3.2."</span>, <span class="st">"1.3.3."</span>, <span class="st">"1.3.4."</span>, <span class="st">"1.3.5."</span>,
-  <span class="st">"1.4.1."</span>, <span class="st">"1.4.2."</span>, <span class="st">"1.4.3."</span>, <span class="st">"1.4.4."</span>, <span class="st">"1.4.5."</span>,
-  <span class="st">"1.5."</span>, <span class="st">"1.6."</span>, <span class="st">"1.7."</span>, <span class="st">"1.8."</span>, <span class="st">"1.9."</span>, <span class="st">"2."</span>, <span class="st">"3."</span>)
-<span class="kw">v1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span>(
-  inp = <span class="kw">yae_h</span>, 
-  dim_spec = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>), 
-  root = <span class="st">"Tot"</span>, 
-  method = <span class="st">"len"</span>
-); <span class="fu"><a href="../reference/hier_display.html">hier_display</a></span>(<span class="kw">v1</span>)
-</pre></div>
-<pre><code>## Tot
-## ├─1.
-## │ ├─1.1.
-## │ │ ├─1.1.1.
-## │ │ └─1.1.2.
-## │ ├─1.2.
-## │ │ ├─1.2.1.
-## │ │ ├─1.2.2.
-## │ │ ├─1.2.3.
-## │ │ ├─1.2.4.
-## │ │ └─1.2.5.
-## │ ├─1.3.
-## │ │ ├─1.3.1.
-## │ │ ├─1.3.2.
-## │ │ ├─1.3.3.
-## │ │ ├─1.3.4.
-## │ │ └─1.3.5.
-## │ ├─1.4.
-## │ │ ├─1.4.1.
-## │ │ ├─1.4.2.
-## │ │ ├─1.4.3.
-## │ │ ├─1.4.4.
-## │ │ └─1.4.5.
-## │ ├─1.5.
-## │ ├─1.6.
-## │ ├─1.7.
-## │ ├─1.8.
-## │ └─1.9.
-## ├─2.
-## └─3.</code></pre>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## second example, unequal strings; overall total not included in input</span></span>
+<span><span class="va">yae_h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"1.1.1."</span>, <span class="st">"1.1.2."</span>,</span>
+<span>  <span class="st">"1.2.1."</span>, <span class="st">"1.2.2."</span>, <span class="st">"1.2.3."</span>, <span class="st">"1.2.4."</span>, <span class="st">"1.2.5."</span>, <span class="st">"1.3.1."</span>,</span>
+<span>  <span class="st">"1.3.2."</span>, <span class="st">"1.3.3."</span>, <span class="st">"1.3.4."</span>, <span class="st">"1.3.5."</span>,</span>
+<span>  <span class="st">"1.4.1."</span>, <span class="st">"1.4.2."</span>, <span class="st">"1.4.3."</span>, <span class="st">"1.4.4."</span>, <span class="st">"1.4.5."</span>,</span>
+<span>  <span class="st">"1.5."</span>, <span class="st">"1.6."</span>, <span class="st">"1.7."</span>, <span class="st">"1.8."</span>, <span class="st">"1.9."</span>, <span class="st">"2."</span>, <span class="st">"3."</span><span class="op">)</span></span>
+<span><span class="va">v1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span><span class="op">(</span></span>
+<span>  inp <span class="op">=</span> <span class="va">yae_h</span>, </span>
+<span>  dim_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>, </span>
+<span>  root <span class="op">=</span> <span class="st">"Tot"</span>, </span>
+<span>  method <span class="op">=</span> <span class="st">"len"</span></span>
+<span><span class="op">)</span>; <span class="fu"><a href="../reference/hier_display.html">hier_display</a></span><span class="op">(</span><span class="va">v1</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Tot</span></span>
+<span><span class="co">## ├─1.</span></span>
+<span><span class="co">## │ ├─1.1.</span></span>
+<span><span class="co">## │ │ ├─1.1.1.</span></span>
+<span><span class="co">## │ │ └─1.1.2.</span></span>
+<span><span class="co">## │ ├─1.2.</span></span>
+<span><span class="co">## │ │ ├─1.2.1.</span></span>
+<span><span class="co">## │ │ ├─1.2.2.</span></span>
+<span><span class="co">## │ │ ├─1.2.3.</span></span>
+<span><span class="co">## │ │ ├─1.2.4.</span></span>
+<span><span class="co">## │ │ └─1.2.5.</span></span>
+<span><span class="co">## │ ├─1.3.</span></span>
+<span><span class="co">## │ │ ├─1.3.1.</span></span>
+<span><span class="co">## │ │ ├─1.3.2.</span></span>
+<span><span class="co">## │ │ ├─1.3.3.</span></span>
+<span><span class="co">## │ │ ├─1.3.4.</span></span>
+<span><span class="co">## │ │ └─1.3.5.</span></span>
+<span><span class="co">## │ ├─1.4.</span></span>
+<span><span class="co">## │ │ ├─1.4.1.</span></span>
+<span><span class="co">## │ │ ├─1.4.2.</span></span>
+<span><span class="co">## │ │ ├─1.4.3.</span></span>
+<span><span class="co">## │ │ ├─1.4.4.</span></span>
+<span><span class="co">## │ │ └─1.4.5.</span></span>
+<span><span class="co">## │ ├─1.5.</span></span>
+<span><span class="co">## │ ├─1.6.</span></span>
+<span><span class="co">## │ ├─1.7.</span></span>
+<span><span class="co">## │ ├─1.8.</span></span>
+<span><span class="co">## │ └─1.9.</span></span>
+<span><span class="co">## ├─2.</span></span>
+<span><span class="co">## └─3.</span></span></code></pre>
 <p>We also note that there is another way to specify the inputs in <code><a href="../reference/hier_compute.html">hier_compute()</a></code>. Setting argument <code>method = "list"</code> allows to create a hierarchy from a given named list. In such a list, the name of a list element is interpreted as the name of the parent node of all codes of the specific list element. An example is shown below:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="kw">yae_ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>()
-<span class="kw">yae_ll</span>[[<span class="st">"Total"</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1."</span>, <span class="st">"2."</span>, <span class="st">"3."</span>)
-<span class="kw">yae_ll</span>[[<span class="st">"1."</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"1."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, <span class="st">"."</span>)
-<span class="kw">yae_ll</span>[[<span class="st">"1.1."</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"1.1."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="st">"."</span>)
-<span class="kw">yae_ll</span>[[<span class="st">"1.2."</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"1.2."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"."</span>)
-<span class="kw">yae_ll</span>[[<span class="st">"1.3."</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"1.3."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"."</span>)
-<span class="kw">yae_ll</span>[[<span class="st">"1.4."</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"1.4."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="st">"."</span>)
-<span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span>(inp = <span class="kw">yae_ll</span>, root = <span class="st">"Total"</span>, method = <span class="st">"list"</span>) 
-</pre></div>
-<pre><code>## Argument 'dim_spec' is ignored when constructing a hierarchy from a nested list.</code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit">
-<span class="fu"><a href="../reference/hier_display.html">hier_display</a></span>(<span class="kw">d</span>)
-</pre></div>
-<pre><code>## Total
-## ├─1.
-## │ ├─1.1.
-## │ │ ├─1.1.1.
-## │ │ └─1.1.2.
-## │ ├─1.2.
-## │ │ ├─1.2.1.
-## │ │ ├─1.2.2.
-## │ │ ├─1.2.3.
-## │ │ ├─1.2.4.
-## │ │ └─1.2.5.
-## │ ├─1.3.
-## │ │ ├─1.3.1.
-## │ │ ├─1.3.2.
-## │ │ ├─1.3.3.
-## │ │ ├─1.3.4.
-## │ │ └─1.3.5.
-## │ ├─1.4.
-## │ │ ├─1.4.1.
-## │ │ ├─1.4.2.
-## │ │ ├─1.4.3.
-## │ │ ├─1.4.4.
-## │ │ ├─1.4.5.
-## │ │ └─1.4.6.
-## │ ├─1.5.
-## │ ├─1.6.
-## │ ├─1.7.
-## │ ├─1.8.
-## │ └─1.9.
-## ├─2.
-## └─3.</code></pre>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">yae_ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">yae_ll</span><span class="op">[[</span><span class="st">"Total"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1."</span>, <span class="st">"2."</span>, <span class="st">"3."</span><span class="op">)</span></span>
+<span><span class="va">yae_ll</span><span class="op">[[</span><span class="st">"1."</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"1."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, <span class="st">"."</span><span class="op">)</span></span>
+<span><span class="va">yae_ll</span><span class="op">[[</span><span class="st">"1.1."</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"1.1."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="st">"."</span><span class="op">)</span></span>
+<span><span class="va">yae_ll</span><span class="op">[[</span><span class="st">"1.2."</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"1.2."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"."</span><span class="op">)</span></span>
+<span><span class="va">yae_ll</span><span class="op">[[</span><span class="st">"1.3."</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"1.3."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"."</span><span class="op">)</span></span>
+<span><span class="va">yae_ll</span><span class="op">[[</span><span class="st">"1.4."</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"1.4."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="st">"."</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_compute.html">hier_compute</a></span><span class="op">(</span>inp <span class="op">=</span> <span class="va">yae_ll</span>, root <span class="op">=</span> <span class="st">"Total"</span>, method <span class="op">=</span> <span class="st">"list"</span><span class="op">)</span> </span></code></pre></div>
+<pre><code><span><span class="co">## Argument 'dim_spec' is ignored when constructing a hierarchy from a nested list.</span></span></code></pre>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hier_display.html">hier_display</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Total</span></span>
+<span><span class="co">## ├─1.</span></span>
+<span><span class="co">## │ ├─1.1.</span></span>
+<span><span class="co">## │ │ ├─1.1.1.</span></span>
+<span><span class="co">## │ │ └─1.1.2.</span></span>
+<span><span class="co">## │ ├─1.2.</span></span>
+<span><span class="co">## │ │ ├─1.2.1.</span></span>
+<span><span class="co">## │ │ ├─1.2.2.</span></span>
+<span><span class="co">## │ │ ├─1.2.3.</span></span>
+<span><span class="co">## │ │ ├─1.2.4.</span></span>
+<span><span class="co">## │ │ └─1.2.5.</span></span>
+<span><span class="co">## │ ├─1.3.</span></span>
+<span><span class="co">## │ │ ├─1.3.1.</span></span>
+<span><span class="co">## │ │ ├─1.3.2.</span></span>
+<span><span class="co">## │ │ ├─1.3.3.</span></span>
+<span><span class="co">## │ │ ├─1.3.4.</span></span>
+<span><span class="co">## │ │ └─1.3.5.</span></span>
+<span><span class="co">## │ ├─1.4.</span></span>
+<span><span class="co">## │ │ ├─1.4.1.</span></span>
+<span><span class="co">## │ │ ├─1.4.2.</span></span>
+<span><span class="co">## │ │ ├─1.4.3.</span></span>
+<span><span class="co">## │ │ ├─1.4.4.</span></span>
+<span><span class="co">## │ │ ├─1.4.5.</span></span>
+<span><span class="co">## │ │ └─1.4.6.</span></span>
+<span><span class="co">## │ ├─1.5.</span></span>
+<span><span class="co">## │ ├─1.6.</span></span>
+<span><span class="co">## │ ├─1.7.</span></span>
+<span><span class="co">## │ ├─1.8.</span></span>
+<span><span class="co">## │ └─1.9.</span></span>
+<span><span class="co">## ├─2.</span></span>
+<span><span class="co">## └─3.</span></span></code></pre>
 </div>
-<div id="grids" class="section level2">
-<h2 class="hasAnchor">
-<a href="#grids" class="anchor"></a>Grids</h2>
+<div class="section level3">
+<h3 id="grids">Grids<a class="anchor" aria-label="anchor" href="#grids"></a>
+</h3>
 <p>Using <code><a href="../reference/hier_grid.html">hier_grid()</a></code> it is possible to compute all combinations of codes given several hierarchies. This is useful to build a complete table (e.g for merging purposes). The functionality of <code>hier_grid</code> is shown below. First, we need to specify some hierarchies.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit">
-<span class="kw">h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_create.html">hier_create</a></span>(<span class="st">"Total"</span>, nodes = <span class="kw">LETTERS</span>[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>])
-<span class="kw">h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span>(<span class="kw">h1</span>, root = <span class="st">"A"</span>, node = <span class="st">"a1"</span>)
-<span class="kw">h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span>(<span class="kw">h1</span>, root = <span class="st">"a1"</span>, node = <span class="st">"aa1"</span>)
-
-<span class="kw">h2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_create.html">hier_create</a></span>(<span class="st">"Total"</span>, <span class="kw">letters</span>[<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>])
-<span class="kw">h2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span>(<span class="kw">h2</span>, root = <span class="st">"b"</span>, node = <span class="st">"b1"</span>)
-<span class="kw">h2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span>(<span class="kw">h2</span>, root = <span class="st">"d"</span>, node = <span class="st">"d1"</span>)
-</pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_create.html">hier_create</a></span><span class="op">(</span><span class="st">"Total"</span>, nodes <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h1</span>, root <span class="op">=</span> <span class="st">"A"</span>, node <span class="op">=</span> <span class="st">"a1"</span><span class="op">)</span></span>
+<span><span class="va">h1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h1</span>, root <span class="op">=</span> <span class="st">"a1"</span>, node <span class="op">=</span> <span class="st">"aa1"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">h2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_create.html">hier_create</a></span><span class="op">(</span><span class="st">"Total"</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">h2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h2</span>, root <span class="op">=</span> <span class="st">"b"</span>, node <span class="op">=</span> <span class="st">"b1"</span><span class="op">)</span></span>
+<span><span class="va">h2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h2</span>, root <span class="op">=</span> <span class="st">"d"</span>, node <span class="op">=</span> <span class="st">"d1"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that we - on purpose - added some <em>“bogus”</em> codes to each <code>h1</code> and <code>h2</code> as codes <code>a1</code> and <code>aa1</code> in <code>h1</code> and <code>b1</code> and <code>d1</code> in <code>h2</code> are just identical to their respective parent categories. Applying <code>hier_grid</code> is as simple as</p>
-<div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="fu"><a href="../reference/hier_grid.html">hier_grid</a></span>(<span class="kw">h1</span>, <span class="kw">h2</span>)
-</pre></div>
-<pre><code>##        v1    v2
-##  1: Total Total
-##  2:     A Total
-##  3:     B Total
-##  4:     C Total
-##  5:    a1 Total
-##  6:   aa1 Total
-##  7: Total     a
-##  8:     A     a
-##  9:     B     a
-## 10:     C     a
-## 11:    a1     a
-## 12:   aa1     a
-## 13: Total     b
-## 14:     A     b
-## 15:     B     b
-## 16:     C     b
-## 17:    a1     b
-## 18:   aa1     b
-## 19: Total     c
-## 20:     A     c
-## 21:     B     c
-## 22:     C     c
-## 23:    a1     c
-## 24:   aa1     c
-## 25: Total     d
-## 26:     A     d
-## 27:     B     d
-## 28:     C     d
-## 29:    a1     d
-## 30:   aa1     d
-## 31: Total     e
-## 32:     A     e
-## 33:     B     e
-## 34:     C     e
-## 35:    a1     e
-## 36:   aa1     e
-## 37: Total    b1
-## 38:     A    b1
-## 39:     B    b1
-## 40:     C    b1
-## 41:    a1    b1
-## 42:   aa1    b1
-## 43: Total    d1
-## 44:     A    d1
-## 45:     B    d1
-## 46:     C    d1
-## 47:    a1    d1
-## 48:   aa1    d1
-##        v1    v2</code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hier_grid.html">hier_grid</a></span><span class="op">(</span><span class="va">h1</span>, <span class="va">h2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        v1    v2</span></span>
+<span><span class="co">##  1: Total Total</span></span>
+<span><span class="co">##  2:     A Total</span></span>
+<span><span class="co">##  3:    a1 Total</span></span>
+<span><span class="co">##  4:   aa1 Total</span></span>
+<span><span class="co">##  5:     B Total</span></span>
+<span><span class="co">##  6:     C Total</span></span>
+<span><span class="co">##  7: Total     a</span></span>
+<span><span class="co">##  8:     A     a</span></span>
+<span><span class="co">##  9:    a1     a</span></span>
+<span><span class="co">## 10:   aa1     a</span></span>
+<span><span class="co">## 11:     B     a</span></span>
+<span><span class="co">## 12:     C     a</span></span>
+<span><span class="co">## 13: Total     b</span></span>
+<span><span class="co">## 14:     A     b</span></span>
+<span><span class="co">## 15:    a1     b</span></span>
+<span><span class="co">## 16:   aa1     b</span></span>
+<span><span class="co">## 17:     B     b</span></span>
+<span><span class="co">## 18:     C     b</span></span>
+<span><span class="co">## 19: Total    b1</span></span>
+<span><span class="co">## 20:     A    b1</span></span>
+<span><span class="co">## 21:    a1    b1</span></span>
+<span><span class="co">## 22:   aa1    b1</span></span>
+<span><span class="co">## 23:     B    b1</span></span>
+<span><span class="co">## 24:     C    b1</span></span>
+<span><span class="co">## 25: Total     c</span></span>
+<span><span class="co">## 26:     A     c</span></span>
+<span><span class="co">## 27:    a1     c</span></span>
+<span><span class="co">## 28:   aa1     c</span></span>
+<span><span class="co">## 29:     B     c</span></span>
+<span><span class="co">## 30:     C     c</span></span>
+<span><span class="co">## 31: Total     d</span></span>
+<span><span class="co">## 32:     A     d</span></span>
+<span><span class="co">## 33:    a1     d</span></span>
+<span><span class="co">## 34:   aa1     d</span></span>
+<span><span class="co">## 35:     B     d</span></span>
+<span><span class="co">## 36:     C     d</span></span>
+<span><span class="co">## 37: Total    d1</span></span>
+<span><span class="co">## 38:     A    d1</span></span>
+<span><span class="co">## 39:    a1    d1</span></span>
+<span><span class="co">## 40:   aa1    d1</span></span>
+<span><span class="co">## 41:     B    d1</span></span>
+<span><span class="co">## 42:     C    d1</span></span>
+<span><span class="co">## 43: Total     e</span></span>
+<span><span class="co">## 44:     A     e</span></span>
+<span><span class="co">## 45:    a1     e</span></span>
+<span><span class="co">## 46:   aa1     e</span></span>
+<span><span class="co">## 47:     B     e</span></span>
+<span><span class="co">## 48:     C     e</span></span>
+<span><span class="co">##        v1    v2</span></span></code></pre>
 <p>separating all target hierarchies with a <code>,</code>. <code>hier_grid</code> then computes all combinations of codes from hierarchies <code>h1</code> and <code>h2</code>. Using the default options, these bogus codes are included in the output <code>data.table</code>. Setting argument <code>add_dups = FALSE</code> removes all rows containing such bogus codes. Setting option <code>add_levs = TRUE</code> adds some columns labeled <code>levs_v{n}</code> to the output data set. Each of this colum contains values which define the hierarchy level of the corresponding code given in variable v{n} in the same row in the table as shown below.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit">
-<span class="fu"><a href="../reference/hier_grid.html">hier_grid</a></span>(<span class="kw">h1</span>, <span class="kw">h2</span>, add_dups = <span class="fl">FALSE</span>, add_levs = <span class="fl">TRUE</span>)
-</pre></div>
-<pre><code>##        v1    v2 levs_v1 levs_v2
-##  1: Total Total       1       1
-##  2:     A Total       2       1
-##  3:     B Total       2       1
-##  4:     C Total       2       1
-##  5: Total     a       1       2
-##  6:     A     a       2       2
-##  7:     B     a       2       2
-##  8:     C     a       2       2
-##  9: Total     b       1       2
-## 10:     A     b       2       2
-## 11:     B     b       2       2
-## 12:     C     b       2       2
-## 13: Total     c       1       2
-## 14:     A     c       2       2
-## 15:     B     c       2       2
-## 16:     C     c       2       2
-## 17: Total     d       1       2
-## 18:     A     d       2       2
-## 19:     B     d       2       2
-## 20:     C     d       2       2
-## 21: Total     e       1       2
-## 22:     A     e       2       2
-## 23:     B     e       2       2
-## 24:     C     e       2       2
-##        v1    v2 levs_v1 levs_v2</code></pre>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/hier_grid.html">hier_grid</a></span><span class="op">(</span><span class="va">h1</span>, <span class="va">h2</span>, add_dups <span class="op">=</span> <span class="cn">FALSE</span>, add_levs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        v1    v2 levs_v1 levs_v2</span></span>
+<span><span class="co">##  1: Total Total       1       1</span></span>
+<span><span class="co">##  2:     A Total       2       1</span></span>
+<span><span class="co">##  3:     B Total       2       1</span></span>
+<span><span class="co">##  4:     C Total       2       1</span></span>
+<span><span class="co">##  5: Total     a       1       2</span></span>
+<span><span class="co">##  6:     A     a       2       2</span></span>
+<span><span class="co">##  7:     B     a       2       2</span></span>
+<span><span class="co">##  8:     C     a       2       2</span></span>
+<span><span class="co">##  9: Total     b       1       2</span></span>
+<span><span class="co">## 10:     A     b       2       2</span></span>
+<span><span class="co">## 11:     B     b       2       2</span></span>
+<span><span class="co">## 12:     C     b       2       2</span></span>
+<span><span class="co">## 13: Total     c       1       2</span></span>
+<span><span class="co">## 14:     A     c       2       2</span></span>
+<span><span class="co">## 15:     B     c       2       2</span></span>
+<span><span class="co">## 16:     C     c       2       2</span></span>
+<span><span class="co">## 17: Total     d       1       2</span></span>
+<span><span class="co">## 18:     A     d       2       2</span></span>
+<span><span class="co">## 19:     B     d       2       2</span></span>
+<span><span class="co">## 20:     C     d       2       2</span></span>
+<span><span class="co">## 21: Total     e       1       2</span></span>
+<span><span class="co">## 22:     A     e       2       2</span></span>
+<span><span class="co">## 23:     B     e       2       2</span></span>
+<span><span class="co">## 24:     C     e       2       2</span></span>
+<span><span class="co">##        v1    v2 levs_v1 levs_v2</span></span></code></pre>
 </div>
-<div id="interactively-create-or-modify-hierarchies" class="section level2">
-<h2 class="hasAnchor">
-<a href="#interactively-create-or-modify-hierarchies" class="anchor"></a>Interactively create or modify hierarchies</h2>
+<div class="section level3">
+<h3 id="interactively-create-or-modify-hierarchies">Interactively create or modify hierarchies<a class="anchor" aria-label="anchor" href="#interactively-create-or-modify-hierarchies"></a>
+</h3>
 <p>The package also contains a shiny-based interactive app that can be started using <code><a href="../reference/hier_app.html">hier_app()</a></code>. The app allows to pass as input either a character vector (that should be converted into a hierarchy) or an existing hierarchy and can be started as follows given the hierarchy previously generated using <code><a href="../reference/hier_compute.html">hier_compute()</a></code>:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit">
-<span class="kw">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_app.html">hier_app</a></span>(<span class="kw">d</span>)
-</pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_app.html">hier_app</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></code></pre></div>
 <p>If a character vector is passed to <code><a href="../reference/hier_app.html">hier_app()</a></code>, the interface allows to specify the arguments for <code><a href="../reference/hier_compute.html">hier_compute()</a></code>. Once a hierarchy is created, the interface changes and the tree can be dynamically changed by dragging nodes around. Futhermore, it is possible to add, remove or rename nodes. The required code to construct the current hierarchy is displayed and can be saved to disk. Furthermore, there is functionality to <em>undo</em> the last step as well as to export results to either the <strong>R</strong>-session or write results to a file. This is especially helpful if one wants to create for example an <code>hrc</code>-file as input for <span class="math inline">\(\tau\)</span>-argus. Please note that <code><a href="../reference/hier_app.html">hier_app()</a></code> is able to return the modified hierarchy and not only save results to disk. In order to continue working, one may assign the result to a new object as shown in the code above.</p>
 </div>
-<div id="summary" class="section level2">
-<h2 class="hasAnchor">
-<a href="#summary" class="anchor"></a>Summary</h2>
-<p>In case you have any suggestions or improvements, please feel free to file an issue at <a href="https://github.com/bernhard-da/sdcHierarchies/issues"><strong>our issue tracker</strong></a> or contribute to the package by filing a <a href="https://github.com/bernhard-da/sdcHierarchies/pulls"><strong>pull request</strong></a> against the master branch.</p>
+<div class="section level3">
+<h3 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h3>
+<p>In case you have any suggestions or improvements, please feel free to file an issue at <a href="https://github.com/bernhard-da/sdcHierarchies/issues" class="external-link"><strong>our issue tracker</strong></a> or contribute to the package by filing a <a href="https://github.com/bernhard-da/sdcHierarchies/pulls" class="external-link"><strong>pull request</strong></a> against the master branch.</p>
 </div>
 </div>
   </div>
@@ -653,11 +631,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Bernhard Meindl.</p>
+  <p></p>
+<p>Developed by Bernhard Meindl.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -665,6 +645,8 @@
 
   
 
+
+  
 
   </body>
 </html>
