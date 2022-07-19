@@ -1,6 +1,7 @@
 
-## sdcHierarchies[![R-CMD-check](https://github.com/bernhard-da/sdcHierarchies/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bernhard-da/sdcHierarchies/actions/workflows/R-CMD-check.yaml)
+## sdcHierarchies
 
+[![R-CMD-check](https://github.com/bernhard-da/sdcHierarchies/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bernhard-da/sdcHierarchies/actions/workflows/R-CMD-check.yaml)
 [![GitHub last
 commit](https://img.shields.io/github/last-commit/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies/commits/master)
 [![GitHub code size in
