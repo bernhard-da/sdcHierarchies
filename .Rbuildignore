@@ -9,3 +9,4 @@ debug
 README.Rmd
 pkgdown
 ^\.covrignore$
+^\.github$

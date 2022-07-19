@@ -2,9 +2,7 @@
 output: github_document
 ---
 
-## sdcHierarchies
-[![Travis build status](https://travis-ci.org/bernhard-da/sdcHierarchies.svg?branch=master)](https://travis-ci.org/bernhard-da/sdcHierarchies)
-[![Coverage status](https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/master/graph/badge.svg)](https://codecov.io/gh/bernhard-da/sdcHierarchies/branch/master)
+## sdcHierarchies[![R-CMD-check](https://github.com/bernhard-da/sdcHierarchies/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bernhard-da/sdcHierarchies/actions/workflows/R-CMD-check.yaml)
 [![GitHub last commit](https://img.shields.io/github/last-commit/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies/commits/master)
 [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bernhard-da/sdcHierarchies.svg?logo=github)](https://github.com/bernhard-da/sdcHierarchies)
 [![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
@@ -19,7 +17,7 @@ The package is in its early stages and may change in future versions. Still, any
 The latest version from CRAN can be installed via
 
 ```
-install.pacakges("sdcHierarchies")
+install.packages("sdcHierarchies")
 ```
 
 #### Github
