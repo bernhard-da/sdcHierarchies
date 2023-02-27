@@ -1,3 +1,6 @@
+# sdcHierarchies 0.19.4
+- really return `NULL` in `hier_display()`
+
 # sdcHierarchies 0.19.3
 - bugfix in computation of bogus-codes
 

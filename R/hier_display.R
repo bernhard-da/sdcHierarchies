@@ -25,10 +25,6 @@ hier_display <- function(x, root = NULL) {
   }
 
   .is_valid(x)
-  #if (!.is_sorted(x)) {
-  #  x <- .sort(x)
-  #}
-
   if (is.null(root)) {
     from <- .rootnode(x)
   } else {
@@ -44,5 +40,6 @@ hier_display <- function(x, root = NULL) {
   df$children <- lapply(.all_nodes(x), function(y) {
     setdiff(x$leaf[x$root == y], y)
   })
-  cli::tree(df, root = from)
+  print(cli::tree(df, root = from))
+  return(invisible(NULL))
 }
