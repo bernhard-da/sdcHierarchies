@@ -1,3 +1,6 @@
+# sdcHierarchies 0.20.0
+- massive performance improvement in `hier_convert()`
+
 # sdcHierarchies 0.19.3
 - bugfix in computation of bogus-codes
 

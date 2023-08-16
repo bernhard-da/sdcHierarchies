@@ -44,27 +44,30 @@ hier_convert <- function(tree, as="df") {
 
   # to data.frame
   .to_df <- function(tree, dt = TRUE) {
+    leaf <- root <- NULL
     stopifnot(inherits(tree, "sdc_hierarchy"))
+
+    convert_to_dt <- dt
 
     curnode <- .rootnode(tree)
     dt <- data.table(level = 1, name = curnode)
     pool <- setdiff(tree$leaf, curnode)
     finished <- length(pool) == 0
     while (!finished) {
-      ii <- rcpp_info(tree, curnode)
       idx <- which(dt$name == curnode)
-      if (length(ii$children) > 0) {
-        cc <- ii$children
+      tmpdt <- tree[root == curnode & leaf != curnode]
+      if (nrow(tmpdt) > 0) {
+        cc <- tmpdt$leaf
       } else {
-        cc <- ii$name
+        cc <- curnode
       }
       add_after <- idx < nrow(dt)
       if (add_after) {
         dt_after <- dt[(idx + 1):nrow(dt)]
       }
       tmp <- data.table(
-        level = ii$level + 1,
-        name = ii$children
+        level = tmpdt$level[1],
+        name = cc
       )
       dt <- rbind(dt[1:idx], tmp)
       if (add_after) {
@@ -75,31 +78,15 @@ hier_convert <- function(tree, as="df") {
       if (length(pool) == 0) {
         finished <- TRUE
       } else {
-        curnode <- rcpp_info(tree, pool[1])$parent
+        curnode <- tree[leaf == pool[1], root]
       }
     }
     dt$level <- sapply(1:nrow(dt), function(x) paste(rep("@", dt$level[x]), collapse = ""))
-    if (isFALSE(dt)) {
+    if (isFALSE(convert_to_dt)) {
       dt <- as.data.frame(dt)
     }
     dt
   }
-
-
-  # .to_df <- function(tree, dt = TRUE) {
-  #   out <- data.table(
-  #     level = NA,
-  #     name = tree$leaf
-  #   )
-  #   out$level <- sapply(out$name, function(x) {
-  #     paste(rep("@", .level(tree, leaf = x)), collapse = "")
-  #   })
-  #
-  #   if (isFALSE(dt)) {
-  #     out <- as.data.frame(out)
-  #   }
-  #   return(out)
-  # }
 
   # node to json
   .to_json <- function(tree) {
