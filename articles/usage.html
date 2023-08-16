@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.19.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
                         <h4 data-toc-skip class="author">Bernhard
 Meindl</h4>
             
-            <h4 data-toc-skip class="date">2023-02-27</h4>
+            <h4 data-toc-skip class="date">2023-08-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bernhard-da/sdcHierarchies/blob/HEAD/vignettes/usage.Rmd" class="external-link"><code>vignettes/usage.Rmd</code></a></small>
       <div class="hidden name"><code>usage.Rmd</code></div>
@@ -236,16 +236,16 @@ hierarchy</li>
 <code class="sourceCode R"><span><span class="co"># conversion to a "@;label"-based format</span></span>
 <span><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_convert.html">hier_convert</a></span><span class="op">(</span><span class="va">h</span>, as <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##    level  name</span></span>
-<span><span class="co">## 1:     @ Total</span></span>
-<span><span class="co">## 2:    @@     A</span></span>
-<span><span class="co">## 3:    @@     B</span></span>
-<span><span class="co">## 4:   @@@    b1</span></span>
-<span><span class="co">## 5:  @@@@  b1_a</span></span>
-<span><span class="co">## 6:  @@@@  b1_b</span></span>
-<span><span class="co">## 7:    @@     X</span></span>
-<span><span class="co">## 8:    @@     Y</span></span>
-<span><span class="co">## 9:    @@     E</span></span></code></pre>
+<pre><code><span><span class="co">##   level  name</span></span>
+<span><span class="co">## 1     @ Total</span></span>
+<span><span class="co">## 2    @@     A</span></span>
+<span><span class="co">## 3    @@     B</span></span>
+<span><span class="co">## 4   @@@    b1</span></span>
+<span><span class="co">## 5  @@@@  b1_a</span></span>
+<span><span class="co">## 6  @@@@  b1_b</span></span>
+<span><span class="co">## 7    @@     X</span></span>
+<span><span class="co">## 8    @@     Y</span></span>
+<span><span class="co">## 9    @@     E</span></span></code></pre>
 <p>The required code to create this hierarchy could be computed
 using:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
