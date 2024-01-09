@@ -1,9 +1,9 @@
 Package: sdcHierarchies
 Type: Package
 Title: Create and (Interactively) Modify Nested Hierarchies
-Version: 0.20.0
-Date: 2023-08-10
-Authors@R: c(person("Bernhard", "Meindl", email = "bmeindl1981@gmail.com", role = c("aut", "cre")))
+Version: 0.21.0
+Date: 2024-01-10
+Authors@R: c(person("Bernhard", "Meindl", email = "bernhard.meindl@statistik.gv.at", role = c("aut", "cre")))
 Description: Provides functionality to generate, (interactively) modify (by adding, removing and renaming nodes) and convert nested hierarchies between different formats.
   These tree like structures can be used to define for example complex hierarchical tables used for statistical disclosure control.
 License: GPL-3
