@@ -4,7 +4,7 @@
 \alias{hier_import}
 \title{Imports a nested data structure}
 \usage{
-hier_import(inp, from = "json", root = NULL)
+hier_import(inp, from = "json", root = NULL, keep_order = FALSE)
 }
 \arguments{
 \item{inp}{an object that should be imported. Argument \code{from} specifies
@@ -29,6 +29,10 @@ with \code{\link[=hier_convert]{hier_convert()}} with argument \verb{as = "dt")}
 }}
 
 \item{root}{optional name of overall total}
+
+\item{keep_order}{if \code{TRUE}, the original order of nodes
+is kept from the input object; if \code{FALSE}, the nodes are
+sorted lexicographically within each leaf.}
 }
 \value{
 a (nested) hierarchy
@@ -49,6 +53,14 @@ hier_display(df)
 
 h2 <- hier_import(df, from = "df")
 hier_display(h2)
+
+# check order
+df <- data.frame(
+  level = c("@", "@@", "@@"),
+  name = c("T", "m", "f")
+)
+hier_display(hier_import(df, from = "df")) # automatically sorted (T, f, m)
+hier_display(hier_import(df, from = "df", keep_order = TRUE)) # original order (T, m, f)
 }
 \seealso{
 \code{\link[=hier_to_tree]{hier_to_tree()}}

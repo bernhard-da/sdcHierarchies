@@ -21,6 +21,9 @@
 #' - `"sdc"`: a json-encoded string as created using
 #' [hier_convert()] with argument `as = "sdc")`
 #' @param root optional name of overall total
+#' @param keep_order if `TRUE`, the original order of nodes
+#' is kept from the input object; if `FALSE`, the nodes are
+#' sorted lexicographically within each leaf.
 #' @return a (nested) hierarchy
 #' @export
 #' @seealso [hier_to_tree()]
@@ -37,7 +40,15 @@
 #'
 #' h2 <- hier_import(df, from = "df")
 #' hier_display(h2)
-hier_import <- function(inp, from="json", root=NULL) {
+#'
+#' # check order
+#' df <- data.frame(
+#'   level = c("@@", "@@@@", "@@@@"),
+#'   name = c("T", "m", "f")
+#' )
+#' hier_display(hier_import(df, from = "df")) # automatically sorted (T, f, m)
+#' hier_display(hier_import(df, from = "df", keep_order = TRUE)) # original order (T, m, f)
+hier_import <- function(inp, from="json", root=NULL, keep_order = FALSE) {
   .from_json <- function(json, root=NULL) {
     .lab_from_attr <- function(json, root) {
       if (!is.null(root)) {
@@ -78,8 +89,6 @@ hier_import <- function(inp, from="json", root=NULL) {
         )
       }
     }
-    tree <- .sort(tree)
-    tree <- .add_class(tree)
     tree
   }
   .from_dt <- function(dt, root=NULL) {
@@ -116,8 +125,6 @@ hier_import <- function(inp, from="json", root=NULL) {
       )
       dt$todo[row] <- FALSE
     }
-    tree <- .sort(tree)
-    tree <- .add_class(tree)
     tree
   }
   .from_argus <- function(df, root=NULL) {
@@ -132,8 +139,6 @@ hier_import <- function(inp, from="json", root=NULL) {
     stopifnot(attributes(code)$hier_format == "code")
     code <- paste(code[-c(1, length(code))], collapse = ";")
     eval(parse(text = code))
-    tree <- .sort(tree)
-    tree <- .add_class(tree)
     return(tree)
   }
   .from_hrc <- function(hrc, root=NULL) {
@@ -190,11 +195,10 @@ hier_import <- function(inp, from="json", root=NULL) {
         )
       }
     }
-    tree <- .sort(tree)
-    tree <- .add_class(tree)
     return(tree)
   }
 
+  stopifnot(is_scalar_logical(keep_order))
   stopifnot(is_scalar_character(from))
   stopifnot(from %in% c("json", "df", "dt", "argus", "hrc", "code", "sdc"))
   if (!is.null(root)) {
@@ -202,24 +206,29 @@ hier_import <- function(inp, from="json", root=NULL) {
   }
 
   if (from == "json") {
-    return(.from_json(json = inp, root = root))
+    tree <- .from_json(json = inp, root = root)
   }
   if (from %in% c("df", "dt")) {
     if (from == "df") {
       inp <- as.data.table(inp)
     }
-    return(.from_dt(dt = inp))
+    tree <- .from_dt(dt = inp)
   }
   if (from == "argus") {
-    return(.from_argus(df = inp))
+    tree <- .from_argus(df = inp)
   }
   if (from == "code") {
-    return(.from_code(code = inp))
+    tree <- .from_code(code = inp)
   }
   if (from == "hrc") {
-    return(.from_hrc(hrc = inp, root = root))
+    tree <- .from_hrc(hrc = inp, root = root)
   }
   if (from == "sdc") {
-    return(.from_sdc(inp = inp))
+    tree <- .from_sdc(inp = inp)
   }
+
+  if (!keep_order) {
+    tree <- .sort(tree)
+  }
+  return(.add_class(tree))
 }
