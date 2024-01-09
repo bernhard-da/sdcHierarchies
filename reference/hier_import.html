@@ -18,7 +18,7 @@ input structures."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aja
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0</span>
       </span>
     </div>
 
@@ -65,7 +65,7 @@ input structures.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hier_import</span><span class="op">(</span><span class="va">inp</span>, from <span class="op">=</span> <span class="st">"json"</span>, root <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hier_import</span><span class="op">(</span><span class="va">inp</span>, from <span class="op">=</span> <span class="st">"json"</span>, root <span class="op">=</span> <span class="cn">NULL</span>, keep_order <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -95,6 +95,12 @@ with <code><a href="hier_convert.html">hier_convert()</a></code> with argument <
 
 <dt>root</dt>
 <dd><p>optional name of overall total</p></dd>
+
+
+<dt>keep_order</dt>
+<dd><p>if <code>TRUE</code>, the original order of nodes
+is kept from the input object; if <code>FALSE</code>, the nodes are
+sorted lexicographically within each leaf.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -145,6 +151,20 @@ with <code><a href="hier_convert.html">hier_convert()</a></code> with argument <
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ├─b1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   │ └─b1a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   └─b2</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># check order</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"@"</span>, <span class="st">"@@"</span>, <span class="st">"@@"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"T"</span>, <span class="st">"m"</span>, <span class="st">"f"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="hier_display.html">hier_display</a></span><span class="op">(</span><span class="fu">hier_import</span><span class="op">(</span><span class="va">df</span>, from <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span><span class="op">)</span> <span class="co"># automatically sorted (T, f, m)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> T</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> └─m</span>
+<span class="r-in"><span><span class="fu"><a href="hier_display.html">hier_display</a></span><span class="op">(</span><span class="fu">hier_import</span><span class="op">(</span><span class="va">df</span>, from <span class="op">=</span> <span class="st">"df"</span>, keep_order <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="co"># original order (T, m, f)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> T</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ├─m</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> └─f</span>
 </code></pre></div>
     </div>
   </div>
