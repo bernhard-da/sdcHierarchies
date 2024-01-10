@@ -23,7 +23,7 @@ Suggests:
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-URL: https://github.com/bernhard-da/sdcHierarchies
+URL: https://github.com/bernhard-da/sdcHierarchies, https://bernhard-da.github.io/sdcHierarchies/
 BugReports: https://github.com/bernhard-da/sdcHierarchies/issues
 LinkingTo: 
     Rcpp
