@@ -18,7 +18,7 @@ values the standardized codes
 \code{\link[=hier_codes]{hier_codes()}} returns the standardized codes for the nodes of a tree.
 }
 \examples{
-h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+h <- hier_create(root = "Total", nodes = LETTERS[1:3])
 h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
 hier_codes(h)
 }
