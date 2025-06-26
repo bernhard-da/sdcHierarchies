@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sdcHierarchies</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Default-Codes</h1>
-    <small class="dont-index">Source: <a href="https://github.com/bernhard-da/sdcHierarchies/blob/master/R/hier_codes.R" class="external-link"><code>R/hier_codes.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/bernhard-da/sdcHierarchies/blob/v0.21.0/R/hier_codes.R" class="external-link"><code>R/hier_codes.R</code></a></small>
     <div class="hidden name"><code>hier_codes.Rd</code></div>
     </div>
 
@@ -83,7 +83,7 @@ values the standardized codes</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="hier_create.html">hier_create</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"Total"</span>, nodes <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="hier_create.html">hier_create</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"Total"</span>,  nodes <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="hier_add.html">hier_add</a></span><span class="op">(</span><span class="va">h</span>, root <span class="op">=</span> <span class="st">"A"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a1"</span>, <span class="st">"a5"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">hier_codes</span><span class="op">(</span><span class="va">h</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total     A    a1    a5     B     C </span>
