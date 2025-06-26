@@ -1,3 +1,6 @@
+# sdcHierarchies 0.22.0
+- Performance improvements in `hier_codes()`
+
 # sdcHierarchies 0.21.0
 - allow to keep original-order of nodes in `hier_import()` via argument `keep_order`
 

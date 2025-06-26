@@ -9,57 +9,77 @@
 #' @export
 #' @md
 #' @examples
-#' h <- hier_create(root = "Total",  nodes = LETTERS[1:3])
+#' h <- hier_create(root = "Total", nodes = LETTERS[1:3])
 #' h <- hier_add(h, root = "A", nodes = c("a1", "a5"))
 #' hier_codes(h)
 hier_codes <- function(tree) {
+  # simple re-implementation of stringr::str_pad(.., side = "left", pad = "0")
+  str_pad_left_zero <- function(string, width) {
+    string <- as.character(string)
+    n <- nchar(string)
+    pad_len <- pmax(width - n, 0)
+    padding <- mapply(function(p) paste(rep("0", p), collapse = ""), pad_len)
+    paste0(padding, string)
+  }
+
+  update_level <- function(x, lev = 2, req_digits) {
+    level <- leaf <- codes_default <- NULL
+    stopifnot(lev <= length(req_digits))
+    stopifnot(lev >= 1)
+    get_pos_start <- function(lev, req_digits) {
+      if (lev == 1) {
+        return(1)
+      }
+      cumsum(req_digits)[(lev - 1)] + 1
+    }
+    get_pos_end <- function(lev, req_digits) {
+      cumsum(req_digits)[lev]
+    }
+
+    cs <- cumsum(req_digits)
+    dd <- req_digits[lev]
+
+    pos_start <- get_pos_start(lev = lev, req_digits = req_digits)
+    pos_end <- get_pos_end(lev = lev, req_digits = req_digits)
+
+    tmp <- x[level == lev]
+    spl <- split(tmp, tmp$root)
+    for (split_id in seq_len(length(spl))) {
+      # 1: Use parent code (using x$root)
+      tmp <- spl[[split_id]]
+      code_parent <- x[leaf == tmp$root[1], codes_default][1]
+      tmp[, codes_default := code_parent]
+
+      # 2: Update of `code_default`
+      substr(tmp$codes_default, pos_start, pos_end) <- str_pad_left_zero(seq_len(nrow(tmp)), width = dd)
+      spl[[split_id]] <- tmp
+    }
+    tmp <- rbindlist(spl)
+    x[tmp$id, codes_default := tmp$codes_default]
+    x
+  }
+
   .is_valid(tree)
   req_digits <- .required_digits(tree)
 
-  dt <- hier_convert(tree, "df")
-  dt$levs <- nchar(dt$level)
+  x <- copy(tree)
+  x$id <- seq_len(nrow(x))
+
   cc <- paste(rep("0", sum(req_digits)), collapse = "")
-  codes_default <- rep(cc, nrow(dt))
-  names(codes_default) <- dt$name
+  x$codes_default <- rep(cc, nrow(x))
 
-  if (nrow(dt) == 1) {
-    return(codes_default)
-  }
-
-  cs <- cumsum(req_digits)
-
-  finished <- FALSE
-  pool <- dt$name[-1]
-  cur_node <- pool[1]
-  while (!finished) {
-    ii <- hier_info(tree, cur_node)
-    pc <- codes_default[ii$parent]
-    ll <- ii$level
-
-    ss <- c(cur_node, ii$siblings)
-
-    new_val <- sprintf(
-      paste0("%0", req_digits[ll], "d"),
-      seq_len(length(ss))
-    )
-    first <- cs[ll - 1] + 1
-    last <- cs[ll]
-
-    inp <- rep(pc, length(ss))
-    names(inp) <- ss
-    substr(inp, start = first, stop = last) <- new_val
-    codes_default[ss] <- inp
-
-    pool <- setdiff(pool, ss)
-    if (length(pool) == 0) {
-      finished <- TRUE
-    } else {
-      cur_node <- pool[1]
+  if (nrow(x) > 1) {
+    for (lev in 2:max(x$level)) {
+      x <- update_level(x = x, lev = lev, req_digits = req_digits)
     }
   }
-  codes_default
-}
 
+  # Sort
+  data.table::setorderv(x, "codes_default")
+  out <- x$codes_default
+  names(out) <- x$leaf
+  return(out)
+}
 
 # tree <- hier_create(root = "total", nodes = LETTERS[1:10])
 # tree <- hier_add(tree, root = "B", nodes = c("b2", "b3", "b1"))
@@ -69,5 +89,4 @@ hier_codes <- function(tree) {
 # tree <- hier_add(tree, root = "J", nodes = c("j1"))
 # tree <- hier_add(tree, root = "j1", nodes = c("j1a"))
 # tree <- hier_add(tree, root = "j1a", nodes = c("j1a-x"))
-#
-# hier_default_codes(tree)
+# hier_codes(tree)
