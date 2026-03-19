@@ -4,9 +4,9 @@ author: "Bernhard Meindl"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
-  toc: true
-toc_depth: 5
-number_sections: false
+    toc: true
+    toc_depth: 5
+    number_sections: false
 vignette: >
   %\VignetteIndexEntry{Usage of the sdcHierarchies-Package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,13 +16,13 @@ vignette: >
 ```{r, echo=FALSE, include=FALSE}
 library(rmarkdown)
 library(sdcHierarchies)
+library(data.table)
 ```
 
 # Introduction
-The `sdcHierarchies` packages allows to create, modify and export nested hierarchies that are used for example to define tables in statistical disclosure control software such as in [**sdcTable**](https://cran.r-project.org/package=sdcTable)
+The `sdcHierarchies` package allows to create, modify and export nested hierarchies that are used for example to define tables in statistical disclosure control (SDC) software such as [**sdcTable**](https://cran.r-project.org/package=sdcTable).
 
 # Usage
-
 
 Before using, the package needs to be loaded:
 
@@ -30,10 +30,9 @@ Before using, the package needs to be loaded:
 library(sdcHierarchies)
 ```
 
-
 ## Create and modify a hierarchy from scratch
 
-`hier_create()` allows to create a hierarchy. Argument `root` specifies the name of the root node. Optionally, it is possible to add some nodes to the top-level by listing their names in argument `node_labs`. Also, `hier_display()` shows the hierarchical structure of the current tree as shown below:
+`hier_create()` allows to create a hierarchy. Argument `root` specifies the name of the root node. Optionally, it is possible to add some nodes to the top-level by listing their names in argument `node_labs`. Also, `hier_display()` shows the hierarchical structure of the current tree:
 
 ```{r}
 h <- hier_create(root = "Total", nodes = LETTERS[1:5])
@@ -63,11 +62,11 @@ h <- hier_rename(h, nodes = c("C" = "X", "D" = "Y"))
 hier_display(h)
 ```
 
-We note that the underlying [**data.tree**](https://cran.r-project.org/package=data.tree) package allows to modify the objects on reference so no explicit assignment of the form is required.
-
+We note that the underlying [**data.tree**](https://cran.r-project.org/package=data.tree) package allows to modify the objects on reference so no explicit assignment is required.
 
 ## Information about nodes
-Function `hier_info()` returns information about the nodes that are specified in argument `leaves`. 
+Function `hier_info()` returns metadata for specific nodes provided in the `nodes` argument. If this argument is omitted, the function returns information for all nodes in the hierarchy.
+
 ```{r}
 # about a specific node
 info <- hier_info(h, nodes = c("b1", "E"))
@@ -79,19 +78,18 @@ info <- hier_info(h, nodes = c("b1", "E"))
 info$b1
 ```
 
-Information about all nodes can be extracted by not specifying argument `leaves`.
 
 ## Convert to other formats
 Function `hier_convert()` takes a hierarchy and allows to convert the network based structure to different formats while `hier_export()` does the conversion and writes the results to a file on the disk. The following formats are currently supported:
 
-- `df`: a "@;label"-based format that can be used in [**sdcTable**](https://cran.r-project.org/package=sdcTable)
-- `dt`: the same as `df`, but the result is returned as a \code{data.table}
-- `argus`: also a "@;label"-based format that used to create hrc-files suitable for [$\tau$-argus](https://github.com/sdcTools/tauargus/)
+- `df`: a "@;label"-based format used in [**sdcTable**](https://cran.r-project.org/package=sdcTable)
+- `dt`: the same as `df`, but the result is returned as a `data.table`
+- `argus`: also a "@;label"-based format used to create `hrc`-files for [$\tau$-argus](https://github.com/sdcTools/tauargus/)
 - `json`: a json-encoded string
-- `code`: the required code to re-build the current hierarchy
+- `code`: the required R-code to re-build the current hierarchy
 - `sdc`: a `list` which is a suitable input for [**sdcTable**](https://cran.r-project.org/package=sdcTable)
 
-```{r, eval=TRUE}
+```{r}
 # conversion to a "@;label"-based format
 res_df <- hier_convert(h, as = "df")
 print(res_df)
@@ -102,17 +100,16 @@ The required code to create this hierarchy could be computed using:
 code <- hier_convert(h, as = "code"); cat(code, sep = "\n")
 ```
 
-Using `hier_export()` one can write the results to a file. This is for example useful if one wants to create `hrc`-files that could be used as input for [$\tau$-argus](https://github.com/sdcTools/tauargus/) which can be achieved as follows:
+Using `hier_export()`, one can write the results to a file. This is for example useful if one wants to create `hrc`-files that could be used as input for [$\tau$-argus](https://github.com/sdcTools/tauargus/) which can be achieved as follows:
 
 ```{r, eval=FALSE}
-hier_export(h, as = "argus", path = file.path(tempfile(), "hierarchy.hrc"))
+hier_export(h, as = "argus", path = file.path(tempdir(), "hierarchy.hrc"))
 ```
 
-## Create a hierarchy from data.frames, code or json
+## Create a hierarchy from different sources
+`hier_import()` returns a network-based hierarchy given either a `data.frame` (in `@;labs`-format), `json`, `code` or from a $\tau$-argus compatible `hrc-file`. For example, if we want to create a hierarchy based on `res_df`:
 
-`hier_import()` returns a network-based hierarchy given either a data.frame (in `@;labs`-format), json format, code or from a tau-argus compatible `hrc-file`. For example if we want to create a hierarchy based of `res_df` which was previously created using `hier_convert()`, the code is as simple as:
-
-```{r, eval=TRUE}
+```{r}
 n_df <- hier_import(inp = res_df, from = "df")
 hier_display(n_df)
 ```
@@ -132,14 +129,17 @@ geo_m <- c(
   "10155")
 ```
 
-Function `hier_compute()` takes a character vector and creates a hierarchy from it. In argument `method`, two ways of specifying the encoded levels can be chosen.
+Often, hierarchical information is encoded within character strings (e.g., geographic or sector codes). The `hier_compute()` function allows you to transform such vectors into hierarchy objects. The `method` argument provides two ways to define how these levels are encoded:
 
-- `endpos`: an integerish-vector must be specified in argument `dim_spec` holding the end-position at each level
-- `len`: an integerish-vector must be specified in argument `dim_spec` containing for each level how many digits are required
+* **`endpos`**: Requires a numeric vector in `dim_spec` defining the **end position** (index) of each level within the string.
+* **`len`**: Requires a numeric vector in `dim_spec` defining the **number of characters** (width) allocated to each level.
 
-In case the overal total is not encoded in the input, specifying argument `root` allows to give a name to the overall total. Additionally, it is possible to set the desired output format in parameter `as`. In the example below setting `as = "df"` returns the result as a `data.frame` in `@; key`-format. The two methods on how to define the positions of the levels are interchangable and lead to the same hierarchy as shown below:
+If the overall total is not explicitly encoded in the input strings, the `root` argument can be used to provide a name for the top-level node. Additionally, the `as` parameter specifies the output format. For example, setting `as = "df"` returns the result as a `data.frame` in the `@; label` format.
+
+As shown below, these two methods are interchangeable and yield identical hierarchies:
 
 ```{r}
+# Using end positions (e.g., level 1 ends at index 2, level 2 at 3, level 3 at 5)
 v1 <- hier_compute(
   inp = geo_m, 
   dim_spec = c(2, 3, 5), 
@@ -148,6 +148,7 @@ v1 <- hier_compute(
   as = "df"
 )
 
+# Using lengths (e.g., level 1 is 2 chars, level 2 is 1 char, level 3 is 2 chars)
 v2 <- hier_compute(
   inp = geo_m, 
   dim_spec = c(2, 1, 2), 
@@ -160,7 +161,7 @@ identical(v1, v2)
 hier_display(v1)
 ```
 
-If the total is contained in the string, let's say in the first 3 positions of the input values, the hierarchy can be computed as follows:
+If the total *is* already contained within the string (for example, in the first 3 positions), the hierarchy can be computed by including that segment in the `dim_spec` and omitting the `root` argument:
 
 ```{r}
 geo_m_with_tot <- paste0("Tot", geo_m)
@@ -170,77 +171,143 @@ v3 <- hier_compute(
   inp = geo_m_with_tot, 
   dim_spec = c(3, 2, 1, 2), 
   method = "len"
-); hier_display(v3)
+)
+hier_display(v3)
 ```
 
-The result is the same as `v1` and `v2` previously generated.
-
-`hier_compute()` can also deal with inputs that are of different length as shown in the next example.
+The result is identical to `v1` and `v2`. `hier_compute()` is also robust enough to handle input strings of varying lengths:
 
 ```{r}
-## second example, unequal strings; overall total not included in input
+## Example with unequal string lengths; overall total provided via 'root'
 yae_h <- c(
   "1.1.1.", "1.1.2.",
   "1.2.1.", "1.2.2.", "1.2.3.", "1.2.4.", "1.2.5.", "1.3.1.",
   "1.3.2.", "1.3.3.", "1.3.4.", "1.3.5.",
   "1.4.1.", "1.4.2.", "1.4.3.", "1.4.4.", "1.4.5.",
   "1.5.", "1.6.", "1.7.", "1.8.", "1.9.", "2.", "3.")
+
 v1 <- hier_compute(
   inp = yae_h, 
-  dim_spec = c(2,2,2), 
+  dim_spec = c(2, 2, 2), 
   root = "Tot", 
   method = "len"
-); hier_display(v1)
+)
+hier_display(v1)
 ```
 
-We also note that there is another way to specify the inputs in `hier_compute()`. Setting argument `method = "list"` allows to create a hierarchy from a given named list. In such a list, the name of a list element is interpreted as the name of the parent node of all codes of the specific list element. An example is shown below:
+### Creating hierarchies from a list
+Alternatively, you can create a hierarchy by setting `method = "list"`. In this mode, the input should be a named list where each element's name is interpreted as a **parent node**, and the element's content represents its **child nodes**.
 
 ```{r}
 yae_ll <- list()
 yae_ll[["Total"]] <- c("1.", "2.", "3.")
-yae_ll[["1."]] <- paste0("1.", 1:9, ".")
-yae_ll[["1.1."]] <- paste0("1.1.", 1:2, ".")
-yae_ll[["1.2."]] <- paste0("1.2.", 1:5, ".")
-yae_ll[["1.3."]] <- paste0("1.3.", 1:5, ".")
-yae_ll[["1.4."]] <- paste0("1.4.", 1:6, ".")
+yae_ll[["1."]]    <- paste0("1.", 1:9, ".")
+yae_ll[["1.1."]]  <- paste0("1.1.", 1:2, ".")
+yae_ll[["1.2."]]  <- paste0("1.2.", 1:5, ".")
+yae_ll[["1.3."]]  <- paste0("1.3.", 1:5, ".")
+yae_ll[["1.4."]]  <- paste0("1.4.", 1:6, ".")
+
 d <- hier_compute(inp = yae_ll, root = "Total", method = "list") 
 hier_display(d)
 ```
 
+## Grids and Indexing
+The `hier_grid()` function computes all possible combinations of codes from multiple hierarchies. This is a crucial step in building complete tables for Statistical Disclosure Control (SDC).
 
-## Grids
-Using `hier_grid()` it is possible to compute all combinations of codes given several hierarchies. This is useful to build a complete table (e.g for merging purposes). The functionality of `hier_grid` is shown below. First, we need to specify some hierarchies. 
+### Handling Bogus Codes
+A "bogus" chain occurs when a parent node has only a single child. In such cases, the parent and the child represent the same set of underlying units, which can cause redundancies in SDC software. In the example below, both `h1` and `h2` contain bogus structures:
+
+* In **`h1`**, the node `A` has only one child `a1`, which in turn has only one child `aa1`.
+* In **`h2`**, the nodes `b` and `d` each have only a single child (`b1` and `d1` respectively).
 
 ```{r}
 h1 <- hier_create("Total", nodes = LETTERS[1:3])
 h1 <- hier_add(h1, root = "A", node = "a1")
 h1 <- hier_add(h1, root = "a1", node = "aa1")
+hier_display(h1)
 
 h2 <- hier_create("Total", letters[1:5])
 h2 <- hier_add(h2, root = "b", node = "b1")
 h2 <- hier_add(h2, root = "d", node = "d1")
+hier_display(h2)
 ```
 
-Note that we - on purpose - added some *"bogus"* codes to each `h1` and `h2` as codes `a1` and `aa1` in `h1` and `b1` and `d1` in `h2` are just identical to their respective parent categories. Applying `hier_grid` is as simple as
+When calling `hier_grid()`, setting `add_dups = FALSE` automatically prunes these redundant parent nodes (like `A`, `a1`, `b`, and `d`). They are replaced by their most granular descendants (e.g., `aa1`, `b1`, and `d1`), ensuring the resulting grid aligns with the granularity of the raw microdata.
 
 ```{r}
-hier_grid(h1, h2)
+# cell_id is a unique string created by concatenating default codes
+r <- hier_grid(h1, h2, add_dups = FALSE, add_levs = TRUE)
+print(r)
 ```
 
-separating all target hierarchies with a `,`. `hier_grid` then computes all combinations of codes from hierarchies `h1` and `h2`. Using the default options, these bogus codes are included in the output `data.table`. Setting argument `add_dups = FALSE` removes all rows containing such bogus codes. Setting option `add_levs = TRUE` adds some columns labeled `levs_v{n}` to the output data set. Each of this colum contains values which define the hierarchy level of the corresponding code given in variable v{n} in the same row in the table as shown below.
+### High-Performance Indexing
+For large datasets, mapping microdata strings to grid cells using character matching is computationally expensive. By setting `add_contributing_cells = TRUE`, `sdcHierarchies` generates an optimized integer-based indexing system:
+
+1.  **`leaf_id`**: A unique integer assigned to every combination of **base-level codes** (the most granular codes in the hierarchies).
+2.  **`contributing_leaf_ids`**: A list-column containing the integers of all base-level codes that contribute to a specific cell (e.g., all codes falling under a "Total" or "Sub-total").
 
 ```{r}
-hier_grid(h1, h2, add_dups = FALSE, add_levs = TRUE)
+# Create an SDC-optimized grid
+r_sdc <- hier_grid(h1, h2, add_dups = FALSE, add_contributing_cells = TRUE)
+
+# Genrate microdata using base-level codes for region and sector
+# Note: 'aa1', 'b1', and 'd1' are the granular leaf nodes
+microdata <- data.table(
+  region = c("aa1", "B", "C", "aa1", "B"),
+  sector = c("a", "b1", "c", "d1", "e"),
+  val = c(10, 20, 30, 40, 50)
+)
+
+# Map microdata to base-level IDs using a named list
+microdata[, leaf_id := hier_create_ids(
+  data = microdata, 
+  dims = list("region" = h1, "sector" = h2)
+)]
+
+print(microdata)
+
+# Fast aggregation: Summing 'Total_Total' using integer lookups
+total_ids <- r_sdc[v1 == "Total" & v2 == "Total", contributing_leaf_ids[[1]]]
+print(total_ids)
+
+sum(microdata[leaf_id %in% total_ids, val])
 ```
 
-## Interactively create or modify hierarchies
-The package also contains a shiny-based interactive app that can be started using `hier_app()`. The app allows to pass as input either a character vector (that should be converted into a hierarchy) or an existing hierarchy and can be started as follows given the hierarchy previously generated using `hier_compute()`:
+### Differentiating Totals and Primary Cells
+The `leaf_id` column serves as a built-in classifier to distinguish between different cell types in the grid:
+
+- **Primary Cells**: If `leaf_id` contains an integer, the row represents a unique combination of base-level codes. These are the "internal" cells where microdata is directly mapped.
+- **(Sub)-Totals**: If `leaf_id` is `NA`, the row represents an aggregate cell.
+
+This allows for extremely fast filtering during SDC tasks, such as isolating primary cells for sensitivity testing:
+
+```{r}
+# Isolate primary cells for primary suppression
+primary_cells <- r_sdc[!is.na(leaf_id)]
+
+# Isolate aggregate cells for marginal consistency checks
+sub_totals <- r_sdc[is.na(leaf_id)]
+```
+
+## Interactively Create or Modify Hierarchies
+The `sdcHierarchies` package includes a **Shiny-based interactive application** accessible via `hier_app()`. This interface is designed for users who prefer a visual approach to building or refining complex structures.
+
+The app accepts either a raw character vector (to be converted using `hier_compute()` logic) or an existing hierarchy object. For example, to modify the hierarchy created in the previous section:
 
 ```{r, eval=FALSE}
-d <- hier_app(d)
+# Start the app and store the modified result upon closing
+d_modified <- hier_app(d)
 ```
 
-If a character vector is passed to `hier_app()`, the interface allows to specify the arguments for `hier_compute()`. Once a hierarchy is created, the interface changes and the tree can be dynamically changed by dragging nodes around. Futhermore, it is possible to add, remove or rename nodes. The required code to construct the current hierarchy is displayed and can be saved to disk. Furthermore, there is functionality to *undo* the last step as well as to export results to either the **R**-session or write results to a file. This is especially helpful if one wants to create for example an `hrc`-file as input for $\tau$-argus. Please note that `hier_app()` is able to return the modified hierarchy and not only save results to disk. In order to continue working, one may assign the result to a new object as shown in the code above.
+### Key Features of the Interactive App
+* **Visual Construction**: If a character vector is passed, the app provides a guided interface to specify `dim_spec` and `method` arguments.
+* **Drag-and-Drop Editing**: Once the tree is loaded, you can dynamically restructure the hierarchy by dragging nodes to new parent locations.
+* **Node Management**: Easily add, remove, or rename nodes through the sidebar controls.
+* **Live Code Generation**: The `R` code required to reproduce the current state of the hierarchy is updated in real-time and can be copied or saved.
+* **Export Options**: Supports exporting the final hierarchy directly back to the R session, saving it as a JSON file, or generating a $\tau$-argus compatible `hrc` file.
+* **Undo Functionality**: A built-in history allows you to revert recent changes during the editing process.
+
+Because `hier_app()` returns the modified hierarchy object upon closing, it is recommended to assign the function call to an object (as shown above) to capture your interactive changes for further use in your SDC pipeline.
 
 ## Summary
-In case you have any suggestions or improvements, please feel free to file an issue at [**our issue tracker**](https://github.com/bernhard-da/sdcHierarchies/issues) or contribute to the package by filing a [**pull request**](https://github.com/bernhard-da/sdcHierarchies/pulls) against the master branch.
+The `sdcHierarchies` package provides a robust framework for hierarchical data management. In case you have any suggestions or improvements, please feel free to file an issue at [**our issue tracker**](https://github.com/bernhard-da/sdcHierarchies/issues) or contribute by filing a [**pull request**](https://github.com/bernhard-da/sdcHierarchies/pulls).
