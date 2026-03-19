@@ -4,37 +4,51 @@
 \alias{hier_grid}
 \title{Compute a grid given different hierarchies}
 \usage{
-hier_grid(..., add_dups = TRUE, add_levs = FALSE, add_default_codes = FALSE)
+hier_grid(
+  ...,
+  add_dups = TRUE,
+  add_levs = FALSE,
+  add_default_codes = FALSE,
+  add_contributing_cells = FALSE
+)
 }
 \arguments{
 \item{...}{one or more hierarchy objects created with \code{\link[=hier_create]{hier_create()}} or
 \code{\link[=hier_compute]{hier_compute()}}}
 
-\item{add_dups}{scalar logical defining if bogus codes (codes that are the only
-leaf contributing to a parent that also has no siblings) should be included.}
+\item{add_dups}{scalar logical defining if bogus codes (parents with only one
+child and no siblings) should be included. If \code{FALSE}, these parents are
+removed and replaced by their most granular leaf.}
 
-\item{add_levs}{scalar logical defining if numerical levels for each codes should
-be appended to the output \code{data.table}.}
+\item{add_levs}{scalar logical defining if numerical levels for each code should
+be appended to the output.}
 
-\item{add_default_codes}{scalar logical definining if standardized level codes
-should be additionally returned}
+\item{add_default_codes}{scalar logical defining if standardized level codes
+should be additionally returned.}
+
+\item{add_contributing_cells}{logical: if \code{TRUE}, two columns are added:
+\code{leaf_id} (a unique integer for terminal leaf combinations) and
+\code{contributing_leaf_ids} (a list-column of integers representing all
+terminal leaves contributing to that cell).}
 }
 \value{
-a \code{data.table} featuring a column for each hierarchy object specified in
-argument \code{...}. These columns are labeled \verb{v\{n\}}. If \code{add_levs} is \code{TRUE},
-for each hierarchy provided, an additional column labeled \verb{levs_v\{n\}} is appended
-to the output. Its values define the hierarchy level of the corresponding code
-given in \verb{v\{n\}} in the same row.
-If \code{add_default_codes} is \code{TRUE}, for each hierarchy provided an additional
-column \verb{default_v\{n\}} is provided
+a \code{data.table} featuring:
+\itemize{
+\item \verb{v\{n\}}: columns for each hierarchy object.
+\item \code{cell_id}: a unique string identifier created by concatenating default codes.
+\item \verb{levs_v\{n\}}: (optional) numerical hierarchy levels.
+\item \verb{default_v\{n\}}: (optional) standardized level codes.
+\item \code{leaf_id}: (optional) unique integer for base/terminal cells.
+\item \code{contributing_leaf_ids}: (optional) integer vectors for aggregation.
+}
 }
 \description{
 This function returns a \code{data.table} containing all possible combinations of
-codes from at least one hierarchy object. This is useful to compute a \emph{"complete"}
-table from several hierarchies.
+codes from one or more hierarchy objects. This is useful to compute \emph{"complete"}
+tables for SDC purposes.
 }
 \examples{
-# define some hierarchies with some "duplicates" or "bogus" codes
+# Define hierarchies with some "bogus" codes
 h1 <- hier_create("Total", nodes = LETTERS[1:3])
 h1 <- hier_add(h1, root = "A", node = "a1")
 h1 <- hier_add(h1, root = "a1", node = "aa1")
@@ -43,12 +57,21 @@ h2 <- hier_create("Total", letters[1:5])
 h2 <- hier_add(h2, root = "b", node = "b1")
 h2 <- hier_add(h2, root = "d", node = "d1")
 
-# with all codes, also "bogus" codes
+# Standard grid with all codes
 hier_grid(h1, h2)
 
-# only the required codes to build the complete hierarchy (no bogus codes)
+# Grid without bogus codes
+# h1: `A` and `a1` are replaced by `aa1`
+# h2: `b` and `d` are replaced by `b1` and `d1`
+# This ensures the grid is consistent with the most granular data.
 hier_grid(h1, h2, add_dups = FALSE)
 
-# also contain columns specifying the hierarchy level
-hier_grid(h1, h2, add_dups = FALSE, add_levs = TRUE)
+# Advanced grid with contributing indices
+# The 'cell_id' will be a concatenated string like '0000000'
+# The 'contributing_leaf_ids' column allows for high-speed aggregation
+# and/or matching with micro-data (for an example see `?hier_create_ids()`)
+hier_grid(h1, h2,
+  add_dups = FALSE,
+  add_contributing_cells = TRUE
+)
 }
