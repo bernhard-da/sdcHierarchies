@@ -1,3 +1,17 @@
+# sdcHierarchies 0.23.0
+
+- Feature: `hier_create_ids()`: Added this new utility to map microdata to hierarchical grid levels using high-performance integer-based indexing.
+- Feture: enhanced `hier_grid()`: 
+    * Added the `add_contributing_cells` argument to enable faster data aggregation.
+    * Improved the handling of "bogus" structures; setting `add_dups = FALSE` now correctly prunes redundant parent nodes across multiple dimensions.
+- Feature: Performance improvements: 
+    * Refactored core tree-traversal logic in `Rcpp` code for significant speed improvements
+    * Added new internal `Rcpp` utility functions (`rcpp_get_sort_order()`, 
+    `rcpp_tree_to_matrix()`, `rcpp_get_leaves_list()`) to improve leaf-node identification and path encoding.
+- Bugfix: `hier_app()`: Fixed a synchronization bug in the `shinyTree` interface that occurred when collapsing or interacting with nodes.
+- Update: Extended unit tests for `hier_grid()` to ensure stability across different edge cases.
+- Update: Improved and extended the package vignette to cover new features.
+
 # sdcHierarchies 0.22.0
 - Performance improvements in `hier_codes()`
 

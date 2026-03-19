@@ -5,3 +5,5 @@
 *.Rproj
 debug
 *.html
+/doc/
+/Meta/
