@@ -9,24 +9,24 @@ rcpp_rootnode <- function(tree) {
     .Call(`_sdcHierarchies_rcpp_rootnode`, tree)
 }
 
-rcpp_is_rootnode <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_is_rootnode`, tree, leaf)
+rcpp_exists <- function(tree, leaf) {
+    .Call(`_sdcHierarchies_rcpp_exists`, tree, leaf)
 }
 
-rcpp_children <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_children`, tree, leaf)
+rcpp_is_rootnode <- function(tree, leaf) {
+    .Call(`_sdcHierarchies_rcpp_is_rootnode`, tree, leaf)
 }
 
 rcpp_parent <- function(tree, leaf) {
     .Call(`_sdcHierarchies_rcpp_parent`, tree, leaf)
 }
 
-rcpp_siblings <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_siblings`, tree, leaf)
+rcpp_children <- function(tree, leaf) {
+    .Call(`_sdcHierarchies_rcpp_children`, tree, leaf)
 }
 
-rcpp_exists <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_exists`, tree, leaf)
+rcpp_siblings <- function(tree, leaf) {
+    .Call(`_sdcHierarchies_rcpp_siblings`, tree, leaf)
 }
 
 rcpp_bogus_codes <- function(tree) {
@@ -35,6 +35,10 @@ rcpp_bogus_codes <- function(tree) {
 
 rcpp_replace_with_bogusparent <- function(bogus_info, leaf) {
     .Call(`_sdcHierarchies_rcpp_replace_with_bogusparent`, bogus_info, leaf)
+}
+
+rcpp_contributing_leaves <- function(tree, leaf) {
+    .Call(`_sdcHierarchies_rcpp_contributing_leaves`, tree, leaf)
 }
 
 rcpp_leafinfo <- function(tree, leaf) {
@@ -69,10 +73,6 @@ rcpp_contains_hier <- function(tree, leaf, upper) {
     .Call(`_sdcHierarchies_rcpp_contains_hier`, tree, leaf, upper)
 }
 
-rcpp_contributing_leaves <- function(tree, leaf) {
-    .Call(`_sdcHierarchies_rcpp_contributing_leaves`, tree, leaf)
-}
-
 rcpp_is_minimal_code <- function(tree) {
     .Call(`_sdcHierarchies_rcpp_is_minimal_code`, tree)
 }
@@ -95,5 +95,17 @@ rcpp_prune <- function(tree, leaf) {
 
 rcpp_info <- function(tree, leaf) {
     .Call(`_sdcHierarchies_rcpp_info`, tree, leaf)
+}
+
+rcpp_get_sort_order <- function(tree) {
+    .Call(`_sdcHierarchies_rcpp_get_sort_order`, tree)
+}
+
+rcpp_tree_to_matrix <- function(tree) {
+    .Call(`_sdcHierarchies_rcpp_tree_to_matrix`, tree)
+}
+
+rcpp_get_leaves_list <- function(tree) {
+    .Call(`_sdcHierarchies_rcpp_get_leaves_list`, tree)
 }
 

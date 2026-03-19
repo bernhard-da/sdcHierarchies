@@ -11,7 +11,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // rcpp_all_nodes
-/* returns all possible nodes */ CharacterVector rcpp_all_nodes(DataFrame tree);
+CharacterVector rcpp_all_nodes(DataFrame tree);
 RcppExport SEXP _sdcHierarchies_rcpp_all_nodes(SEXP treeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -22,7 +22,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_rootnode
-/* returns the name of the root node */ CharacterVector rcpp_rootnode(DataFrame tree);
+CharacterVector rcpp_rootnode(DataFrame tree);
 RcppExport SEXP _sdcHierarchies_rcpp_rootnode(SEXP treeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -32,8 +32,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_exists
+bool rcpp_exists(DataFrame tree, CharacterVector leaf);
+RcppExport SEXP _sdcHierarchies_rcpp_exists(SEXP treeSEXP, SEXP leafSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_exists(tree, leaf));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_is_rootnode
-/* returns true if the specified leaf is the rootnode */ bool rcpp_is_rootnode(DataFrame tree, CharacterVector leaf);
+bool rcpp_is_rootnode(DataFrame tree, CharacterVector leaf);
 RcppExport SEXP _sdcHierarchies_rcpp_is_rootnode(SEXP treeSEXP, SEXP leafSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -41,18 +53,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_is_rootnode(tree, leaf));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_children
-/* returns all direct children of the given leaf */ CharacterVector rcpp_children(DataFrame tree, CharacterVector leaf);
-RcppExport SEXP _sdcHierarchies_rcpp_children(SEXP treeSEXP, SEXP leafSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_children(tree, leaf));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -68,8 +68,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_children
+CharacterVector rcpp_children(DataFrame tree, CharacterVector leaf);
+RcppExport SEXP _sdcHierarchies_rcpp_children(SEXP treeSEXP, SEXP leafSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_children(tree, leaf));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_siblings
-/* returns the siblings of the given leaf */ CharacterVector rcpp_siblings(DataFrame tree, CharacterVector leaf);
+CharacterVector rcpp_siblings(DataFrame tree, CharacterVector leaf);
 RcppExport SEXP _sdcHierarchies_rcpp_siblings(SEXP treeSEXP, SEXP leafSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -80,20 +92,8 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_exists
-/* returns true, if the leaf exists in the tree */ bool rcpp_exists(DataFrame tree, CharacterVector leaf);
-RcppExport SEXP _sdcHierarchies_rcpp_exists(SEXP treeSEXP, SEXP leafSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_exists(tree, leaf));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_bogus_codes
-/* a list with bogus codes and its parent levels */ List rcpp_bogus_codes(DataFrame tree);
+List rcpp_bogus_codes(DataFrame tree);
 RcppExport SEXP _sdcHierarchies_rcpp_bogus_codes(SEXP treeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -104,7 +104,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_replace_with_bogusparent
-/* utility fn to replace bogus codes with corrent parent codes */ CharacterVector rcpp_replace_with_bogusparent(List bogus_info, CharacterVector leaf);
+CharacterVector rcpp_replace_with_bogusparent(List bogus_info, CharacterVector leaf);
 RcppExport SEXP _sdcHierarchies_rcpp_replace_with_bogusparent(SEXP bogus_infoSEXP, SEXP leafSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -115,8 +115,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_contributing_leaves
+CharacterVector rcpp_contributing_leaves(DataFrame tree, CharacterVector leaf);
+RcppExport SEXP _sdcHierarchies_rcpp_contributing_leaves(SEXP treeSEXP, SEXP leafSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_contributing_leaves(tree, leaf));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_leafinfo
-/* basically all information required except for contributing leafs */ List rcpp_leafinfo(DataFrame tree, CharacterVector leaf);
+List rcpp_leafinfo(DataFrame tree, CharacterVector leaf);
 RcppExport SEXP _sdcHierarchies_rcpp_leafinfo(SEXP treeSEXP, SEXP leafSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -128,7 +140,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_level
-/* numeric level of the given leaf */ int rcpp_level(DataFrame tree, CharacterVector leaf);
+int rcpp_level(DataFrame tree, CharacterVector leaf);
 RcppExport SEXP _sdcHierarchies_rcpp_level(SEXP treeSEXP, SEXP leafSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -162,7 +174,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_path
-/* returns a character-vector with the path from total to leaf */ CharacterVector rcpp_path(DataFrame tree, CharacterVector leaf);
+CharacterVector rcpp_path(DataFrame tree, CharacterVector leaf);
 RcppExport SEXP _sdcHierarchies_rcpp_path(SEXP treeSEXP, SEXP leafSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -206,18 +218,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type upper(upperSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_contains_hier(tree, leaf, upper));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_contributing_leaves
-CharacterVector rcpp_contributing_leaves(DataFrame tree, CharacterVector leaf);
-RcppExport SEXP _sdcHierarchies_rcpp_contributing_leaves(SEXP treeSEXP, SEXP leafSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type leaf(leafSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_contributing_leaves(tree, leaf));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -289,17 +289,51 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_get_sort_order
+IntegerVector rcpp_get_sort_order(DataFrame tree);
+RcppExport SEXP _sdcHierarchies_rcpp_get_sort_order(SEXP treeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_sort_order(tree));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_tree_to_matrix
+CharacterMatrix rcpp_tree_to_matrix(DataFrame tree);
+RcppExport SEXP _sdcHierarchies_rcpp_tree_to_matrix(SEXP treeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_tree_to_matrix(tree));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_get_leaves_list
+List rcpp_get_leaves_list(DataFrame tree);
+RcppExport SEXP _sdcHierarchies_rcpp_get_leaves_list(SEXP treeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type tree(treeSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_leaves_list(tree));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_sdcHierarchies_rcpp_all_nodes", (DL_FUNC) &_sdcHierarchies_rcpp_all_nodes, 1},
     {"_sdcHierarchies_rcpp_rootnode", (DL_FUNC) &_sdcHierarchies_rcpp_rootnode, 1},
-    {"_sdcHierarchies_rcpp_is_rootnode", (DL_FUNC) &_sdcHierarchies_rcpp_is_rootnode, 2},
-    {"_sdcHierarchies_rcpp_children", (DL_FUNC) &_sdcHierarchies_rcpp_children, 2},
-    {"_sdcHierarchies_rcpp_parent", (DL_FUNC) &_sdcHierarchies_rcpp_parent, 2},
-    {"_sdcHierarchies_rcpp_siblings", (DL_FUNC) &_sdcHierarchies_rcpp_siblings, 2},
     {"_sdcHierarchies_rcpp_exists", (DL_FUNC) &_sdcHierarchies_rcpp_exists, 2},
+    {"_sdcHierarchies_rcpp_is_rootnode", (DL_FUNC) &_sdcHierarchies_rcpp_is_rootnode, 2},
+    {"_sdcHierarchies_rcpp_parent", (DL_FUNC) &_sdcHierarchies_rcpp_parent, 2},
+    {"_sdcHierarchies_rcpp_children", (DL_FUNC) &_sdcHierarchies_rcpp_children, 2},
+    {"_sdcHierarchies_rcpp_siblings", (DL_FUNC) &_sdcHierarchies_rcpp_siblings, 2},
     {"_sdcHierarchies_rcpp_bogus_codes", (DL_FUNC) &_sdcHierarchies_rcpp_bogus_codes, 1},
     {"_sdcHierarchies_rcpp_replace_with_bogusparent", (DL_FUNC) &_sdcHierarchies_rcpp_replace_with_bogusparent, 2},
+    {"_sdcHierarchies_rcpp_contributing_leaves", (DL_FUNC) &_sdcHierarchies_rcpp_contributing_leaves, 2},
     {"_sdcHierarchies_rcpp_leafinfo", (DL_FUNC) &_sdcHierarchies_rcpp_leafinfo, 2},
     {"_sdcHierarchies_rcpp_level", (DL_FUNC) &_sdcHierarchies_rcpp_level, 2},
     {"_sdcHierarchies_rcpp_levels", (DL_FUNC) &_sdcHierarchies_rcpp_levels, 1},
@@ -308,13 +342,15 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sdcHierarchies_rcpp_is_bogus", (DL_FUNC) &_sdcHierarchies_rcpp_is_bogus, 2},
     {"_sdcHierarchies_rcpp_all_leaves", (DL_FUNC) &_sdcHierarchies_rcpp_all_leaves, 1},
     {"_sdcHierarchies_rcpp_contains_hier", (DL_FUNC) &_sdcHierarchies_rcpp_contains_hier, 3},
-    {"_sdcHierarchies_rcpp_contributing_leaves", (DL_FUNC) &_sdcHierarchies_rcpp_contributing_leaves, 2},
     {"_sdcHierarchies_rcpp_is_minimal_code", (DL_FUNC) &_sdcHierarchies_rcpp_is_minimal_code, 1},
     {"_sdcHierarchies_rcpp_minimal_codes", (DL_FUNC) &_sdcHierarchies_rcpp_minimal_codes, 1},
     {"_sdcHierarchies_rcpp_is_subtotal", (DL_FUNC) &_sdcHierarchies_rcpp_is_subtotal, 1},
     {"_sdcHierarchies_rcpp_subtotals", (DL_FUNC) &_sdcHierarchies_rcpp_subtotals, 1},
     {"_sdcHierarchies_rcpp_prune", (DL_FUNC) &_sdcHierarchies_rcpp_prune, 2},
     {"_sdcHierarchies_rcpp_info", (DL_FUNC) &_sdcHierarchies_rcpp_info, 2},
+    {"_sdcHierarchies_rcpp_get_sort_order", (DL_FUNC) &_sdcHierarchies_rcpp_get_sort_order, 1},
+    {"_sdcHierarchies_rcpp_tree_to_matrix", (DL_FUNC) &_sdcHierarchies_rcpp_tree_to_matrix, 1},
+    {"_sdcHierarchies_rcpp_get_leaves_list", (DL_FUNC) &_sdcHierarchies_rcpp_get_leaves_list, 1},
     {NULL, NULL, 0}
 };
 

@@ -23,10 +23,8 @@
   }
 
   # check only one rootnode
-  if (nrow(tree) > 0) {
-    if (sum(duplicated(tree$leaf)) > 0) {
-      stop("non-unique leaf nodes detected!", call. = FALSE)
-    }
+  if (nrow(tree) > 0 && anyDuplicated(tree$leaf)) {
+    stop("non-unique leaf nodes detected!", call. = FALSE)
   }
   TRUE
 }
@@ -34,7 +32,12 @@
 # returns the names of all nodes in the correct order
 .all_nodes <- function(tree) {
   .is_valid(tree)
-  hier_convert(tree, "dt")$name
+  if (.is_sorted(tree)) {
+    return(tree$leaf)
+  }
+  # if not sorted, we can now use the fast rcpp function
+  idx <- rcpp_get_sort_order(tree)
+  return(tree$leaf[idx])
 }
 
 # returns the name of the rootnode
@@ -145,43 +148,27 @@
 
 # sort the tree, top to bottom
 .sort <- function(tree) {
-  path <- NULL
-
-  # only root node available
-  if (nrow(tree) == 1) {
+  # if tree is already sorted -> nothing todo
+  if (.is_sorted(tree)) {
     return(tree)
   }
 
-  nn <- sort(.all_nodes(tree))
-
-  # use / seperated paths to generate correct order
-  res <- lapply(nn, function(x) {
-    p <- .path(tree, x)
-    list(path = p, leaf = tail(p, 1))
-  })
-  res <- data.table(
-    path = sapply(1:length(res), function(x) {
-      paste(res[[x]]$path, collapse = "/")
-    }),
-    leaf = sapply(1:length(res), function(x) {
-      res[[x]]$leaf
-    })
-  )
-  setkey(res, path)
-
-  # create a new tree based on this order
-  newtree <- list()
-  length(newtree) <- nrow(tree)
-  ii <- which(tree$root == .rootnode(tree) & is.na(tree$leaf))
-  newtree[[1]] <- tree[ii]
-  for (i in 1:nrow(res)) {
-    ind <- tree$leaf == res$leaf[i]
-    newtree[[i]] <- tree[ind]
+  # if we only have a root-node, everything is easy
+  if (nrow(tree) <= 1) {
+    attr(tree, "is_sorted") <- TRUE
+    return(tree)
   }
-  newtree <- rbindlist(newtree)
+
+  # get order of indices using c++
+  idx <- rcpp_get_sort_order(tree)
+
+  # reorder tree
+  newtree <- tree[idx]
+
+  # set metadata and return
   newtree <- .add_class(newtree)
   attr(newtree, "is_sorted") <- TRUE
-  newtree
+  return(newtree)
 }
 
 # info about a single leaf in the tree
@@ -201,10 +188,15 @@
 
 # data.table with each level being in a sperate column
 .tree_to_cols <- function(tree) {
-  dt <- lapply(.all_nodes(tree), function(x) {
-    data.table(t(.path(tree, x)))
-  })
-  rbindlist(dt, fill = TRUE)
+  # using the rcpp-utility function, we get a matrix
+  mat <- rcpp_tree_to_matrix(tree)
+
+  # convert to data.table
+  dt <- as.data.table(mat)
+
+  # set variable names
+  data.table::setnames(dt, paste0("V", 1:ncol(dt)))
+  return(dt)
 }
 
 # compute the number of required digits for each level of the tree
