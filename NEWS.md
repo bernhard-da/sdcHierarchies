@@ -1,3 +1,6 @@
+# sdcHierarchies 0.23.1
+- Bugfix: Return correct contributing nodes within `hier_info()`
+
 # sdcHierarchies 0.23.0
 
 - Feature: `hier_create_ids()`: Added this new utility to map microdata to hierarchical grid levels using high-performance integer-based indexing.

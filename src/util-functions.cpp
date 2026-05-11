@@ -154,21 +154,88 @@ CharacterVector rcpp_replace_with_bogusparent(List bogus_info, CharacterVector l
 // [[Rcpp::export]]
 CharacterVector rcpp_contributing_leaves(DataFrame tree, CharacterVector leaf) {
   if (leaf.size() == 0) return CharacterVector::create();
-  CharacterVector v_root = tree["root"], v_leaf = tree["leaf"];
-  auto adj = build_adj_map(v_root, v_leaf);
-  std::string target = as<std::string>(leaf[0]);
 
-  std::vector<std::string> res;
-  if (adj.count(target)) {
-    // if nodes has leafs, these are the "contributing codes"
-    res = adj[target];
-  } else {
-    // if it is a leaf, it itself is the "contributing code"
-    res.push_back(target);
+  CharacterVector v_root = tree["root"], v_leaf = tree["leaf"];
+  int n = v_root.size();
+
+  // Build adjacency map (parent -> children vector)
+  std::unordered_map<std::string, std::vector<std::string>> adj;
+  // Build reverse map (child -> parent)
+  std::unordered_map<std::string, std::string> parent_of;
+  // Collect all valid nodes
+  std::set<std::string> all_nodes;
+
+  for (int i = 0; i < n; ++i) {
+    std::string r = as<std::string>(v_root[i]);
+    std::string l = as<std::string>(v_leaf[i]);
+    all_nodes.insert(r);
+    all_nodes.insert(l);
+    if (r != l) {
+      adj[r].push_back(l);
+      parent_of[l] = r;
+    }
   }
 
-  std::sort(res.begin(), res.end());
-  return wrap(res);
+  std::string target = as<std::string>(leaf[0]);
+
+  // Check if target exists in hierarchy
+  if (all_nodes.find(target) == all_nodes.end()) {
+    stop("invalid leaf detected");
+  }
+
+  // If target is a leaf itself, return it directly
+  if (adj.find(target) == adj.end()) {
+    return wrap(CharacterVector::create(target));
+  }
+
+  // Find all actual leaf nodes (appear in data but not as parents)
+  std::set<std::string> leaves;
+  for (int i = 0; i < n; ++i) {
+    std::string l = as<std::string>(v_leaf[i]);
+    if (adj.find(l) == adj.end()) {
+      leaves.insert(l);
+    }
+  }
+
+  // For each leaf, find its real (non-bogus) ancestor
+  std::set<std::string> effective_leaves;
+  for (auto& leaf_node : leaves) {
+    std::string current = leaf_node;
+    // Walk up while current is the only child of its parent
+    while (parent_of.find(current) != parent_of.end() &&
+      adj[parent_of[current]].size() == 1) {
+      current = parent_of[current];
+    }
+    effective_leaves.insert(current);
+  }
+
+  std::set<std::string> result;
+  std::vector<std::string> stack;
+  stack.push_back(target);
+
+  // Traversal to collect all descendants
+  while (!stack.empty()) {
+    std::string current = stack.back();
+    stack.pop_back();
+
+    auto it = adj.find(current);
+    if (it == adj.end()) {
+      // current is a leaf -> add its real (non-bogus) ancestor
+      std::string effective = current;
+      while (parent_of.find(effective) != parent_of.end() &&
+        adj[parent_of[effective]].size() == 1) {
+        effective = parent_of[effective];
+      }
+      result.insert(effective);
+    } else {
+      // current has children -> push to explore
+      for (auto& child : it->second) {
+        stack.push_back(child);
+      }
+    }
+  }
+
+  return wrap(CharacterVector(result.begin(), result.end()));
 }
 
 // [[Rcpp::export]]
