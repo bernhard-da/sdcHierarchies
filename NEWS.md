@@ -1,3 +1,6 @@
+# sdcHierarchies 0.23.2
+- Improvement: no warnings when reading hrc-Files that have no final EOL.
+
 # sdcHierarchies 0.23.1
 - Bugfix: Return correct contributing nodes within `hier_info()`
 

@@ -143,7 +143,11 @@ hier_import <- function(inp, from="json", root=NULL, keep_order = FALSE) {
   }
   .from_hrc <- function(hrc, root=NULL) {
     stopifnot(file.exists(hrc))
-    dt <- data.table(inp = readLines(hrc))
+    txt <- tryCatch(readLines(hrc, warn = FALSE), error = function(e) e)
+    if (inherits(txt, "error")) {
+      cli::cli_abort("File {hrc} could not be read")
+    }
+    dt <- data.table(inp = txt)
     dt$inp <- paste0("@", dt$inp)
 
     # compute levels and names

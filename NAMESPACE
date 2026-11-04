@@ -24,18 +24,26 @@ import(shinyjs)
 import(shinythemes)
 importFrom(Rcpp,sourceCpp)
 importFrom(cli,tree)
-importFrom(jsonlite,fromJSON)
-importFrom(jsonlite,toJSON)
-importFrom(rlang,is_integerish)
-importFrom(rlang,is_named)
-importFrom(rlang,is_scalar_character)
-importFrom(rlang,is_scalar_logical)
-importFrom(shiny,runApp)
-importFrom(shiny,shinyApp)
-importFrom(shiny,shinyOptions)
-importFrom(shiny,stopApp)
+importFrom(jsonlite,
+  fromJSON,
+  toJSON
+)
+importFrom(rlang,
+  is_integerish,
+  is_named,
+  is_scalar_character,
+  is_scalar_logical
+)
+importFrom(shiny,
+  runApp,
+  shinyApp,
+  shinyOptions,
+  stopApp
+)
 importFrom(stats,na.omit)
-importFrom(utils,RShowDoc)
-importFrom(utils,tail)
-importFrom(utils,write.table)
+importFrom(utils,
+  RShowDoc,
+  tail,
+  write.table
+)
 useDynLib(sdcHierarchies, .registration = TRUE)
